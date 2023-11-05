@@ -6,32 +6,31 @@ import Component from '~'
 
 <Layout title="Welcome to Astro.">
 	<main>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
+		<h1>Welcome to the <span class="text-gradient">Bag of Tricks</span> for Astro's View Transitions</h1>
 		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
+			The bag of tricks provides components that demonstrate Astro's View Transition API.
+Some of these are technical demos, some are useful tools, and some will evolve into reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
 		</p>
-		<Component message="World" />
 		<ul role="list" class="link-card-grid">
 			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
+				href="/fish-pond"
+				title="The Fish Pond"
+				body="🐟 View transition in different directions. (Chrome only, sorry)"
 			/>
 			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
+				href="/circular-reveal"
+				title="Circular Reveal"
+				body="⏺ The circular reveal view transition from the MDN page on View Transitions."
 			/>
 			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
+				href="/timing"
+				title="Data & Timing"
+				body="⏲ Visualized data and flow of the transition process."
 			/>
 			<Card
 				href="https://astro.build/chat/"
 				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
+				body="💙 Come say hi to our amazing Discord community."
 			/>
 		</ul>
 	</main>
@@ -47,6 +46,7 @@ import Component from '~'
 		font-size: 3rem;
 		font-weight: 800;
 		margin: 0;
+		color: white;
 	}
 	.text-gradient {
 		background-image: var(--accent-gradient);
@@ -59,9 +59,10 @@ import Component from '~'
 		line-height: 1.6;
 		margin: 1rem 0;
 		border: 1px solid rgba(var(--accent), 25%);
-		background-color: white;
+		background-color: #333;
 		padding: 1rem;
 		border-radius: 0.4rem;
+		color:lightgray;
 	}
 	.instructions code {
 		font-size: 0.875em;

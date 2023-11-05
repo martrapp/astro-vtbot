@@ -12,7 +12,7 @@ const { href, title, body } = Astro.props;
 	<a href={href}>
 		<h2>
 			{title}
-			<span>&rarr;</span>
+			<span>&nbsp;&rarr;</span>
 		</h2>
 		<p>
 			{body}
@@ -39,9 +39,9 @@ const { href, title, body } = Astro.props;
 		line-height: 1.4;
 		padding: 1rem 1.3rem;
 		border-radius: 0.35rem;
-		color: #111;
-		background-color: white;
+		background-color: #222;
 		opacity: 0.8;
+		color: lightblue;
 	}
 	h2 {
 		margin: 0;
@@ -51,7 +51,7 @@ const { href, title, body } = Astro.props;
 	p {
 		margin-top: 0.5rem;
 		margin-bottom: 0;
-		color: #444;
+		color: antiquewhite;
 	}
 	.link-card:is(:hover, :focus-within) {
 		background-position: 0;
