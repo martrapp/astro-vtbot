@@ -17,7 +17,8 @@
     "test": "mocha --parallel --timeout 15000",
     "format": "prettier -w .",
     "lint": "eslint . --ext .ts,.js,.astro src",
-    "dev": "cd example && astro dev"
+    "dev": "cd example && astro dev",
+    "build": "astro build"
   },
   "devDependencies": {
     "@types/chai": "^4.3.3",
@@ -37,5 +38,8 @@
   },
   "peerDependencies": {
     "astro": "^3.4.0"
+  },
+  "dependencies": {
+    "sharp": "^0.32.6"
   }
 }

@@ -1,0 +1,65 @@
+---
+interface Props {
+	pages: string[];
+	index: number;
+}
+const { pages, index } = Astro.props;
+---
+
+<meta name="vtbot-carousel" content={pages.join(':')} />
+<meta name="vtbot-carousel-index" content={'' + index} />
+<script>
+	import {
+		TRANSITION_BEFORE_PREPARATION,
+		isTransitionBeforePreparationEvent,
+	} from 'astro:transitions/client';
+	const meta: HTMLMetaElement = document.querySelector('meta[name="vtbot-carousel"]');
+	if (!!meta) {
+		const pages = meta?.content?.split(':') ?? [];
+		const index = () =>
+			parseInt(
+				(document.querySelector('meta[name="vtbot-carousel-index"]') as HTMLMetaElement).content ??
+					'-1',
+				10
+			);
+
+		document.addEventListener(TRANSITION_BEFORE_PREPARATION, beforePreparation);
+		function beforePreparation(event: Event) {
+			const enabled = () => !!document.querySelector('meta[name="vtbot-carousel"]');
+
+			if (enabled() && isTransitionBeforePreparationEvent(event)) {
+				const anchor = event.sourceElement;
+				if (anchor && anchor instanceof HTMLAnchorElement) {
+					if ('carouselFirst' in anchor.dataset) {
+						const historyIndex = history.state?.index;
+						// walk to the last but one entry
+						for (let i = 1; i < pages.length - 1; ++i) {
+							history.pushState({ index: historyIndex + i, scrollX, scrollY }, '', pages[i]);
+						}
+						// go to the last entry
+						event.to = new URL(pages[pages.length - 1], location.href);
+						event.direction = 'back';
+					}
+				} else {
+					// history traversals
+					const here = index();
+					event.direction = event.to.href.endsWith(pages[(here + 1) % pages.length])
+						? 'forward'
+						: 'back';
+				}
+			}
+		}
+	}
+</script>
+
+<style is:global>
+	::view-transition-image-pair(root) {
+		isolation: auto;
+	}
+
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation: none;
+		mix-blend-mode: normal;
+	}
+</style>

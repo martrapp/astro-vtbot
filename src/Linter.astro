@@ -1,0 +1,14 @@
+---
+---
+
+<meta name="vtbot-linter" content="true" />
+<script>
+	import { TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
+
+	const enabled = () => !!document.querySelector('meta[name="vtbot-linter"]');"]') 
+	document.addEventListener(
+		TRANSITION_BEFORE_SWAP,
+		(event) =>
+			enabled() && isTransitionBeforeSwapEvent(event) && event.viewTransition.updateCallbackDone.then(() => {})
+	);
+</script>

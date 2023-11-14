@@ -1,0 +1,108 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import { Carousel, CarouselNav, Debug } from '~';
+interface Props {
+	title: string;
+	index: number;
+	pages: string[];
+}
+const { title, index, pages } = Astro.props;
+
+const backwards = {
+	old: {
+		name: 'scaleToSmall',
+		duration: '1s',
+	},
+	new: {
+		name: 'scaleFromBig',
+		duration: '.5s',
+	},
+};
+const forwards = {
+	old: {
+		name: 'scaleToBig',
+		duration: '0.5s',
+	},
+	new: {
+		name: 'scaleFromSmall',
+		duration: '1s',
+	},
+};
+
+const slowSlide = {
+	forwards,
+	backwards,
+};
+---
+
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta charset="UTF-8" />
+		<ViewTransitions />
+		<Carousel pages={pages} index={index} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<main>
+			<h1>This is {title}</h1>
+			<CarouselNav pages={pages} , index={index} />
+			<div id="slow" transition:animate={slowSlide}>
+				<slot />
+			</div>
+			<style></style>
+		</main>
+	</body>
+</html>
+<style>
+	:root {
+		font-family: sans-serif;
+	}
+	main {
+		margin: auto;
+		padding: 1.5rem;
+		max-width: 60ch;
+	}
+
+	@keyframes scaleToBig {
+		from {
+			transform: scale(1);
+			opacity: 1;
+		}
+		to {
+			transform: scale(10);
+			opacity: 0;
+		}
+	}
+	@keyframes scaleFromBig {
+		from {
+			transform: scale(10);
+			opacity: 0;
+		}
+		to {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+	@keyframes scaleToSmall {
+		from {
+			transform: scale(1);
+			opacity: 1;
+		}
+		to {
+			transform: scale(0);
+			opacity: 1;
+		}
+	}
+	@keyframes scaleFromSmall {
+		from {
+			transform: scale(0);
+			opacity: 1;
+		}
+		to {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+</style>

@@ -1,40 +1,68 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
-import Component from '~'
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="The Bag of Tricks for Astro View Transitions">
 	<main>
-		<h1>Welcome to the <span class="text-gradient">Bag of Tricks</span> for Astro's View Transitions</h1>
+		<h1>
+			Welcome to the <span class="text-gradient">Bag of Tricks</span> for Astro's View Transitions
+		</h1>
 		<p class="instructions">
-			The bag of tricks provides components that demonstrate Astro's View Transition API.
-Some of these are technical demos, some are useful tools, and some will evolve into reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
+			The bag of tricks provides components that demonstrate Astro's View Transition API. Some of
+			these are technical demos, some are useful tools, and some will evolve into reusable
+			components that you can use in your own project to handle edge cases that go beyond Astro's
+			standard features.
 		</p>
 		<ul role="list" class="link-card-grid">
 			<Card
-				href="/fish-pond"
+				href="/fish-pond/center/"
 				title="The Fish Pond"
-				body="🐟 View transition in different directions. (Chrome only, sorry)"
+				icon="🐟"
+				body="View transition in different directions."
 			/>
 			<Card
-				href="/circular-reveal"
+				href="/circular/one/"
 				title="Circular Reveal"
-				body="⏺ The circular reveal view transition from the MDN page on View Transitions."
+				icon = "🔵"
+				body="The circular reveal view transition from the MDN page on View Transitions."
 			/>
 			<Card
-				href="/timing"
-				title="Data & Timing"
-				body="⏲ Visualized data and flow of the transition process."
+				href="/carousel/one/"
+				title="The Carousel"
+				icon="🎠"
+				body="Navigate a ring of pages turning the carousel forward and backwards."
+			/>
+			<Card
+				href="/ken-guru/"
+				title="Ken Guru"
+				icon="🦘"
+				body="Try to catch Ken Guru while he hops around the page!."
 			/>
 			<Card
 				href="https://astro.build/chat/"
 				title="Community"
-				body="💙 Come say hi to our amazing Discord community."
+				icon="💬"
+				body="Come say hi to our amazing Discord community."
 			/>
 		</ul>
 	</main>
 </Layout>
+
+<style is:global>
+	:root {
+		--accent: 124, 58, 237;
+		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
+	}
+	html {
+		font-family: system-ui, sans-serif;
+		background-color: #0a0a2a;
+	}
+	code {
+		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+			Bitstream Vera Sans Mono, Courier New, monospace;
+	}
+</style>
 
 <style>
 	main {
@@ -62,7 +90,7 @@ Some of these are technical demos, some are useful tools, and some will evolve i
 		background-color: #333;
 		padding: 1rem;
 		border-radius: 0.4rem;
-		color:lightgray;
+		color: lightgray;
 	}
 	.instructions code {
 		font-size: 0.875em;

@@ -4,7 +4,9 @@
 // export { HelloWorld } from "./src/main.ts"
 // export type { HelloWorldResult } from "./src/types.ts"
 
-// @ts-expect-error
-import Component from './src/Component.astro';
+import Debug from './src/Debug.astro';
+import CircleAnimation from './src/CircleAnimation.astro';
+import Carousel from './src/Carousel.astro';
+import CarouselNav from './src/CarouselNav.astro';
 
-export default Component;
+export { Debug, CircleAnimation, Carousel, CarouselNav };

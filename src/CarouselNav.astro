@@ -1,0 +1,16 @@
+---
+import { PROPAGATED_ASSET_FLAG } from '../../../astro/astro/packages/astro/dist/content/consts';
+interface Props {
+	pages: string[];
+	index: number;
+}
+const { pages, index } = Astro.props;
+---
+
+<p>{pages.map((_, idx) => (idx === index ? '—⚫—' : '—⚪—'))}</p>
+<a href={index === 0 ? pages[0] : 'javascript:history.back()'} data-carousel-first>Previous</a> | <a
+	href={index === pages.length - 1
+		? 'javascript:history.go(-' + (pages.length - 1) + ')'
+		: pages[index + 1]}>Next</a
+><br />
+<a href={'javascript:history.go(-' + (index + 1) + ')'}>Leave</a>
