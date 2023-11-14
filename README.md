@@ -5,7 +5,9 @@ No, its not a roBOT, its a <b>B</b>ag <b>o</b>f <b>T</b>ricks!
 The bag of tricks provides components that demonstrate Astro's View Transition API.
 Some of these are technical demos, some are useful tools, and some will evolve into reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
 
-**_For now, this is just a placeholder._**
+**_For now, this is mainly a placeholder._**
+
+A current deployment of this code can be found at https://events-3bg.pages.dev/
 
 Here is a small sneak preview of what you can expect in the future:
 
