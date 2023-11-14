@@ -18,7 +18,8 @@
     "format": "prettier -w .",
     "lint": "eslint . --ext .ts,.js,.astro src",
     "dev": "cd example && astro dev",
-    "build": "astro build"
+    "build": "cd example && astro build",
+    "preview": "cd example && astro preview"
   },
   "devDependencies": {
     "@types/chai": "^4.3.3",
