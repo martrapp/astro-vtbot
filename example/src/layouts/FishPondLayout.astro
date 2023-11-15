@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ViewTransitions, createAnimationScope } from 'astro:transitions';
 import { getImage } from 'astro:assets';
 import fishies from 'src/assets/fish.png';
 import { Debug } from '~';
@@ -61,13 +61,13 @@ const west = {
 	},
 };
 
-const swimmStroke = { south, north, east, west };
+const { scope, styles } = createAnimationScope('main', { south, north, east, west });
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<ViewTransitions intraPageTransitions />
+		<ViewTransitions />
 		<Debug />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -76,10 +76,16 @@ const swimmStroke = { south, north, east, west };
 	</head>
 	<body>
 		<div transition:persist="bg" id="bg"></div>
-		<main transition:name="main" transition:animate={swimmStroke}>
+		<main data-astro-transition-scope={scope}>
 			<slot />
 		</main>
-		<style is:global define:vars={{ 'vtbot-background-image': vtbotBackgroundImage }}>
+
+		<Fragment set:html={`<style>${styles}</style>`} />
+		<Fragment
+			set:html={`<style>:root{--vtbot-background-image: ${vtbotBackgroundImage}}</style>`}
+		/>
+
+		<style is:inline>
 			:root {
 				font-family: sans-serif;
 			}
