@@ -8,11 +8,12 @@ import Card from '../components/Card.astro';
 		<h1>
 			Welcome to the <span class="text-gradient">Bag of Tricks</span> for Astro's View Transitions
 		</h1>
+
 		<p class="instructions">
 			The bag of tricks provides components that demonstrate Astro's View Transition API. Some of
 			these are technical demos, some are useful tools, and some will evolve into reusable
 			components that you can use in your own project to handle edge cases that go beyond Astro's
-			standard features.
+			standard features. The code of the Bag of Tricks is on <a href="https://github.com/martrapp/astro-vt-bot">github: martrapp/astro-vt-bot</a>
 		</p>
 		<ul role="list" class="link-card-grid">
 			<Card
@@ -108,6 +109,9 @@ import Card from '../components/Card.astro';
 		padding: 0.3em 0.45em;
 	}
 	.instructions strong {
+		color: rgb(var(--accent));
+	}
+	.instructions a {
 		color: rgb(var(--accent));
 	}
 	.link-card-grid {
