@@ -1,6 +1,6 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
-import { Carousel, CarouselNav, Debug } from '~';
+import { Carousel, CarouselNav } from '~';
+import Layout from './Layout.astro';
 interface Props {
 	title: string;
 	index: number;
@@ -35,16 +35,8 @@ const slowSlide = {
 };
 ---
 
-<html lang="en">
-	<head>
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta charset="UTF-8" />
-		<ViewTransitions />
-		<Carousel pages={pages} index={index} />
-		<title>{title}</title>
-	</head>
-	<body>
+<Layout title={title}>
+		<Carousel slot="head" pages={pages} index={index} />
 		<main>
 			<h1>This is {title}</h1>
 			<CarouselNav pages={pages} , index={index} />
@@ -53,8 +45,8 @@ const slowSlide = {
 			</div>
 			<style></style>
 		</main>
-	</body>
-</html>
+</Layout>
+
 <style>
 	:root {
 		font-family: sans-serif;

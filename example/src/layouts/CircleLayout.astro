@@ -1,6 +1,6 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
 import { CircleAnimation } from '~';
+import Layout from './Layout.astro';
 
 interface Props {
 	color: string;
@@ -8,25 +8,17 @@ interface Props {
 const { color } = Astro.props;
 ---
 
-<html lang="en">
-	<head>
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta charset="UTF-8" />
-		<ViewTransitions />
-		<CircleAnimation />
-	</head>
-	<body>
-		<slot />
+<Layout title="Circle">
+	<CircleAnimation slot="head" />
+	<slot/>
+</Layout>
 
-		<style is:global define:vars={{ color }}>
-			body {
-				background-color: var(--color);
-				cursor: pointer;
-			}
-			p {
-				font-size: 36pt;
-			}
-		</style>
-	</body>
-</html>
+<style is:global define:vars={{ color }}>
+	body {
+		background-color: var(--color);
+		cursor: pointer;
+	}
+	p {
+		font-size: 36pt;
+	}
+</style>

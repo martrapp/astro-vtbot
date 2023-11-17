@@ -1,0 +1,78 @@
+---
+import { Debug } from '~';
+import Layout from './Layout.astro';
+interface Props {
+	title: string;
+}
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+	<Debug slot="head" />
+	<main>
+		<h1>{title}</h1>
+		<h2 id="loading">⏳ Loading...</h2>
+
+		<p>
+			This is a page with some text and a link to another page. That next page will take really long
+			to load. Therefore there will be a loading indicator.
+		</p>
+		<slot />
+		<xmp>
+<script is:inline>
+  document.addEventListener('astro:before-preparation', () => {
+    document.querySelector('#loading').classList.add('show'); });
+  document.addEventListener('astro:after-preparation', () => {
+    document.querySelector('#loading').classList.remove('show'); }); 
+</script>
+		</xmp>
+		<div style="height:100vh"></div>
+	</main>
+</Layout>
+
+<script is:inline>
+	document.addEventListener('astro:before-preparation', (event) => {
+		const originalLoader = event.loader;
+		event.loader = async () => {
+			await new Promise((resolve) => setTimeout(resolve, 2000));
+			await originalLoader();
+		};
+	});
+	document.addEventListener('astro:before-preparation', () => {
+		document.querySelector('#loading').classList.add('show');
+	});
+	document.addEventListener('astro:after-preparation', () => {
+		document.querySelector('#loading').classList.remove('show');
+	});
+</script>
+
+<style>
+	main {
+		margin: auto;
+		padding: 1.5rem;
+		max-width: 80ch;
+	}
+	h2.show {
+		border: 2px solid green;
+		background-color: lightgreen;
+		max-width: 10rem;
+		padding: 1rem;
+		border-radius: 5px;
+		transition: all 0.3s;
+		opacity: 1;
+		height: initial;
+		margin: initial;
+		font-size: initial;
+	}
+	h2 {
+		font-size: 0;
+		opacity: 0;
+		height: 0;
+		margin: 0;
+		padding: 0;
+		border: none;
+	}
+	body {
+		background-color: mintcream;
+	}
+</style>

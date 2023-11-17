@@ -39,7 +39,8 @@ const vtbotBackgroundImage = `url(${optimizedBackground.src})`;
 				</li>
 			</ul>
 		</div>
-		<style is:global define:vars={{ 'vtbot-background-image': vtbotBackgroundImage }}>
+		<Fragment set:html={`<style>:root{--vtbot-background-image: ${vtbotBackgroundImage}}</style>`}/>
+		<style is:global is:inline>
 			:root {
 				background-image: var(--vtbot-background-image);
 				background-size: 100vw 100vh;
@@ -64,9 +65,9 @@ const vtbotBackgroundImage = `url(${optimizedBackground.src})`;
 			import {
 				TRANSITION_BEFORE_PREPARATION,
 				TRANSITION_BEFORE_SWAP,
+				isTransitionBeforePreparationEvent,
 				isTransitionBeforeSwapEvent,
 			} from 'astro:transitions/client';
-			import { isTransitionBeforePreparationEvent } from '../../../../../../astro/astro/packages/astro/dist/transitions/events';
 
 			const enabled = () => document.querySelector('meta[name="vtbot-ken"]');
 
@@ -80,6 +81,7 @@ const vtbotBackgroundImage = `url(${optimizedBackground.src})`;
 						const s = 0.5 + Math.random() * 1.5;
 						kenGuru.style.transform = `translate(${x}vw,${y}vh) scale(${s})`;
 						event.to = new URL('?escaped', location.href);
+						document.querySelector("[class*='astro-route-announcer']")?.remove()
 					};
 				}
 			});
