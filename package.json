@@ -18,7 +18,7 @@
     "format": "prettier -w .",
     "lint": "eslint . --ext .ts,.js,.astro src",
     "dev": "cd example && astro dev",
-    "build": "cd example && astro build",
+    "build": "cd example && astro build && ./bin/headers.sh",
     "preview": "cd example && astro preview"
   },
   "devDependencies": {

@@ -1,0 +1,73 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+	title: string;
+}
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+	<slot/>
+</Layout>
+
+<style is:global>
+	body {
+		background-color: dimgray;
+		font-family: sans-serif;
+	}
+	code {
+		background-color: orange;
+		font-family: monospace;
+		font-size: 1.15rem;
+	}
+	xmp {
+		background-color: antiquewhite;
+	}
+	h1 {
+		background-color: darkslategrey;
+		color: wheat;
+		padding: 1rem;
+		margin: 0;
+	}
+	iframe {
+		width: 50vw
+	}
+	a {
+		color: darkslategrey;
+		text-decoration: underline;
+		font-size: 2rem;
+	}
+	p {
+		background-color: goldenrod;
+		padding: 1rem;
+		font-size: 1.2rem;
+		margin: 0;
+	}
+	.sky {
+		overflow: hidden; /* hides any part of the sun below the horizon */
+		background-color: lightblue;
+		display: flex;
+		justify-content: center; 
+	}
+
+	.sun {
+		background-color: orange;
+		border-radius: 50%; 
+		height: 25vh; 
+		aspect-ratio: 1 / 1;
+		margin: 10vh;
+		animation: 4s linear 0s infinite alternate flow;
+	}
+
+	@keyframes flow {
+		from {
+			/* pushes the sun down past the viewport */
+			transform: translateX(65vw);
+		}
+		to {
+			/* returns the sun to its default position */
+			transform: translateX(-40vw);
+		}
+	}
+</style>

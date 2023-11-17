@@ -9,7 +9,7 @@ const { title } = Astro.props;
 
 <Layout title={title}>
 	<Debug slot="head" />
-	<main>
+	<main transition:animate="fade">
 		<h1>{title}</h1>
 		<h2 id="loading">⏳ Loading...</h2>
 
@@ -46,7 +46,7 @@ const { title } = Astro.props;
 	});
 </script>
 
-<style>
+<style is:global>
 	main {
 		margin: auto;
 		padding: 1.5rem;
@@ -75,4 +75,9 @@ const { title } = Astro.props;
 	body {
 		background-color: mintcream;
 	}
+
+html::view-transition-old(*),
+html::view-transition-new(*) {
+  animation-duration: .5s;
+}
 </style>

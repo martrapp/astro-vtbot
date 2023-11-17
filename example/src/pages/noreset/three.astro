@@ -1,0 +1,47 @@
+---
+import NoResetLayout from '../../layouts/NoResetLayout.astro';
+---
+
+<NoResetLayout title="No Reset Page Three">
+	<h1 data-swap="heading">Banner Page Three</h1>
+	<p><a data-swap="link" href="/noreset/two/">&nbsp;[Goto to Page Two]&nbsp;</a></p>
+	<div class="sky" transition:persist="sky">
+		<div class="sun"></div>
+		<iframe src="https://wikipedia.com"></iframe>
+	</div>
+	<main data-swap="main">
+		<p>
+			Here is how that worked: Iframes and elements with animations reset their state as soon as they change their position in the DOM. The trick now is to leave them alone. You could do this with a version of <code>swap</code> that diffs the elements of old and new DOM and aranges new stuff carefully around the raw eggs without touching them.
+		</p>
+		<p>The approach taken here is much simpler but less automatic. There are three elements that differ between page two and page three: The heading, the link, and the main text at the bottom. Theses are marked with <code>data-swap="&hellip;"</code>. Then this demo indeed use the <code>astro:before-swap</code> event to define a new implementation for <code>swap()</code> that copies the marked elements from the newDocument to the current one and leaves everything else as is. </p>
+		<xmp>
+  document.addEventListener('astro:before-swap', ev => {
+    if (ev.from.pathname === '/noreset/two/' || ev.from.pathname === '/noreset/three/') {
+      ev.swap = () => {
+        ev.newDocument.querySelectorAll('[data-swap]').forEach(el => {
+          document.querySelector(`[data-swap="${el.dataset.swap}"]`)?.replaceWith(el);
+        });
+      };
+    }
+  });
+		</xmp>
+		<p>Seen that the title of the browsers tab is still on page two? So we swapped those three marked elements in, but we didn't yet swap the HTML <code>&lt;head></code> with the title :)</p>
+	</main>
+</NoResetLayout>
+<script>
+	import { TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
+
+	document.addEventListener(TRANSITION_BEFORE_SWAP, (event: Event) => {
+		if (
+			isTransitionBeforeSwapEvent(event) &&
+			(event.from.pathname === '/noreset/two/' || event.from.pathname === '/noreset/three/')
+		) {
+			event.swap = () => {
+				event.newDocument.querySelectorAll('[data-swap]').forEach((element: Element) => {
+					const name = element instanceof HTMLElement && element.dataset.swap;
+					document.querySelector(`[data-swap="${name}"]`)?.replaceWith(element);
+				});
+			};
+		}
+	});
+</script>
