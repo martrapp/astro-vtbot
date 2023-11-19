@@ -1,11 +1,9 @@
 # View Transition Events (Technical View)
 
-This document describes the changes introduced by and for the new view transition events.
-
 ## View Transition Processing
 
 There are currently four types of actions that trigger Astro's View Transitions:
-1. cLicking on a link
+1. cLicking on a link (HTML `<a>` Element, soon add SVG Anchor and `<map><area>`)
 2. submitting a form
 3. triggering history navigation browser user interface buttons, keyboard shortcuts, or calls to `history` functions `back()`, `forward()`, or `go()`
 4.  calling the function `navigate()`, which is provided by `astro:transitions/client`

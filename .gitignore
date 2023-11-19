@@ -7,6 +7,5 @@ pnpm-debug.log*
 
 dist
 .vscode
-*.md
 
 .DS_Store
