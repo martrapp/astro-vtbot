@@ -9,9 +9,8 @@ const now = new Date().toLocaleTimeString();
   <p>
     Here you can navigate <a href="javascript:history.back()">back to the previous page</a>. This will not take you back to the end of the page, but to the beginning. This is how it works:</p>
 <xmp>
-document.addEventListener('astro:after-swap', ()=>{
-  window.scrollTo({ left: 0, top: 0, behavior: 'instant' 
-})
+document.addEventListener('astro:after-swap', () => 
+  window.scrollTo({ left: 0, top: 0, behavior: 'instant' }))
 </xmp>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl
     nec aliquam tincidunt, velit magna accumsan nunc, nec ultrices elit nunc
