@@ -4,10 +4,32 @@ import PrefetchLayout from 'src/layouts/PrefetchLayout.astro';
 
 <PrefetchLayout color="#369" title="Overview">
 	<h1>Heroes Overview</h1>
-	<a class="thumb" href="/hero-prefetch/heroine/"
-		><img transition:name="heroine" src="/thumb_heroine.png" alt="Heroine" /></a
+	<a href="/hero-prefetch/heroine/"
+		><img class="thumb" transition:name="heroine" src="/thumb_heroine.png" alt="Heroine" /></a
 	>
-	<a class="thumb" href="/hero-prefetch/hero/"><img transition:name="hero" src="/thumb_hero.png" alt="Hero" /></a>
+	<a href="/hero-prefetch/hero/"
+		><img class="thumb" transition:name="hero" src="/thumb_hero.png" alt="Hero" /></a
+	>
+	<p>
+		The thumbnails do not take long to load. If you click on a thumbnail, a page with a larger version of the image is displayed. If the larger image is not in the cache, the morph effect looks bad. To avoid this, we can retrieve the larger image in advance by using the <code>loader</code> function of the <code>astro:before-preparation</code> event.
+	</p>
+	<p>
+		The extended version calls the original loader and then preloads the hero image after checking the <code>newDocument</code> for the source.
+	</p>
+
+	<xmp>
+document.addEventListener('astro:before-preparation', e => { 
+  if (e.from.href.endsWith('/overview/')) {
+    const originalLoader = event.loader; 
+    event.loader = async () => {
+      await originalLoader();
+      const img = new Image(); 
+      img.src = event.newDocument.querySelector('img[class*="hero"]').src; 
+      await new Promise((resolve) => { img.onload = img.onerror = resolve });
+    };
+  } 
+});
+	</xmp>
 </PrefetchLayout>
 <script>
 	import {
@@ -16,18 +38,26 @@ import PrefetchLayout from 'src/layouts/PrefetchLayout.astro';
 	} from 'astro:transitions/client';
 
 	document.addEventListener(TRANSITION_BEFORE_PREPARATION, (event: Event) => {
-		if (isTransitionBeforePreparationEvent(event) && event.from.href.endsWith("/overview/")) {
+		if (isTransitionBeforePreparationEvent(event) && event.from.href.endsWith('/overview/')) {
 			const originalLoader = event.loader;
 			event.loader = async () => {
 				await originalLoader();
-				await fetch((event.newDocument.querySelector('img[class*="hero"]') as HTMLImageElement).src);
+				const img = new Image();
+				img.src = (event.newDocument.querySelector('img[class*="hero"]') as HTMLImageElement).src;
+				await new Promise((resolve) => {
+					img.onload = img.onerror = resolve;
+				});
 			};
 		}
 	});
 </script>
 <style>
-	.thumb img {
+	.thumb {
+		display: inline-block;
 		width: 100px;
 		height: 100px;
 	}
+	xmp {color:wheat}
+	
+	p{color: white;}
 </style>
