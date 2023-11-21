@@ -1,0 +1,33 @@
+---
+import PrefetchLayout from 'src/layouts/PrefetchLayout.astro';
+---
+
+<PrefetchLayout color="#369" title="Overview">
+	<h1>Heroes Overview</h1>
+	<a class="thumb" href="/hero-prefetch/heroine/"
+		><img transition:name="heroine" src="/thumb_heroine.png" alt="Heroine" /></a
+	>
+	<a class="thumb" href="/hero-prefetch/hero/"><img transition:name="hero" src="/thumb_hero.png" alt="Hero" /></a>
+</PrefetchLayout>
+<script>
+	import {
+		TRANSITION_BEFORE_PREPARATION,
+		isTransitionBeforePreparationEvent,
+	} from 'astro:transitions/client';
+
+	document.addEventListener(TRANSITION_BEFORE_PREPARATION, (event: Event) => {
+		if (isTransitionBeforePreparationEvent(event) && event.from.href.endsWith("/overview/")) {
+			const originalLoader = event.loader;
+			event.loader = async () => {
+				await originalLoader();
+				await fetch((event.newDocument.querySelector('img[class*="hero"]') as HTMLImageElement).src);
+			};
+		}
+	});
+</script>
+<style>
+	.thumb img {
+		width: 100px;
+		height: 100px;
+	}
+</style>

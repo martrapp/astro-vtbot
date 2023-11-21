@@ -22,6 +22,7 @@
     "preview": "cd example && astro preview"
   },
   "devDependencies": {
+    "@astrojs/mdx": "^1.0.0",
     "@types/chai": "^4.3.3",
     "@types/eslint": "^8.4.6",
     "@types/mocha": "^9.1.1",

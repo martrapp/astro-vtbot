@@ -1,0 +1,33 @@
+---
+import MorphLayout from 'src/layouts/MorphLayout.astro';
+const otherPage = '/morph/three/';
+---
+
+<MorphLayout title="Morph Page Two" color="#fef">
+	<p>
+		One way to deal with it is to give the heading on the next page and the <a
+			transition:name="a21"
+			href={otherPage}>link</a
+		> that was clicked on this page the same fixed view transition name "xyz", and have no names on the
+		other links. This can not be done in static HTML but it can be done with the help of an event listener.
+	</p>
+
+	<p>
+		An alternative is to give each <a transition:name="a22" href={otherPage}>link</a> its own view transition
+		name and as soon as we know which <a transition:name="a23" href={otherPage}>link</a> was clicked,
+		we set exactly this name as the view transition name in the heading on the target page. This can
+		also be done using an event listener. This second approach also has the advantage that it is easier
+		to define a reversal. It would therefore also work with the browser's back button.
+	</p>
+	<p>Back to the <a href="javascript:history.back()">last page</a></p>
+	<p>Continue to the <a transition:name="a24" href={otherPage}>next page</a>.</p>
+</MorphLayout>
+<style>
+	a {
+		display: inline-block;
+	}
+	p {
+		font-family: sans-serif;
+		font-size: 1.5rem;
+	}
+</style>

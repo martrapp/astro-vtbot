@@ -8,14 +8,13 @@ interface Props {
 const { color } = Astro.props;
 ---
 
-<Layout title="Circle">
+<Layout title="Circle" {color}>
 	<CircleAnimation slot="head" />
 	<slot/>
 </Layout>
 
-<style is:global define:vars={{ color }}>
+<style is:global>
 	body {
-		background-color: var(--color);
 		cursor: pointer;
 	}
 	p {

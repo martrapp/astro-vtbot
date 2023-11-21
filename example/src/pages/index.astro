@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 ---
 
-<Layout title="The Bag of Tricks for Astro View Transitions">
+<Layout title="The Bag of Tricks for Astro View Transitions" color="#0a0a2a">
 	<main>
 		<h1>
 			Welcome to the <span class="text-gradient">Bag of Tricks</span> for Astro's View Transitions
@@ -52,6 +52,24 @@ import Card from '../components/Card.astro';
 				title="No Reset!"
 				icon="🔄"
 				body="Iframes and animations reset on transitions? Fear no more!"
+			/>
+			<Card
+				href="/morph/one/"
+				title="Morphing Links"
+				icon="🔗"
+				body="Several links on a page morph to next page's heading."
+			/>
+			<Card
+				href="/scroll-to-top/one/"
+				title="Scroll to Top"
+				icon="⇱"
+				body="Always scroll to the top of the page on transitions."
+			/>
+			<Card
+				href="/hero-prefetch/overview/"
+				title="Image prefetch"
+				icon="🖼️"
+				body="Prefetch the hero image of the target page."
 			/>
 		</ul>
 	</main>

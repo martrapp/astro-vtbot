@@ -1,8 +1,8 @@
 ---
-import Layout from 'src/layouts/FishPondLayout.astro';
+import FishPondLayout from 'src/layouts/FishPondLayout.astro';
 ---
 
-<Layout title="The Fish Pond Center">
+<FishPondLayout title="The Fish Pond Center">
 	<h1>This is the Center</h1>
 
 	<div transition:name="fishpond">
@@ -14,7 +14,7 @@ import Layout from 'src/layouts/FishPondLayout.astro';
 		<div class="nav"><a></a><a href="/fish-pond/south/">South</a><a></a></div>
 	</div>
 	<p>This demo shows different directions on the same page. Use the back navigation of the browser to go in the opposite direction and finally exit this demo back to the main page.
-</Layout>
+</FishPondLayout>
 <style>
 	p {
 		background-color: #fff8;

@@ -65,7 +65,7 @@ const west = {
 const { scope, styles } = createAnimationScope('main', { south, north, east, west });
 ---
 
-<Layout title={title}>
+<Layout title={title} color="rgb(85, 167, 238)">
 	<Debug slot="head" />
 	<div transition:persist="bg" id="bg"></div>
 	<main data-astro-transition-scope={scope}>

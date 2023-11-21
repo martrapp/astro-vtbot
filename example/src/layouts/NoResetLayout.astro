@@ -4,10 +4,10 @@ import Layout from './Layout.astro';
 interface Props {
 	title: string;
 }
-const { title } = Astro.props;
+const { title} = Astro.props;
 ---
 
-<Layout title={title}>
+<Layout title={title} color="black">
 	<slot/>
 </Layout>
 
@@ -57,17 +57,15 @@ const { title } = Astro.props;
 		height: 25vh; 
 		aspect-ratio: 1 / 1;
 		margin: 10vh;
-		animation: 4s linear 0s infinite alternate flow;
+		animation: 4s cubic-bezier(0.075, 0.82, 0.165, 1)  0s infinite alternate flow;
 	}
 
 	@keyframes flow {
 		from {
-			/* pushes the sun down past the viewport */
 			transform: translateX(65vw);
 		}
 		to {
-			/* returns the sun to its default position */
-			transform: translateX(-40vw);
+			transform: translateX(-20vw);
 		}
 	}
 </style>

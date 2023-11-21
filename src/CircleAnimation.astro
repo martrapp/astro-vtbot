@@ -11,7 +11,7 @@
 	// Store the last click event
 	let lastClick: MouseEvent;
 
-	async function beforeSwap(beforeSwapEvent: Event) {
+	function beforeSwap(beforeSwapEvent: Event) {
 		if (enabled() && isTransitionBeforeSwapEvent(beforeSwapEvent)) {
 			// Get the click position, or fallback to the middle of the screen
 			const x = lastClick?.clientX ?? innerWidth / 2;

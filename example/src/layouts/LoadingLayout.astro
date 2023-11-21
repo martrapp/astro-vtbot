@@ -3,11 +3,12 @@ import  Debug  from '~/src/Debug.astro';
 import Layout from './Layout.astro';
 interface Props {
 	title: string;
+	color: string;
 }
-const { title } = Astro.props;
+const { title, color } = Astro.props;
 ---
 
-<Layout title={title}>
+<Layout title={title} {color}>
 	<Debug slot="head" />
 	<main transition:animate="fade">
 		<h1>{title}</h1>

@@ -30,7 +30,7 @@ Yes, you can do that by overriding the `loader` property of the `astro:before-pr
 Define your own swap algorithm: overwrite the `swap` property in the `astro:before-swap` event. Instead of throwing the `newDocument` on the old one, do a diff of the two structures and only change the bare minimum of the existing DOM to finally reflect the desired outcome. 
 
 ## Do all event listeners and callbacks have to be synchronous?
-All event listeners should only execute synchronous code. The reason for this is that `EventTarget.dispatchEvent()` cannot be waited for. Another restriction results from the way view transitions work. While the browser executes the code between `astro:before-swap` and `astro:after-swap`, the user interface is frozen. There is also a strict timeout to ensure that this freeze does not last too long. For this reason, the `swap` callback of the `astro:before-swap` event is not waited for. 
+All event listeners should only execute synchronous code. The reason for this is that `EventTarget.dispatchEvent()` cannot be `await`ed for. Another restriction results from the way view transitions work. While the browser executes the code between `astro:before-swap` and `astro:after-swap`, the user interface is frozen. The browser also enforces a strict timeout of a few seconds to ensure that this freeze does not last too long. For this reason, the `swap` callback of the `astro:before-swap` event is not `await`ed for. 
 
 You can use asynchronous code in the event listeners and callbacks, but the processing would not wait for that code to complete and it would actually be executed in parallel with the view transition. So this is clearly not recommended.
 

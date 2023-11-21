@@ -4,10 +4,11 @@ import  CarouselNav  from '~/src/CarouselNav.astro';
 import Layout from './Layout.astro';
 interface Props {
 	title: string;
+	color: string;
 	index: number;
 	pages: string[];
 }
-const { title, index, pages } = Astro.props;
+const { title, color, index, pages } = Astro.props;
 
 const backwards = {
 	old: {
@@ -36,7 +37,7 @@ const slowSlide = {
 };
 ---
 
-<Layout title={title}>
+<Layout title={title} {color}>
 		<Carousel slot="head" pages={pages} index={index} />
 		<main>
 			<h1>This is {title}</h1>

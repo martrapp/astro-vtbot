@@ -1,0 +1,32 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+	title: string;
+	color: string;
+}
+const { title, color} = Astro.props;
+---
+
+<Layout title={title} color={color}>
+	<slot/>
+</Layout>
+
+<style>
+  body {
+    max-width: 60ch;
+    margin: auto;
+  }
+	html::view-transition-old(*) {
+		animation-duration: 2s;
+	}
+	html::view-transition-new(*) {
+		animation-duration: 2s;
+	}
+</style>
+<script>
+	document.addEventListener('astro:after-swap', ()=>{
+		document.querySelector('#real').innerText = new Date().toLocaleTimeString();
+		scrollTo({ left: 0, top: 0, behavior: 'instant' });
+	})
+</script>
