@@ -1,6 +1,6 @@
 {
   "name": "astro-vt-bot",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A Bag of Tricks for Astro's View Transtions",
   "type": "module",
   "exports": {
