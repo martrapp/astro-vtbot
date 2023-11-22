@@ -1,5 +1,5 @@
 ---
-import  Debug  from '~/src/Debug.astro';
+import Debug from '~/src/Debug.astro';
 import Layout from './Layout.astro';
 interface Props {
 	title: string;
@@ -19,14 +19,12 @@ const { title, color } = Astro.props;
 			to load. Therefore there will be a loading indicator.
 		</p>
 		<slot />
-		<xmp>
-<script is:inline>
-  document.addEventListener('astro:before-preparation', () => {
-    document.querySelector('#loading').classList.add('show'); });
-  document.addEventListener('astro:after-preparation', () => {
-    document.querySelector('#loading').classList.remove('show'); }); 
-</script>
-		</xmp>
+		<xmp>document.addEventListener('astro:before-preparation', () => {
+  document.querySelector('#loading').classList.add('show'); 
+});
+document.addEventListener('astro:after-preparation', () => {
+  document.querySelector('#loading').classList.remove('show'); 
+});</xmp>
 		<div style="height:100vh"></div>
 	</main>
 </Layout>
@@ -77,8 +75,8 @@ const { title, color } = Astro.props;
 		background-color: mintcream;
 	}
 
-html::view-transition-old(*),
-html::view-transition-new(*) {
-  animation-duration: .5s;
-}
+	html::view-transition-old(*),
+	html::view-transition-new(*) {
+		animation-duration: 0.5s;
+	}
 </style>

@@ -12,12 +12,19 @@ const { title, color } = Astro.props;
 	<slot />
 </Layout>
 <script>
-	import { isTransitionBeforePreparationEvent } from 'astro:transitions/client';
+	import {
+		isTransitionBeforePreparationEvent,
+		supportsViewTransitions,
+	} from 'astro:transitions/client';
 
 	let viewTransitionName: string;
 	document.addEventListener('astro:before-preparation', (event: Event) => {
 		// @ts-ignore
-		if (isTransitionBeforePreparationEvent(event) && document.body.computedStyleMap) {
+		if (
+			isTransitionBeforePreparationEvent(event) &&
+			supportsViewTransitions &&
+			document.body.computedStyleMap
+		) {
 			const originalLoader = event.loader;
 			event.loader = async () => {
 				await originalLoader();

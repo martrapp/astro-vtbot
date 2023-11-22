@@ -8,7 +8,7 @@ export interface Props {
 const { title, color } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<ViewTransitions />
@@ -20,10 +20,9 @@ const { title, color } = Astro.props;
 	</head>
 	<body>
 		<slot />
-	</body>
+	</body><style define:vars={{ color }}>
+		body {
+			background-color: var(--color);
+		}
+	</style>
 </html>
-<style define:vars={{ color }}>
-	body {
-		background-color: var(--color);
-	}
-</style>

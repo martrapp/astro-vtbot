@@ -13,7 +13,9 @@ import Card from '../components/Card.astro';
 			The bag of tricks provides components that demonstrate Astro's View Transition API. Some of
 			these are technical demos, some are useful tools, and some will evolve into reusable
 			components that you can use in your own project to handle edge cases that go beyond Astro's
-			standard features. The code of the Bag of Tricks is on <a href="https://github.com/martrapp/astro-vt-bot">github: martrapp/astro-vt-bot</a>
+			standard features. The code of the Bag of Tricks is on <a
+				href="https://github.com/martrapp/astro-vt-bot">github: martrapp/astro-vt-bot</a
+			>
 		</p>
 		<ul role="list" class="link-card-grid">
 			<Card
@@ -24,21 +26,21 @@ import Card from '../components/Card.astro';
 				what="astro:before-preparation"
 			/>
 			<Card
-			what="astro:before-swap viewTransition.ready"
+				what="astro:before-swap viewTransition.ready"
 				href="/circular/one/"
 				title="Circular Reveal"
 				icon="🔵"
 				body="The circular animation from the MDN page on View Transitions."
 			/>
 			<Card
-			what="astro:before-preparation"
+				what="astro:before-preparation"
 				href="/carousel/one/"
 				title="The Carousel"
 				icon="🎠"
 				body="Navigate a ring of pages turning the carousel forward and backwards."
 			/>
 			<Card
-			what="astro:before-preparation\nastor:after-preparation"
+				what="astro:before-preparation\nastor:after-preparation"
 				href="/loading/one/"
 				title="Loading..."
 				icon="⏳"
@@ -46,35 +48,35 @@ import Card from '../components/Card.astro';
 			/>
 
 			<Card
-			what="astro:before-preparation loader()\nastro:before-swap swap()"
+				what="astro:before-preparation loader()\nastro:before-swap swap()"
 				href="/ken-guru/"
 				title="Ken Guru"
 				icon="🦘"
 				body="Try to catch Ken Guru while he hops around the page!."
 			/>
 			<Card
-			what="astro:before-swap swap()"
+				what="astro:before-swap swap()"
 				href="/noreset/one/"
 				title="No Reset!"
 				icon="🔄"
 				body="Iframes and animations reset on transitions? Fear no more!"
 			/>
 			<Card
-			what="astro:before-preparation loader()"
+				what="astro:before-preparation loader()"
 				href="/morph/one/"
 				title="Morphing Links"
 				icon="🔗"
 				body="Several links on a page morph to next page's heading."
 			/>
 			<Card
-			what="astro:after-swap"
+				what="astro:after-swap"
 				href="/scroll-to-top/one/"
 				title="Scroll to Top"
 				icon="⇱"
 				body="Always scroll to the top of the page on history traversals."
 			/>
 			<Card
-			what="astro:before-preparation loader()"
+				what="astro:before-preparation loader()"
 				href="/hero-prefetch/overview/"
 				title="Image prefetch"
 				icon="🖼️"
@@ -94,8 +96,15 @@ import Card from '../components/Card.astro';
 		background-color: #0a0a2a;
 	}
 	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
 	}
 </style>
 

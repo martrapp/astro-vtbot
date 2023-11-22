@@ -4,7 +4,7 @@ export interface Props {
 	body: string;
 	href: string;
 	icon: string;
- what: string;
+	what: string;
 }
 
 const { href, title, body, icon, what } = Astro.props;
@@ -17,7 +17,8 @@ const { href, title, body, icon, what } = Astro.props;
 			{title}
 			<span>&nbsp;&rarr;</span>
 		</h2>
-		<p><span style="font-size:3.5rem; float:right; padding:0.2em">{icon}</span>
+		<p>
+			<span style="font-size:3.5rem; float:right; padding:0.2em">{icon}</span>
 			{body}
 		</p>
 	</a>
@@ -33,7 +34,9 @@ const { href, title, body, icon, what } = Astro.props;
 		border-radius: 0.6rem;
 		background-position: 100%;
 		transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+		box-shadow:
+			0 4px 6px -1px rgba(0, 0, 0, 0.1),
+			0 2px 4px -2px rgba(0, 0, 0, 0.1);
 	}
 
 	.link-card > a {

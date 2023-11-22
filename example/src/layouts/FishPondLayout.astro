@@ -2,7 +2,7 @@
 import { createAnimationScope } from 'astro:transitions';
 import { getImage } from 'astro:assets';
 import fishies from 'src/assets/fish.png';
-import  Debug  from '~/src/Debug.astro';
+import Debug from '~/src/Debug.astro';
 import Layout from './Layout.astro';
 
 interface Props {
@@ -128,7 +128,11 @@ const { scope, styles } = createAnimationScope('main', { south, north, east, wes
 		font-size: 7rem;
 		color: lightseagreen;
 		text-align: center;
-		text-shadow: -2px -2px black, -2px 2px black, 2px -2px black, 2px 2px black;
+		text-shadow:
+			-2px -2px black,
+			-2px 2px black,
+			2px -2px black,
+			2px 2px black;
 	}
 	@keyframes translateFromSouth {
 		from {

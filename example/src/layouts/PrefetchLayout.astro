@@ -1,11 +1,12 @@
 ---
-import Layout from "./Layout.astro"
+import Layout from './Layout.astro';
 interface Props {
-	color: string
-	title: string
+	color: string;
+	title: string;
 }
-const {title, color} = Astro.props;
+const { title, color } = Astro.props;
 ---
+
 <Layout title={title} color={color}>
-	<slot/>
+	<slot />
 </Layout>

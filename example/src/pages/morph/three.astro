@@ -4,26 +4,27 @@ const otherPage = '/morph/one/';
 ---
 
 <MorphLayout title="Morph Page Three" color="#def">
-	<p>This <a href="javascript:history.go(-2)">link</a> goes back to the first page, animating the link there with which you left that page.</p>
+	<p>
+		This <a href="javascript:history.go(-2)">link</a> goes back to the first page, animating the
+		link there with which you left that page.
+	</p>
 	<p>And this is what the code looks like:</p>
-<xmp>
-if (event.navigationType !== 'traverse') { 
+	<xmp>if (event.navigationType !== 'traverse') { 
   viewTransitionName = "" + event.sourceElement!.computedStyleMap().get('view-transition-name');
-  event.newDocument.querySelector('h1')!.style.viewTransitionName = viewTransitionName;
-  history.replaceState({ ...history.state, viewTransitionName }, ''); // remember for history traversal 
-} else { 
-  if (event.direction === 'back') { 
-    viewTransitionName = history.state.viewTransitionName;
-    document.querySelector('h1')!.style.viewTransitionName = viewTransitionName; 
-  } else {
     event.newDocument.querySelector('h1')!.style.viewTransitionName = viewTransitionName;
+    history.replaceState({ ...history.state, viewTransitionName }, ''); // remember for history traversal 
+} else {
+  if (event.direction === 'back') {
     viewTransitionName = history.state.viewTransitionName; 
+    document.querySelector('h1')!.style.viewTransitionName = viewTransitionName;
+	} else {
+    event.newDocument.querySelector('h1')!.style.viewTransitionName = viewTransitionName;
+    viewTransitionName = history.state.viewTransitionName;
   }
-}
-</xmp>
-<p>This is a forward <a transition:name="a31" href={otherPage}>link</a> to page one.</p>
-	<p>Back to the <a	href="javascript:history.back()">last page</a
-		></p></MorphLayout>
+}</xmp>
+	<p>This is a forward <a transition:name="a31" href={otherPage}>link</a> to page one.</p>
+	<p>Back to the <a href="javascript:history.back()">last page</a></p>
+</MorphLayout>
 <style>
 	a {
 		display: inline-block;

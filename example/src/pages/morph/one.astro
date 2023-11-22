@@ -4,20 +4,21 @@ const otherPage = '/morph/two/';
 ---
 
 <MorphLayout title="Morph Page One" color="#efe">
-	<p>The "Morph" transition only works with browsers that natively support view transition API</p>
+	<p>
+		<b
+			>The "Morph" transition only works with browsers that natively support view transition API.</b>
+	</p>
 	<p>
 		This page has several links to the next page. We want each <a
 			transition:name="a11"
 			href={otherPage}>link</a
-		> to morph into the heading of the target page. The morph effect changes an element in size, position and opacity to blend with an element with same transition name on the new page. Intuitivly we would add <code
-			>transition:name="xyz"</code
-		> to all links and to the heading. But this would not work: View transition names must be unique on a page.
+		> to morph into the heading of the target page. The morph effect changes an element in size,
+		position and opacity to blend with an element with same transition name on the new page.
+		Intuitivly we would add <code>transition:name="xyz"</code> to all links and to the heading. But
+		this would not work: View transition names must be unique on a page.
 	</p>
 
-	<p>Continue to the <a
-			transition:name="a12"
-			href={otherPage}>next page</a
-		>.</p>
+	<p>Continue to the <a transition:name="a12" href={otherPage}>next page</a>.</p>
 </MorphLayout>
 
 <style>

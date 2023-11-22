@@ -1,5 +1,5 @@
 ---
-import  CircleAnimation  from '~/src/CircleAnimation.astro';
+import CircleAnimation from '~/src/CircleAnimation.astro';
 import Layout from './Layout.astro';
 
 interface Props {
@@ -10,7 +10,7 @@ const { color } = Astro.props;
 
 <Layout title="Circle" {color}>
 	<CircleAnimation slot="head" />
-	<slot/>
+	<slot />
 </Layout>
 
 <style is:global>
