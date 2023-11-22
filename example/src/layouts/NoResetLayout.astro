@@ -31,7 +31,7 @@ const { title} = Astro.props;
 		margin: 0;
 	}
 	iframe {
-		width: 50vw
+		width: 50vw;
 	}
 	a {
 		color: darkslategrey;
@@ -47,7 +47,7 @@ const { title} = Astro.props;
 	.sky {
 		overflow: hidden; /* hides any part of the sun below the horizon */
 		background-color: lightblue;
-		display: flex;
+		display: inline-flex;
 		justify-content: center; 
 	}
 
@@ -65,7 +65,7 @@ const { title} = Astro.props;
 			transform: translateX(65vw);
 		}
 		to {
-			transform: translateX(-20vw);
+			transform: translateX(-65vw);
 		}
 	}
 </style>
