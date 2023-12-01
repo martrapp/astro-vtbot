@@ -1,0 +1,59 @@
+---
+import { isTransitionBeforeSwapEvent } from 'astro:transitions/client';
+import Layout from 'src/layouts/Layout.astro';
+---
+
+<Layout title="IntraPage" color="#eef">
+	<h1 transition:animate="slide">Intra Page View Transitions</h1>
+	<p transition:animate="fade">
+		<a href="/intra-page/only-page/?vt#top">Pure hash change link to same page</a>
+	</p>
+	<p>
+		Normally, navigation to a hash target on the current page won't trigger view transitions. The
+		recipe for get intra-page view transitions is as follows:
+		<ul>
+			<li>
+				add an search parameter, e.g. <code>?vt</code> to the intra-page URL, thus forcing view
+				transitions and events.
+			</li>
+			<li>
+				in an <code>astro:before-preparation</code> listener: redefine the <code>loader()</code> to
+				do nothing
+			</li>
+			<li>
+				in an <code>astro:before-swap</code> listener: redefine <code>swap()</code> to do nothing
+				(besides removing old instances of <code>.astro-route-announcer</code>)
+			</li>
+
+			<li>
+				then choose one of the following two alternatives also for the <code>astro-before-swap</code
+				> listener:
+				<ol>
+					<li>remove the search parameter added before from <code>e.to.search</code></li>
+					<li>give the search parameter added above a random value in <code>e.to.search</code>.</li>
+				</ol>
+			</li>
+		</ul>
+		 The first alternative has the benefit, that the artificially introduced parameter does not show
+		up in the browsers address bar. The second alternative has the benefit, that you also get
+		intra-page view transitions when traversing back and forth through the browser history.
+	</p>
+</Layout>
+<script>
+	import {
+		isTransitionBeforePreparationEvent,
+		isTransitionBeforeSwapEvent,
+	} from 'astro:transitions/client';
+
+	document.addEventListener('astro:before-preparation', (e) => {
+		if (isTransitionBeforePreparationEvent(e)) {
+			e.loader = async () => {};
+		}
+	});
+	document.addEventListener('astro:before-swap', (e) => {
+		if (isTransitionBeforeSwapEvent(e)) {
+			e.swap = () => e.newDocument.querySelector('.astro-route-announcer')?.remove();
+			e.to.search = `vt=${Math.random().toString(36).slice(2, 6)}`;
+		}
+	});
+</script>

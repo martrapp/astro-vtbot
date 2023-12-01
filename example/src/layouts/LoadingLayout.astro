@@ -1,5 +1,5 @@
 ---
-import Debug from '~/src/Debug.astro';
+import { VtBotDebug } from '~';
 import Layout from './Layout.astro';
 interface Props {
 	title: string;
@@ -9,7 +9,7 @@ const { title, color } = Astro.props;
 ---
 
 <Layout title={title} {color}>
-	<Debug slot="head" />
+	<VtBotDebug slot="head" />
 	<main transition:animate="fade">
 		<h1>{title}</h1>
 		<h2 id="loading">⏳ Loading...</h2>
@@ -19,12 +19,12 @@ const { title, color } = Astro.props;
 			to load. Therefore there will be a loading indicator.
 		</p>
 		<slot />
-		<xmp>document.addEventListener('astro:before-preparation', () => {
-  document.querySelector('#loading').classList.add('show'); 
-});
-document.addEventListener('astro:after-preparation', () => {
-  document.querySelector('#loading').classList.remove('show'); 
-});</xmp>
+		<xmp
+			>document.addEventListener('astro:before-preparation', () => {
+			document.querySelector('#loading').classList.add('show'); });
+			document.addEventListener('astro:after-preparation', () => {
+			document.querySelector('#loading').classList.remove('show'); });</xmp
+		>
 		<div style="height:100vh"></div>
 	</main>
 </Layout>
@@ -33,6 +33,7 @@ document.addEventListener('astro:after-preparation', () => {
 	document.addEventListener('astro:before-preparation', (event) => {
 		const originalLoader = event.loader;
 		event.loader = async () => {
+			console.log('[loading] Simulating slow load. Waiting 2 seconds');
 			await new Promise((resolve) => setTimeout(resolve, 2000));
 			await originalLoader();
 		};

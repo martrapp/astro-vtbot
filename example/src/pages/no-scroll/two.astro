@@ -1,0 +1,84 @@
+---
+import NoScrollLayout from 'src/layouts/NoScrollLayout.astro';
+---
+
+<NoScrollLayout title="Now Scroll / Two" color="#fde">
+	<h1>No Scroll Two</h1>
+	<p>
+		This demo shows how you can effectively suppress scrolling when navigating to the next page. It
+		works by memorizing the scroll position in the astro:after-preparation handler and setting it in
+		the astro:after-swap handler.
+	</p>
+	<h2>Every page has this section near the top</h2>
+	<p>
+		Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+		aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit
+		esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et
+		iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait
+		nulla facilisi.
+	</p>
+	<p>
+		Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
+		illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui
+		blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum
+		dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+		dolore magna aliquam erat volutpat.
+	</p>
+	<p>
+		Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
+		illum dolore eu feugiat nulla facilisis.
+	</p><p>
+		Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim
+		placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+		nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+		minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
+		commodo consequat.
+	</p>
+
+	<h2>And each page has this other section</h2>
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec aliquam
+		tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo. Sed euismod, nisl nec
+		aliquam tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo.
+	</p>
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec aliquam
+		tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo. Sed euismod, nisl nec
+		aliquam tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo.
+	</p>
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec aliquam
+		tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo. Sed euismod, nisl nec
+		aliquam tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo.
+	</p>
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec aliquam
+		tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo. Sed euismod, nisl nec
+		aliquam tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo.
+	</p>
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec aliquam
+		tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo. Sed euismod, nisl nec
+		aliquam tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo.
+	</p>
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec aliquam
+		tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo. Sed euismod, nisl nec
+		aliquam tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo.
+	</p>
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec aliquam
+		tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo. Sed euismod, nisl nec
+		aliquam tincidunt, velit magna accumsan nunc, nec ultrices elit nunc vitae justo.
+	</p>
+	<div id="fixed"><a href="/no-scroll/one/">A floating link to the next page</a></div>
+</NoScrollLayout>
+<style>
+	#fixed {
+		position: fixed;
+		bottom: 50vh;
+		right: 10px;
+		padding: 1rem;
+		background: #aaf;
+	}
+</style>

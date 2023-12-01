@@ -16,10 +16,11 @@ const otherPage = '/morph/three/';
 	<p>
 		An alternative is to give each <a transition:name="a22" href={otherPage}>link</a> its own view
 		transition name and as soon as we know which <a transition:name="a23" href={otherPage}>link</a>
-		was clicked, we set exactly this name as the view transition name in the heading on the target
+		 was clicked, we set exactly this name as the view transition name in the heading on the target
 		page. This can also be done using an event listener. This second approach also has the advantage
 		that it is easier to define a reversal. It would therefore also work with the browser's back
-		button.
+		button. However, the HTML file is more cluttered and the performance may be less good with a
+		larger number of transition names.
 	</p>
 	<p>Back to the <a href="javascript:history.back()">last page</a></p>
 	<p>Continue to the <a transition:name="a24" href={otherPage}>next page</a>.</p>

@@ -1,67 +1,27 @@
+---
+layout: src/layouts/NavBarMdxLayout.astro
+title: View Transition Events
+---
+
+import { Image } from 'astro:assets';
+import router from '../../assets/ViewTransitionRouter.png';
+
 # View Transition Events (Technical View)
+
+## Contents
 
 ## View Transition Processing
 
 There are currently four types of actions that trigger Astro's View Transitions:
 
-1. cLicking on a link (HTML `<a>` Element, soon add SVG Anchor and `<map><area>`)
-2. submitting a form
-3. triggering history navigation browser user interface buttons, keyboard shortcuts, or calls to `history` functions `back()`, `forward()`, or `go()`
-4. calling the function `navigate()`, which is provided by `astro:transitions/client`
+1. Clicking on a link (HTML `<a>` Element, SVG Anchor and `<map><area>`)
+2. Submitting a form
+3. Triggering history navigation browser user interface buttons, keyboard shortcuts, or calls to `history` functions `back()`, `forward()`, or `go()`
+4. Calling the function `navigate()`, which is provided by `astro:transitions/client`
 
 Processing begins with a preparation phase that loads the DOM of the target page. Then the actual view transition begins, which takes a screenshot of the current view (green line), swaps the current DOM with the contents of the loaded DOM and then starts the visual transition from the old to the new view (red line).
 
-```mermaid
-graph
-subgraph nav["Client-Side Navigation"]
-  subgraph vtp["View Transition Promises"]
-  direction LR
-  g>updateCallbackDone]~~~h>ready]~~~i>finished]
-  end
-  subgraph p["Preparation Phase"]
-    a{{astro:before-preparation}}-->
-    b[["Loader()"<br>load DOM of target page]]-->
-    c{{astro:after-preparation}}
-  end
-  subgraph vt["View Transition"]
-    d([startViewTransition])
-    subgraph s["Swap DOM Phase"]
-      t{{astro:before-swap}}-->
-      u[["Swap()"<br>update current DOM<br>with loaded DOM]]-->
-      v([update history state<br>and scroll position])-->
-      w{{astro:after-swap}}
-    end
-    subgraph f["Completion Phase"]
-      x([Run scripts])-->
-      y{{astro:page-load}}-->
-      z([Announce Route])-->
-      zz([await finished])-->
-      zzz([Cleanup])
-    end
-  end
-  p-->d==>s==>f
-  d-.->vtp
-end
-
-linkStyle 13 stroke:#faa
-linkStyle 12 stroke:#afa
-
-style b stroke:#585,stroke-width:1px,color:#fff
-style nav fill:#888,stroke:#555,stroke-width:4px,color:#fff
-style p fill:#564,stroke:#555,stroke-width:4px,color:#fff
-style vt fill:#456,stroke:#555,stroke-width:4px,color:#fff
-style s fill:#457,stroke:#777,stroke-width:4px,color:#fff
-style vtp fill:#467,stroke:#777,stroke-width:4px,color:#fff
-style f fill:#654,stroke:#777,stroke-width:4px,color:#fff
-style x stroke:#855,stroke-width:1px,color:#fff
-style z stroke:#855,stroke-width:1px,color:#fff
-
-style a fill:#fea,stroke:#ddd,stroke-width:2px,color:#000
-style c fill:#fea,stroke:#ddd,stroke-width:2px,color:#000
-style t fill:#fea,stroke:#ddd,stroke-width:2px,color:#000
-style w fill:#fea,stroke:#ddd,stroke-width:2px,color:#000
-style y fill:#fea,stroke:#ddd,stroke-width:2px,color:#000
-```
+<Image src={router} alt="Structure of the View Transition Router" />
 
 In the completion phase, the newly added scripts are executed, the page title of the new route is announced for users of assistive technologies and some clean-up work is carried out at the end.
 
@@ -75,16 +35,16 @@ The yellow blocks in the diagram above mark the positions in Astro's navigation 
 - `astro:before-swap` and `astro:after-swap` at the beginning and end of the swap phase.
 - `astro:page-load` during the closing phase.
 
-The `astro:after-` events and the `astro:page-load` event are standard `Event` objects. Their main purpose is to allow the user code to react to navigation behavior at different points of processing.
+The `astro:after-` events and the `astro:page-load` event are standard `Event` objects. Their main purpose is to allow the user code to react to the completion of a processing phase.
 
-The `astro:before` events provide navigation-specific properties
+The `astro:before-*` events provide navigation-specific properties
 that show details of the processing. Some of these properties are even writable to give users control over the behavior of navigation processing.
 
 All five events fire on `window.document`.
 
 ### The `astro:before-preparation` Event
 
-```TypeScript events.ts
+```typescript
 readonly from: URL // The page where the navigation started
 to: URL // The destination of the navigation.
 direction: Direction | string // The values directly supported by Astro are 'forward' and 'backward', but this can be extended to other values. This property is writable.
@@ -100,30 +60,16 @@ While the event listener code must run synchronously, the loader function will p
 
 The `loader` property initially holds Astro's built-in implementation for loading the contents of `event.to` into `event.newDocument`. An event listener might override the value of the `loader` property to define a completely independent implementation. But more often than not, a listener will keep the original value of `loader` and use it to define its own version.
 
-```JavaScript listener.js
+```typescript
 const originalLoader = event.loader;
 event.loader = async () => {
-  doSomeThingBefore(event);
-  await originalLoader();
-  doSomeThingAfter(event)
-}
+	doSomeThingBefore(event);
+	await originalLoader();
+	doSomeThingAfter(event);
+};
 ```
 
 Several listener might cooperate and build a Chain of Responsibility by wrapping the loader in several layers like an onion.
-
-```mermaid
-graph TD
-subgraph a["render loading indicator"]
-subgraph b["prefetch target images"]
-subgraph c["optimize off-viewport transitions"]
-subgraph d["original loader"]
-end end end end
-
-style a fill:#9bf,stroke:#555,stroke-width:2px,color:#000
-style b fill:#8ae,stroke:#555,stroke-width:2px,color:#000
-style c fill:#79d,stroke:#555,stroke-width:2px,color:#000
-style d fill:#68c,stroke:#555,stroke-width:2px,color:#000
-```
 
 |                 |                                    |
 | --------------- | ---------------------------------- |
@@ -139,12 +85,12 @@ Most of the properties of the `astro:before-swap` event are identical to those o
 - `loader` is not defined in `astro:before-swap`
   The `astro:before-swap`event offeres two additional properties:
 
-```TypeScript event.ts
+```typescript
 swap: () => void // Initially, Astro's built-in implementation of the swap() operation. The task of the swap operation is to update the current DOM, typically to reflect the contents of event.newDocument.
 readonly viewTransition: ViewTransition // The object returned by startViewTransition().
 ```
 
-The `swap()` method of the `astro:before-swap` event is used in a very similar way as `loader()` of `astro:before-preparation` event. It is possible to override the built-in implementation by assigning to the `swap` property and it is possible to build chains with several wrappers. Other tan `loader` swap does _not_ support asynchronous actions. Browser implementations of view transition put a rather rigid timout on the code that can run during swap. Long running code should be moved to the loader callback.
+For documentation on `startViewTransition` visit [mdn](https://developer.mozilla.org/en-US/docs/Web/API/Document/startViewTransition). The `swap()` method of the `astro:before-swap` event is used in a very similar way as `loader()` of `astro:before-preparation` event. It is possible to override the built-in implementation by assigning to the `swap` property and it is possible to build chains with several wrappers. Other tan `loader` swap does _not_ support asynchronous actions. Browser implementations of view transition put a rather rigid timout on the code that can run during swap. Long running code should be moved to the loader callback.
 
 |                 |                             |
 | --------------- | --------------------------- |

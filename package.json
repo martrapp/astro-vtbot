@@ -1,6 +1,6 @@
 {
   "name": "astro-vt-bot",
-  "version": "0.3.1",
+  "version": "1.1.2",
   "description": "A Bag of Tricks for Astro's View Transtions",
   "type": "module",
   "exports": {
@@ -11,36 +11,26 @@
     "index.ts"
   ],
   "keywords": [
-    "astro-component"
+    "astro-component",
+    "view transition",
+    "view transitions",
+    "ViewTransitions"
   ],
   "scripts": {
-    "test": "mocha --parallel --timeout 15000",
     "format": "prettier -w .",
-    "lint": "eslint . --ext .ts,.js,.astro src",
     "dev": "cd example && astro dev",
-    "build": "cd example && astro build && ./bin/headers.sh",
-    "preview": "cd example && astro preview"
+    "build": "cd example && astro build",
+    "preview": "cd example && astro preview",
+    "test": "npx playwright test"
   },
   "devDependencies": {
     "@astrojs/mdx": "^1.0.0",
-    "@types/chai": "^4.3.3",
-    "@types/eslint": "^8.4.6",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "^20.9.4",
-    "@typescript-eslint/parser": "^6.12.0",
-    "astro": "^3.6.0",
-    "chai": "^4.3.6",
-    "eslint": "^8.23.1",
-    "eslint-plugin-astro": "^0.29.1",
-    "mocha": "^10.0.0",
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.10.0",
+    "astro": "^3.6.4",
+    "astro-expressive-code": "^0.29.1",
     "prettier": "^3.1.0",
     "prettier-plugin-astro": "^0.12.2",
-    "typescript": "^5.3.2"
-  },
-  "peerDependencies": {
-    "astro": "^3.4.0"
-  },
-  "dependencies": {
-    "sharp": "^0.32.6"
+    "remark-toc": "^9.0.0"
   }
 }

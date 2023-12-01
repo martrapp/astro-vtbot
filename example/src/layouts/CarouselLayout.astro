@@ -1,6 +1,5 @@
 ---
-import Carousel from '~/src/Carousel.astro';
-import CarouselNav from '~/src/CarouselNav.astro';
+import { Carousel, CarouselNav } from '~';
 import Layout from './Layout.astro';
 interface Props {
 	title: string;
@@ -31,7 +30,7 @@ const forwards = {
 	},
 };
 
-const slowSlide = {
+const slowScale = {
 	forwards,
 	backwards,
 };
@@ -42,10 +41,11 @@ const slowSlide = {
 	<main>
 		<h1>This is {title}</h1>
 		<CarouselNav pages={pages} , index={index} />
-		<div id="slow" transition:animate={slowSlide}>
+		<br />
+		<a href={'javascript:history.go(-' + (index + 1) + ')'}>Leave</a>
+		<div id="slow" transition:animate={slowScale}>
 			<slot />
 		</div>
-		<style></style>
 	</main>
 </Layout>
 

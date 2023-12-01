@@ -1,0 +1,278 @@
+---
+interface Props {
+	overlay?: boolean;
+	hideProperties?: boolean;
+}
+const { overlay = false, hideProperties = false } = Astro.props;
+---
+
+<meta name="vtbot-debug" content={overlay ? (hideProperties ? 'hide' : 'show') : 'console'} />
+<script is:inline>
+	const PREFIX = '[vtbot-debug]';
+
+	let indent = '';
+
+	const enabled = () => document.querySelector('meta[name="vtbot-debug"]');
+
+	function replace_log() {
+		let output = document.querySelector('#debugOutput');
+		if (output) {
+			const text = [...arguments].reduce(
+				(a, x) => a + ' ' + x,
+				new Date().toISOString().substring(11) + indent
+			);
+			const node = document.createTextNode(text);
+			output.appendChild(node);
+			output.append(document.createElement('br'));
+		}
+	}
+
+	function replace_groupCollapsed(s) {
+		console.log(s);
+		indent += ' .';
+	}
+
+	function replace_clear() {
+		const output = document.querySelector('#debugOutput');
+		output && [...output.childNodes].forEach((n) => n.remove(), (indent = ''));
+	}
+
+	const replace_groupEnd = () => (indent = indent.substring(2));
+
+	const appendOutputElement = () => {
+		if (!document.querySelector('#debugOutput')) {
+			const output = document.createElement('div');
+			output.setAttribute('id', 'debugOutput');
+			output.setAttribute('data-astro-transition-persist', 'debugOutput');
+			document.body.appendChild(output);
+		}
+	};
+
+	function switchConsole(replace_log, replace_groupCollapsed, replace_groupEnd) {
+		const debug = enabled();
+		window._vtbot_debug.savedFunctions = { closeCounter: 0 };
+		if (debug.content !== 'console') {
+			appendOutputElement(document);
+		} else {
+			const output = document.querySelector('#debugOutput');
+			output && output.remove();
+			window._vtbot_debug.savedFunctions.log = undefined;
+			return;
+		}
+
+		window._vtbot_debug.savedFunctions.log = console.log;
+		window._vtbot_debug.savedFunctions.groupCollapsed = console.groupCollapsed;
+		window._vtbot_debug.savedFunctions.groupEnd = console.groupEnd;
+		console.log = replace_log;
+		console.groupCollapsed = replace_groupCollapsed;
+		console.groupEnd = replace_groupEnd;
+		replace_clear();
+		console.log(`${PREFIX} switching console output to overlay.`);
+	}
+
+	const doCapture = (e) => {
+		window._vtbot_debug.capture = {
+			...e,
+			type: e.type,
+			cancelable: e.cancelable,
+			defaultPrevented: e.defaultPrevented,
+		};
+	};
+
+	const startPreparation = (e) => {
+		doCapture(e);
+		if (enabled()) {
+			switchConsole(replace_log, replace_groupCollapsed, replace_groupEnd);
+			console.log(`${PREFIX} Event handler for ${e.type}`);
+		}
+	};
+
+	const startSwap = (e) => {
+		doCapture(e);
+		if (enabled()) {
+			console.log(`${PREFIX} Event handler for ${e.type}`);
+		}
+	};
+
+	if (enabled()) {
+		window._vtbot_debug = {};
+		document.addEventListener('astro:before-preparation', startPreparation, true);
+		document.addEventListener('astro:before-swap', startSwap, true);
+	}
+</script>
+
+<script>
+	import {
+		isTransitionBeforePreparationEvent,
+		isTransitionBeforeSwapEvent,
+		type TransitionBeforePreparationEvent,
+		type TransitionBeforeSwapEvent,
+		TRANSITION_BEFORE_PREPARATION,
+		TRANSITION_AFTER_PREPARATION,
+		TRANSITION_BEFORE_SWAP,
+		TRANSITION_AFTER_SWAP,
+		TRANSITION_PAGE_LOAD,
+	} from 'astro:transitions/client';
+
+	const enabled = () => !!document.querySelector('meta[name="vtbot-debug"]');
+	const PREFIX = '[vtbot-debug]';
+
+	function switchBackConsole() {
+		// @ts-ignore
+		const _vtbot_debug = window._vtbot_debug;
+		if (_vtbot_debug.savedFunctions.log) {
+			console.log(`${PREFIX} switching console output back to browser console.`);
+			console.log = _vtbot_debug.savedFunctions.log;
+			console.groupCollapsed = _vtbot_debug.savedFunctions.groupCollapsed;
+			console.groupEnd = _vtbot_debug.savedFunctions.groupEnd;
+		}
+	}
+
+	function closeLog() {
+		// @ts-ignore
+		const _vtbot_debug = window._vtbot_debug;
+		if (
+			++_vtbot_debug.savedFunctions.closeCounter === 2 // the later of vt.finished and astro:load
+		) {
+			switchBackConsole();
+		}
+	}
+
+	function delta(e: Event, prop: string) {
+		// @ts-ignore
+		const _vtbot_debug = window._vtbot_debug;
+		if (prop === 'to' || prop === 'from') {
+			if (_vtbot_debug.capture[prop].href !== e[prop].href) {
+				console.log(`${prop} changed from ${_vtbot_debug.capture[prop].href} to ${e[prop].href}`);
+			} else {
+				console.log(`${prop}: ${e[prop].href}`);
+			}
+		} else {
+			if (_vtbot_debug.capture[prop] !== e[prop]) {
+				console.log(`${prop} changed from ${_vtbot_debug.capture[prop]} to ${e[prop]}`);
+			} else {
+				console.log(`${prop}: ${e[prop]}`);
+			}
+		}
+	}
+
+	function log(e: TransitionBeforePreparationEvent | TransitionBeforeSwapEvent) {
+		delta(e, 'type');
+		delta(e, 'cancelable');
+		delta(e, 'defaultPrevented');
+		delta(e, 'from');
+		delta(e, 'to');
+		delta(e, 'direction');
+		delta(e, 'navigationType');
+		delta(e, 'info');
+		delta(e, 'newDocument');
+		if (isTransitionBeforePreparationEvent(e)) {
+			delta(e, 'formData');
+			delta(e, 'loader');
+		}
+		if (isTransitionBeforeSwapEvent(e)) {
+			delta(e, 'swap');
+		}
+	}
+
+	function beforePreparation(preparationEvent: Event) {
+		if (enabled()) {
+			if (isTransitionBeforePreparationEvent(preparationEvent)) {
+				if (!document.querySelector('meta[name="vtbot-debug"][content="hide"]')) {
+					console.groupCollapsed('Properties');
+					log(preparationEvent);
+					console.groupEnd();
+				}
+				const oldLoader = preparationEvent.loader;
+				preparationEvent.loader = async () => {
+					console.log(`${PREFIX} before execution of loader()`);
+					await oldLoader();
+					console.log(`${PREFIX} after execution of loader()`);
+				};
+			} else {
+				console.log('not a TransitionBeforePreparationEvent');
+			}
+		}
+	}
+
+	function beforeSwap(beforeSwapEvent: Event) {
+		if (enabled()) {
+			if (isTransitionBeforeSwapEvent(beforeSwapEvent)) {
+				const output = document.querySelector('#debugOutput');
+				if (output) {
+					const doc = beforeSwapEvent.newDocument;
+					if (!doc.querySelector('#debugOutput')) {
+						const output = doc.createElement('div');
+						output.setAttribute('id', 'debugOutput');
+						output.setAttribute('data-astro-transition-persist', 'debugOutput');
+						doc.body.appendChild(output);
+					}
+				}
+				if (!document.querySelector('meta[name="vtbot-debug"][content="hide"]')) {
+					console.groupCollapsed('Properties');
+					log(beforeSwapEvent);
+					console.groupEnd();
+				}
+				const oldSwap = beforeSwapEvent.swap;
+				beforeSwapEvent.swap = async () => {
+					console.log(`${PREFIX} before execution of swap()`);
+					await oldSwap();
+					console.log(`${PREFIX} after execution of swap()`);
+				};
+				beforeSwapEvent.viewTransition.updateCallbackDone.then(
+					() => console.log(`${PREFIX} viewTransition.updateCallbackDone resolve`),
+					(error: any) => console.log(`${PREFIX} viewTransition.updateCallbackDone reject`, error)
+				);
+				beforeSwapEvent.viewTransition.ready.then(
+					() => console.log(`${PREFIX} viewTransition.ready resolve`),
+					(error: any) => console.log(`${PREFIX} viewTransition.ready reject`, error)
+				);
+				beforeSwapEvent.viewTransition.finished.then(
+					() => {
+						console.log(`${PREFIX} viewTransition.finished resolve`);
+						closeLog();
+					},
+					(error: any) => {
+						console.log(`${PREFIX} viewTransition.finished reject`, error);
+						closeLog();
+					}
+				);
+			} else {
+				console.log('not a TransitionBeforeSwapEvent');
+			}
+		}
+	}
+
+	if (enabled()) {
+		window.addEventListener('pageshow', () => {
+			console.log(
+				`${PREFIX} Registering event listeners for '${TRANSITION_BEFORE_PREPARATION}', '${TRANSITION_AFTER_PREPARATION}', '${TRANSITION_BEFORE_SWAP}', '${TRANSITION_AFTER_SWAP}' and '${TRANSITION_PAGE_LOAD}'`
+			);
+			document.addEventListener(TRANSITION_BEFORE_PREPARATION, beforePreparation);
+			document.addEventListener(TRANSITION_AFTER_PREPARATION, (e) => {
+				enabled() && console.log(`${PREFIX} Event handler for ${e.type}`);
+			});
+			document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
+			document.addEventListener(TRANSITION_AFTER_SWAP, (e) => {
+				enabled() && console.log(`${PREFIX} Event handler for ${e.type}`);
+			});
+			document.addEventListener(TRANSITION_PAGE_LOAD, (e) => {
+				enabled() && console.log(`${PREFIX} Event handler for ${e.type}`);
+				closeLog();
+			});
+		});
+	}
+</script>
+
+<style is:global>
+	#debugOutput {
+		position: fixed;
+		right: 5vw;
+		top: 5vh;
+		max-width: 20rem;
+		background-color: #eeff;
+		padding: 1rem;
+		font-size: 0.5rem;
+		z-index: 1;
+	}
+</style>

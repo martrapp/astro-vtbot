@@ -1,0 +1,113 @@
+---
+layout: src/layouts/NavBarMdxLayout.astro
+title: Practitioners Guide
+---
+
+# A Guide for Practitioners<br/>on View Transition Events
+
+## Contents
+
+## There are 5 events now? How do I choose the right one?
+
+The events are assigned to five positions in the transition process: The beginning and end of the preparation phase, the beginning and end of the swap phase and during the completion phase. Three of them (`astro:after-preparation`, `astro:after-swap`, `astro:page-load`) are used to notify your code that a certain point in the processing has been reached. The other two events (`astro:before-preparation` and `astro:before-swap`) have additional properties and functions to control the transition process.
+
+While some things can be done in any event, some tasks can only be performed in a specific event, see details below.
+
+### I want to have different behavior for different links on the page
+
+You can use the `sourceElement` property of the `astro:before-*` events to access the anchor element, button or form that triggered the navigation. There you can test for additional information like presents of `data-` attributes or style-classes. See [demo](/carousel/one/).
+
+### I want to show some "loading..." indicator
+
+Use the event listener of the `astro:before-preparation` event to enable the indicator. Hide the indicator in the event listener for the `astro:after-preparation` event. This ensure that the indicator is removed before the view transition starts and is not part of the initial screenshot. No need to set loader callback or modify event properties. See [demo](/loading/one/).
+
+### I want to add my own custom animation
+
+Await the `ready` promise of the `viewTransition` object. Or have your animation triggered by the insertion of the pseudo elements of the view transition API, [see details here](https://developer.chrome.com/docs/web-platform/view-transitions/#animating-with-javascript). See [demo](/circular/one/).
+
+### I want to prefetch images that are needed for the target page
+
+View transitions from thumbnails to large images in target files look very ugly if the target image is not available when the transition starts. For better results, preload the images before the view transition begins.
+
+Define a new `loader` function for the `astro:before-preparation` event. Call the original `loader` function to do the heavy lifting and get the content of the next page in the `newDocument` property. Find the images you want to preload and load them into the cache. Use `Promise.all()` to `await` that all images are ready. See [demo](/hero-prefetch/overview/).
+
+### I want to optimize the number of objects taking part in a transition
+
+In the listener for the `astro:after-preparation` event you have access to the current and the future page content. At that point you could remove animation paires that would otherwise lead to ugly fly throughs when part of them are outside the current view port and others are not. You could also introduce new pairs right before the view transition to get some last minute optimization on the `::view-transition-group` effect. (no demo yet)
+
+### I want to use a loader that can output percentage events during loading
+
+Yes, you can do that by overriding the `loader` property of the `astro:before-preparation` event. You should take a look at the current source code and copy most of it, as it has already undergone some bug fixes to handle corner cases. That said, it might be far less attractive than it seems at first glance. Streaming doesn't know the length of the content in advance. Hosting platforms usually remove the "content-length" header when they compress the response. Static HTML files are usually small and are often loaded with the first chunk of data. (probably never demo'ed)
+
+### The default swapping of view transitions resets iframes and animations
+
+Define your own swap algorithm: overwrite the `swap` property in the `astro:before-swap` event. Instead of throwing the `newDocument` on the old one, do a diff of the two structures and only change the bare minimum of the existing DOM to finally reflect the desired outcome. See [demo](/noreset/one/).
+
+## Syncronous vs. asynchronous code
+
+### Do all event listeners and callbacks have to be synchronous?
+
+All event listeners should only execute synchronous code. The reason for this is that `EventTarget.dispatchEvent()` cannot be `await`ed for. Another restriction results from the way view transitions work. While the browser executes the code between `astro:before-swap` and `astro:after-swap`, the user interface is frozen. The browser also enforces a strict timeout of a few seconds to ensure that this freeze does not last too long. For this reason, the `swap` callback of the `astro:before-swap` event is not `await`ed for.
+
+You can use asynchronous code in the event listeners and callbacks, but the processing would not wait for that code to complete and it would actually be executed in parallel with the view transition. So this is clearly not recommended.
+
+### I need to execute and await some asynchronous code during the transition
+
+The only way to run asynchronous code during transitions and wait for it to complete is to run it via the `loader` hook of the `astro:before-preparation` event. With this hook, you can load files from the net, compile Rust into WASM, call ChatGPT for help, or perform any other time-consuming preparation your transition requires.
+
+## Tips & Tricks
+
+### Page Marker & Guard
+
+When you navigate to a new page in a typical multi-page application, the state of the previous page is completely erased. You start the new page with a clean module loader, all scripts are gone, as are all event listeners.
+
+This is different for view transitions. Since you keep the same document and just swap in new content, your scripts and handlers will slowly accumulate. Astro has taken some precautions to make your life easier: If you switch to a page that defines a script that has already been executed, it will not be executed again. This way you don't add the same event listener twice. 
+
+But if you have a good idea for an event listener that helps you transition from page A to page B and another one for the transition from B to C, you have two listeners. If you do not explicitly remove it, the A-B listener is still active when you switch from B to C.
+
+Only when you explicitly reload a page without view transitions does the browser forget the listeners.  
+
+Removing and reinstalling event listeners is tedious, and even if your website uses several, their number will be small. There is a simple pattern that has worked well for websites with multiple listeners:
+
+1. define your handler as an `.astro` component, which should be used in the `<head>` in the same way as the `ViewTransition/>` element.
+3. insert a `<meta/>` element with your marker (this is the reason why our component should be used in the `<head>`)
+4. define a function `enabled()` in the script part that checks if the `<meta/>` with your marker string is present.
+5. call the `enabled()` function in your event listener to ensure that it is only executed on the pages you intended. 
+ 
+``` astro
+<meta name="your-marker" content="true" /> <!-- mark this page -->
+
+<script>
+  const enabled = () => !!document.querySelector('meta[name="your-marker"]');
+
+  function listener(event) {
+    if (enabled() && ...) {
+      ...
+    }
+  }
+```
+
+Alternatively, you can also check the `event.from` and `event.to` values at the beginning of the listener to see whether you want to apply your listener for this transition.
+
+``` js
+  function listener(event) {
+    if (event.from.endswith("/good-from/") || event.to.endsWith("/good-to/")) {
+      ...
+    }
+  }
+```
+
+### TypeScript
+
+All event listeners have a single parameter of type `Event`. This type does not know the special properties that a `TransitionBeforePreparationEvent` or a `TransitionBeforeSwapEvent` has. For type-safe access to these properties, you can use the provided functions `isTransitionBeforePreparationEvent` and `isTransitionBeforeSwapEvent`:
+
+``` ts
+<script>
+  import { isTransitionBeforeSwapEvent} from 'astro:transitions/client';
+  
+  function listener(event: Event) {
+    if (enabled() && isTransitionBeforeSwapEvent(event)) {
+      event.direction = ...
+    }
+  }
+```

@@ -9,7 +9,9 @@ const { title, color } = Astro.props;
 ---
 
 <Layout title={title} color={color}>
-	<slot />
+	<div transition:animate="slide">
+		<slot />
+	</div>
 </Layout>
 
 <style>
@@ -26,8 +28,12 @@ const { title, color } = Astro.props;
 	}
 </style>
 <script is:inline>
+	let position = { left: 0, top: 0 };
+
+	document.addEventListener('astro:after-preparation', () => {
+		position = { left: scrollX, top: scrollY };
+	});
 	document.addEventListener('astro:after-swap', () => {
-		document.querySelector('#real').innerText = new Date().toLocaleTimeString();
-		scrollTo({ left: 0, top: 0, behavior: 'instant' });
+		scrollTo({ ...position, behavior: 'instant' });
 	});
 </script>

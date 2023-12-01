@@ -2,10 +2,9 @@
 import { ViewTransitions } from 'astro:transitions';
 export interface Props {
 	title: string;
-	color: string;
 }
 
-const { title, color } = Astro.props;
+const { title } = Astro.props;
 ---
 
 <!doctype html>
@@ -15,15 +14,10 @@ const { title, color } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, minimum-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{title + ' | vt-bot'}</title>
+		<title>{title}</title>
 		<slot name="head" />
 	</head>
 	<body>
 		<slot />
-		<style define:vars={{ color }}>
-			body {
-				background-color: var(--color);
-			}
-		</style>
 	</body>
 </html>

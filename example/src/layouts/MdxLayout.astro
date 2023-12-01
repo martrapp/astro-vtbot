@@ -1,0 +1,105 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+const { frontmatter, title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<ViewTransitions />
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, minimum-scale=1" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>{frontmatter?.title ?? title + ' | vt-bot'}</title>
+		<slot name="head" />
+	</head>
+	<body>
+		<slot />
+		<style is:global>
+			#contents + ul {
+				font-family: sans-serif;
+				background-color: #ddd;
+				padding: 1rem;
+				border-radius: 10px;
+				border: 1px dashed #ccc;
+				box-shadow: 2px 2px 2px #5659;
+			}
+			aside {
+				z-index: 100;
+				font-family: sans-serif;
+				position: fixed;
+				right: 0;
+				bottom: 0;
+				max-width: 50vw;
+				background-color: #eee;
+				padding: 1rem;
+				overflow-y: auto;
+				border-radius: 20px 0 0 0;
+				border: 1px dashed #ddd;
+				box-shadow: -1px -1px #5659;
+			}
+			aside p {
+				font-weight: bold;
+				margin: 0 0 0.25em 0;
+			}
+			#contents + ul,
+			#contents + ul ul,
+			aside ul {
+				margin: 0 0;
+				padding: 0;
+			}
+			#contents + ul,
+			aside ul {
+				padding: 1em;
+			}
+			#contents + ul li,
+			aside li {
+				list-style: none;
+				padding: 0.2em 1em;
+			}
+			#contents + ul li::before,
+			aside li::before {
+				content: '↪︎ ';
+			}
+			#contents + ul li a,
+			aside li a {
+				text-decoration: none;
+				color: #333;
+			}
+			aside li.active {
+				background-color: lightgreen;
+			}
+			img {
+				margin: auto;
+				display: block;
+				width: min(80vw, 640px);
+				height: min(39vw, 312px);
+			}
+			pre {
+				padding: 1rem;
+				border: 1px solid #888;
+				border-radius: 6px;
+				tab-size: 2;
+			}
+			td {
+				background-color: #ececec;
+				font-family: sans-serif;
+				font-size: 0.8rem;
+				padding: 0.5rem;
+			}
+			h2,
+			h3 {
+				margin-top: 3rem;
+			}
+			body {
+				max-width: 640px;
+				padding: 3ex;
+				margin: 0 auto;
+				background-color: whitesmoke;
+			}
+			p {
+				text-align: justify;
+			}
+		</style>
+	</body>
+</html>

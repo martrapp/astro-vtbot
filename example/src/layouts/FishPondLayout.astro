@@ -2,7 +2,7 @@
 import { createAnimationScope } from 'astro:transitions';
 import { getImage } from 'astro:assets';
 import fishies from 'src/assets/fish.png';
-import Debug from '~/src/Debug.astro';
+import { VtBotDebug } from '~';
 import Layout from './Layout.astro';
 
 interface Props {
@@ -66,7 +66,7 @@ const { scope, styles } = createAnimationScope('main', { south, north, east, wes
 ---
 
 <Layout title={title} color="rgb(85, 167, 238)">
-	<Debug slot="head" />
+	<VtBotDebug slot="head" />
 	<div transition:persist="bg" id="bg"></div>
 	<main data-astro-transition-scope={scope}>
 		<slot />

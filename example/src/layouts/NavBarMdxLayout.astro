@@ -1,0 +1,39 @@
+---
+import MdxLayout from './MdxLayout.astro';
+const { frontmatter } = Astro.props;
+---
+
+<MdxLayout title={frontmatter.title}>
+	<div transition:animate="initial">
+		<slot />
+		<div style="height:10em">&nbsp;</div>
+	</div>
+	<aside transition:persist="aside">
+		<p>Docs</p>
+		<ul>
+			<li>
+				<a href="/docs/Jotter/">The Jotter</a>
+			</li>
+			<li>
+				<a href="/docs/Events/">View Transition Events</a>
+			</li>
+			<li>
+				<a href="/docs/Practical/">Practitioner's Guide</a>
+			</li>
+			<li>
+				<a href="/">Back to Demos</a>
+			</li>
+		</ul>
+	</aside>
+</MdxLayout>
+<script>
+	document.addEventListener('astro:after-swap', activate);
+	function activate() {
+		document.querySelectorAll('aside li a').forEach((a) => {
+			if (a instanceof HTMLAnchorElement) {
+				a.parentElement?.classList[location.href.endsWith(a.href) ? 'add' : 'remove']('active');
+			}
+		});
+	}
+	activate();
+</script>

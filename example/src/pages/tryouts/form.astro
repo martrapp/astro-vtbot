@@ -1,0 +1,17 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+---
+
+<html>
+	<head>
+		<ViewTransitions handleForms />
+	</head>
+	<body>
+		<h1>Test</h1>
+		<p>Test</p>
+		<form method="get" transition:persist="gaga">
+			<input type="text" name="arg" />
+			<button name="stars" value="3">Foo</button>
+		</form>
+	</body>
+</html>
