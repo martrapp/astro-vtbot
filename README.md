@@ -1,5 +1,11 @@
 No, its not a roBOT, its a <b>B</b>ag <b>o</b>f <b>T</b>ricks!
 
+A current deployment of this code can be found at https://events-3bg.pages.dev/
+
+# THE CODE HERE IS STILL FOR 3.6 <= ASTRO < 4.0
+
+Currently I'm migrating to 4.0. Stay tuned!
+
 # Astro Bag of Tricks for View Transitions
 
 The bag of tricks provides components that demonstrate Astro's View Transition API.
@@ -8,8 +14,6 @@ Some of these are technical demos, some are useful tools, and some will evolve i
 ## Tech Demos
 
 The bag of tricks currently contains ten technical demos that show examples of the implementation of various effects using the view transition events.
-
-A current deployment of this code can be found at https://events-3bg.pages.dev/
 
 The sources are in the `example` folder.
 
