@@ -10,7 +10,7 @@ import fi from 'src/assets/fi.png';
 	<span id="ken">🦘</span>
 	<a href="/components/" transition:name="reuse">Reusable Components</a>
 	<a href="/demos/">Tech Demos</a>
-	<div id="outer"><div id="new">New! astro-vtbot 1.0.0 now published on npm!</div></div>
+	<div id="outer"><div id="new"><a href="https://www.npmjs.com/package/astro-vtbot">New! astro-vtbot 1.0.0 now published on npm!</a></div></div>
 	<div class="fancy">&nbsp;</div>
 </Layout>
 <style is:global>
@@ -27,7 +27,7 @@ import fi from 'src/assets/fi.png';
 <style>
 	#outer {
 		background-image: radial-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
-		border: 18px dotted orange;
+		border: 9px dotted orange;
 		position: absolute;
 		bottom: 5vh;
 		left: 3vw;
@@ -45,9 +45,13 @@ import fi from 'src/assets/fi.png';
 		font-weight: bolder;
 		font-size: min(4vh, 4vw);
 		font-family: sans-serif;
-		border: dotted 15px rgba(256, 165, 0, 0.5);
+		border: dotted 7px rgba(256, 165, 0, 0.5);
 	}
 
+	#new a {
+		color: #cff;
+		text-decoration: dotted underline;
+	}
 	/* Conic gradient */
 	.fancy::before {
 		content: '';
@@ -71,7 +75,7 @@ import fi from 'src/assets/fi.png';
 			transform: translate(-50%, -50%) scale(1.4) rotate(1turn);
 		}
 	}
-	a {
+	body > a {
 		font-family: sans-serif;
 		display: inline-block;
 		font-size: min(5vh, 5vw);
@@ -103,7 +107,7 @@ import fi from 'src/assets/fi.png';
 	.hit-the-floor {
 		padding: 0 0.5ex;
 		color: lightblue;
-		font-size: max(9vh, 8vw);
+		font-size: max(8vh, 8vw);
 		font-weight: bold;
 		font-family: sans-serif;
 		text-shadow:
