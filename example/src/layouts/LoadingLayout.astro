@@ -21,9 +21,12 @@ const { title, background } = Astro.props;
 		<slot />
 		<xmp
 			>document.addEventListener('astro:before-preparation', () => {
-			document.querySelector('#loading').classList.add('show'); });
-			document.addEventListener('astro:after-preparation', () => {
-			document.querySelector('#loading').classList.remove('show'); });</xmp
+  document.querySelector('#loading').classList.add('show');
+});
+
+document.addEventListener('astro:after-preparation', () => {
+  document.querySelector('#loading').classList.remove('show'); 
+});</xmp
 		>
 		<div style="height:100vh"></div>
 	</main>

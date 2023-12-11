@@ -19,14 +19,21 @@ import NoResetLayout from 'src/layouts/NoResetLayout.astro';
 			newDocument and leaves everything else as it is.
 		</p>
 		<xmp
-			>document.addEventListener('astro:before-swap', ev => { 
-  if (ev.from.pathname === '/no-reset/two/' 
+			>
+  document.addEventListener('astro:before-swap', ev => { 
+
+    if (ev.from.pathname === '/no-reset/two/' 
     || ev.from.pathname === '/no-reset/three/' 
     || ev.from.pathname === '/no-reset/three/') {
-			ev.swap = () => {
-			ev.newDocument.querySelectorAll('[data-swap]').forEach(el => {
-			document.querySelector(`[data-swap="${el.dataset.swap}"]`)?.replaceWith(el); }); }; } });</xmp
-		>
+      ev.swap = () => {
+        ev.newDocument.querySelectorAll('[data-swap]').forEach(el => {
+          document.querySelector(`[data-swap="${el.dataset.swap}"]`)?.replaceWith(el);
+        });
+      };
+    }
+  });
+
+</xmp>
 		<p>
 			Seen that the title of the browsers tab is still on page two? So we swapped those three marked
 			elements in, but we didn't yet swap the HTML <code>&lt;head></code> with the title, yet :)

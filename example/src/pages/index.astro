@@ -10,10 +10,13 @@ import fi from 'src/assets/fi.png';
 	<span id="ken">🦘</span>
 	<a href="/components/" transition:name="reuse">Reusable Components</a>
 	<a href="/demos/">Tech Demos</a>
+	<div id="outer"><div id="new">New! astro-vtbot 1.0.0 now published on npm!</div></div>
+	<div class="fancy">&nbsp;</div>
 </Layout>
 <style is:global>
 	html {
 		background: linear-gradient(330deg, #000, rgb(135, 206, 235));
+		overflow: hidden;
 	}
 	body {
 		justify-content: center;
@@ -22,6 +25,52 @@ import fi from 'src/assets/fi.png';
 	}
 </style>
 <style>
+	#outer {
+		background-image: radial-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
+		border: 18px dotted orange;
+		position: absolute;
+		bottom: 5vh;
+		left: 3vw;
+		max-width: 60%;
+		transform: rotate3d(10, 4, -3, 10deg);
+		border-radius: 50px;
+	}
+
+	#new {
+		border-radius: 50px;
+		background-image: radial-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
+		display: inline-block;
+		padding: 1ex;
+		color: #cff;
+		font-weight: bolder;
+		font-size: min(4vh, 4vw);
+		font-family: sans-serif;
+		border: dotted 15px rgba(256, 165, 0, 0.5);
+	}
+
+	/* Conic gradient */
+	.fancy::before {
+		content: '';
+		background: conic-gradient(transparent 270deg, rgba(255, 255, 255, 0.3), transparent);
+		position: absolute;
+		left: -5%;
+		aspect-ratio: 1;
+		width: 400%;
+		animation: rotate 5s linear infinite;
+		z-index: -10;
+	}
+
+	/* Overlay */
+
+	@keyframes rotate {
+		from {
+			transform: translate(-50%, -50%) scale(1.4) rotate(0turn);
+		}
+
+		to {
+			transform: translate(-50%, -50%) scale(1.4) rotate(1turn);
+		}
+	}
 	a {
 		font-family: sans-serif;
 		display: inline-block;
@@ -33,6 +82,7 @@ import fi from 'src/assets/fi.png';
 		margin-left: 2ex;
 		margin-top: 1ex;
 		text-decoration: dotted underline;
+		z-index: 10;
 	}
 	#fi {
 		z-index: -1;
@@ -53,7 +103,7 @@ import fi from 'src/assets/fi.png';
 	.hit-the-floor {
 		padding: 0 0.5ex;
 		color: lightblue;
-		font-size: max(8vh, 9vw);
+		font-size: max(9vh, 8vw);
 		font-weight: bold;
 		font-family: sans-serif;
 		text-shadow:

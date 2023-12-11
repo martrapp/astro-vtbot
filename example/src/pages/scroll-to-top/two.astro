@@ -13,8 +13,8 @@ const now = new Date().toLocaleTimeString();
 		will not take you back to the end of the page, but to the beginning. This is how it works:
 	</p>
 	<xmp
-		>document.addEventListener('astro:after-swap', () => window.scrollTo({ left: 0, top: 0,
-		behavior: 'instant' }))</xmp
+		>document.addEventListener('astro:after-swap', 
+  () => window.scrollTo({ left: 0, top: 0, behavior: 'instant' }))</xmp
 	>
 	<p>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec aliquam
