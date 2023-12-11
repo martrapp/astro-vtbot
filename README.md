@@ -1,5 +1,7 @@
 No, its not a roBOT, its a <b>B</b>ag <b>o</b>f <b>T</b>ricks!
 
+<h1 style="color: orange">!! astro-vtbot 1.0.0 now published on npm !!</h1>
+
 A current deployment of this code can be found at https://events-3bg.pages.dev/
 
 # Astro Bag of Tricks for View Transitions
