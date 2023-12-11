@@ -1,11 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
-import VtBotDebug from '~/components/VtBotDebug.astro';
 ---
 
 <Layout title="Reusable Components" background="#0a0a2a">
-	<VtBotDebug slot="head" />
 	<main>
 		<h1>
 			<span class="text-gradient" transition:name="reuse">Reusable Components</span>
@@ -113,7 +111,7 @@ import VtBotDebug from '~/components/VtBotDebug.astro';
 		background: linear-gradient(330deg, #000, rgb(13, 20, 23));
 	}
 	html::view-transition-group(*) {
-		animation-duration: 0.66s;
+		animation-duration: 0.33s;
 	}
 </style>
 

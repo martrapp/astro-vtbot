@@ -9,7 +9,7 @@ const { title, background } = Astro.props;
 ---
 
 <Layout title={title} {background}>
-	<VtBotDebug overlay slot="head" />
+	<VtBotDebug overlay production slot="head" />
 	<main transition:animate="fade">
 		<h1>{title}</h1>
 		<h2 id="loading">⏳ Loading...</h2>

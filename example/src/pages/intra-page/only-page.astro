@@ -4,6 +4,11 @@ import Layout from 'src/layouts/Layout.astro';
 
 <Layout title="IntraPage" background="#eef">
 	<h1 style="display: inline-block; view-transition-name: heading1">Intra Page View Transitions</h1>
+	<p>
+		<b>The "Morph" transition only works with browsers that natively support view transition API.</b
+		>
+	</p>
+
 	<p transition:animate="fade">
 		<a href="/intra-page/only-page/?vt=0#down-under"
 			>Hash change link with parameters to same page</a
