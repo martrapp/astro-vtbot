@@ -21,6 +21,7 @@ import PrefetchLayout from 'src/layouts/PrefetchLayout.astro';
 		The extended version calls the original loader and then preloads the hero image after checking
 		the <code>newDocument</code> for the source.
 	</p>
+	<p>If the larger images are not in your cache, the page may appear to be unresponsive to your click. It would be a good idea to show a loading indicator to signal that the click has been detected, but it takes a second for the next page to occur.</p>
 
 	<xmp
 		>document.addEventListener('astro:before-preparation', e => { if
