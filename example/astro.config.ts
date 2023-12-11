@@ -5,7 +5,7 @@ import expressiveCode from 'astro-expressive-code';
 
 // https://astro.build/config
 export default defineConfig({
-	experimental: { devOverlay: false },
+	prefetch: true,
 	markdown: {
 		remarkPlugins: [remarkToc],
 		shikiConfig: {
@@ -18,4 +18,11 @@ export default defineConfig({
 	},
 	trailingSlash: 'always',
 	integrations: [expressiveCode(), mdx()],
+	vite: {
+		server: {
+			fs: {
+				allow: ['/home/ergberg/'],
+			},
+		},
+	},
 });

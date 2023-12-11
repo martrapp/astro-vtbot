@@ -13,7 +13,7 @@ const { pages, index } = Astro.props;
 		TRANSITION_BEFORE_PREPARATION,
 		isTransitionBeforePreparationEvent,
 	} from 'astro:transitions/client';
-	const meta: HTMLMetaElement = document.querySelector('meta[name="vtbot-carousel"]');
+	const meta: HTMLMetaElement | null = document.querySelector('meta[name="vtbot-carousel"]');
 	if (!!meta) {
 		const pages = meta?.content?.split(':') ?? [];
 		const index = () =>

@@ -1,14 +1,14 @@
 ---
-import { CircleAnimation } from '~';
+import CircleAnimation from '../components/CircleAnimation.astro';
 import Layout from './Layout.astro';
 
 interface Props {
-	color: string;
+	background: string;
 }
-const { color } = Astro.props;
+const { background } = Astro.props;
 ---
 
-<Layout title="Circle" {color}>
+<Layout title="Circle" {background}>
 	<CircleAnimation slot="head" />
 	<slot />
 </Layout>

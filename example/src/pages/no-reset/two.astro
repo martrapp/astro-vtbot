@@ -4,7 +4,7 @@ import NoResetLayout from 'src/layouts/NoResetLayout.astro';
 
 <NoResetLayout title="No Reset Page Two">
 	<h1 data-swap="heading">Banner Page Two</h1>
-	<p><a data-swap="link" href="/noreset/three/">&nbsp;[Goto page three]&nbsp;</a></p>
+	<p><a data-swap="link" href="/no-reset/three/">&nbsp;[Goto page three]&nbsp;</a></p>
 	<div class="sky" transition:persist="sky">
 		<iframe src="https://wikipedia.com"></iframe>
 		<div class="sun"></div>
@@ -12,7 +12,7 @@ import NoResetLayout from 'src/layouts/NoResetLayout.astro';
 	<main data-swap="main">
 		<p>
 			The animation re-started on the right side of the screen and the iframe has lost all its
-			state. ☹
+			state. <span style="color: darkslategray; font-weight: 800;">☹</span>
 		</p><p>
 			While <code>transition:persist</code> generelly works fine and can keep the state of almost
 			all HTML elements, animation state and iframe state are its Achilles' heel.
@@ -25,20 +25,3 @@ import NoResetLayout from 'src/layouts/NoResetLayout.astro';
 		</p>
 	</main>
 </NoResetLayout>
-<script>
-	import { TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
-
-	document.addEventListener(TRANSITION_BEFORE_SWAP, (event: Event) => {
-		if (
-			isTransitionBeforeSwapEvent(event) &&
-			(event.from.pathname === '/noreset/two/' || event.from.pathname === '/noreset/three/')
-		) {
-			event.swap = () => {
-				event.newDocument.querySelectorAll('[data-swap]').forEach((element: Element) => {
-					const name = element instanceof HTMLElement && element.dataset.swap;
-					document.querySelector(`[data-swap="${name}"]`)?.replaceWith(element);
-				});
-			};
-		}
-	});
-</script>

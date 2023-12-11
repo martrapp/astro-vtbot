@@ -4,7 +4,7 @@ import NoResetLayout from 'src/layouts/NoResetLayout.astro';
 
 <NoResetLayout title="No Reset One">
 	<h1 data-swap="heading">Banner Page One</h1>
-	<p><a data-swap="link" href="/noreset/two/">&nbsp;[Goto page two]&nbsp;</a></p>
+	<p><a data-swap="link" href="/no-reset/two/">&nbsp;[Goto page two]&nbsp;</a></p>
 	<div class="sky" transition:persist="keep">
 		<iframe src="https://wikipedia.com"></iframe>
 		<div class="sun"></div>
@@ -15,8 +15,8 @@ import NoResetLayout from 'src/layouts/NoResetLayout.astro';
 			is anotated with <code>transition:persist="keep"</code>. So they will appear on the next page,
 			and their state should be taken over.
 		</p><p>
-			Scroll the iframe a bit down, enter some search term, press return. Wait for the circle to be
-			on the left side of the screen. Now klick the link to the next page and watch.
+			Enter some search term in the iframe. Wait for the circle to be on the left side of the
+			screen. Now klick the link at the top of the page to navigate to the next page and watch.
 		</p>
 	</main>
 </NoResetLayout>

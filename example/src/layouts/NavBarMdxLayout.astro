@@ -21,7 +21,7 @@ const { frontmatter } = Astro.props;
 				<a href="/docs/Practical/">Practitioner's Guide</a>
 			</li>
 			<li>
-				<a href="/">Back to Demos</a>
+				<a href="/demos/">Back to Demos</a>
 			</li>
 		</ul>
 	</aside>
@@ -37,3 +37,40 @@ const { frontmatter } = Astro.props;
 	}
 	activate();
 </script>
+<style is:global>
+	aside {
+		z-index: 100;
+		font-family: sans-serif;
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		max-width: 50vw;
+		background-color: var(--vtbot-table-background-color);
+		padding: 1rem;
+		overflow-y: auto;
+		border-radius: 20px 0 0 0;
+		border: 1px dashed #ddd;
+		box-shadow: -1px -1px #5659;
+	}
+	aside p {
+		font-weight: bold;
+		margin: 0 0 0.25em 0;
+	}
+	aside ul {
+		margin: 0 0;
+		padding: 1em;
+	}
+	aside li {
+		list-style: none;
+		padding: 0.2em 1em;
+	}
+	aside li::before {
+		content: '↪︎ ';
+	}
+	aside li a {
+		text-decoration: none;
+	}
+	aside li.active {
+		background-color: #6a6;
+	}
+</style>

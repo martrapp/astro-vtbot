@@ -1,0 +1,410 @@
+---
+interface Props {
+	overlay?: boolean;
+	hideProperties?: boolean;
+	production?: boolean;
+}
+const { overlay = false, hideProperties = false, production = false } = Astro.props;
+---
+
+{
+	// set marker to convey props from server to client
+	(import.meta.env.DEV || production) && (
+		<meta name="vtbot-debug" content={overlay ? (hideProperties ? 'hide' : 'show') : 'console'} />
+	)
+}
+<script is:inline>
+	// start of "early" part, sorry, only js, no ts.
+	/*
+	 * register as early as possible (=inline script early in head)
+	 * to capture the original data of the events.
+	 */
+	(function iefe() {
+		const PREFIX = '[vtbot-debug]';
+
+		let indent = '';
+
+		const enabled = () => document.querySelector('meta[name="vtbot-debug"]');
+
+		/*
+		 *replacements for console functions
+		 */
+		function replace_log() {
+			let output = document.querySelector('#debugOutput');
+			if (output) {
+				const text = [...arguments].reduce(
+					(a, x) => a + ' ' + x,
+					new Date().toISOString().substring(11) + indent
+				);
+				let bold = false;
+				text.split('***').forEach((s) => {
+					const text = document.createTextNode(s);
+					let node = text;
+					if (bold) {
+						const b = document.createElement('b');
+						b.appendChild(text);
+						node = b;
+					}
+					bold = !bold;
+					output.appendChild(node);
+				});
+				output.append(document.createElement('br'));
+			}
+		}
+
+		function replace_groupCollapsed(s) {
+			console.log(s);
+			indent += ' .';
+		}
+
+		function replace_clear() {
+			const output = document.querySelector('#debugOutput');
+			output && [...output.childNodes].forEach((n) => n.remove(), (indent = ''));
+		}
+
+		const replace_groupEnd = () => (indent = indent.substring(2));
+
+		/*
+		 * div for the overlay
+		 */
+		const appendOutputElementToDocument = () => {
+			if (!document.querySelector('#debugOutput')) {
+				const output = document.createElement('div');
+				output.setAttribute('id', 'debugOutput');
+				output.setAttribute('data-astro-transition-persist', 'debugOutput');
+				document.body.appendChild(output);
+			}
+		};
+
+		/*
+		 * switch console output to overlay
+		 */
+		function switchConsole(replace_log, replace_groupCollapsed, replace_groupEnd) {
+			const debug = enabled();
+			window._vtbot_debug.savedFunctions = { closeCounter: 0 };
+			if (debug.content !== 'console') {
+				appendOutputElementToDocument(document);
+			} else {
+				const output = document.querySelector('#debugOutput');
+				output && output.remove();
+				window._vtbot_debug.savedFunctions.log = undefined;
+				return;
+			}
+
+			window._vtbot_debug.savedFunctions.log = console.log;
+			window._vtbot_debug.savedFunctions.groupCollapsed = console.groupCollapsed;
+			window._vtbot_debug.savedFunctions.groupEnd = console.groupEnd;
+			console.log = replace_log;
+			console.groupCollapsed = replace_groupCollapsed;
+			console.groupEnd = replace_groupEnd;
+			replace_clear();
+			console.log(`${PREFIX} switching console output to overlay.`);
+		}
+
+		/*
+		 * capture the original data of the events
+		 */
+		const doCapture = (e) => {
+			window._vtbot_debug.capture = {
+				...e,
+				type: e.type,
+				cancelable: e.cancelable,
+				defaultPrevented: e.defaultPrevented,
+				event: e,
+			};
+		};
+
+		/*
+		 * When the navigation starts,
+		 * capture the event properties and switch the console output to the overlay.
+		 */
+		const startPreparation = (e) => {
+			doCapture(e);
+			if (enabled()) {
+				switchConsole(replace_log, replace_groupCollapsed, replace_groupEnd);
+				console.log(`${PREFIX} Event handler for ${e.type}`);
+			}
+		};
+
+		/*
+		 * capture the event properties at beginning of swap phase
+		 */
+		const startSwap = (e) => {
+			doCapture(e);
+			if (enabled()) {
+				console.log(`${PREFIX} Event handler for ${e.type}`);
+			}
+		};
+
+		/*
+		 * Register the two "early" handlers
+		 */
+		if (enabled() && window._vtbot_debug === undefined) {
+			window._vtbot_debug = {};
+			document.addEventListener('astro:before-preparation', startPreparation);
+			document.addEventListener('astro:before-swap', startSwap);
+		}
+		// end of "early" part
+	})();
+</script>
+
+<script>
+	// start of "late" part
+	import {
+		isTransitionBeforePreparationEvent,
+		isTransitionBeforeSwapEvent,
+		type TransitionBeforePreparationEvent,
+		type TransitionBeforeSwapEvent,
+		TRANSITION_BEFORE_PREPARATION,
+		TRANSITION_AFTER_PREPARATION,
+		TRANSITION_BEFORE_SWAP,
+		TRANSITION_AFTER_SWAP,
+		TRANSITION_PAGE_LOAD,
+	} from 'astro:transitions/client';
+
+	const enabled = () => !!document.querySelector('meta[name="vtbot-debug"]');
+	const PREFIX = '[vtbot-debug]';
+
+	/*
+	 * restore console functions
+	 */
+	function switchBackConsole() {
+		// @ts-ignore
+		const _vtbot_debug = window._vtbot_debug;
+		if (_vtbot_debug.savedFunctions.log) {
+			console.log(`${PREFIX} switching console output back to browser console.`);
+			console.log = _vtbot_debug.savedFunctions.log;
+			console.groupCollapsed = _vtbot_debug.savedFunctions.groupCollapsed;
+			console.groupEnd = _vtbot_debug.savedFunctions.groupEnd;
+		}
+	}
+
+	/*
+	 * keep the overlay until we have seen both: astro:page-load and viewTransition.finished
+	 */
+	function closeLog() {
+		if (
+			// @ts-ignore
+			++window._vtbot_debug.savedFunctions.closeCounter === 2 // the later of vt.finished and astro:load
+		) {
+			switchBackConsole();
+		}
+	}
+
+	/*
+	 * address surrogate
+	 */
+	const mem = new WeakMap();
+	const addr = (obj: any) => {
+		if (!mem.has(obj)) {
+			mem.set(obj, `0x${(Math.floor(Math.random() * 16384) * 4).toString(16).toUpperCase()}`);
+		}
+		return mem.get(obj);
+	};
+
+	/*
+	 * log a property of the event
+	 */
+	function delta(e: Event, prop: string, deltaOnly = false) {
+		// @ts-ignore
+		const _vtbot_debug = window._vtbot_debug;
+		const overlay = _vtbot_debug?.savedFunctions?.log;
+		const bold = (s: string) => (overlay ? `***${s}***` : s);
+		let deref = (x: any) => x;
+		let print = (x: any) => x;
+
+		if (prop === 'to' || prop === 'from') {
+			deref = (x) => x?.href;
+			print = deref;
+		} else if (prop === 'newDocument') {
+			print = addr;
+		} else if (prop === 'swap' || prop === 'loader') {
+			print = (x) => {
+				const s = x.toString();
+				return s.length < 40 ? s : s.substring(0, 37) + '...';
+			};
+		}
+
+		if (deref(_vtbot_debug.capture[prop]) !== deref(e[prop])) {
+			console.log(
+				`${deltaOnly ? PREFIX + ' ' : ''}${prop} changed from ${bold(
+					print(_vtbot_debug.capture[prop])
+				)} to ${bold(print(e[prop]))}`
+			);
+		} else if (!deltaOnly) {
+			console.log(`${prop}: ${bold(print(e[prop]))}`);
+		}
+	}
+
+	/*
+	 * Capture the event properties
+	 */
+	const doCapture = (e) => {
+		// @ts-ignore
+		window._vtbot_debug.capture = {
+			...e,
+			type: e.type,
+			cancelable: e.cancelable,
+			defaultPrevented: e.defaultPrevented,
+			event: e,
+		};
+	};
+
+	/*
+	 * log the properties of the event
+	 */
+	function log(e: TransitionBeforePreparationEvent | TransitionBeforeSwapEvent, deltaOnly = false) {
+		delta(e, 'type', deltaOnly);
+		delta(e, 'cancelable', deltaOnly);
+		delta(e, 'defaultPrevented', deltaOnly);
+		delta(e, 'from', deltaOnly);
+		delta(e, 'to', deltaOnly);
+		delta(e, 'direction', deltaOnly);
+		delta(e, 'navigationType', deltaOnly);
+		delta(e, 'info', deltaOnly);
+		delta(e, 'newDocument', deltaOnly);
+		if (isTransitionBeforePreparationEvent(e)) {
+			delta(e, 'formData', deltaOnly);
+			delta(e, 'loader', deltaOnly);
+		}
+		if (isTransitionBeforeSwapEvent(e)) {
+			delta(e, 'swap', deltaOnly);
+		}
+		doCapture(e);
+	}
+
+	/*
+	 * Append the overlay <div> to the new document
+	 */
+	const appendOutputElementToNewDocument = (doc: Document) => {
+		const output = document.querySelector('#debugOutput');
+		if (output) {
+			if (!doc.querySelector('#debugOutput')) {
+				const output = doc.createElement('div');
+				output.setAttribute('id', 'debugOutput');
+				output.setAttribute('data-astro-transition-persist', 'debugOutput');
+				doc.body.appendChild(output);
+			}
+		}
+	};
+
+	/*
+	 * Log beforePreparation
+	 */
+	function beforePreparation(preparationEvent: Event) {
+		if (enabled()) {
+			if (isTransitionBeforePreparationEvent(preparationEvent)) {
+				if (!document.querySelector('meta[name="vtbot-debug"][content="hide"]')) {
+					console.groupCollapsed(`${PREFIX} Properties`);
+					log(preparationEvent);
+					console.groupEnd();
+				}
+				const originalLoader = preparationEvent.loader;
+				preparationEvent.loader = async () => {
+					console.log(`${PREFIX} before execution of loader()`);
+					await originalLoader();
+					log(preparationEvent, true);
+					console.log(`${PREFIX} after execution of loader()`);
+				};
+				doCapture(preparationEvent);
+			} else {
+				console.log('not a TransitionBeforePreparationEvent');
+			}
+		}
+	}
+
+	/*
+	 * Log swap
+	 */
+	function beforeSwap(swapEvent: Event) {
+		if (enabled()) {
+			if (isTransitionBeforeSwapEvent(swapEvent)) {
+				appendOutputElementToNewDocument(swapEvent.newDocument);
+				if (!document.querySelector('meta[name="vtbot-debug"][content="hide"]')) {
+					console.groupCollapsed(`${PREFIX} Properties`);
+					log(swapEvent);
+					console.groupEnd();
+				}
+				const originalSwap = swapEvent.swap;
+				swapEvent.swap = async () => {
+					console.log(`${PREFIX} before execution of swap()`);
+					originalSwap();
+					// @ts-ignore
+					log(window._vtbot_debug.capture.event, true);
+					console.log(`${PREFIX} after execution of swap()`);
+				};
+				doCapture(swapEvent);
+				swapEvent.viewTransition.updateCallbackDone.then(
+					() => console.log(`${PREFIX} viewTransition.updateCallbackDone resolve`),
+					(error: any) => console.log(`${PREFIX} viewTransition.updateCallbackDone reject`, error)
+				);
+				swapEvent.viewTransition.ready.then(
+					() => console.log(`${PREFIX} viewTransition.ready resolve`),
+					(error: any) => console.log(`${PREFIX} viewTransition.ready reject`, error)
+				);
+				swapEvent.viewTransition.finished.then(
+					() => {
+						console.log(`${PREFIX} viewTransition.finished resolve`);
+						closeLog();
+					},
+					(error: any) => {
+						console.log(`${PREFIX} viewTransition.finished reject`, error);
+						closeLog();
+					}
+				);
+			} else {
+				console.log('not a TransitionBeforeSwapEvent');
+			}
+		}
+	}
+
+	/*
+	 * Register the "late" handlers
+	 */
+	if (enabled()) {
+		// register as late as possible (= in pageshow event) to be the last handler in the chain
+		window.addEventListener('pageshow', () => {
+			console.log(
+				`${PREFIX} Registering event listeners for '${TRANSITION_BEFORE_PREPARATION}', '${TRANSITION_AFTER_PREPARATION}', '${TRANSITION_BEFORE_SWAP}', '${TRANSITION_AFTER_SWAP}' and '${TRANSITION_PAGE_LOAD}'`
+			);
+			document.addEventListener(TRANSITION_BEFORE_PREPARATION, beforePreparation);
+			document.addEventListener(TRANSITION_AFTER_PREPARATION, (e) => {
+				if (enabled()) {
+					// @ts-ignore
+					log(window._vtbot_debug.capture.event, true);
+					console.log(`${PREFIX} Event handler for ${e.type}`);
+				}
+			});
+			document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
+			document.addEventListener(TRANSITION_AFTER_SWAP, (e) => {
+				if (enabled()) {
+					// @ts-ignore
+					const event = window._vtbot_debug.capture.event;
+					log(event, true);
+					console.log(`${PREFIX} Event handler for ${e.type}`);
+				}
+			});
+			document.addEventListener(TRANSITION_PAGE_LOAD, (e) => {
+				if (enabled()) {
+					// @ts-ignore
+					log(window._vtbot_debug.capture.event, true);
+					closeLog();
+					console.log(`${PREFIX} Event handler for ${e.type}`);
+				}
+			});
+		});
+	}
+</script>
+
+<style is:global>
+	#debugOutput {
+		position: fixed;
+		right: 3vw;
+		top: 3vh;
+		max-width: 70vw;
+		background-color: #eeff;
+		padding: 1rem;
+		font-size: 0.5rem;
+		z-index: 1;
+	}
+</style>

@@ -7,7 +7,7 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<Layout title={title} color="black">
+<Layout title={title} background="black">
 	<slot />
 </Layout>
 
@@ -69,3 +69,23 @@ const { title } = Astro.props;
 		}
 	}
 </style>
+<script>
+	import { TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
+
+	document.addEventListener(TRANSITION_BEFORE_SWAP, (event: Event) => {
+		if (
+			isTransitionBeforeSwapEvent(event) &&
+			(event.from.pathname === '/no-reset/two/' ||
+				event.from.pathname === '/no-reset/three/' ||
+				event.from.pathname === '/no-reset/four/')
+		) {
+			event.swap = () => {
+				event.newDocument.querySelectorAll('[data-swap]').forEach((element: Element) => {
+					const name = element instanceof HTMLElement && element.dataset.swap;
+					document.querySelector(`[data-swap="${name}"]`)?.replaceWith(element);
+				});
+				document.querySelector("[class*='astro-route-announcer']")?.remove();
+			};
+		}
+	});
+</script>

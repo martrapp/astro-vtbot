@@ -65,7 +65,7 @@ export default defineConfig({
 
 	/* Run your local dev server before starting the tests */
 	webServer: {
-		command: 'cd ./tests/fixture && npm run dev',
+		command: 'cd ./tests/fixture && astro dev --silent',
 		url: 'http://localhost:4321',
 		reuseExistingServer: !process.env.CI,
 		stdout: 'pipe',

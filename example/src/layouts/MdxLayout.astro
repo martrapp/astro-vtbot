@@ -10,65 +10,84 @@ const { frontmatter, title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, minimum-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{frontmatter?.title ?? title + ' | vt-bot'}</title>
+		<title>{frontmatter?.title ?? title + ' | vtbot'}</title>
 		<slot name="head" />
 	</head>
 	<body>
-		<slot />
+		<main>
+			<slot />
+		</main>
 		<style is:global>
+			html::view-transition-group(*) {
+				animation-duration: 0.66s;
+			}
+			:root {
+				background: linear-gradient(300deg, #ffffff, #e8f0f8);
+				--vtbot-background-color: whitesmoke;
+				background-color: var(--vtbot-background-color);
+				--vtbot-color: darkslategray;
+				--vtbot-accent: darkblue;
+				color: var(--vtbot-color);
+				--vtbot-table-background-color: #ececec;
+			}
+			a {
+				color: var(--vtbot-color);
+			}
+			main {
+				padding: 1ex 3ex;
+			}
+			@media (prefers-color-scheme: dark) {
+				:root {
+					background: linear-gradient(300deg, #000, #012);
+					--vtbot-background-color: #012;
+					--vtbot-color: #def;
+					--vtbot-accent: #adf;
+					--vtbot-table-background-color: rgb(37, 41, 45);
+				}
+
+				.shiki,
+				.shiki span {
+					color: var(--shiki-dark) !important;
+					background-color: var(--shiki-dark-bg) !important;
+					/* Optional, if you also want font styles */
+					font-style: var(--shiki-dark-font-style) !important;
+					font-weight: var(--shiki-dark-font-weight) !important;
+					text-decoration: var(--shiki-dark-text-decoration) !important;
+				}
+			}
+
+			:root {
+				font-family: sans-serif;
+			}
+			code {
+				font-size: 1rem;
+				color: var(--vtbot-accent)
+			}
 			#contents + ul {
 				font-family: sans-serif;
-				background-color: #ddd;
+				background-color: var(--vtbot-table-background-color);
 				padding: 1rem;
 				border-radius: 10px;
 				border: 1px dashed #ccc;
 				box-shadow: 2px 2px 2px #5659;
 			}
-			aside {
-				z-index: 100;
-				font-family: sans-serif;
-				position: fixed;
-				right: 0;
-				bottom: 0;
-				max-width: 50vw;
-				background-color: #eee;
-				padding: 1rem;
-				overflow-y: auto;
-				border-radius: 20px 0 0 0;
-				border: 1px dashed #ddd;
-				box-shadow: -1px -1px #5659;
-			}
-			aside p {
-				font-weight: bold;
-				margin: 0 0 0.25em 0;
-			}
 			#contents + ul,
-			#contents + ul ul,
-			aside ul {
+			#contents + ul ul {
 				margin: 0 0;
-				padding: 0;
-			}
-			#contents + ul,
-			aside ul {
 				padding: 1em;
 			}
-			#contents + ul li,
-			aside li {
+			#contents + ul,
+			#contents + ul li {
 				list-style: none;
-				padding: 0.2em 1em;
 			}
-			#contents + ul li::before,
-			aside li::before {
+
+			#contents + ul a {
+				text-decoration: none;
+			}
+			#contents + ul li::before {
 				content: '↪︎ ';
 			}
-			#contents + ul li a,
-			aside li a {
-				text-decoration: none;
-				color: #333;
-			}
-			aside li.active {
-				background-color: lightgreen;
-			}
+
 			img {
 				margin: auto;
 				display: block;
@@ -82,7 +101,7 @@ const { frontmatter, title } = Astro.props;
 				tab-size: 2;
 			}
 			td {
-				background-color: #ececec;
+				background-color: var(--vtbot-table-background-color);
 				font-family: sans-serif;
 				font-size: 0.8rem;
 				padding: 0.5rem;
@@ -92,13 +111,12 @@ const { frontmatter, title } = Astro.props;
 				margin-top: 3rem;
 			}
 			body {
-				max-width: 640px;
+				max-width: 800px;
 				padding: 3ex;
 				margin: 0 auto;
-				background-color: whitesmoke;
 			}
 			p {
-				text-align: justify;
+				hyphens: auto;
 			}
 		</style>
 	</body>

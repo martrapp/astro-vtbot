@@ -16,27 +16,32 @@ const vtbotBackgroundImage = `url(${optimizedBackground.src})`;
 		<ViewTransitions />
 	</head>
 	<body>
-		<a href="?capture" transition:name="Ken Guru" data-astro-history="replace">🦘</a>
+		<a href="" transition:name="Ken Guru">🦘</a>
 		<div>
 			<p>The interesting points in this demo are:</p>
-			<ul>
+			<ol>
 				<li style="display: block">
-					Astro won't show view transitions when navigating to the same page (same origin, same
-					pathname, same search parameters). It would just update the history and scroll to the
-					target position on the page. Only the <code>astro:page-load</code> event is sent. Nothing
-					to hook in. To bring this to live, the navigation goes to "?capture".
+					This demo consists of a single page. While the navigation to the same page does not
+					trigger view transitions if the URL ends with a hash, it does if the URL does not contain
+					a hash fragment.
+					<br /><br />
+					 (Click on the kangaroo to see the transitions in action)
 				</li><li style="display: none">
-					The loader function in the <code>astro:before-preparation</code> event is overwritten with
-					an empty function. Thus we do not load any HTML but just keep what we have.
+					As the page is already loaded, we do not need to load it again. The loader function in the
+
+
+					<code>astro:before-preparation</code> event is overwritten with an empty function. Thus we
+					do not load any HTML but just keep what we have.
 				</li>
 				<li style="display: none">
 					The <code>swap</code> property of the <code>astro:before-swap</code> event is also
 					overridden. In the new function, we just look for the kangaroo and nudge it a bit around.
-					Then <code>event.to</code> is set to "?escaped". That will be our new target location.
-					Changing the target ensures that we again have a navigation to a different location<br
-					/>(<code><tt>?escaped -> ?capture</tt></code>), see discussion above.
+					And it selects the next item to display from this list.
+					<br /><br />
+					 On browsers that support view transitions, the kangaroo will smoothly transition to its
+					new position. On others it will just jump around.
 				</li>
-			</ul>
+			</ol>
 		</div>
 		<Fragment
 			set:html={`<style>:root{--vtbot-background-image: ${vtbotBackgroundImage}}</style>`}
@@ -84,10 +89,9 @@ const vtbotBackgroundImage = `url(${optimizedBackground.src})`;
 						const y = 60 + Math.random() * 20;
 						const s = 0.5 + Math.random() * 1.5;
 						kenGuru.style.transform = `translate(${x}vw,${y}vh) scale(${s})`;
-						document.querySelectorAll('li').forEach((li, idx) => {
-							li.style.display = idx === selected % 3 ? 'block' : 'none';
+						document.querySelectorAll('li').forEach((li, idx, arr) => {
+							li.style.display = idx === selected % arr.length ? 'block' : 'none';
 						});
-						event.to = new URL('?escaped', location.href);
 						document.querySelector("[class*='astro-route-announcer']")?.remove();
 					};
 				}

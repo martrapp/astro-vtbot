@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ReplacementSwap from 'astro-vtbot/components/ReplacementSwap.astro';
+---
+
+<Layout title="Repl4">
+	<ReplacementSwap slot="head" />
+	<header data-vtbot-replace="header" id="header4">Header4</header>
+	<main data-vtbot-replace="main">Main4</main>
+	<footer data-vtbot-replace="footer" id="footer4">Footer4</footer>
+</Layout>

@@ -1,0 +1,183 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+---
+
+<Layout no-view-transitions title="Tech Demos" background="#0a0a2a" nvt>
+	<main>
+		<h1>
+			Welcome to the <span class="text-gradient">Bag of Tricks</span> for Astro's View Transitions
+		</h1>
+
+		<p class="instructions">
+			The bag of tricks provides components that demonstrate Astro's View Transition API. Some of
+			these are technical demos, some are useful tools, and some will evolve into reusable
+			components that you can use in your own project to handle edge cases that go beyond Astro's
+			standard features. The code of the Bag of Tricks is on <a
+				href="https://github.com/martrapp/astro-vt-bot">github: martrapp/astro-vt-bot</a
+			>
+		</p>
+		<ul role="list" class="link-card-grid">
+			<Card
+				href="/docs/Jotter/"
+				title="VT-BoT Jotter"
+				icon="📝"
+				body="Navigation bar demo with notes on view transition events as well as practical tips & tricks."
+				what="astro:after-swap"
+			/>
+			<Card
+				href="/fish-pond/center/"
+				title="The Fish Pond"
+				icon="🐟"
+				body="Follow the swarm: view transition in different directions through a fish pond."
+				what="astro:before-preparation"
+			/>
+			<Card
+				what="astro:before-swap viewTransition.ready"
+				href="/circular/one/"
+				title="Circular Reveal"
+				icon="🔵"
+				body="The circular animation from the  page on View Transitions."
+			/>
+			<Card
+				what="astro:before-preparation"
+				href="/carousel/one/"
+				title="The Carousel"
+				icon="🎠"
+				body="Navigate a ring of pages turning the carousel forward and backwards."
+			/>
+			<Card
+				what="astro:before-preparation\nastor:after-preparation"
+				href="/loading/one/"
+				title="Loading..."
+				icon="⏳"
+				body="Add a 'loading...' indicator to your page transitions."
+			/>
+
+			<Card
+				what="astro:before-preparation loader()\nastro:before-swap swap()"
+				href="/ken-guru/"
+				title="Ken Guru"
+				icon="🦘"
+				body="Try to catch Ken Guru while he hops around the page!."
+			/>
+			<Card
+				what="astro:before-swap swap()"
+				href="/no-reset/one/"
+				title="No Reset!"
+				icon="🔄"
+				body="Iframes and animations reset on transitions? Fear no more!"
+			/>
+			<Card
+				what="astro:before-preparation loader()"
+				href="/morph/one/"
+				title="Morphing Links"
+				icon="🔗"
+				body="Several links on a page morph to next page's heading."
+			/>
+			<Card
+				what="astro:after-swap"
+				href="/scroll-to-top/one/"
+				title="Scroll to Top"
+				icon="⇱"
+				body="Always scroll to the top of the page on history traversals."
+			/>
+			<Card
+				what="astro:after-preparation\nastro:after-swap"
+				href="/no-scroll/one/"
+				title="Do not Scroll"
+				icon="📜"
+				body="For pages with the same structure: Stay on the same scroll position when navigating between them."
+			/>
+			<Card
+				what="astro:before-preparation loader()"
+				href="/hero-prefetch/overview/"
+				title="Image prefetch"
+				icon="🖼️"
+				body="Prefetch the hero image of the target page to have it ready when the view transition starts."
+			/>
+			<Card
+				what="astro:before-preparation loader()"
+				href="/intra-page/only-page/"
+				title="Intra-page view transitions"
+				icon="↩️"
+				body="Navigation to anchors on the current page won't trigger view transitions, but you can add search parameters to force them."
+			/>
+		</ul>
+	</main>
+</Layout>
+
+<style is:global>
+	:root {
+		--accent: 135, 206, 235;
+		--accent-gradient: linear-gradient(330deg, #000, rgb(135, 206, 235));
+	}
+	html {
+		font-family: sans-serif;
+		background: linear-gradient(330deg, #000, rgb(13, 20, 23));
+	}
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+</style>
+
+<style>
+	a {
+		color: skyblue !important;
+	}
+	main {
+		margin: auto;
+		padding: 1.5rem;
+		max-width: 80vw;
+	}
+	h1 {
+		font-size: 3rem;
+		font-weight: 800;
+		margin: 0;
+		color: white;
+	}
+	.text-gradient {
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
+	}
+	.instructions {
+		line-height: 1.6;
+		margin: 1rem 0;
+		border: 1px solid rgba(var(--accent), 25%);
+		background-color: #333;
+		padding: 1rem;
+		border-radius: 0.4rem;
+		color: lightgray;
+	}
+	.instructions code {
+		font-size: 0.875em;
+		font-weight: bold;
+		background: rgba(var(--accent), 12%);
+		color: rgb(var(--accent));
+		border-radius: 4px;
+		padding: 0.3em 0.45em;
+	}
+	.instructions strong {
+		color: rgb(var(--accent));
+	}
+	.instructions a {
+		color: rgb(var(--accent));
+	}
+	.link-card-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+		gap: 1rem;
+		padding: 0;
+	}
+</style>

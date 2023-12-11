@@ -2,28 +2,24 @@
 import { ViewTransitions } from 'astro:transitions';
 export interface Props {
 	title: string;
-	color: string;
+	background?: string;
+	nvt?: boolean;
 }
 
-const { title, color } = Astro.props;
+const { title, background, nvt } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<ViewTransitions />
+		<slot name="head" />
+		{nvt || <ViewTransitions />}
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, minimum-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{title + ' | vt-bot'}</title>
-		<slot name="head" />
+		<title>{title + ' | vtbot'}</title>
 	</head>
-	<body>
+	<body style={'background: ' + background}>
 		<slot />
-		<style define:vars={{ color }}>
-			body {
-				background-color: var(--color);
-			}
-		</style>
 	</body>
 </html>

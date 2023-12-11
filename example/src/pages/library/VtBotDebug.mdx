@@ -1,0 +1,98 @@
+---
+layout: src/layouts/LibraryMdxLayout.astro
+title: Reusables
+vtn: vtbotdebug-3
+---
+
+<h1 style="display: inline-block; view-transition-name: vtbotdebug-1"><span style="display:inline-block; view-transition-name:vtbotdebug-2">🐛</span> Debug Component</h1>
+
+
+The `<VtBotDebug>` component logs the view transition events and their data. It is useful for debugging and understanding the inner workings of the view transition. By default it will only be active in DEV mode.
+
+
+## Contents
+
+## Example Output
+
+During view transitions, the `<VtBotDebug>` component logs three types of information to the console:
+* Astro's view transition events and their properties 
+* The beginning and end for the executions of `loader()` and `swap()`
+* The viewTransition promises `ready`, `updateCallbackDone` and `finished` as they resolve respectively reject
+
+If a property is altered by an event handler, the output will show the original and the final vaue of that property. 
+
+```shell title="log.txt" {1,18,19,33,36} 
+10:24:34.666Z [vtbot-debug] Event handler for astro:before-preparation
+10:24:34.667Z Properties
+10:24:34.667Z . type: astro:before-preparation
+10:24:34.667Z . cancelable: true
+10:24:34.667Z . defaultPrevented: false
+10:24:34.667Z . from: http://localhost:4321/loading/one/
+10:24:34.667Z . to: http://localhost:4321/loading/two/
+10:24:34.667Z . direction: forward
+10:24:34.667Z . navigationType: push
+10:24:34.667Z . info: undefined
+10:24:34.667Z . newDocument: 0x7EA0
+10:24:34.667Z . formData: undefined
+10:24:34.668Z . loader changed from function () { [native code] } to async () => { console.log('[loadin...
+10:24:34.668Z [vtbot-debug] before execution of loader()
+10:24:34.668Z [loading] Simulating slow load. Waiting 2 seconds
+10:24:36.697Z newDocument changed from 0x7EA0 to 0x2E08
+10:24:36.697Z [vtbot-debug] after execution of loader()
+10:24:36.697Z [vtbot-debug] Event handler for astro:after-preparation
+10:24:36.713Z [vtbot-debug] Event handler for astro:before-swap
+10:24:36.714Z Properties
+10:24:36.714Z . type: astro:before-swap
+10:24:36.714Z . cancelable: false
+10:24:36.714Z . defaultPrevented: false
+10:24:36.714Z . from: http://localhost:4321/loading/one/
+10:24:36.714Z . to: http://localhost:4321/loading/two/
+10:24:36.714Z . direction: forward
+10:24:36.714Z . navigationType: push
+10:24:36.714Z . info: undefined
+10:24:36.714Z . newDocument: 0x2E08
+10:24:36.714Z . swap: function () { [native code] }
+10:24:36.714Z [vtbot-debug] before execution of swap()
+10:24:36.715Z [vtbot-debug] after execution of swap()
+10:24:36.716Z [vtbot-debug] Event handler for astro:after-swap
+10:24:36.718Z [vtbot-debug] viewTransition.updateCallbackDone resolve
+10:24:36.718Z [vtbot-debug] viewTransition.ready resolve
+10:24:36.718Z [vtbot-debug] Event handler for astro:page-load
+10:24:37.237Z [vtbot-debug] viewTransition.finished resolve
+```
+
+
+## Usage
+
+The `<VtBotDebug>` component should be inserted as early as possible in the `<head>` of the page you want to investigate. 
+
+```astro title="MyPage.astro" {3,7}
+---
+import { ViewTransitions } from 'astro:transitions';
+import VtBotDebug from 'astro-vtbot/components/VtBotDebug.astro';
+---
+<html>
+  <head>
+    <VtBotDebug />
+    <ViewTransitions />
+    ...
+  </head>
+  ...
+</html>
+```
+## Attributes
+
+The `<VtBotDebug>` component supports three boolean properties:
+|   Property | Effect |
+|------------|---------|
+| overlay| Redirect the output from the console to an on-screen overlay.|
+| hideProperties | When `overlay` is used, hide the properties of the events to produce shorter logs.|
+| production | Be active in production mode. Helpful when chasing bugs the do onl show up in production.|
+
+Use these attributes on the `<VtBotDebug>` component like this:
+
+```astro title="PageToDebug.astro" {3}
+<html>
+  <head>
+    <VtBotDebug overlay hideProperties />
+```

@@ -1,12 +1,13 @@
 ---
-import { isTransitionBeforeSwapEvent } from 'astro:transitions/client';
 import Layout from 'src/layouts/Layout.astro';
 ---
 
-<Layout title="IntraPage" color="#eef">
-	<h1 transition:animate="slide">Intra Page View Transitions</h1>
+<Layout title="IntraPage" background="#eef">
+	<h1 style="display: inline-block; view-transition-name: heading1">Intra Page View Transitions</h1>
 	<p transition:animate="fade">
-		<a href="/intra-page/only-page/?vt#top">Pure hash change link to same page</a>
+		<a href="/intra-page/only-page/?vt=0#down-under"
+			>Hash change link with parameters to same page</a
+		>
 	</p>
 	<p>
 		Normally, navigation to a hash target on the current page won't trigger view transitions. The
@@ -30,7 +31,11 @@ import Layout from 'src/layouts/Layout.astro';
 				> listener:
 				<ol>
 					<li>remove the search parameter added before from <code>e.to.search</code></li>
-					<li>give the search parameter added above a random value in <code>e.to.search</code>.</li>
+					<li>
+						give the search parameter added above a random value by assigning to <code
+							>e.to.search</code
+						>.
+					</li>
 				</ol>
 			</li>
 		</ul>
@@ -38,22 +43,72 @@ import Layout from 'src/layouts/Layout.astro';
 		up in the browsers address bar. The second alternative has the benefit, that you also get
 		intra-page view transitions when traversing back and forth through the browser history.
 	</p>
+	<p>
+		A third approach would be to link to the same page without any hash fragment as in <a
+			href="/ken-guru/">the kangaroo demo</a
+		> and have some way to find out where to scroll to <a href="/intra-page/only-page/"
+			>like this link</a
+		>. Because the URL does not change, no entries will be added to the browser history. When you
+		press back you will leave the page.
+	</p>
+	<div
+		style="height:75vh; background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)"
+	>
+	</div>
+	<h2 id="down-under" style="display: inline-block; view-transition-name: heading2">
+		An heading further down the page
+	</h2>
 </Layout>
 <script>
+	import { prefetch } from 'astro:prefetch';
 	import {
 		isTransitionBeforePreparationEvent,
 		isTransitionBeforeSwapEvent,
 	} from 'astro:transitions/client';
 
+	const enabled = () => location.pathname === '/intra-page/only-page/';
+	let previousScrollY: number;
+
 	document.addEventListener('astro:before-preparation', (e) => {
-		if (isTransitionBeforePreparationEvent(e)) {
+		if (
+			enabled() &&
+			isTransitionBeforePreparationEvent(e) &&
+			e.to.pathname === '/intra-page/only-page/'
+		) {
 			e.loader = async () => {};
 		}
 	});
 	document.addEventListener('astro:before-swap', (e) => {
-		if (isTransitionBeforeSwapEvent(e)) {
-			e.swap = () => e.newDocument.querySelector('.astro-route-announcer')?.remove();
-			e.to.search = `vt=${Math.random().toString(36).slice(2, 6)}`;
+		previousScrollY = 0;
+		if (enabled() && isTransitionBeforeSwapEvent(e) && e.to.pathname === '/intra-page/only-page/') {
+			e.swap = () => {
+				const style1 = document.querySelector('h1')!.style;
+				const style2 = document.querySelector('h2')!.style;
+				const h = style1.viewTransitionName;
+				style1.viewTransitionName = style2.viewTransitionName;
+				style2.viewTransitionName = h;
+				e.newDocument.querySelector('.astro-route-announcer')?.remove();
+			};
+			if (e.to.search) {
+				e.to.search = `vt=${Math.random().toString(36).slice(2, 6)}`;
+			}
+			previousScrollY = scrollY;
+		}
+	});
+	document.addEventListener('astro:after-swap', (e) => {
+		if (enabled()) {
+			if (previousScrollY > 0) {
+				window.scrollTo({ behavior: 'auto', top: 0 });
+			} else {
+				document
+					.querySelector('#down-under')
+					?.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'nearest' });
+			}
 		}
 	});
 </script>
+<style is:global>
+	::view-transition-group(*) {
+		animation-duration: 2s;
+	}
+</style>

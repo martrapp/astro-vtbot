@@ -1,25 +1,41 @@
 ---
 export interface Props {
+	name?: string;
 	title: string;
-	body: string;
+	body?: string;
 	href: string;
 	icon: string;
+	iconStyle?: string;
 	what: string;
+	reload?: boolean;
 }
 
-const { href, title, body, icon, what } = Astro.props;
+const {
+	name = Math.random().toString(36).substring(2, 8),
+	href,
+	title,
+	body,
+	icon,
+	iconStyle = '',
+	what,
+	reload,
+} = Astro.props;
 ---
 
 <li class="link-card">
-	<a href={href} data-astro-reload>
+	<a href={href}>
 		<tt>{what}</tt>
 		<h2>
-			{title}
+			<span transition:name={name + '-1'} style="display:inline-block">{title}</span>
 			<span>&nbsp;&rarr;</span>
 		</h2>
 		<p>
-			<span style="font-size:3.5rem; float:right; padding:0.2em">{icon}</span>
-			{body}
+			<span
+				transition:name={name + '-2'}
+				style={'display: inline-block; font-size:3.5rem; float:right; padding:0.2em; ' + iconStyle}
+				>{icon}</span
+			>
+			{body}<div transition:name={name + '-3'}><slot /></div>
 		</p>
 	</a>
 </li>
@@ -47,7 +63,7 @@ const { href, title, body, icon, what } = Astro.props;
 		border-radius: 0.35rem;
 		background-color: #222;
 		opacity: 0.8;
-		color: lightblue;
+		color: antiquewhite;
 	}
 	h2 {
 		margin: 0;
@@ -58,6 +74,7 @@ const { href, title, body, icon, what } = Astro.props;
 		font-size: 0.66rem;
 	}
 	p {
+		hyphens: auto;
 		margin-top: 0.5rem;
 		margin-bottom: 0;
 		color: antiquewhite;

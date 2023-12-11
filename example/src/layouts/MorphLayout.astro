@@ -2,12 +2,12 @@
 import Layout from './Layout.astro';
 interface Props {
 	title: string;
-	color: string;
+	background: string;
 }
-const { title, color } = Astro.props;
+const { title, background } = Astro.props;
 ---
 
-<Layout title={title} color={color}>
+<Layout title={title} background={background}>
 	<h1>{title}</h1>
 	<slot />
 </Layout>

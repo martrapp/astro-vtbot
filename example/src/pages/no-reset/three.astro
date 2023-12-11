@@ -1,0 +1,21 @@
+---
+import NoResetLayout from 'src/layouts/NoResetLayout.astro';
+---
+
+<NoResetLayout title="No Reset Page Three">
+	<h1 data-swap="heading">Banner Page Three</h1>
+	<p><a data-swap="link" href="/no-reset/four/">&nbsp;[Goto to Page Four]&nbsp;</a></p>
+	<div class="sky" transition:persist="sky">
+		<iframe src="https://wikipedia.com"></iframe>
+		<div class="sun"></div>
+	</div>
+	<main data-swap="main">
+		<p>
+			Here is how that worked: Iframes and elements with animations reset their state as soon as
+			they change their position in the DOM. The trick now is to leave them alone. You could do this
+			with a version of <code>swap</code> that diffs the elements of old and new DOM and aranges new
+			stuff carefully around the raw eggs without touching them.
+		</p>
+	</main>
+</NoResetLayout>
+

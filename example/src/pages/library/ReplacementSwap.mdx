@@ -1,0 +1,50 @@
+---
+layout: src/layouts/LibraryMdxLayout.astro
+title: Replacement Swap
+vtn: replswap-3
+---
+
+<h1 style="display: inline-block; view-transition-name: replswap-1"><span style="display:inline-block; view-transition-name:replswap-2; color: orange">↹</span> Replacement Swap</h1>
+
+
+The `<ReplacementSwap>` component only replaces elements that are explicitly marked for replacement.
+
+## Contents
+
+
+## Usage 
+
+
+Inlcude the  `<ReplacementSwap />` component right behind the `<ViewTransitions />` tag in your page heads and annotated the elements that should be replaced.
+
+The idea is that your pages have a common layout with e.g. header, footer, sidebar and so on and a main area for the content of the page. Label the main area with `data-vtbot-replace="some-identifier"` to instruct `<ReplacementSwap>` to replace this part of the old page with a part of the new page that also has the `data-vtbot-replace` attribute with the same identifier. The parts that lie outside the annotated elements remain untouched. The best way to implement this is in a shared layout component.
+
+
+
+
+```astro title="Layout.astro" {3, 8, 13}
+---
+import ViewTransitions from 'astro:transitions';
+import ReplacementSwap from 'astro-vtbot/components/ReplacementSwap.astro';
+---
+<html>
+  <head>
+    <ViewTransitions />
+		<ReplacementSwap />
+		...
+	</head>
+	<body>
+		<header>...</header>
+		<main data-vtbot-replace="main"><slot /></main>
+		<footer>...</footer>
+	</body>
+</html>
+```
+
+## Multiple Replacements
+The elements with the same identifier do not have to be the same type of HTML element. Furthermore, the use of the `data-vtbot-replace` attribute is not limited to the main area of your page. You can define several areas of your page to be replaced by content from the next page. Use different names for the `data-vtbot-replace` attribute to control which old parts are to be replaced by which new content. The names you choose must be unique on each page.
+
+Setting `transition:persist` has no effect for `<ReplacementSwap>`.
+
+If the old page and the new page have no common identifiers, `<ReplacementSwap>` falls back to the normal swap behavior of astro view transitions. 
+

@@ -1,0 +1,41 @@
+---
+
+---
+
+<meta name="vtbot-replace-swap" content="true" />
+<script>
+	import { TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
+	import { customSwap } from './swap-utils';
+
+	document.addEventListener(TRANSITION_BEFORE_SWAP, (event) => {
+		if (isTransitionBeforeSwapEvent(event)) {
+			const originalSwap = event.swap;
+			event.swap = () => {
+				const replacements = (document: Document) => {
+					const elements = document.body.querySelectorAll('[data-vtbot-replace]');
+					const names = [...elements].map(
+						(el) => el instanceof HTMLElement && el.dataset.vtbotReplace
+					);
+					return { elements: [...elements], names: new Set(names) };
+				};
+				const { elements: oldEls, names: oldNames } = replacements(document);
+				const { elements: newEls, names: newNames } = replacements(event.newDocument);
+				const intersection = [...oldNames].filter((name) => newNames.has(name));
+				if (intersection.length === 0) {
+					originalSwap();
+					return;
+				}
+				customSwap(event.newDocument, () =>
+					intersection.forEach((name) => {
+						const oldEl = oldEls.find((el) => (el as HTMLElement).dataset.vtbotReplace === name);
+						const newEl = newEls.find((el) => (el as HTMLElement).dataset.vtbotReplace === name);
+						if (oldEl && newEl) {
+							oldEl.replaceWith(newEl);
+						}
+						document.querySelector("[class*='astro-route-announcer']")?.remove();
+					})
+				);
+			};
+		}
+	});
+</script>

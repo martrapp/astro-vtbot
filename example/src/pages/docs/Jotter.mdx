@@ -5,13 +5,37 @@ title: Jotter
 
 # The Jotter
 
-This page is the entry point notes I took about things I learned while working with view transitions.
+This page is the entry point to notes I took about things I learned while working with view transitions.
+
+This page leads to more detailled pages on events and tipps & tricks. It also serves as a demo page for page navigation with view transitions.
 
 ## Contents
 
+## Events
+
+There are five events that are fired during a navigation when using view transitions. Two of these events can be used to influence the processing of view transitions, and three other events can be used to react to the end of the three processing phases.
+
+```
+'astro:before-preparation' // customize the preparation phase
+'astro:after-preparation' // notification of the end of the preparation phase
+'astro:before-swap' // customize the swap phase
+'astro:after-swap' // notification of the end of the swap phase
+'astro:page-load' // notification of the end of the completion phase
+```
+
+[Goto the Events page](/docs/Events/)
+
+## A Practitioner's Guide to View Transitions
+
+How to decide which event to use for a given situation? Let's look at typical use cases to find out.
+
+[Goto the Practitioner's Guide](/docs/Practical/)
+
 ## Page Navigation
 
-This page is also a view transition demo: in the lower right corner, there is a navigaton bar that leads you to the other pages. This navigation bar is a peristed element that is shared between all pages using `transition:persist='name'`. The current page is highlighted in the navigation bar and a listener for the `astro:after-swap` event givs the current entry the `active` CSS class for styling.
+This page is also a view transition demo: in the lower right corner, there is a navigaton bar that leads you to the other pages of the jotter. This navigation bar is a peristed element that is shared between all pages of this jotter using `transition:persist='name'`. 
+
+After each navigation within the jotter, the current page is highlighted in the navigation bar by assigning the CSS class `active` for styling to the current entry via a listener for the `astro:after-swap` event.
 
 ```astro
 <aside transition:persist="aside">
@@ -31,22 +55,3 @@ This page is also a view transition demo: in the lower right corner, there is a 
 </script>
 ```
 
-## Events
-
-Two events can be used to influence the processing of view transitions, and three other events can be used to react to the end of the three processing phases.
-
-```
-'astro:before-preparation' // customize the preparation phase
-'astro:after-preparation' // notification of the end of the preparation phase
-'astro:before-swap' // customize the swap phase
-'astro:after-swap' // notification of the end of the swap phase
-'astro:page-load' // notification of the end of the completion phase
-```
-
-[Goto the Events page](/docs/Events/)
-
-## A Practitioner's Guide to View Transitions
-
-How to decide which event to use for a given situation? Let's look at typical use cases to find out.
-
-[Goto the Practitioner's Guide](/docs/Practical/)

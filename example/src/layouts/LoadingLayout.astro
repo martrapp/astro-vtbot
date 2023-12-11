@@ -1,15 +1,15 @@
 ---
-import { VtBotDebug } from '~';
+import VtBotDebug from '~/components/VtBotDebug.astro';
 import Layout from './Layout.astro';
 interface Props {
 	title: string;
-	color: string;
+	background: string;
 }
-const { title, color } = Astro.props;
+const { title, background } = Astro.props;
 ---
 
-<Layout title={title} {color}>
-	<VtBotDebug slot="head" />
+<Layout title={title} {background}>
+	<VtBotDebug overlay slot="head" />
 	<main transition:animate="fade">
 		<h1>{title}</h1>
 		<h2 id="loading">⏳ Loading...</h2>
