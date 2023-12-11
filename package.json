@@ -8,7 +8,8 @@
   "repository": "github:martrapp/astro-vt-bot",
   "type": "module",
   "files": [
-    "components"
+    "components",
+    "CHANGELOG.md"
   ],
   "keywords": [
     "astro-component",
@@ -42,5 +43,9 @@
     "prettier-plugin-astro": "^0.12.2",
     "remark-toc": "^9.0.0",
     "typescript": "^5.3.3"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/martrapp"
   }
 }
