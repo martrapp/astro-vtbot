@@ -22,7 +22,7 @@ The idea is that your pages have a common layout with e.g. header, footer, sideb
 
 
 
-```astro title="Layout.astro" {3, 8, 13}
+```astro title="Layout.astro" {3, 8, 15}
 ---
 import ViewTransitions from 'astro:transitions';
 import ReplacementSwap from 'astro-vtbot/components/ReplacementSwap.astro';
@@ -34,9 +34,15 @@ import ReplacementSwap from 'astro-vtbot/components/ReplacementSwap.astro';
 		...
 	</head>
 	<body>
-		<header>...</header>
+		<!-- this is a save place for an iframe that should not reload on transitions -->
+    <header>
+      <!-- this is a save place for an iframe that should not reload on transitions -->
+		</header>
 		<main data-vtbot-replace="main"><slot /></main>
-		<footer>...</footer>
+		<footer>
+      <!-- this is a save place for an iframe that should not reload on transitions -->
+    </footer>
+    <!-- this is a save place for an iframe that should not reload on transitions -->
 	</body>
 </html>
 ```
