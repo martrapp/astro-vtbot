@@ -2,7 +2,7 @@ No, its not a roBOT, its a <b>B</b>ag <b>o</b>f <b>T</b>ricks!
 
 # !! astro-vtbot 1.0.0 now published on npm !!
 
-A current deployment of this code can be found at https://events-3bg.pages.dev/
+A current deployment of docs & examples be found at https://events-3bg.pages.dev/
 
 # Astro Bag of Tricks for View Transitions
 
