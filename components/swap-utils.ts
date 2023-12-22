@@ -47,7 +47,10 @@ export const swapInHeadElements = (doc: Document) => {
  */
 export const saveFocus = (): SavedFocus => {
 	const activeElement = document.activeElement as HTMLElement;
-	if (activeElement instanceof HTMLInputElement || activeElement instanceof HTMLTextAreaElement) {
+	if (
+		(activeElement instanceof HTMLInputElement || activeElement instanceof HTMLTextAreaElement) &&
+		activeElement.ownerDocument.location.origin === document.location.origin
+	) {
 		const start = activeElement.selectionStart;
 		const end = activeElement.selectionEnd;
 		return { activeElement, start, end };

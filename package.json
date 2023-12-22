@@ -47,5 +47,9 @@
   "funding": {
     "type": "github",
     "url": "https://github.com/sponsors/martrapp"
+  },
+  "dependencies": {
+    "@types/dom-view-transitions": "^1.0.4",
+    "table-string": "^1.2.1"
   }
 }

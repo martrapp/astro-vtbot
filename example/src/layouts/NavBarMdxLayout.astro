@@ -21,7 +21,7 @@ const { frontmatter } = Astro.props;
 				<a href="/docs/Practical/">Practitioner's Guide</a>
 			</li>
 			<li>
-				<a href="/demos/">Back to Demos</a>
+				<a href="/demos/" data-astro-reload>Back to Demos</a>
 			</li>
 		</ul>
 	</aside>
@@ -70,7 +70,9 @@ const { frontmatter } = Astro.props;
 	aside li a {
 		text-decoration: none;
 	}
-	aside li.active {
-		background-color: #6a6;
+	aside li.active,
+	aside li.active a {
+		background-color: var(--vtbot-accent);
+		color: var(--vtbot-table-background-color);
 	}
 </style>

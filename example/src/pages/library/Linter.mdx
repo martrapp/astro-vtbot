@@ -4,11 +4,72 @@ title: Linter
 vtn: linter-3
 ---
 
+import { Picture } from 'astro:assets';
+import Linter_dark from "src/assets/linter.dark.png";
+import Linter_light from "src/assets/linter.light.png";
+
 <h1 style="display: inline-block; view-transition-name: linter-1"><span style="display:inline-block; view-transition-name:linter-2;">🧹</span> The Linter</h1>
 
 
-The `<Linter>` component helps you to avoid incorrect configurations of view transitions. It warns you if the names of the view transitions on a page are not unique or if you have defined nested persistent elements. 
+The `<Linter>` component helps you to avoid common issues when using view transitions. 
 
 ## Contents
 
-Not much to see yet.
+## Why should I use this component?
+
+View transitions can fail or show strange effects if you set transition attributes the wrong way. These situations are often not easy to debug. The `<Linter>` component helps you to ensure the following rules when using view transitions.
+
+* View transition names must be unique on a page
+* Identifiers used with `transition:persist={identifier}` must be unique on a page
+* Elements that define `transition:persist` must not be nested
+* Elements that define `transition:persist` _should_ specify an identifier
+* Elements that define `data-vtbot-replace` _must_ specify an identifier
+* Identifiers used with `data-vtbot-replace={identifier}` must be unique on a page
+* Elements that define `data-vtbot-replace` must not be nested
+
+### Example output
+
+The `<Linter/>` component writes its results to the browser console while you navigate your pages.
+
+<Picture class="dark" src={Linter_dark} formats={['avif', 'webp']} alt="Example Linter output" />
+<Picture class="light" src={Linter_light} formats={['avif', 'webp']} alt="Example Linter output" />
+
+### Unique view transition names
+Unique view transitions names are a requirement of the view transition API. Chrome will display an error message in the console - even without the linter - if this rule is violated. But at least as of version 120, Chrome only reports violations for the page you are navigating away from, not the one you are navigating to. The `<Linter>` component always reports both sides of a navigation.
+
+### Where do view transition names come from?
+When looking for view transition names, the linter considers these sources: 
+* Astro's `transition:name` directive with or without an explicite identifier
+* The implicite definition of a `view-transition-name` via Astro's `transition:animate` directive
+* CSS rules that define `view-transition-name: identifier` in style attributes of HTML elements or style sheets inlined or linked on the page
+
+### Nested elements
+Nested elements that define `transition:persist` or `data-vtbot-replace` can lead to strange results and non-deterministic behavior. It is best to avoid them.
+
+### Identifiers for `transition:persist`
+In Astro, `transition:persist` can be used without an explicit identifier. Then the name of the view transition element is used, which is fine if it was set by `transition:name=...`. If neither `transition:name` nor an identifier for `transition:persist` is specified, Astro implicitly uses the identifier of the transition area, which looks like this: `astro-ya3eq23s-4`. Often this matches the desired element on the target page, but it is also quite fragile. It is best practice to use explicit names. So if you use `transition:persist` with an implicit, generated identifier, the `<Linter>` component will issue a warning.
+
+
+
+
+## Usage
+Insert the `<Linter/>` component together with the `<ViewTransitions/>` component into the `<head>` of your page.
+
+```astro title="Layout.astro" {3, 8}
+---
+import ViewTransitions from 'astro:transitions';
+import Linter from 'astro-vtbot/components/Linter.astro';
+---
+<html>
+  <head>
+    <ViewTransitions />
+		<Linter />
+		...
+	</head>
+	<body>
+    ...
+	</body>
+</html>
+```
+
+

@@ -1,0 +1,14 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Linter from 'astro-vtbot/components/Linter.astro';
+---
+
+<Layout title="Linter4">
+	<Linter slot="head" />
+	<main >
+	<h1 data-vtbot-replace>Linter 4</h1>
+	<p transition:persist>Some content</p>
+	<a href="/linter/three/">To page 3</a>
+	<p>Test</p>
+	</main>
+</Layout>

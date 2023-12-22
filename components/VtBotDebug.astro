@@ -1,16 +1,16 @@
 ---
 interface Props {
 	overlay?: boolean;
-	hideProperties?: boolean;
+	showProperties?: boolean;
 	production?: boolean;
 }
-const { overlay = false, hideProperties = false, production = false } = Astro.props;
+const { overlay = false, showProperties = false, production = false } = Astro.props;
 ---
 
 {
 	// set marker to convey props from server to client
 	(import.meta.env.DEV || production) && (
-		<meta name="vtbot-debug" content={overlay ? (hideProperties ? 'hide' : 'show') : 'console'} />
+		<meta name="vtbot-debug" content={overlay ? (showProperties ? 'show' : 'hide') : 'console'} />
 	)
 }
 <script is:inline>
@@ -37,7 +37,7 @@ const { overlay = false, hideProperties = false, production = false } = Astro.pr
 					new Date().toISOString().substring(11) + indent
 				);
 				let bold = false;
-				text.split('***').forEach((s) => {
+				text.split('**').forEach((s) => {
 					const text = document.createTextNode(s);
 					let node = text;
 					if (bold) {
@@ -161,6 +161,7 @@ const { overlay = false, hideProperties = false, production = false } = Astro.pr
 		TRANSITION_AFTER_SWAP,
 		TRANSITION_PAGE_LOAD,
 	} from 'astro:transitions/client';
+	import { captureViewTransitionNamesOfCurrentDocument, deriveCSSSelector, elementsWithStyleProperty } from './css';
 
 	const enabled = () => !!document.querySelector('meta[name="vtbot-debug"]');
 	const PREFIX = '[vtbot-debug]';
@@ -191,55 +192,85 @@ const { overlay = false, hideProperties = false, production = false } = Astro.pr
 		}
 	}
 
+	const show = () => !document.querySelector('meta[name="vtbot-debug"][content="hide"]');
+
 	/*
-	 * address surrogate
+	 * address/content surrogate
 	 */
+	let addressCounter = 0;
+	let stringCounter = 0;
 	const mem = new WeakMap();
-	const addr = (obj: any) => {
-		if (!mem.has(obj)) {
-			mem.set(obj, `0x${(Math.floor(Math.random() * 16384) * 4).toString(16).toUpperCase()}`);
+	const internal = new Map<string, string>();
+	const doc = (obj: Document) => {
+		const a = mem.get(obj) ?? `${++addressCounter}`;
+		const html = obj.documentElement.outerHTML;
+		const v = internal.get(html) ?? `${++stringCounter}`;
+		mem.set(obj, a);
+		internal.set(html, v);
+		return `a${a}: v${v} (${(html.length/1024).toFixed(2)} kB)`;
+	};
+
+	const logWithStyle = (s: string) => {
+		// @ts-ignore
+		const _vtbot_debug = window._vtbot_debug;
+		const overlay = _vtbot_debug?.savedFunctions?.log;
+		if (overlay) {
+			console.log(s);
+		} else {
+			const css: string[] = [];
+			s = s.replaceAll('**', '%c');
+			const count = (s.match(/%c/g) || []).length / 2;
+			for (let i = 0; i < count; i++) {
+				css.push('display: inline-block; border: dotted 1pt gray; padding: 0 4pt;font-weight: 800');
+				css.push('font-weight: normal');
+			}
+			console.log(s, ...css);
 		}
-		return mem.get(obj);
 	};
 
 	/*
 	 * log a property of the event
 	 */
-	function delta(e: Event, prop: string, deltaOnly = false) {
+	async function delta(e: Record<string, any>, prop: string, deltaOnly = false) {
 		// @ts-ignore
 		const _vtbot_debug = window._vtbot_debug;
 		const overlay = _vtbot_debug?.savedFunctions?.log;
-		const bold = (s: string) => (overlay ? `***${s}***` : s);
+		const bold = (s: string) => `**${s}**`;
 		let deref = (x: any) => x;
 		let print = (x: any) => x;
+		let value = (x: any) => x;
 
 		if (prop === 'to' || prop === 'from') {
 			deref = (x) => x?.href;
 			print = deref;
 		} else if (prop === 'newDocument') {
-			print = addr;
+			print = doc;
+			value = doc;
 		} else if (prop === 'swap' || prop === 'loader') {
 			print = (x) => {
-				const s = x.toString();
-				return s.length < 40 ? s : s.substring(0, 37) + '...';
+				const s = x ? x.toString() : '(null)';
+				const max = 100;
+				return s.length < max ? s : s.substring(0, max-4) + ' ...';
 			};
 		}
 
-		if (deref(_vtbot_debug.capture[prop]) !== deref(e[prop])) {
-			console.log(
+		let different = () => value(deref(_vtbot_debug.capture[prop])) !== value(deref(e[prop]));
+
+		if (different()) {
+			logWithStyle(
 				`${deltaOnly ? PREFIX + ' ' : ''}${prop} changed from ${bold(
 					print(_vtbot_debug.capture[prop])
 				)} to ${bold(print(e[prop]))}`
 			);
 		} else if (!deltaOnly) {
-			console.log(`${prop}: ${bold(print(e[prop]))}`);
+			logWithStyle(`${prop}: ${bold(print(e[prop]))}`);
 		}
 	}
 
 	/*
 	 * Capture the event properties
 	 */
-	const doCapture = (e) => {
+	const doCapture = (e: Event) => {
 		// @ts-ignore
 		window._vtbot_debug.capture = {
 			...e,
@@ -253,7 +284,10 @@ const { overlay = false, hideProperties = false, production = false } = Astro.pr
 	/*
 	 * log the properties of the event
 	 */
-	function log(e: TransitionBeforePreparationEvent | TransitionBeforeSwapEvent, deltaOnly = false) {
+	function logProperties(
+		e: TransitionBeforePreparationEvent | TransitionBeforeSwapEvent,
+		deltaOnly = false
+	) {
 		delta(e, 'type', deltaOnly);
 		delta(e, 'cancelable', deltaOnly);
 		delta(e, 'defaultPrevented', deltaOnly);
@@ -294,16 +328,16 @@ const { overlay = false, hideProperties = false, production = false } = Astro.pr
 	function beforePreparation(preparationEvent: Event) {
 		if (enabled()) {
 			if (isTransitionBeforePreparationEvent(preparationEvent)) {
-				if (!document.querySelector('meta[name="vtbot-debug"][content="hide"]')) {
-					console.groupCollapsed(`${PREFIX} Properties`);
-					log(preparationEvent);
+				if (show()) {
+					console.groupCollapsed(`${PREFIX} Properties of the ${preparationEvent.type} event`);
+					logProperties(preparationEvent);
 					console.groupEnd();
 				}
 				const originalLoader = preparationEvent.loader;
 				preparationEvent.loader = async () => {
 					console.log(`${PREFIX} before execution of loader()`);
 					await originalLoader();
-					log(preparationEvent, true);
+					show() && logProperties(preparationEvent, true);
 					console.log(`${PREFIX} after execution of loader()`);
 				};
 				doCapture(preparationEvent);
@@ -313,6 +347,51 @@ const { overlay = false, hideProperties = false, production = false } = Astro.pr
 		}
 	}
 
+	const logTransitions = (
+		originalMap: Map<string, Set<Element>> | undefined,
+	swapEvent: TransitionBeforeSwapEvent) => {
+		if (originalMap === undefined) return;
+
+		const errors: string[] = [];
+		const transitions: string[] = [];
+
+		// @ts-ignore
+		const overlay = _vtbot_debug?.savedFunctions?.log;
+		const bold = (s: string) => `**${s}**`;
+		const newMap = elementsWithStyleProperty('view-transition-name');
+		newMap.set('root', (newMap.get('root') ?? new Set()).add(document.documentElement));
+		let i = 0;
+
+		new Set([...originalMap.keys(), ...newMap.keys()]).forEach((name) => {
+			const oldSet = originalMap.get(name);
+			if ((oldSet?.size ?? 0) > 1) {
+				errors.push(
+					`${bold('ERROR')} view-transition-name ${bold(name)} is not unique in old document\n`
+				);
+			}
+			const newSet = newMap.get(name);
+			if ((newSet?.size ?? 0) > 1) {
+				errors.push(
+					`${bold('ERROR')} view-transition-name ${bold(name)} is not unique in new document\n`
+				);
+			}
+			const oldElement = oldSet ? [...oldSet][0] : undefined;
+			const newElement = newSet ? [...newSet][0] : undefined;
+			show() &&
+				transitions.push(
+					`[ transition] ${++i} "${bold(name)}" from ${bold(
+						oldElement ? deriveCSSSelector(oldElement) : '(nowhere)'
+					)} --to-> ${bold(newElement ? deriveCSSSelector(newElement) : '(nowhere)')}`
+				);
+		});
+		errors.forEach((s) => logWithStyle(s));
+		if (show()) {
+			console.groupCollapsed(`${PREFIX} Transitions from ${swapEvent.from.pathname} to ${swapEvent.to.pathname}`);
+			transitions.forEach((s) => logWithStyle(s));
+			console.groupEnd();
+		}
+	};
+
 	/*
 	 * Log swap
 	 */
@@ -320,35 +399,38 @@ const { overlay = false, hideProperties = false, production = false } = Astro.pr
 		if (enabled()) {
 			if (isTransitionBeforeSwapEvent(swapEvent)) {
 				appendOutputElementToNewDocument(swapEvent.newDocument);
-				if (!document.querySelector('meta[name="vtbot-debug"][content="hide"]')) {
-					console.groupCollapsed(`${PREFIX} Properties`);
-					log(swapEvent);
+				if (show()) {
+					console.groupCollapsed(`${PREFIX} Properties of the ${swapEvent.type} event`);
+					show() && logProperties(swapEvent);
 					console.groupEnd();
 				}
+				const originalMap = captureViewTransitionNamesOfCurrentDocument();
 				const originalSwap = swapEvent.swap;
 				swapEvent.swap = async () => {
 					console.log(`${PREFIX} before execution of swap()`);
 					originalSwap();
 					// @ts-ignore
-					log(window._vtbot_debug.capture.event, true);
+					show() && logProperties(window._vtbot_debug.capture.event, true);
 					console.log(`${PREFIX} after execution of swap()`);
+					logTransitions(originalMap, swapEvent);
 				};
 				doCapture(swapEvent);
 				swapEvent.viewTransition.updateCallbackDone.then(
-					() => console.log(`${PREFIX} viewTransition.updateCallbackDone resolve`),
-					(error: any) => console.log(`${PREFIX} viewTransition.updateCallbackDone reject`, error)
+					() => console.log(`${PREFIX} resolve viewTransition.updateCallbackDone`),
+					(error: any) =>
+						console.log(`${PREFIX} reject viewTransition.updateCallbackDone with`, error)
 				);
 				swapEvent.viewTransition.ready.then(
-					() => console.log(`${PREFIX} viewTransition.ready resolve`),
-					(error: any) => console.log(`${PREFIX} viewTransition.ready reject`, error)
+					() => console.log(`${PREFIX} resolve viewTransition.ready`),
+					(error: any) => console.log(`${PREFIX} reject viewTransition.ready with`, error)
 				);
 				swapEvent.viewTransition.finished.then(
 					() => {
-						console.log(`${PREFIX} viewTransition.finished resolve`);
+						console.log(`${PREFIX} resolve viewTransition.finished`);
 						closeLog();
 					},
 					(error: any) => {
-						console.log(`${PREFIX} viewTransition.finished reject`, error);
+						console.log(`${PREFIX} reject viewTransition.finished with`, error);
 						closeLog();
 					}
 				);
@@ -371,7 +453,7 @@ const { overlay = false, hideProperties = false, production = false } = Astro.pr
 			document.addEventListener(TRANSITION_AFTER_PREPARATION, (e) => {
 				if (enabled()) {
 					// @ts-ignore
-					log(window._vtbot_debug.capture.event, true);
+					show() && logProperties(window._vtbot_debug.capture.event, true);
 					console.log(`${PREFIX} Event handler for ${e.type}`);
 				}
 			});
@@ -380,14 +462,14 @@ const { overlay = false, hideProperties = false, production = false } = Astro.pr
 				if (enabled()) {
 					// @ts-ignore
 					const event = window._vtbot_debug.capture.event;
-					log(event, true);
+					show() && logProperties(event, true);
 					console.log(`${PREFIX} Event handler for ${e.type}`);
 				}
 			});
 			document.addEventListener(TRANSITION_PAGE_LOAD, (e) => {
 				if (enabled()) {
 					// @ts-ignore
-					log(window._vtbot_debug.capture.event, true);
+					show() && logProperties(window._vtbot_debug.capture.event, true);
 					closeLog();
 					console.log(`${PREFIX} Event handler for ${e.type}`);
 				}
@@ -403,8 +485,14 @@ const { overlay = false, hideProperties = false, production = false } = Astro.pr
 		top: 3vh;
 		max-width: 70vw;
 		background-color: #eeff;
+		color: black;
 		padding: 1rem;
-		font-size: 0.5rem;
+		font-size: min(0.8rem, 2vw);
 		z-index: 1;
+		max-width: 60vw;
+	}
+	#debugOutput b {
+		border: 1pt dotted gray;
+		padding: 0 2pt;
 	}
 </style>

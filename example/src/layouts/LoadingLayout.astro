@@ -79,8 +79,7 @@ document.addEventListener('astro:after-preparation', () => {
 		background-color: mintcream;
 	}
 
-	html::view-transition-old(*),
-	html::view-transition-new(*) {
-		animation-duration: 0.5s;
+	html:view-transition(root) {
+		animation-duration: 0s;
 	}
 </style>

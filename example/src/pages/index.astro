@@ -2,15 +2,21 @@
 import { Image } from 'astro:assets';
 import Layout from 'src/layouts/Layout.astro';
 import fi from 'src/assets/fi.png';
+import VtBotDebug from '~/components/VtBotDebug.astro';
 ---
 
-<Layout title="View Transition Bag of Ticks">
-	<Image id="fi" src={fi} alt="A single fish" />
+<Layout title="View Transition Bag of Tricks">
+	<VtBotDebug slot="head"/> 
+	<Image id="fi" src={fi} alt="A single fish" transition:animate="slide" transition:name="fi" />
 	<div class="hit-the-floor">Welcome to the Bag of Tricks for Astro View Transitions</div>
-	<span id="ken">🦘</span>
+	<span id="ken" transition:animate="slide" transition:name="ken">🦘</span>
 	<a href="/components/" transition:name="reuse">Reusable Components</a>
-	<a href="/demos/">Tech Demos</a>
-	<div id="outer"><div id="new"><a href="https://www.npmjs.com/package/astro-vtbot">New! astro-vtbot 1.0.0 now published on npm!</a></div></div>
+	<a href="/demos/" transition:name="demos">Tech Demos</a>
+	<div id="outer">
+		<div id="new">
+			<a href="https://www.npmjs.com/package/astro-vtbot">astro-vtbot is published on npm!</a>
+		</div>
+	</div>
 	<div class="fancy">&nbsp;</div>
 </Layout>
 <style is:global>
@@ -25,6 +31,11 @@ import fi from 'src/assets/fi.png';
 	}
 </style>
 <style>
+	html::view-transition-new(root),
+	html::view-transition-old(root) {
+		animation-duration: 0.5s;
+	}
+
 	#outer {
 		background-image: radial-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
 		border: 9px dotted orange;

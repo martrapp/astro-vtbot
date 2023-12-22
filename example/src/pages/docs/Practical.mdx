@@ -57,6 +57,24 @@ The only way to run asynchronous code during transitions and wait for it to comp
 
 ## Tips & Tricks
 
+### Common Pitfalls
+<dl>
+
+<dt>My event listener is not called</dt>
+
+<dd><p>Make sure that you have added the event listener to the <code>document</code> object and not to the <code>window</code> object.</p><p>Check the spelling of the event name. You might also use predefined constants (e.g. `import { TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';`)</p></dd>
+
+
+<dt>Checking `window.location.pathname`  does not work as expected </dt>
+
+<dd><p>For normal navigation, `window.location.pathname` contains the page on which the navigation begins. However, when navigating through the history ("Back/Forward" button of the browser), it contains the target page of the navigation. To reliably check where you are and where you are going, use `event.from` and `event.to`</p></dd>
+
+
+<dt>The view transition doesn't honor my stylesheets</dt>
+
+<dd><p>The view transition starts after the DOM has been updated, i.e. after the new page has been swapped in. This means that the stylesheet that controls the view transition originate from the page you navigate to and not from the one you leave.</p></dd>
+</dl>
+
 ### Page Marker & Guard
 
 When you navigate to a new page in a typical multi-page application, the state of the previous page is completely erased. You start the new page with a clean module loader, all scripts are gone, as are all event listeners.

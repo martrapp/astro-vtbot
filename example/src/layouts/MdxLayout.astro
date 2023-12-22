@@ -14,15 +14,19 @@ const { frontmatter, title } = Astro.props;
 		<slot name="head" />
 	</head>
 	<body>
+		<header><a href="javascript:history.back()" style="text-decoration: none">⮌ back</a></header>
 		<main>
 			<slot />
 		</main>
+		<footer><a href="javascript:history.back()"style="text-decoration: none">⮌ back</a></footer>
+
 		<style is:global>
-			html::view-transition-group(*) {
+			::view-transition-group(*) {
 				animation-duration: 0.66s;
 			}
 			:root {
-				background: linear-gradient(300deg, #ffffff, #e8f0f8);
+				background: radial-gradient(circle, #d8e0e8 50%, #f0f8ff 100%);
+				--vtbot-gradbg: linear-gradient(300deg, #fff8, #bdf8);
 				--vtbot-background-color: whitesmoke;
 				background-color: var(--vtbot-background-color);
 				--vtbot-color: darkslategray;
@@ -30,16 +34,23 @@ const { frontmatter, title } = Astro.props;
 				color: var(--vtbot-color);
 				--vtbot-table-background-color: #ececec;
 			}
-			a {
-				color: var(--vtbot-color);
+			.dark {
+				display: none;
 			}
-			main {
-				padding: 1ex 3ex;
+			.light {
+				display: block;
 			}
 			@media (prefers-color-scheme: dark) {
+				.light {
+					display: none;
+				}
+				.dark {
+					display: block;
+				}
 				:root {
-					background: linear-gradient(300deg, #000, #012);
-					--vtbot-background-color: #012;
+					background: radial-gradient(circle, #012 50%, #000 100%);
+					--vtbot-gradbg: linear-gradient(300deg, rgba(51, 47, 47, 0.8), #012c);
+					--vtbot-background-color: #023;
 					--vtbot-color: #def;
 					--vtbot-accent: #adf;
 					--vtbot-table-background-color: rgb(37, 41, 45);
@@ -56,12 +67,20 @@ const { frontmatter, title } = Astro.props;
 				}
 			}
 
+			a {
+				color: var(--vtbot-color);
+			}
+			main {
+				padding: 1ex 3ex;
+				color: var(--vtbot-color);
+			}
+
 			:root {
 				font-family: sans-serif;
 			}
 			code {
 				font-size: 1rem;
-				color: var(--vtbot-accent)
+				color: var(--vtbot-accent);
 			}
 			#contents + ul {
 				font-family: sans-serif;
@@ -91,8 +110,11 @@ const { frontmatter, title } = Astro.props;
 			img {
 				margin: auto;
 				display: block;
-				width: min(80vw, 640px);
-				height: min(39vw, 312px);
+				max-width: 100%;
+				height: auto;
+				border-radius: 6px;
+				border: 1px solid #cccc;
+				box-shadow: 2px 2px 2px #cccc;
 			}
 			pre {
 				padding: 1rem;
@@ -108,7 +130,8 @@ const { frontmatter, title } = Astro.props;
 			}
 			h2,
 			h3 {
-				margin-top: 3rem;
+				margin-top: 2rem;
+				margin-bottom: 0.5rem;
 			}
 			body {
 				max-width: 800px;

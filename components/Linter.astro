@@ -1,14 +1,128 @@
-<meta name="vtbot-linter" content="true" />
-<script>
-	import { TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
+---
+const TAG = 'vtbot-linter'; // see also start of script
+---
 
-	const enabled = () => !!document.querySelector('meta[name="vtbot-linter"]');
+<meta name={TAG} content="true" />
+
+<script>
+	const TAG = 'vtbot-linter';
+
+	import {
+		TRANSITION_BEFORE_SWAP,
+		type TransitionBeforeSwapEvent,
+		isTransitionBeforeSwapEvent,
+		supportsViewTransitions,
+	} from 'astro:transitions/client';
+	import { deriveCSSSelector, elementsWithStyleProperty } from './css';
+
+	const enabled = () => !!document.querySelector(`meta[name="${TAG}"]`);
+	const ERROR =
+		'background-color: #880000; color: #ffffff; padding: 2px 4px; border-radius: 4px; font-weight: bold;';
+	const WARNING =
+		'background-color: #887700; color: #ffffff; padding: 2px 4px; border-radius: 4px;';
+	const IMPORTANT = 'background-color:#eee; color: #333; font-weight: bold; padding: 2px 4px;';
+
+	function flagNested(event: TransitionBeforeSwapEvent, property: string, origin?: 'old' | 'new') {
+		const nameMap = new Map<string, Element>();
+
+		if (!origin) {
+			flagNested(event, property, 'old');
+			flagNested(event, property, 'new');
+			return;
+		}
+		const here = `in ${origin} DOM (${event[origin === 'old' ? 'from' : 'to'].pathname})`;
+		const selector = `[${property}]`;
+		const elements = (origin === 'old' ? document : event.newDocument).querySelectorAll(selector);
+
+		elements.forEach((element) => {
+			const name = element.getAttribute(property);
+			if (!name) {
+				console.group(`%c[vtbot-linter] no value given for ${selector} ${here}`, ERROR);
+				console.log(`%o at %c${deriveCSSSelector(element)}`, element, IMPORTANT);
+				console.groupEnd();
+			} else {
+				if (name.match(/astro-........-[0-9]+/)) {
+					console.group(`%c[vtbot-linter] looks like an implicit name: ${property}=${name} ${here}`, WARNING);
+					console.log(`%o at %c${deriveCSSSelector(element)}`, element, IMPORTANT);
+					console.groupEnd();
+				}
+				const earlier = nameMap.get(name);
+				if (earlier) {
+					console.group(`%c[vtbot-linter] duplicate ${property}=${name} ${here}`, ERROR);
+					console.log(
+						`%o at %c${deriveCSSSelector(element)}%c and earlier %o at %c${deriveCSSSelector(
+							earlier
+						)}`,
+						element,
+						IMPORTANT,
+						'',
+						earlier,
+						IMPORTANT
+					);
+					console.groupEnd();
+				} else {
+					nameMap.set(name, element);
+				}
+			}
+
+			const violation = element.parentElement?.closest(selector);
+
+			if (violation) {
+				console.group(
+					`%c[vtbot-linter] nested elements with ${selector} in ${origin} DOM (${
+						event[origin === 'old' ? 'from' : 'to'].pathname
+					})`,
+					ERROR
+				);
+				console.log(
+					`%o at %c${deriveCSSSelector(element)}%c is nested inside %o at %c${deriveCSSSelector(
+						violation
+					)}`,
+					element,
+					IMPORTANT,
+					'',
+					violation,
+					IMPORTANT
+				);
+				console.groupEnd();
+			}
+		});
+	}
+
+	function flagNonUniqueTransitionNames(event: TransitionBeforeSwapEvent, origin: 'old' | 'new') {
+		const here = `in ${origin} DOM (${event[origin === 'old' ? 'from' : 'to'].pathname})`;
+		const namedElements = elementsWithStyleProperty('view-transition-name');
+		[...namedElements.keys()].forEach((name) => {
+			const elements = namedElements.get(name);
+			if (elements!.size > 1) {
+				console.groupCollapsed(
+					`%c[vtbot-linter] view transition name "${name}" is not unique ${here}`,
+					ERROR
+				);
+				[...elements!.values()]?.forEach((element, idx) => {
+					const newName = `${name}${idx}`;
+					console.log(`%o at %c${deriveCSSSelector(element)}`, element, IMPORTANT);
+				});
+				console.groupEnd();
+			}
+		});
+	}
 
 	const beforeSwap = (event: Event) => {
 		if (enabled() && isTransitionBeforeSwapEvent(event)) {
-			[...document.styleSheets].forEach((element) => {
-				console.log('element :>> ', element);
-			});
+			flagNested(event, 'data-astro-transition-persist');
+			flagNested(event, 'data-vtbot-replace');
+			!supportsViewTransitions &&
+				console.log(
+					'%c[vtbot-linter] check for unique view transition names not supported in this browser',
+					ERROR
+				);
+			supportsViewTransitions && flagNonUniqueTransitionNames(event, 'old');
+			const originalSwap = event.swap;
+			event.swap = () => {
+				originalSwap();
+				supportsViewTransitions && flagNonUniqueTransitionNames(event, 'new');
+			};
 		}
 	};
 

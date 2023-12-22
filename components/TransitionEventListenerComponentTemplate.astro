@@ -1,0 +1,20 @@
+---
+const TAG = 'vtbot-some-tag'; // see also start of script
+---
+
+<meta name={TAG} content="true" />
+
+<script>
+	const TAG = 'vtbot-some-tag';
+
+	import { TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
+
+	const enabled = () => !!document.querySelector(`meta[name="${TAG}"]`);
+
+	const beforeSwap = (event: Event) => {
+		if (enabled() && isTransitionBeforeSwapEvent(event)) {
+		}
+	};
+
+	document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
+</script>

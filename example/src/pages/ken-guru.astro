@@ -2,6 +2,7 @@
 import { getImage } from 'astro:assets';
 import { ViewTransitions } from 'astro:transitions';
 import outback from 'src/assets/outback.png';
+import VtBotDebug from '~/components/VtBotDebug.astro';
 
 const optimizedBackground = await getImage({ src: outback });
 const vtbotBackgroundImage = `url(${optimizedBackground.src})`;
@@ -13,6 +14,7 @@ const vtbotBackgroundImage = `url(${optimizedBackground.src})`;
 		<meta name="viewport" content="width=device-width, minimum-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="vtbot-ken" content="guru" />
+		<VtBotDebug />
 		<ViewTransitions />
 	</head>
 	<body>

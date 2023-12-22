@@ -1,10 +1,8 @@
 No, its not a roBOT, its a <b>B</b>ag <b>o</b>f <b>T</b>ricks!
 
-# !! astro-vtbot 1.0.0 now published on npm !!
-
 A current deployment of this code can be found at https://events-3bg.pages.dev/
 
-# Astro Bag of Tricks for View Transitions
+# Bag of Tricks for Astro's View Transitions
 
 The bag of tricks provides support around Astro's view transitions.
 Some of the contents are technical demos, some are useful tools, and some are reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
@@ -29,7 +27,6 @@ For functionality and usage [see the documentation](https://events-3bg.pages.dev
 
 - A component that identifies and activates the current link in a persistent navigation bar
 - A component that preloads images used in view transitions (including load indicator)
-- A component that simplifies the creation of pages with multiple different transitions
 
 ### Development support
 
@@ -37,12 +34,11 @@ For functionality and usage [see the documentation](https://events-3bg.pages.dev
 
 - `<VtBotDebug />`: A Debugging component that logs the events and their data as they occur.
 
-#### Ideas for upcomming components
 
-- A linter component that helps you identify problems when setting up transitions.
+- `<Linter>`: A linter component that helps you identify problems when setting up transitions.
 
 ## Todo list
 
 - find & fix bugs
 - provide additional components and demos
-- replace `<xmp>` with something more stable. Maybe it would be helpful to move content heavy pages to mdx.
+

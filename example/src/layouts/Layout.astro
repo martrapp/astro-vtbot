@@ -4,16 +4,17 @@ export interface Props {
 	title: string;
 	background?: string;
 	nvt?: boolean;
+	swap?: boolean;
 }
 
-const { title, background, nvt } = Astro.props;
+const { title, background, nvt, swap } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<slot name="head" />
-		{nvt || <ViewTransitions />}
+		{swap ? (nvt ? "" : <ViewTransitions fallback="swap"/>) : (nvt ? "" : <ViewTransitions />)}
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, minimum-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
