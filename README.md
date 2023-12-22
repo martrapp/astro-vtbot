@@ -1,6 +1,6 @@
 No, its not a roBOT, its a <b>B</b>ag <b>o</b>f <b>T</b>ricks!
 
-A current deployment of this code can be found at https://events-3bg.pages.dev/
+A current deployment of tech demos and the documentation can be found at https://events-3bg.pages.dev/
 
 # Bag of Tricks for Astro's View Transitions
 
