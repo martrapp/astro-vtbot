@@ -3,18 +3,16 @@ import { ViewTransitions } from 'astro:transitions';
 export interface Props {
 	title: string;
 	background?: string;
-	nvt?: boolean;
-	swap?: boolean;
 }
 
-const { title, background, nvt, swap } = Astro.props;
+const { title, background } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<slot name="head" />
-		{swap ? (nvt ? "" : <ViewTransitions fallback="swap"/>) : (nvt ? "" : <ViewTransitions />)}
+		<ViewTransitions/>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, minimum-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />

@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { getImage } from 'astro:assets';
 import snow from 'src/assets/winter.png';
-import { Content } from './one.mdx';
+import { Content } from 'src/mdx/winter/one.mdx';
 
 const optimizedBackground = await getImage({ src: snow });
 const vtbotBackgroundImage = `url(${optimizedBackground.src})`;

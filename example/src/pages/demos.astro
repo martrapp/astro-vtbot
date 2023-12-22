@@ -2,20 +2,17 @@
 import MdxLayout from '../layouts/MdxLayout.astro';
 import Card from '../components/Card.astro';
 import VtBotDebug from '~/components/VtBotDebug.astro';
+import Content from 'src/mdx/demos.mdx';
 ---
 
-<MdxLayout title="Tech Demos" background="#0a0a2a" nvt>
-	<VtBotDebug slot='head'/>
+<MdxLayout title="Tech Demos" background="#0a0a2a">
+	<VtBotDebug slot="head" />
 	<h1>
-		<span transition:name="demos">Tech Demos</span><br> <span class="text-gradient">Bag of Tricks</span> for Astro's View Transitions
+		<span transition:name="demos">Tech Demos</span><br />
+		<span class="text-gradient">Bag of Tricks</span> for Astro's View Transitions
 	</h1>
 
-		The bag of tricks provides components that demonstrate Astro's View Transition API. Some of
-		these are technical demos, some are useful tools, and some will evolve into reusable components
-		that you can use in your own project to handle edge cases that go beyond Astro's standard
-		features. The code of the Bag of Tricks is on <a href="https://github.com/martrapp/astro-vt-bot"
-			>github: martrapp/astro-vt-bot</a
-		>
+	<Content />
 	<ul role="list" class="link-card-grid">
 		<Card
 			href="/docs/Jotter/"
@@ -135,7 +132,7 @@ import VtBotDebug from '~/components/VtBotDebug.astro';
 		--accent-gradient: linear-gradient(330deg, #000, rgb(135, 206, 235));
 	}
 	html {
-		font-family: sans-serif;		
+		font-family: sans-serif;
 	}
 	code {
 		font-family: monospace;
