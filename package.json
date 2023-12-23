@@ -1,6 +1,6 @@
 {
   "name": "astro-vtbot",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A Bag of Tricks for Astro's View Transtions.",
   "homepage": "https://github.com/martrapp/astro-vt-bot#readme",
   "bugs": "https://github.com/martrapp/astro-vt-bot/issues",
@@ -49,7 +49,6 @@
     "url": "https://github.com/sponsors/martrapp"
   },
   "dependencies": {
-    "@types/dom-view-transitions": "^1.0.4",
-    "table-string": "^1.2.1"
+    "@types/dom-view-transitions": "^1.0.4"
   }
 }
