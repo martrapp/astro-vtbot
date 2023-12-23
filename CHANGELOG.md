@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.1.2 2023-12-23
+
+### Path Changes
+
+- [6b49bd33f](https://github.com/martrapp/astro-vt-bot/commit/6b49bd33f621981a03c01b20c20b8ffe32e210ef) Remove dependency on table-string
+
 ## 1.1.1 2023-12-23
 
 ### Patch Changes
