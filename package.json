@@ -5,7 +5,10 @@
   "homepage": "https://github.com/martrapp/astro-vt-bot#readme",
   "bugs": "https://github.com/martrapp/astro-vt-bot/issues",
   "license": "ISC",
-  "repository": "github:martrapp/astro-vt-bot",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martrapp/astro-vt-bot.git"
+  },
   "type": "module",
   "files": [
     "components",
