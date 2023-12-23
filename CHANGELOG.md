@@ -1,5 +1,13 @@
 # The Bag of Tricks for View Transitions
 
+## 1.1.1 2023-12-23
+
+### Patch Changes
+
+- [`3e4b26c38`](https://github.com/martrapp/astro-vt-bot/commit/3e4b26c38eebca31790a657f3c2bccf2133254b0) Fixes view transitions to component pages
+
+- Plus wording...
+
 ## 1.1.0 2023-12-22
 
 ### Minor Changes
