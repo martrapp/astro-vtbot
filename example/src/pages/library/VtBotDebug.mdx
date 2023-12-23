@@ -25,9 +25,9 @@ During view transitions, the `<VtBotDebug>` component logs four types of informa
 * The transition groups that participate in the transition
 * The viewTransition promises `ready`, `updateCallbackDone` and `finished`, how they are resolved or rejected
 
-You can see when events happen, what data they carry and when the data is altered by event handlers. Output for properties and transitions is collapsed by default.
+You can see when events happen, what data they carry and when the data is altered by event handlers. 
 
-```console x.txt {1,6,7,12,15}
+```console title="console.log" {1,6,7,12,15}
    18:09:18.024 [vtbot-debug] Event handler for astro:before-preparation
 ⯈ 18:09:18.025 [vtbot-debug] Properties of the astro:before-preparation event
    18:09:18.027 [vtbot-debug] before execution of loader()
@@ -46,11 +46,13 @@ You can see when events happen, what data they carry and when the data is altere
    18:09:18.710 [vtbot-debug] resolve viewTransition.finished
 ```
 
+Output for properties and transitions is collapsed by default. Now see what happens when you click on the `⯈` symbols.
+
 ### Event properties
 
 The detailled view of the properties shows one line for each property of the event. When the value of a property changed since it was last reported, the old and the new value are shown.
 
-```console x.txt {12,18}
+```console title="console.log" {1, 12,18}
 ⯆ 18:09:18.025 [vtbot-debug] Properties of the astro:before-preparation event
    18:09:18.025 type: astro:before-preparation
    18:09:18.025 cancelable: true
@@ -76,8 +78,8 @@ The detailled view of the properties shows one line for each property of the eve
 
 The `<VtBotDebug>` component logs the transition groups that participate in the transition. Beside the name of the transition group, the component shows the CSS selector that matches the elements on the current page and the target page of the navigation. `(nowhere)` is used as placeholder if the transition name does not appear on both pages. 
 
-```console x.txt {5}
-   18:09:18.412 [vtbot-debug] Transitions from /morph/two/ to /morph/three/
+```console title="console.log" {1, 5}
+⯆ 18:09:18.412 [vtbot-debug] Transitions from /morph/two/ to /morph/three/
    18:09:18.413 [ transition] 1 "a21" from body > p > a --to-> (nowhere)
    18:09:18.413 [ transition] 2 "a22" from body > p:nth-of-type(2) > a --to-> (nowhere)
    18:09:18.413 [ transition] 3 "a23" from body > p:nth-of-type(2) > a:nth-of-type(2) --to-> (nowhere)
@@ -91,7 +93,7 @@ The `<VtBotDebug>` component logs the transition groups that participate in the 
 After the view transition got startet, the API provides three promises that can be used to wait for different stages of the transition. The `<VtBotDebug>` component logs when these promises are resolved or rejected. If rejected, the reason is also shown.
 
 
-```console x.txt {1,2,4}
+```console title="console.log" {1,2,4}
    18:09:18.423 [vtbot-debug] resolve viewTransition.updateCallbackDone
    18:09:18.425 [vtbot-debug] reject viewTransition.ready with DOMException: Transition was aborted because of invalid state
 	 18:09:18.447 [vtbot-debug] Event handler for astro:page-load
@@ -101,7 +103,7 @@ After the view transition got startet, the API provides three promises that can 
 
 ## Usage
 
-The `<VtBotDebug>` component should be inserted as early as possible in the `<head>` of the page you want to investigate. 
+The `<VtBotDebug>` component should be inserted as early as possible in the `<head>` of the page you want to investigate. As it only works for pages with view transitions, it is a good idea to place it just before the `<ViewTransitions />` component.
 
 ```astro title="MyPage.astro" {3,7}
 ---
@@ -119,14 +121,15 @@ import VtBotDebug from 'astro-vtbot/components/VtBotDebug.astro';
 ```
 ### Attributes
 
-The `<VtBotDebug>` component supports three boolean properties:
+The `<VtBotDebug>` component offers three boolean properties to control its behaviour:
+
 |   Property | Effect |
 |------------|---------|
 | overlay| Redirect the output from the console to an on-screen overlay.|
 | hideProperties | When `overlay` is used, hide the properties of the events to produce shorter logs.|
-| production | Be active in production mode. Helpful when chasing bugs the do onl show up in production.|
+| production | Be active in production mode. Helpful when chasing bugs the do not show up in development mode but only in a full build.|
 
-Use these attributes on the `<VtBotDebug>` component like this:
+Use these attributes on the `<VtBotDebug>` component e.g. to switch the output to the overlay but hide property details:
 
 ```astro title="PageToDebug.astro" {3}
 <html>

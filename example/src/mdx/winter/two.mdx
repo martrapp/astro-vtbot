@@ -11,7 +11,7 @@ It is important that the CCS for the view transition to `/winter/two/` is includ
 <section>
 The falling tree and snowboarder are custom animations that run directly before the view transition. They are triggered by the event listener for the `astro:before-preparation` event. 
 
-```astro
+```astro title="winter.astro" {5}
 document.addEventListener('astro:before-preparation', (event) => {
 	if (isTransitionBeforePreparationEvent(event) && event.from.pathname === '/winter/one/') {
 		const originalLoader = event.loader;
