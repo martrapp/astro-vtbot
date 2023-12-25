@@ -65,3 +65,10 @@ The elements with the same identifier do not have to be the same type of HTML el
 
 If the old page and the new page have no replacement identifiers in common, `<ReplacementSwap>` falls back to the normal swap behavior of astro view transitions. 
 
+## An important note on styling
+
+The `<ReplacementSwap/>` component copies DOM trees from the new `<body>` into the current `<body>`. It also changes the `<head>` of the current page to reflect the `<head>` of the new page. This sounds good, but may have unexpected side effects:
+
+* The part of the page that remains untouched could lose its styling if the necessary CSS is not included in the `<head>` of the new page or in the remaining DOM of the current page.
+* In particular, if you use scoped styles in the untouched part of your page, they may not be provided by the new page.
+* If the tree being copied uses inline styles, these may need to be copied explicitly using appropriate `data-vtbot-replace` attributes.

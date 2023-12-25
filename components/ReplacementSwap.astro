@@ -25,16 +25,18 @@
 					originalSwap();
 					return;
 				}
-				customSwap(event.newDocument, () =>
+				customSwap(event.newDocument, () => {
 					intersection.forEach((name) => {
 						const oldEl = oldEls.find((el) => (el as HTMLElement).dataset.vtbotReplace === name);
 						const newEl = newEls.find((el) => (el as HTMLElement).dataset.vtbotReplace === name);
 						if (oldEl && newEl) {
 							oldEl.replaceWith(newEl);
 						}
-						document.querySelector("[class*='astro-route-announcer']")?.remove();
-					})
-				);
+					});
+					[...document.querySelectorAll("[class*='astro-route-announcer']")].forEach((e) =>
+						e.remove()
+					);
+				});
 			};
 		}
 	});
