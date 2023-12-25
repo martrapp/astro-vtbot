@@ -161,7 +161,7 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 		TRANSITION_AFTER_SWAP,
 		TRANSITION_PAGE_LOAD,
 	} from 'astro:transitions/client';
-	import { captureViewTransitionNamesOfCurrentDocument, deriveCSSSelector, elementsWithStyleProperty } from './css';
+	import { deriveCSSSelector, elementsWithStyleProperty } from './css';
 
 	const enabled = () => !!document.querySelector('meta[name="vtbot-debug"]');
 	const PREFIX = '[vtbot-debug]';
@@ -207,7 +207,7 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 		const v = internal.get(html) ?? `${++stringCounter}`;
 		mem.set(obj, a);
 		internal.set(html, v);
-		return `a${a}: v${v} (${(html.length/1024).toFixed(2)} kB)`;
+		return `a${a}: v${v} (${(html.length / 1024).toFixed(2)} kB)`;
 	};
 
 	const logWithStyle = (s: string) => {
@@ -249,8 +249,8 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 		} else if (prop === 'swap' || prop === 'loader') {
 			print = (x) => {
 				const s = x ? x.toString() : '(null)';
-				const max = 100;
-				return s.length < max ? s : s.substring(0, max-4) + ' ...';
+				const max = 60;
+				return s.length < max ? s : s.substring(0, max - 4) + ' ...';
 			};
 		}
 
@@ -258,12 +258,12 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 
 		if (different()) {
 			logWithStyle(
-				`${deltaOnly ? PREFIX + ' ' : ''}${prop} changed from ${bold(
-					print(_vtbot_debug.capture[prop])
-				)} to ${bold(print(e[prop]))}`
+				`${PREFIX} ${prop} changed from ${bold(print(_vtbot_debug.capture[prop]))} to ${bold(
+					print(e[prop])
+				)}`
 			);
 		} else if (!deltaOnly) {
-			logWithStyle(`${prop}: ${bold(print(e[prop]))}`);
+			logWithStyle(`${PREFIX} ${prop}: ${bold(print(e[prop]))}`);
 		}
 	}
 
@@ -349,7 +349,8 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 
 	const logTransitions = (
 		originalMap: Map<string, Set<Element>> | undefined,
-	swapEvent: TransitionBeforeSwapEvent) => {
+		swapEvent: TransitionBeforeSwapEvent
+	) => {
 		if (originalMap === undefined) return;
 
 		const errors: string[] = [];
@@ -386,7 +387,9 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 		});
 		errors.forEach((s) => logWithStyle(s));
 		if (show()) {
-			console.groupCollapsed(`${PREFIX} Transitions from ${swapEvent.from.pathname} to ${swapEvent.to.pathname}`);
+			console.groupCollapsed(
+				`${PREFIX} Transitions from ${swapEvent.from.pathname} to ${swapEvent.to.pathname}`
+			);
 			transitions.forEach((s) => logWithStyle(s));
 			console.groupEnd();
 		}
@@ -397,6 +400,7 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 	 */
 	function beforeSwap(swapEvent: Event) {
 		if (enabled()) {
+			let output = document.querySelector('#debugOutput');
 			if (isTransitionBeforeSwapEvent(swapEvent)) {
 				appendOutputElementToNewDocument(swapEvent.newDocument);
 				if (show()) {
@@ -404,7 +408,11 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 					show() && logProperties(swapEvent);
 					console.groupEnd();
 				}
-				const originalMap = captureViewTransitionNamesOfCurrentDocument();
+				const originalMap = elementsWithStyleProperty('view-transition-name');
+				originalMap.set(
+					'root',
+					(originalMap.get('root') ?? new Set()).add(document.documentElement)
+				);
 				const originalSwap = swapEvent.swap;
 				swapEvent.swap = async () => {
 					console.log(`${PREFIX} before execution of swap()`);
@@ -412,6 +420,7 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 					// @ts-ignore
 					show() && logProperties(window._vtbot_debug.capture.event, true);
 					console.log(`${PREFIX} after execution of swap()`);
+					if (!output) console.log(`${PREFIX} %o`, document.documentElement);
 					logTransitions(originalMap, swapEvent);
 				};
 				doCapture(swapEvent);

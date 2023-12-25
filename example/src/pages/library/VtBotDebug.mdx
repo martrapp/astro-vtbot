@@ -4,6 +4,12 @@ title: Reusables
 vtn: vtbotdebug-3
 ---
 
+import { Picture } from 'astro:assets';
+import vtd1_dark from "src/assets/vtd1.dark.png";
+import vtd1_light from "src/assets/vtd1.light.png";
+import vtd2_dark from "src/assets/vtd2.dark.png";
+import vtd2_light from "src/assets/vtd2.light.png";
+
 <h1 style="display: inline-block; view-trans 	ition-name: vtbotdebug-1"><span style="display:inline-block; view-transition-name:vtbotdebug-2">🐛</span> Debug Component</h1>
 
 
@@ -88,6 +94,17 @@ The `<VtBotDebug>` component logs the transition groups that participate in the 
    18:09:18.414 [ transition] 6 "a31" from (nowhere) --to-> html > body > p:nth-of-type(3) > a
 ```
 
+#### Pseudo elements (since v1.1.3)
+
+`<VtBotDebug>` now logs the `::view-transition` CSS pseudo-elements that the browser inserts to control the animations of the view transitions. Here an example with collapsed output:
+
+<Picture class="dark" src={vtd1_dark} formats={['avif', 'webp']} alt="Example ::view-transition output" />
+<Picture class="light" src={vtd1_light} formats={['avif', 'webp']} alt="Example ::view-transition output" />
+
+... and with all items exapanded:
+<Picture class="dark" src={vtd2_dark} formats={['avif', 'webp']} alt="Example ::view-transition output" />
+<Picture class="light" src={vtd2_light} formats={['avif', 'webp']} alt="Example ::view-transition output" />
+
 ### View Transition promises
 
 After the view transition got startet, the API provides three promises that can be used to wait for different stages of the transition. The `<VtBotDebug>` component logs when these promises are resolved or rejected. If rejected, the reason is also shown.
@@ -140,3 +157,12 @@ Use these attributes on the `<VtBotDebug>` component e.g. to switch the output t
   ...
 </html>
 ```
+
+
+<style>{`
+
+img {
+	width: 60ch;
+}
+
+`}</style>
