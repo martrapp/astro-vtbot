@@ -8,7 +8,7 @@
 
 - [6ab6f38b8](https://github.com/martrapp/astro-vt-bot/commit/6ab6f38b81d51ce160e23c4dbf194cfce309a149) [VtBotDebug:] Show the `::view-transition` pseudo-elements that the browser inserts when it is ready to start the animations for view transitions. 
 
-- [0f1e1dda6](https://github.com/martrapp/astro-vt-bot/commit/0f1e1dda65dfbf1778c2187340cbb1e6940a0a5c) [VtBotDebug:] Improve `<ReplacementSwap>` documentation and optimize how old `astro-route-announcer` are removed. 
+- [0f1e1dda6](https://github.com/martrapp/astro-vt-bot/commit/0f1e1dda65dfbf1778c2187340cbb1e6940a0a5c) [ReplacementSwap:] Improve `<ReplacementSwap>` documentation and optimize how old `astro-route-announcer` are removed. 
 
 
 - Plus: Correction of typos and improvement of wording
