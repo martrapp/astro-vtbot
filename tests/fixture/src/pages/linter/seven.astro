@@ -1,0 +1,18 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Linter from 'astro-vtbot/components/Linter.astro';
+---
+
+<Layout title="Linter7">
+	<Linter slot="head" />
+	<main>
+		<a id="toeight" href="/linter/eight/">To page 8</a>
+		<h1>Linter 7</h1>
+		<p transition:name="olaf" transition:persist>Some content</p>
+	</main>
+</Layout>
+<style>
+	p {
+		color: red;
+	}
+</style>

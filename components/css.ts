@@ -1,3 +1,6 @@
+// todos:
+// check for different CSS rule types (beside CSSStyleRule)
+
 export function deriveCSSSelector(element: Element, useIds = true) {
 	let path: string[] = [];
 	while (element && element.nodeType === Node.ELEMENT_NODE) {
@@ -22,11 +25,39 @@ export function deriveCSSSelector(element: Element, useIds = true) {
 	return path.join(' > ');
 }
 
-export const captureViewTransitionNamesOfCurrentDocument = () => {
-	const originalMap = elementsWithStyleProperty('view-transition-name');
-	originalMap.set('root', (originalMap.get('root') ?? new Set()).add(document.documentElement));
-	return originalMap;
-};
+export function astroContextIds() {
+	const inStyleSheets = new Set<string>();
+	const inElements = new Set<string>();
+
+	[...document.styleSheets].forEach((sheet) => {
+		[...sheet.cssRules].forEach((rule) => {
+			if (rule instanceof CSSStyleRule) {
+				[...rule.selectorText.matchAll(/data-astro-cid-(\w{8})/g)].forEach((match) =>
+					inStyleSheets.add(match[1])
+				);
+				[...rule.selectorText.matchAll(/\.astro-(\w{8})/g)].forEach((match) =>
+					inStyleSheets.add(match[1])
+				);
+			}
+		});
+	});
+
+	const ASTRO_CID = 'astroCid';
+	[...document.querySelectorAll('*')].forEach((el) => {
+		Object.keys((el as HTMLElement).dataset).forEach((key) => {
+			if (key.startsWith(ASTRO_CID)) {
+				inElements.add(key.substring(ASTRO_CID.length).toLowerCase().replace(/^-/g, ''));
+			}
+		});
+		el.classList.forEach((cls) => {
+			if (cls.match(/^astro-(........)$/)) {
+				inElements.add(cls.replace(/^astro-/, ''));
+			}
+		});
+	});
+
+	return { inStyleSheets, inElements };
+}
 
 // finds all elements of a _the current document_ with a given property in a stylesheet
 // document.stylesheets dows not seem to work for arbitrary documents

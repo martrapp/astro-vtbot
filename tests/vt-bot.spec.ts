@@ -102,4 +102,14 @@ test.describe('Linter component', () => {
 			`Unexpected duplicate view-transition-name: a%c[vtbot-linter] view transition name \"a\" is not unique in old DOM (/linter/five/) %o at %chtml > body > main > h1 JSHandle@node %o at %chtml > body > main > p JSHandle@node console.groupEnd%c[vtbot-linter] view transition name \"b\" is not unique in new DOM (/linter/six/) %o at %chtml > body > main > a JSHandle@node %o at %chtml > body > main JSHandle@node %o at %chtml > body > main > p JSHandle@node console.groupEnd`
 		);
 	});
+	test('detect lost view transition names and styles', async ({ page }) => {
+		captureConsole(page);
+		await page.goto('/linter/seven/');
+		await expect(page).toHaveTitle('Linter7');
+		await page.locator('#toeight').click();
+		await expect(page).toHaveTitle('Linter8');
+		expect(consoleOutput).toBe(
+			`%c[vtbot-linter] no HTMLElement with view transition name \"olaf\" exists in new DOM (/linter/eight/). Does it got overridden by transition:persist or data-vtbot-replace? %c[vtbot-linter] scoped style id \"y2uoggpx\" is not defined in new DOM (/linter/eight/).  JSHandle@node%c[vtbot-linter] The stylesheet might got optimized away or the element might have lost its styling when being copied by transition:persist or data-vtbot-replace. console.groupEnd`
+		);
+	});
 });

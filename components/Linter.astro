@@ -5,15 +5,15 @@ const TAG = 'vtbot-linter'; // see also start of script
 <meta name={TAG} content="true" />
 
 <script>
-	const TAG = 'vtbot-linter';
-
 	import {
 		TRANSITION_BEFORE_SWAP,
 		type TransitionBeforeSwapEvent,
 		isTransitionBeforeSwapEvent,
 		supportsViewTransitions,
 	} from 'astro:transitions/client';
-	import { deriveCSSSelector, elementsWithStyleProperty } from './css';
+	import { astroContextIds, deriveCSSSelector, elementsWithStyleProperty } from './css';
+
+	const TAG = 'vtbot-linter';
 
 	const enabled = () => !!document.querySelector(`meta[name="${TAG}"]`);
 	const ERROR =
@@ -25,30 +25,34 @@ const TAG = 'vtbot-linter'; // see also start of script
 	function flagNested(event: TransitionBeforeSwapEvent, property: string, origin?: 'old' | 'new') {
 		const nameMap = new Map<string, Element>();
 
+		const here = `in ${origin} DOM (${event[origin === 'old' ? 'from' : 'to'].pathname})`;
+
 		if (!origin) {
 			flagNested(event, property, 'old');
 			flagNested(event, property, 'new');
 			return;
 		}
-		const here = `in ${origin} DOM (${event[origin === 'old' ? 'from' : 'to'].pathname})`;
 		const selector = `[${property}]`;
 		const elements = (origin === 'old' ? document : event.newDocument).querySelectorAll(selector);
 
 		elements.forEach((element) => {
 			const name = element.getAttribute(property);
 			if (!name) {
-				console.group(`%c[vtbot-linter] no value given for ${selector} ${here}`, ERROR);
+				console.groupCollapsed(`%c[vtbot-linter] no value given for ${selector} ${here}`, ERROR);
 				console.log(`%o at %c${deriveCSSSelector(element)}`, element, IMPORTANT);
 				console.groupEnd();
 			} else {
 				if (name.match(/astro-........-[0-9]+/)) {
-					console.group(`%c[vtbot-linter] looks like an implicit name: ${property}=${name} ${here}`, WARNING);
+					console.groupCollapsed(
+						`%c[vtbot-linter] looks like an implicit name: ${property}=${name} ${here}`,
+						WARNING
+					);
 					console.log(`%o at %c${deriveCSSSelector(element)}`, element, IMPORTANT);
 					console.groupEnd();
 				}
 				const earlier = nameMap.get(name);
 				if (earlier) {
-					console.group(`%c[vtbot-linter] duplicate ${property}=${name} ${here}`, ERROR);
+					console.groupCollapsed(`%c[vtbot-linter] duplicate ${property}=${name} ${here}`, ERROR);
 					console.log(
 						`%o at %c${deriveCSSSelector(element)}%c and earlier %o at %c${deriveCSSSelector(
 							earlier
@@ -68,7 +72,7 @@ const TAG = 'vtbot-linter'; // see also start of script
 			const violation = element.parentElement?.closest(selector);
 
 			if (violation) {
-				console.group(
+				console.groupCollapsed(
 					`%c[vtbot-linter] nested elements with ${selector} in ${origin} DOM (${
 						event[origin === 'old' ? 'from' : 'to'].pathname
 					})`,
@@ -89,11 +93,21 @@ const TAG = 'vtbot-linter'; // see also start of script
 		});
 	}
 
-	function flagNonUniqueTransitionNames(event: TransitionBeforeSwapEvent, origin: 'old' | 'new') {
+	function flagNonUniqueOrMissingTransitionNames(
+		event: TransitionBeforeSwapEvent,
+		origin: 'old' | 'new'
+	) {
 		const here = `in ${origin} DOM (${event[origin === 'old' ? 'from' : 'to'].pathname})`;
+
 		const namedElements = elementsWithStyleProperty('view-transition-name');
 		[...namedElements.keys()].forEach((name) => {
-			const elements = namedElements.get(name);
+			const elements = namedElements.get(name)!;
+			if (elements.size === 0) {
+				console.log(
+					`%c[vtbot-linter] no HTMLElement with view transition name "${name}" exists ${here}. Does it got overridden by transition:persist or data-vtbot-replace?`,
+					WARNING
+				);
+			}
 			if (elements!.size > 1) {
 				console.groupCollapsed(
 					`%c[vtbot-linter] view transition name "${name}" is not unique ${here}`,
@@ -108,21 +122,51 @@ const TAG = 'vtbot-linter'; // see also start of script
 		});
 	}
 
+	function flagMissingScopedStyles(event: TransitionBeforeSwapEvent, origin: 'old' | 'new') {
+		const here = `in ${origin} DOM (${event[origin === 'old' ? 'from' : 'to'].pathname})`;
+		const { inStyleSheets, inElements } = astroContextIds();
+		//[...inElements].forEach((id) => console.log('eid :>> ', id));
+		//[...inStyleSheets].forEach((id) => console.log('sid :>> ', id));
+		const notDefined = new Set([...inElements].filter((id) => !inStyleSheets.has(id)));
+		const notUsed = new Set([...inStyleSheets].filter((id) => !inElements.has(id)));
+		notDefined.forEach((id) => {
+			console.groupCollapsed(
+				`%c[vtbot-linter] scoped style id "${id}" is not defined ${here}. `,
+				WARNING
+			);
+			[...document.querySelectorAll(`[data-astro-cid-${id}], [class*="astro-${id}"]`)]
+				.filter((e, _, arr) => !arr.includes(e.parentElement!))
+				.forEach((e) => console.log(e));
+				console.log("%c[vtbot-linter] The stylesheet might got optimized away or the element might have lost its styling when being copied by transition:persist or data-vtbot-replace.",IMPORTANT);
+			console.groupEnd();
+		});
+		notUsed.forEach((id) => {
+			console.log(
+				`%c[vtbot-linter] scoped style id "${id}" is defined ${here} but not used. `,
+				WARNING
+			);
+		});
+	}
+
 	const beforeSwap = (event: Event) => {
 		if (enabled() && isTransitionBeforeSwapEvent(event)) {
 			flagNested(event, 'data-astro-transition-persist');
 			flagNested(event, 'data-vtbot-replace');
-			!supportsViewTransitions &&
+			if (supportsViewTransitions) {
+				flagNonUniqueOrMissingTransitionNames(event, 'old');
+				flagMissingScopedStyles(event, 'old');
+				const originalSwap = event.swap;
+				event.swap = () => {
+					originalSwap();
+					flagNonUniqueOrMissingTransitionNames(event, 'new');
+					flagMissingScopedStyles(event, 'new');
+				};
+			} else {
 				console.log(
 					'%c[vtbot-linter] check for unique view transition names not supported in this browser',
 					ERROR
 				);
-			supportsViewTransitions && flagNonUniqueTransitionNames(event, 'old');
-			const originalSwap = event.swap;
-			event.swap = () => {
-				originalSwap();
-				supportsViewTransitions && flagNonUniqueTransitionNames(event, 'new');
-			};
+			}
 		}
 	};
 
