@@ -1,12 +1,14 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 const { frontmatter, title } = Astro.props;
+import Linter from 'astro-vtbot/components/Linter.astro';
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<ViewTransitions />
+		<Linter />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, minimum-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -18,7 +20,7 @@ const { frontmatter, title } = Astro.props;
 		<main>
 			<slot />
 		</main>
-		<footer><a href="javascript:history.back()"style="text-decoration: none">⮌ back</a></footer>
+		<footer><a href="javascript:history.back()" style="text-decoration: none">⮌ back</a></footer>
 
 		<style is:global>
 			::view-transition-group(*) {
@@ -91,12 +93,15 @@ const { frontmatter, title } = Astro.props;
 				box-shadow: 2px 2px 2px #5659;
 			}
 			#contents + ul,
-			#contents + ul ul {
+			#contents + ul ul,
+			#contents + ul ul ul {
 				margin: 0 0;
-				padding: 1em;
+				padding: 0.2em  1em;
 			}
 			#contents + ul,
-			#contents + ul li {
+			#contents + ul li,
+			#contents + ul ul li
+			 {
 				list-style: none;
 			}
 

@@ -66,7 +66,7 @@ const { scope, styles } = createAnimationScope('main', { south, north, east, wes
 ---
 
 <Layout title={title} background="rgb(85, 167, 238)">
-	<VtBotDebug showProperties production slot="head" />
+	<VtBotDebug overlay showProperties production slot="head" />
 	<div transition:persist="bg" id="bg"></div>
 	<main data-astro-transition-scope={scope}>
 		<slot />

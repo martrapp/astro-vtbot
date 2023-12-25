@@ -14,17 +14,17 @@ const { title, background } = Astro.props;
 	</div>
 </Layout>
 
-<style>
+<style is:global>
 	body {
 		max-width: 60ch;
 		margin: auto;
 		padding: 2ch;
 	}
 	::view-transition-old(*) {
-		animation-duration: 2s;
+		animation-duration: 1s;
 	}
 	::view-transition-new(*) {
-		animation-duration: 2s;
+		animation-duration: 1s;
 	}
 </style>
 <script is:inline>
