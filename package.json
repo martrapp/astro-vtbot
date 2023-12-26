@@ -31,7 +31,7 @@
     "debug"
   ],
   "scripts": {
-    "format": "prettier -w .",
+    "format": "prettier -w components",
     "dev": "cd example && astro dev",
     "build": "cd example && astro build",
     "preview": "cd example && astro preview",

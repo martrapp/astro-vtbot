@@ -198,16 +198,18 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 	 * address/content surrogate
 	 */
 	let addressCounter = 0;
-	let stringCounter = 0;
 	const mem = new WeakMap();
-	const internal = new Map<string, string>();
 	const doc = (obj: Document) => {
+		const units = ['B', 'kB', 'MB'];
+		const humanReadable = (n: number) => {
+			let i = 0;
+			while ((n /= 1024) > 1 && i++ < units.length);
+			return `${(n * 1024).toFixed(1)} ${units[i]}`;
+		};
 		const a = mem.get(obj) ?? `${++addressCounter}`;
 		const html = obj.documentElement.outerHTML;
-		const v = internal.get(html) ?? `${++stringCounter}`;
 		mem.set(obj, a);
-		internal.set(html, v);
-		return `a${a}: v${v} (${(html.length / 1024).toFixed(2)} kB)`;
+		return `@${a} (${humanReadable(html.length)})`;
 	};
 
 	const logWithStyle = (s: string) => {

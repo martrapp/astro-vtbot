@@ -137,7 +137,10 @@ const TAG = 'vtbot-linter'; // see also start of script
 			[...document.querySelectorAll(`[data-astro-cid-${id}], [class*="astro-${id}"]`)]
 				.filter((e, _, arr) => !arr.includes(e.parentElement!))
 				.forEach((e) => console.log(e));
-				console.log("%c[vtbot-linter] The stylesheet might got optimized away or the element might have lost its styling when being copied by transition:persist or data-vtbot-replace.",IMPORTANT);
+			console.log(
+				'%c[vtbot-linter] The stylesheet might got optimized away or the element might have lost its styling when being copied by transition:persist or data-vtbot-replace.',
+				IMPORTANT
+			);
 			console.groupEnd();
 		});
 		notUsed.forEach((id) => {
