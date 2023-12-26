@@ -27,9 +27,12 @@ Await the `ready` promise of the `viewTransition` object. Or have your animation
 
 ### I want to prefetch images that are needed for the target page
 
-View transitions from thumbnails to large images in target files look very ugly if the target image is not available when the transition starts. For better results, preload the images before the view transition begins.
+View transitions from thumbnails to large images in target files look very poor if the target image is not available when the transition starts. For better results, preload the images before the view transition begins.
 
 Define a new `loader` function for the `astro:before-preparation` event. Call the original `loader` function to do the heavy lifting and get the content of the next page in the `newDocument` property. Find the images you want to preload and load them into the cache. Use `Promise.all()` to `await` that all images are ready. See [demo](/hero-prefetch/overview/).
+
+> TIP:
+An alternative approach for opaque images is to replace the default cross-over animation with an always visible thumbnail image that gets resized while it moves to the destination.
 
 ### I want to optimize the number of objects taking part in a transition
 
@@ -74,6 +77,14 @@ The only way to run asynchronous code during transitions and wait for it to comp
 
 <dd><p>The view transition starts after the DOM has been updated, i.e. after the new page has been swapped in. This means that the stylesheet that controls the view transition originate from the page you navigate to and not from the one you leave.</p></dd>
 </dl>
+
+<dt>`transition:name` only works in `.astro` files?</dt>
+
+<dd><p>Yes. Alternatively, you can define the `view-transition-name` CSS property in a styleshhet or style attribute.</p></dd>
+
+<dt>`transition:persist` only works in `.astro` files?</dt>
+
+<dd><p>Yes. Alternatively, you can define a custom data property. Always specify an identifier as in `data-astro-transition-persist="identifier"`.</p></dd>
 
 ### Page Marker & Guard
 
