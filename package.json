@@ -34,6 +34,7 @@
     "format": "prettier -w components",
     "dev": "cd example && astro dev",
     "build": "cd example && astro build",
+    "relocate": "cd example && ./bin/relocate.sh /astro-vt-bot/",
     "preview": "cd example && astro preview",
     "test": "npx playwright test"
   },

@@ -66,9 +66,10 @@ jobs:
         working-directory: ${{ env.BUILD_PATH }}
       - name: Build with Astro
         run: |
+          ${{ steps.detect-package-manager.outputs.manager }} test
           ${{ steps.detect-package-manager.outputs.manager }} run build \
-            --site "${{ steps.pages.outputs.origin }}" \
-            --base "${{ steps.pages.outputs.base_path }}"
+            --site "${{ steps.pages.outputs.origin }}" 
+          ${{ steps.detect-package-manager.outputs.manager }} run relocate
         working-directory: ${{ env.BUILD_PATH }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
