@@ -14,10 +14,9 @@
   "type": "module",
   "files": [
     "components",
-    "CHANGELOG.md",
-    "index.ts"
+    "index.js"
   ],
-  "main": "index.ts",
+  "main": "index.js",
   "keywords": [
     "astro-component",
     "view-transition",

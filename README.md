@@ -1,3 +1,7 @@
+![Build Status](https://github.com/martrapp/astro-vt-bot/actions/workflows/astro.yml/badge.svg)
+[![License](https://img.shields.io/badge/License-ISC-green.svg)](https://github.com/martrapp/astro-vt-bot/blob/main/LICENSE)
+[![npm version](https://badge.fury.io/js/astro-vtbot.svg)](https://badge.fury.io/js/astro-vtbot)
+
 No, its not a roBOT, its a <b>B</b>ag <b>o</b>f <b>T</b>ricks!
 
 A current deployment of tech demos and the documentation can be found at https://events-3bg.pages.dev/

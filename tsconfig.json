@@ -1,6 +1,6 @@
 {
   "extends": "astro/tsconfigs/base",
-  "include": ["index.ts", "src"],
+  "include": ["index.js", "src"],
   "compilerOptions": {
     "jsx": "preserve"
   }
