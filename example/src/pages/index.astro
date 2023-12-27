@@ -13,7 +13,9 @@ import VtBotDebug from '~/components/VtBotDebug.astro';
 	<a href="/demos/" transition:name="demos">Tech Demos</a>
 	<div id="outer">
 		<div id="new">
-			<a href="https://www.npmjs.com/package/astro-vtbot">astro-vtbot is published on npm!</a>
+			<a href="https://www.npmjs.com/package/astro-vtbot">astro-vtbot
+ can be installed from npm!<br><img alt="npm" id=badge src="https://img.shields.io/npm/v/astro-vtbot?style=plastic&logo=npm&label=astro-vtbot&color=rgba(0%2C200%2C200%2C0.5)">
+</a>
 		</div>
 	</div>
 	<div class="fancy">&nbsp;</div>
@@ -28,13 +30,18 @@ import VtBotDebug from '~/components/VtBotDebug.astro';
 		align-items: center;
 		height: 100vh;
 	}
-</style>
-<style>
-	html::view-transition-new(root),
-	html::view-transition-old(root) {
-		animation-duration: 0.5s;
+	::view-transition-new(root),
+	::view-transition-old(root) {
+		animation-duration: 0s;
 	}
+</style>
 
+<style>
+	#badge {
+		height: 1.8rem;
+		margin: 0.5rem 0;
+
+	}
 	#outer {
 		background-image: radial-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
 		border: 9px dotted orange;
