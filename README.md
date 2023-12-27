@@ -1,14 +1,16 @@
-![Build Status](https://github.com/martrapp/astro-vt-bot/actions/workflows/astro.yml/badge.svg)
-[![License](https://img.shields.io/badge/License-ISC-green.svg)](https://github.com/martrapp/astro-vt-bot/blob/main/LICENSE)
-[![npm version](https://badge.fury.io/js/astro-vtbot.svg)](https://badge.fury.io/js/astro-vtbot)
-
 No, its not a roBOT, its a <b>B</b>ag <b>o</b>f <b>T</b>ricks!
-
-A current deployment of tech demos and the documentation can be found at https://events-3bg.pages.dev/
 
 # Bag of Tricks for Astro's View Transitions
 
 The bag of tricks provides support around Astro's view transitions.
+
+![Build Status](https://github.com/martrapp/astro-vt-bot/actions/workflows/astro.yml/badge.svg)
+[![npm version](https://badge.fury.io/js/astro-vtbot.svg)](https://badge.fury.io/js/astro-vtbot)
+
+A current deployment of tech demos and the documentation can be found at https://events-3bg.pages.dev/
+
+<span style="font-size: max(2rem,calc(100vw / 30)); float: left; padding: 0 0.5rem 0rem 0;">📓</span><span style="font-size:max(1rem,calc(100vw / 60));">Above all, this includes the [>>>  Jotter <<<](https://events-3bg.pages.dev/docs/Jotter/) with a wealth of information on transition events as well as background information and valuable tips & tricks on view transitions in Astro.</span>
+
 Some of the contents are technical demos, some are useful tools, and some are reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
 
 ## Tech Demos
