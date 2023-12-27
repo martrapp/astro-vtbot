@@ -47,7 +47,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.BUILD_PATH }}/example/node_modules
-          key: astro-cache
+          key: astro-cache-${{ github.run_id }}
+          restore-keys: astro-cache
 
       - name: Setup Pages
         id: pages
