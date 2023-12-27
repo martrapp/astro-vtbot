@@ -46,7 +46,7 @@ jobs:
       - name: Cache .astro
         uses: actions/cache@v3
         with:
-          path: ${{ env.BUILD_PATH }}/node_modules/.astro
+          path: ${{ env.BUILD_PATH }}/example/node_modules
           key: astro-cache
 
       - name: Setup Pages
