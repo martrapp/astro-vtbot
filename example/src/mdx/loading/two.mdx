@@ -1,0 +1,14 @@
+
+### Coding
+
+```javascript title="loading.js"
+document.addEventListener('astro:before-preparation', beforePreparation);
+document.addEventListener('astro:after-preparation', afterPreparation);
+
+function beforePreparation() {
+	document.querySelector('#loading').classList.add('show');
+}
+function afterPreparation() {
+	document.querySelector('#loading').classList.remove('show');
+}
+```

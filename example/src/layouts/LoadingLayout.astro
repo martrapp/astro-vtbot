@@ -1,14 +1,14 @@
 ---
 import VtBotDebug from '~/components/VtBotDebug.astro';
-import Layout from './Layout.astro';
+import MdxLayout from './MdxLayout.astro';
 interface Props {
 	title: string;
 	background: string;
 }
-const { title, background } = Astro.props;
+const { title } = Astro.props;
 ---
 
-<Layout title={title} {background}>
+<MdxLayout title={title}>
 	<VtBotDebug overlay production slot="head" />
 	<main transition:animate="fade">
 		<h1>{title}</h1>
@@ -19,18 +19,9 @@ const { title, background } = Astro.props;
 			to load. Therefore there will be a loading indicator.
 		</p>
 		<slot />
-		<xmp
-			>document.addEventListener('astro:before-preparation', () => {
-  document.querySelector('#loading').classList.add('show');
-});
-
-document.addEventListener('astro:after-preparation', () => {
-  document.querySelector('#loading').classList.remove('show'); 
-});</xmp
-		>
 		<div style="height:100vh"></div>
 	</main>
-</Layout>
+</MdxLayout>
 
 <script is:inline>
 	document.addEventListener('astro:before-preparation', (event) => {
@@ -58,6 +49,7 @@ document.addEventListener('astro:after-preparation', () => {
 	h2.show {
 		border: 2px solid green;
 		background-color: lightgreen;
+		color: black;
 		max-width: 10rem;
 		padding: 1rem;
 		border-radius: 5px;
@@ -75,10 +67,6 @@ document.addEventListener('astro:after-preparation', () => {
 		padding: 0;
 		border: none;
 	}
-	body {
-		background-color: mintcream;
-	}
-
 	html:view-transition(root) {
 		animation-duration: 0s;
 	}
