@@ -60,7 +60,7 @@ jobs:
 
       - name: Build with Astro
         run: |
-          npm run build --site "${{ steps.pages.outputs.origin }}"
+          npm run build -- --site "${{ steps.pages.outputs.origin }}"
           npm run relocate "${{ steps.pages.outputs.base_path }}"
         working-directory: ${{ env.BUILD_PATH }}
 
