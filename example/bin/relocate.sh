@@ -1,6 +1,7 @@
 #! /bin/sh
 
-BASE=${1:-"/"}
+BASE="${1:-""}/"
+
 echo "Relocating '/' to '${BASE}'"
 find dist -type f \( -name "*.html" -o -name "*.js" \) -exec sed -i \
 -e "s^url(/_astro/^url(${BASE}_astro/^g" \
