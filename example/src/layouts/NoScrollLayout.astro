@@ -1,5 +1,5 @@
 ---
-import Layout from './Layout.astro';
+import Layout from './MdxLayout.astro';
 
 interface Props {
 	title: string;
@@ -25,6 +25,16 @@ const { title, background } = Astro.props;
 	}
 	::view-transition-new(*) {
 		animation-duration: 1s;
+	}
+	
+	#fixed {
+		view-transition-name: fixed;
+		color:white;
+		position: fixed;
+		bottom: 50vh;
+		right: 10px;
+		padding: 1rem;
+		background: #55f;
 	}
 </style>
 <script is:inline>
