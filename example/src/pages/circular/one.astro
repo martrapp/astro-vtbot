@@ -5,9 +5,12 @@ import CircleLayout from 'src/layouts/CircleLayout.astro';
 <script>
 	import { navigate } from 'astro:transitions/client';
 	document.addEventListener('click', (e) => {
+		const pathname = location.pathname;
 		if (e.target instanceof HTMLElement && e.target.closest('a')) return;
-		if (location.pathname.startsWith('/circular/')) {
-			navigate(location.pathname === '/circular/one/' ? '/circular/two/' : '/circular/one/');
+		if (pathname.endsWith('/circular/one/' || pathname.endsWith('/circular/two/'))) {
+			navigate(
+				location.pathname.endsWith('/circular/one/') ? '../../circular/two/' : '../../circular/one/'
+			);
 		}
 	});
 </script>
