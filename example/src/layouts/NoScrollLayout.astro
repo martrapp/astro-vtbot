@@ -26,15 +26,17 @@ const { title, background } = Astro.props;
 	::view-transition-new(*) {
 		animation-duration: 1s;
 	}
-	
+
 	#fixed {
 		view-transition-name: fixed;
-		color:white;
 		position: fixed;
 		bottom: 50vh;
 		right: 10px;
 		padding: 1rem;
 		background: #55f;
+	}
+	#fixed a {
+		color: white;
 	}
 </style>
 <script is:inline>
