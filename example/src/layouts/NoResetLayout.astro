@@ -8,6 +8,7 @@ const { title } = Astro.props;
 ---
 
 <Layout title={title} background="black">
+	<h1 style="background-color: darkslateblue; margin: 1ex; color:coral">See <a style="color:goldenrod" data-astro-reload href="/library/ReplacementSwap/">ReplacementSwap</a> for a reusable component solving resets</h1>
 	<slot />
 </Layout>
 
@@ -20,9 +21,6 @@ const { title } = Astro.props;
 		background-color: orange;
 		font-family: monospace;
 		font-size: 1.15rem;
-	}
-	xmp {
-		background-color: antiquewhite;
 	}
 	h1 {
 		background-color: darkslategrey;
@@ -73,19 +71,21 @@ const { title } = Astro.props;
 	import { TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
 
 	document.addEventListener(TRANSITION_BEFORE_SWAP, (event: Event) => {
-		if (
-			isTransitionBeforeSwapEvent(event) &&
-			(event.from.pathname === '/no-reset/two/' ||
-				event.from.pathname === '/no-reset/three/' ||
-				event.from.pathname === '/no-reset/four/')
-		) {
-			event.swap = () => {
-				event.newDocument.querySelectorAll('[data-swap]').forEach((element: Element) => {
-					const name = element instanceof HTMLElement && element.dataset.swap;
-					document.querySelector(`[data-swap="${name}"]`)?.replaceWith(element);
-				});
-				document.querySelector("[class*='astro-route-announcer']")?.remove();
-			};
+		if (isTransitionBeforeSwapEvent(event)) {
+			const pathname = event.from.pathname;
+			if (
+				pathname.endsWith('/no-reset/two/') ||
+				pathname.endsWith('/no-reset/three/') ||
+				pathname.endsWith('/no-reset/four/')
+			) {
+				event.swap = () => {
+					event.newDocument.querySelectorAll('[data-swap]').forEach((element: Element) => {
+						const name = element instanceof HTMLElement && element.dataset.swap;
+						document.querySelector(`[data-swap="${name}"]`)?.replaceWith(element);
+					});
+					document.querySelector("[class*='astro-route-announcer']")?.remove();
+				};
+			}
 		}
 	});
 </script>

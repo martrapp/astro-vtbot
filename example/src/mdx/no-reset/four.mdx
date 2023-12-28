@@ -1,0 +1,16 @@
+```javascript title="no-reset.js"
+document.addEventListener('astro:before-swap', ev => { 
+
+  const pathname=ev.from.pathname;
+  if (pathname.endsWith('/no-reset/two/') 
+    || pathname.endsWith('/no-reset/three/') 
+    || pathname.endsWith('/no-reset/four/') 
+  ) {
+    ev.swap = () => {
+      ev.newDocument.querySelectorAll('[data-swap]').forEach(el => {
+        document.querySelector(`[data-swap="${el.dataset.swap}"]`)?.replaceWith(el);
+      });
+    };
+  }
+});
+```
