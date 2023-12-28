@@ -13,11 +13,18 @@
 		iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait
 		nulla facilisi.
 
-		Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
-		illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui
-		blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum
-		dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-		dolore magna aliquam erat volutpat.
+		We save the actual scroll position in the listener for the `after:preparation` event, i.e. rightbefore the swap. And we restore the scroll position right after the swap, in the `after:swap` listener. 
+
+```javascript title="no-scroll.js"
+  let position = { left: 0, top: 0 };
+
+	document.addEventListener('astro:after-preparation', () => {
+		position = { left: scrollX, top: scrollY };
+	});
+	document.addEventListener('astro:after-swap', () => {
+		scrollTo({ ...position, behavior: 'instant' });
+	});
+```
 
 		Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
 		illum dolore eu feugiat nulla facilisis.
