@@ -1,0 +1,15 @@
+```typescript title="morph.ts"
+if (event.navigationType !== 'traverse') {
+  viewTransitionName = "" + event.sourceElement!.computedStyleMap().get('view-transition-name');
+  event.newDocument.querySelector('h1')!.style.viewTransitionName = viewTransitionName;
+  history.replaceState({ ...history.state, viewTransitionName }, ''); // remember for history traversal 
+} else {
+  if (event.direction === 'back') { 
+    viewTransitionName = history.state.viewTransitionName;
+    document.querySelector('h1')!.style.viewTransitionName = viewTransitionName;
+  } else {
+		event.newDocument.querySelector('h1')!.style.viewTransitionName = viewTransitionName;
+    viewTransitionName = history.state.viewTransitionName; 
+  }
+}
+```
