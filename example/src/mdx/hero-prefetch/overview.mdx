@@ -1,0 +1,16 @@
+```javascript title="hero-prefetch.js"
+document.addEventListener('astro:before-preparation', e => { 
+		
+  if (e.from.href.endsWith('/overview/')) {
+    const originalLoader = event.loader;
+    event.loader = async () => { 
+      await originalLoader();
+      const img = new Image();
+      img.src = event.newDocument.querySelector('img[class*="hero"]').src; 
+      await new Promise((resolve) => {
+        img.onload = img.onerror = resolve
+      });
+    };
+  }
+});
+```

@@ -1,5 +1,6 @@
 ---
 import PrefetchLayout from 'src/layouts/PrefetchLayout.astro';
+import Content from "src/mdx/hero-prefetch/overview.mdx"
 ---
 
 <PrefetchLayout background="#369" title="Overview">
@@ -23,22 +24,7 @@ import PrefetchLayout from 'src/layouts/PrefetchLayout.astro';
 	</p>
 	<p>If the larger images are not in your cache, the page may appear to be unresponsive to your click. It would be a good idea to show a loading indicator to signal that the click has been detected, but it takes a second for the next page to occur.</p>
 
-	<xmp
-		>document.addEventListener('astro:before-preparation', e => { 
-		
-  if (e.from.href.endsWith('/overview/')) {
-    const originalLoader = event.loader;
-    event.loader = async () => { 
-      await originalLoader();
-      const img = new Image();
-      img.src = event.newDocument.querySelector('img[class*="hero"]').src; 
-      await new Promise((resolve) => {
-        img.onload = img.onerror = resolve
-      });
-    };
-  }
-});</xmp
-	>
+	<Content />
 </PrefetchLayout>
 <script>
 	import {
@@ -65,9 +51,6 @@ import PrefetchLayout from 'src/layouts/PrefetchLayout.astro';
 		display: inline-block;
 		width: 100px;
 		height: 100px;
-	}
-	xmp {
-		color: wheat;
 	}
 
 	p {
