@@ -65,27 +65,26 @@ import Layout from 'src/layouts/Layout.astro';
 	</h2>
 </Layout>
 <script>
-	import { prefetch } from 'astro:prefetch';
 	import {
 		isTransitionBeforePreparationEvent,
 		isTransitionBeforeSwapEvent,
 	} from 'astro:transitions/client';
 
-	const enabled = () => location.pathname === '/intra-page/only-page/';
+	const enabled = (p: string) => p.endsWith('/intra-page/only-page/');
 	let previousScrollY: number;
 
 	document.addEventListener('astro:before-preparation', (e) => {
 		if (
-			enabled() &&
 			isTransitionBeforePreparationEvent(e) &&
-			e.to.pathname === '/intra-page/only-page/'
+			enabled(e.from.pathname) &&
+			enabled(e.to.pathname)
 		) {
 			e.loader = async () => {};
 		}
 	});
 	document.addEventListener('astro:before-swap', (e) => {
 		previousScrollY = 0;
-		if (enabled() && isTransitionBeforeSwapEvent(e) && e.to.pathname === '/intra-page/only-page/') {
+		if (isTransitionBeforeSwapEvent(e) && enabled(e.from.pathname) && enabled(e.to.pathname)) {
 			e.swap = () => {
 				const style1 = document.querySelector('h1')!.style;
 				const style2 = document.querySelector('h2')!.style;
@@ -101,7 +100,7 @@ import Layout from 'src/layouts/Layout.astro';
 		}
 	});
 	document.addEventListener('astro:after-swap', (e) => {
-		if (enabled()) {
+		if (enabled(location.pathname)) {
 			if (previousScrollY > 0) {
 				window.scrollTo({ behavior: 'auto', top: 0 });
 			} else {
