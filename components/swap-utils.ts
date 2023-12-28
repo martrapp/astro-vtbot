@@ -62,7 +62,7 @@ export const saveFocus = (): SavedFocus => {
  * Restore the focus and selection if the saved active element still belongs to window.document
  */
 export const restoreFocus = ({ activeElement, start, end }: SavedFocus) => {
-	if (activeElement && activeElement.ownerDocument === document) {
+	if (activeElement) {
 		activeElement.focus();
 		if (activeElement instanceof HTMLInputElement || activeElement instanceof HTMLTextAreaElement) {
 			activeElement.selectionStart = start!;
