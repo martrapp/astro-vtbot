@@ -13,7 +13,8 @@ The falling tree and snowboarder are custom animations that run directly before 
 
 ```astro title="winter.astro" {5}
 document.addEventListener('astro:before-preparation', (event) => {
-	if (isTransitionBeforePreparationEvent(event) && event.from.pathname === '/winter/one/') {
+	if (isTransitionBeforePreparationEvent(event) 
+      && event.from.pathname.endsWith('/winter/one/')) {
 		const originalLoader = event.loader;
 		event.loader = async () => {
 			await Promise.all([

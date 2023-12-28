@@ -209,7 +209,7 @@ import { Content } from 'src/mdx/winter/two.mdx';
 	function stars(n: number) {
 		if (n === 0) return;
 		setTimeout(() => {
-			if (location.pathname !== '/winter/two/') return;
+			if (!location.pathname.endsWith('/winter/two/')) return;
 			let a = document.createElement('a');
 			a.href = '/winter/one/';
 			a.innerText = Math.random() > 0.9 ? '✨' : '⭐';

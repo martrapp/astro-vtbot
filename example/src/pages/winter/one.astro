@@ -187,7 +187,7 @@ const vtbotBackgroundImage = `url(${optimizedBackground.src})`;
 	} from 'astro:transitions/client';
 
 	document.addEventListener(TRANSITION_BEFORE_PREPARATION, (event) => {
-		if (isTransitionBeforePreparationEvent(event) && event.from.pathname === '/winter/one/') {
+		if (isTransitionBeforePreparationEvent(event) && event.from.pathname.endsWith('/winter/one/')) {
 			const originalLoader = event.loader;
 			event.loader = async () => {
 				document.querySelector('main')?.remove();
