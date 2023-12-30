@@ -2,23 +2,55 @@
 import { Image } from 'astro:assets';
 import Layout from 'src/layouts/Layout.astro';
 import fi from 'src/assets/fi.png';
-import VtBotDebug from '~/components/VtBotDebug.astro';
 ---
 
 <Layout title="View Transition Bag of Tricks">
+	<meta
+		slot="head"
+		name="description"
+		content="Reusable components, tech demos, and a wealth of in depth information on view transitions"
+	/>
+	<meta slot="head" name="robots" content="index, follow" />
+	<meta slot="head" property="og:title" content="astro-vtbot | View Transition Bag of Tricks" />
+	<meta slot="head" property="og:type" content="website" />
+	<meta
+		slot="head"
+		property="og:image"
+		content="https://repository-images.githubusercontent.com/714622092/5b7e9328-250a-4996-a893-070af52e61ee"
+	/>
+	<meta slot="head" property="og:url" content="https://events-3bg.pages.dev/" />
+	<meta
+		slot="head"
+		property="og:description"
+		content="Reusable components, tech demos, and a wealth of in depth information on view transitions"
+	/>
+	<meta slot="head" property="og:locale" content="en_US" />
+	<meta slot="head" property="og:site_name" content="astro-vtbot | View Transition Bag of Tricks" />
+
 	<Image id="fi" src={fi} alt="A single fish" transition:animate="slide" transition:name="fi" />
-	<div class="hit-the-floor">Welcome to the Bag of Tricks for Astro View Transitions</div>
+	<h1 class="hit-the-floor">Welcome to the Bag of Tricks for Astro View Transitions</h1>
 	<span id="ken" transition:animate="slide" transition:name="ken">🦘</span>
 	<a href="/components/" transition:name="reuse">Reusable Components</a>
 	<a href="/demos/" transition:name="demos">Tech Demos</a>
 	<div id="outer">
 		<div id="new">
-			<a href="https://www.npmjs.com/package/astro-vtbot">astro-vtbot
- can be installed from npm!<br><img alt="npm" id=badge src="https://img.shields.io/npm/v/astro-vtbot?style=plastic&logo=npm&label=astro-vtbot&color=rgba(0%2C200%2C200%2C0.5)">
-</a>
+			<a href="https://www.npmjs.com/package/astro-vtbot"
+				>astro-vtbot can be installed from npm!<br /><img
+					alt="npm"
+					id="badge"
+					src="https://img.shields.io/npm/v/astro-vtbot?style=plastic&logo=npm&label=astro-vtbot&color=rgba(0%2C200%2C200%2C0.5)"
+				/>
+			</a>
 		</div>
 	</div>
 	<div class="fancy">&nbsp;</div>
+	<div style="font-size:min(5vw,5vh); color: white; position:fixed; bottom:1vh; right: 3vw">
+		Visit <a
+			style="text-decoration: dotted underline; color: coral"
+			href="https://github.com/martrapp/astro-vt-bot#bag-of-tricks-for-astros-view-transitions"
+			><code>astro-vtbot</code></a
+		> on GitHub
+	</div>
 </Layout>
 <style is:global>
 	html {
@@ -37,10 +69,12 @@ import VtBotDebug from '~/components/VtBotDebug.astro';
 </style>
 
 <style>
+	h1 {
+		margin: 0;
+	}
 	#badge {
 		height: 1.8rem;
 		margin: 0.5rem 0;
-
 	}
 	#outer {
 		background-image: radial-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2));
@@ -117,7 +151,7 @@ import VtBotDebug from '~/components/VtBotDebug.astro';
 		font-size: min(25vh, 25vw);
 		position: fixed;
 		bottom: 5vh;
-		right: 5vw;
+		right: 1vw;
 		z-index: -1;
 	}
 
