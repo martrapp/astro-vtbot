@@ -66,13 +66,22 @@ export function elementsWithPropertyinStylesheet(
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
 	[...document.styleSheets].forEach((sheet) => {
+		const style = sheet.ownerNode as HTMLElement;
+		const definedNames = new Set<string>();
+		const matches = style?.innerHTML.matchAll(/view-transition-name:\s*([^;}]*)/g);
+		[...matches].forEach((match) => definedNames.add(match[1]));
 		[...sheet.cssRules].forEach((rule) => {
 			if (rule instanceof CSSStyleRule && rule.style[property]) {
 				const name = rule.style[property];
+				definedNames.delete(name);
 				const els = document.querySelectorAll(rule.selectorText);
 				map.set(name, new Set([...(map.get(name) ?? new Set()), ...[...els]]));
 			}
 		});
+		if (definedNames.size > 0) {
+			style.setAttribute('data-illegal-transition-names', [...definedNames].join(', '));
+			map.set('', new Set([...(map.get('') ?? new Set()), style]));
+		}
 	});
 	return map;
 }

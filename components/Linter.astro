@@ -93,6 +93,8 @@ const TAG = 'vtbot-linter'; // see also start of script
 		});
 	}
 
+	const emptyElementSet = new Set<Element>();
+
 	function flagNonUniqueOrMissingTransitionNames(
 		event: TransitionBeforeSwapEvent,
 		origin: 'old' | 'new'
@@ -100,33 +102,97 @@ const TAG = 'vtbot-linter'; // see also start of script
 		const here = `in ${origin} DOM (${event[origin === 'old' ? 'from' : 'to'].pathname})`;
 
 		const namedElements = elementsWithStyleProperty('view-transition-name');
+		const warned = new Set<string>();
+
 		[...namedElements.keys()].forEach((name) => {
-			const elements = namedElements.get(name)!;
-			if (elements.size === 0) {
-				console.log(
-					`%c[vtbot-linter] no HTMLElement with view transition name "${name}" exists ${here}. Does it got overridden by transition:persist or data-vtbot-replace?`,
-					WARNING
-				);
-			}
-			if (elements!.size > 1) {
-				console.groupCollapsed(
-					`%c[vtbot-linter] view transition name "${name}" is not unique ${here}`,
-					ERROR
-				);
-				[...elements!.values()]?.forEach((element, idx) => {
-					const newName = `${name}${idx}`;
-					console.log(`%o at %c${deriveCSSSelector(element)}`, element, IMPORTANT);
-				});
-				console.groupEnd();
+			if (name !== '') {
+				const elements = namedElements.get(name)!;
+				if (elements.size === 0) {
+					warned.add(name);
+					console.log(
+						`%c[vtbot-linter] no HTMLElement with view transition name "${name}" exists ${here}. Does it got overridden by transition:persist or data-vtbot-replace?`,
+						WARNING
+					);
+				}
+				if (elements.size > 1) {
+					warned.add(name);
+					console.groupCollapsed(
+						`%c[vtbot-linter] view transition name "${name}" is not unique ${here}`,
+						ERROR
+					);
+					[...elements!.values()]?.forEach((element) => {
+						console.log(`%o at %c${deriveCSSSelector(element)}`, element, IMPORTANT);
+					});
+					console.groupEnd();
+				}
 			}
 		});
+
+		// Most illegal view-transition-names were mapped to '' by the browser.
+		// There are some additional keywords to checks for
+		const errors = new Set(
+			['', 'none', 'initial', 'unset', 'inherit'].flatMap((n) => {
+				const elements = [...(namedElements.get(n)?.values() ?? emptyElementSet)];
+				elements.forEach((element) => {
+					n && !warned.has(n) && element.setAttribute('data-illegal-transition-names', n);
+				});
+				return elements;
+			})
+		);
+
+		// prune errors, delete what we had warned before
+		[...errors.values()].forEach((element) => {
+			if (element instanceof HTMLStyleElement) {
+				if (element.getAttribute('data-illegal-transition-names')) {
+					const filtered = element
+						.getAttribute('data-illegal-transition-names')!
+						.split(', ')
+						.filter((n) => !warned.has(n))
+						.join(', ');
+					if (filtered) element.setAttribute('data-illegal-transition-names', filtered);
+					else {
+						element.removeAttribute('data-illegal-transition-names');
+						errors.delete(element);
+					}
+				}
+			} else {
+				if (
+					warned.has(
+						element.attributes['style']?.nodeValue.match(/view-transition-name:\s*([^;]*)/)[1] ?? ''
+					)
+				) {
+					errors.delete(element);
+				}
+			}
+		});
+
+		if (errors.size > 0) {
+			console.groupCollapsed(`%c[vtbot-linter] Illegal view-transition-name(s) ${here}`, ERROR);
+			console.log(
+				'%cMaybe it starts with a number, or is a reserved word, or it contains illegal characters?',
+				WARNING
+			);
+			[...errors.values()].forEach((element) => {
+				const illegalNames =
+					element.getAttribute('data-illegal-transition-names') ??
+					element.attributes['style'].nodeValue.match(/view-transition-name:\s*([^;]*)/)[1] ??
+					'';
+				element.removeAttribute('data-illegal-transition-names');
+				console.log(
+					`%c${illegalNames}%c in %o at %c${deriveCSSSelector(element)}`,
+					ERROR,
+					'',
+					element,
+					IMPORTANT
+				);
+			});
+			console.groupEnd();
+		}
 	}
 
 	function flagMissingScopedStyles(event: TransitionBeforeSwapEvent, origin: 'old' | 'new') {
 		const here = `in ${origin} DOM (${event[origin === 'old' ? 'from' : 'to'].pathname})`;
 		const { inStyleSheets, inElements } = astroContextIds();
-		//[...inElements].forEach((id) => console.log('eid :>> ', id));
-		//[...inStyleSheets].forEach((id) => console.log('sid :>> ', id));
 		const notDefined = new Set([...inElements].filter((id) => !inStyleSheets.has(id)));
 		const notUsed = new Set([...inStyleSheets].filter((id) => !inElements.has(id)));
 		notDefined.forEach((id) => {

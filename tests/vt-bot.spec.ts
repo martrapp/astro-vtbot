@@ -112,4 +112,14 @@ test.describe('Linter component', () => {
 			`%c[vtbot-linter] no HTMLElement with view transition name \"olaf\" exists in new DOM (/linter/eight/). Does it got overridden by transition:persist or data-vtbot-replace? %c[vtbot-linter] scoped style id \"y2uoggpx\" is not defined in new DOM (/linter/eight/).  JSHandle@node%c[vtbot-linter] The stylesheet might got optimized away or the element might have lost its styling when being copied by transition:persist or data-vtbot-replace. console.groupEnd`
 		);
 	});
+	test('detect illegal view-transition-names', async ({ page }) => {
+		captureConsole(page);
+		await page.goto('/linter/nine/');
+		await expect(page).toHaveTitle('Linter9');
+		await page.locator('#toten').click();
+		await expect(page).toHaveTitle('Linter10');
+		expect(consoleOutput).toBe(
+			`%c[vtbot-linter] Illegal view-transition-name(s) in old DOM (/linter/nine/) %cMaybe it starts with a number, or is a reserved word, or it contains illegal characters? %cH^rst, 5bs%c in %o at %chtml > head > style:nth-of-type(2) %c-123abc%c in %o at %chtml > body > main > p %cnone%c in %o at %chtml > body > main > h1 console.groupEnd`
+		);
+	});
 });

@@ -28,6 +28,8 @@ View transitions can fail or show strange effects if you set transition attribut
 * Elements that define `data-vtbot-replace` must not be nested
 * Elements copied by `transition:persist` or `data-vtbot-replace` should not lose their transition name
 * Elements copied by `transition:persist` or `data-vtbot-replace` should not lose their scoped styles
+* View-transition-names must be [valid CSS identifiers](https://developer.mozilla.org/en-US/docs/Web/CSS/custom-ident).
+
 
 ### Example output
 
@@ -60,6 +62,11 @@ Astro emits scoped styles by default, with different strategies to bind styles t
 The way Astro links elements with their view-transition-name uses a very similar mechanism. Elements that are copied to another DOM often lose their view-transition-name if the name is defined with `transition:name`. Alternatively, you can define the name of the view transition with the style attribute: `<elem style="view-transition-name: identifier">`. In this way, it remains a part of the persisted element.
 
 The `<Linter>` component will issue a warning in these situations.  They are probably errors, but the `<Linter>` does not know if the effects are intended.
+
+### Valid identifiers for view-transition-names
+When you use `transition:name` or `transition:persist`, Astro normalizes the specified identifier to ensure that it is a valid CSS `<custom-ident>` value. But it is also possible to define `view-transition-names`directly in style attributes or stylsheets. In this case, the `<Linter>` component will issue a warning if the identifier is not valid.
+
+Valid custom identifiers must not start with a number, i.e. a digit, or a "`-`" sign followed by a digit. Characters beside letters, digits, underscoe and the minus-sign must be properly escaped. The reserved names `unset`, `initial`, `inherit` and `none` are also invalid identifiers for `view-transition-names`.
 
 
 ## Usage

@@ -6,8 +6,9 @@
 
 - [ef4013ab4](https://github.com/martrapp/astro-vt-bot/commit/ef4013ab46822a4b1489fab3f71638e5a83a1e5e) [Jotter:] Add tipps and tricks on astro directives and non-cached images.
 
-- Plus: [README:] Add badges and better advertising of the information in the Jotter 
-- Lots of preparation for an efficient build with changed BASE_URL
+- Plus: [README:] Add badges and better advertising of the information in the Jotter. 
+- Lots of preparation for an efficient build with changed BASE_URL.
+- Minor fixes in scroll-to-top demo and demo overview.
 
 ## 1.1.3 2023-12-25
 

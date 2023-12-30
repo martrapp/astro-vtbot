@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Linter from 'astro-vtbot/components/Linter.astro';
+---
+
+<Layout title="Linter9">
+	<Linter slot="head" />
+	<main>
+		<a id="toten" href="/linter/ten/">To page 10</a>
+		<h1>Linter 9</h1>
+		<p style="view-transition-name: -123abc">Some content</p>
+	</main>
+</Layout>
+<style>
+	p {
+		color: red;
+		view-transition-name: H^rst;
+	}
+	h1 {
+		view-transition-name: none;
+	}
+	main {
+		view-transition-name: 5bs;
+	}
+</style>
