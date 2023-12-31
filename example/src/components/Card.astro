@@ -10,31 +10,46 @@ export interface Props {
 	reload?: boolean;
 }
 
-const {
-	name,
-	href,
-	title,
-	body,
-	icon,
-	iconStyle = '',
-	what,
-	reload,
-} = Astro.props;
+const { name, href, title, body, icon, iconStyle = '', what, reload } = Astro.props;
 ---
 
 <li class="link-card">
 	<a href={href} data-astro-reload={reload}>
 		<tt>{what}</tt>
 		<h2>
-			<span style={`view-transition-name: ${name + '-1'}; display:inline-block`}>{title}</span>
+			{
+				name ? (
+					<span style={`view-transition-name: ${name + '-1'}; display:inline-block`}>{title}</span>
+				) : (
+					`${title}`
+				)
+			}
 			<span>&nbsp;&rarr;</span>
 		</h2>
 		<p>
-			<span
-				style={`view-transition-name: ${name + '-2'}; display: inline-block; font-size:3.5rem; float:right; padding:0.2em; ${iconStyle}`}
-				>{icon}</span
-			>
-			{body}<div style={`view-transition-name: ${name + '-3'};`}><slot /></div>
+			{
+				name ? (
+					<span
+						style={`view-transition-name: ${
+							name + '-2'
+						}; display: inline-block; font-size:3.5rem; float:right; padding:0.2em; ${iconStyle}`}
+					>
+						{icon}
+					</span>
+				) : (
+					<span style={`font-size:3.5rem; float:right; padding:0.2em; ${iconStyle}`}>{icon}</span>
+				)
+			}
+			{body}
+			{
+				name ? (
+					<div style={`view-transition-name: ${name + '-3'};`}>
+						<slot />
+					</div>
+				) : (
+					<slot />
+				)
+			}
 		</p>
 	</a>
 </li>
