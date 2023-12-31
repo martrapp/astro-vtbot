@@ -61,24 +61,13 @@ jobs:
       - name: Build with Astro
         run: |
           npm run build -- --site "${{ steps.pages.outputs.origin }}"
-          npm run relocate "${{ steps.pages.outputs.base_path }}"
         working-directory: ${{ env.BUILD_PATH }}
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
         with:
-          path: ${{ env.BUILD_PATH }}/example/dist
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    needs: build
-    runs-on: ubuntu-latest
-    
-    name: Deploy
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          apiToken: ${{ secrets.CLOUDFLARE_PAGES_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: events
+          directory: ${{ env.BUILD_PATH }}/example/dist
