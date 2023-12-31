@@ -1,6 +1,6 @@
 No, its not a roBOT, its a <b>B</b>ag <b>o</b>f <b>T</b>ricks!
 
-# Bag of Tricks for Astro's View Transitions
+# **Bag of Tricks** for Astro's **View Transitions**
 
 The bag of tricks provides support around Astro's view transitions.
 

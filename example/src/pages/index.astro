@@ -4,19 +4,19 @@ import Layout from 'src/layouts/Layout.astro';
 import fi from 'src/assets/fi.png';
 ---
 
-<Layout title="View Transition Bag of Tricks">
+<Layout title="Bag of Tricks for View Transition">
 	<meta
 		slot="head"
 		name="description"
 		content="Reusable components, tech demos, and a wealth of in depth information on view transitions"
 	/>
 	<meta slot="head" name="robots" content="index, follow" />
-	<meta slot="head" property="og:title" content="astro-vtbot | View Transition Bag of Tricks" />
+	<meta slot="head" property="og:title" content="astro-vtbot | Bag of Tricks for View Transitions" />
 	<meta slot="head" property="og:type" content="website" />
 	<meta
 		slot="head"
 		property="og:image"
-		content="https://repository-images.githubusercontent.com/714622092/5b7e9328-250a-4996-a893-070af52e61ee"
+		content="https://repository-images.githubusercontent.com/714622092/be92573a-a564-4dcd-a462-c236f201d56b"
 	/>
 	<meta slot="head" property="og:url" content="https://events-3bg.pages.dev/" />
 	<meta
@@ -25,13 +25,11 @@ import fi from 'src/assets/fi.png';
 		content="Reusable components, tech demos, and a wealth of in depth information on view transitions"
 	/>
 	<meta slot="head" property="og:locale" content="en_US" />
-	<meta slot="head" property="og:site_name" content="astro-vtbot | View Transition Bag of Tricks" />
+	<meta slot="head" property="og:site_name" content="astro-vtbot | Bag of Tricks for View Transition" />
 
 	<Image id="fi" src={fi} alt="A single fish" transition:animate="slide" transition:name="fi" />
 	<h1 class="hit-the-floor">Welcome to the Bag of Tricks for Astro View Transitions</h1>
 	<span id="ken" transition:animate="slide" transition:name="ken">🦘</span>
-	<a href="/components/" transition:name="reuse">Reusable Components</a>
-	<a href="/demos/" transition:name="demos">Tech Demos</a>
 	<div id="outer">
 		<div id="new">
 			<a href="https://www.npmjs.com/package/astro-vtbot"
@@ -43,6 +41,8 @@ import fi from 'src/assets/fi.png';
 			</a>
 		</div>
 	</div>
+	<a href="/components/" transition:name="reuse">Reusable Components</a>
+	<a href="/demos/" transition:name="demos">Tech Demos</a>
 	<div class="fancy">&nbsp;</div>
 	<div style="font-size:min(5vw,5vh); color: white; position:fixed; bottom:1vh; right: 3vw">
 		Visit <a
@@ -53,6 +53,18 @@ import fi from 'src/assets/fi.png';
 	</div>
 </Layout>
 <style is:global>
+	body > a {
+		font-family: sans-serif;
+		display: inline-block;
+		font-size: min(5vh, 5vw);
+		background: linear-gradient(330deg, #fa5e, #eefc);
+		color: #444;
+		border-radius: 10px;
+		padding: 1ex;
+		margin-left: 2ex;
+		margin-top: 1ex;
+		text-decoration: dotted underline;
+	}
 	html {
 		background: linear-gradient(330deg, #000, rgb(135, 206, 235));
 		overflow: hidden;
@@ -62,6 +74,7 @@ import fi from 'src/assets/fi.png';
 		align-items: center;
 		height: 100vh;
 	}
+	
 	::view-transition-new(root),
 	::view-transition-old(root) {
 		animation-duration: 0s;
@@ -73,7 +86,7 @@ import fi from 'src/assets/fi.png';
 		margin: 0;
 	}
 	#badge {
-		height: 1.8rem;
+		height: 1rem;
 		margin: 0.5rem 0;
 	}
 	#outer {
@@ -112,7 +125,6 @@ import fi from 'src/assets/fi.png';
 		aspect-ratio: 1;
 		width: 400%;
 		animation: rotate 5s linear infinite;
-		z-index: -10;
 	}
 
 	/* Overlay */
@@ -125,19 +137,6 @@ import fi from 'src/assets/fi.png';
 		to {
 			transform: translate(-50%, -50%) scale(1.4) rotate(1turn);
 		}
-	}
-	body > a {
-		font-family: sans-serif;
-		display: inline-block;
-		font-size: min(5vh, 5vw);
-		background: linear-gradient(330deg, orange, #eef);
-		color: #444;
-		border-radius: 10px;
-		padding: 1ex;
-		margin-left: 2ex;
-		margin-top: 1ex;
-		text-decoration: dotted underline;
-		z-index: 10;
 	}
 	#fi {
 		z-index: -1;
