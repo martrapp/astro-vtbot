@@ -11,13 +11,13 @@ import fi from 'src/assets/fi.png';
 		content="Reusable components, tech demos, and a wealth of in depth information on view transitions"
 	/>
 	<meta slot="head" name="robots" content="index, follow" />
-	<meta slot="head" property="og:title" content="astro-vtbot | Bag of Tricks for View Transitions" />
-	<meta slot="head" property="og:type" content="website" />
 	<meta
 		slot="head"
-		property="og:image"
-		content="https://repository-images.githubusercontent.com/714622092/be92573a-a564-4dcd-a462-c236f201d56b"
+		property="og:title"
+		content="astro-vtbot | Bag of Tricks for View Transitions"
 	/>
+	<meta slot="head" property="og:type" content="website" />
+	<meta slot="head" property="og:image" content="https://events-3bg.pages.dev/social.png" />
 	<meta slot="head" property="og:url" content="https://events-3bg.pages.dev/" />
 	<meta
 		slot="head"
@@ -25,7 +25,11 @@ import fi from 'src/assets/fi.png';
 		content="Reusable components, tech demos, and a wealth of in depth information on view transitions"
 	/>
 	<meta slot="head" property="og:locale" content="en_US" />
-	<meta slot="head" property="og:site_name" content="astro-vtbot | Bag of Tricks for View Transition" />
+	<meta
+		slot="head"
+		property="og:site_name"
+		content="astro-vtbot | Bag of Tricks for View Transition"
+	/>
 
 	<Image id="fi" src={fi} alt="A single fish" transition:animate="slide" transition:name="fi" />
 	<h1 class="hit-the-floor">Welcome to the Bag of Tricks for Astro View Transitions</h1>
@@ -74,7 +78,7 @@ import fi from 'src/assets/fi.png';
 		align-items: center;
 		height: 100vh;
 	}
-	
+
 	::view-transition-new(root),
 	::view-transition-old(root) {
 		animation-duration: 0s;
@@ -86,7 +90,7 @@ import fi from 'src/assets/fi.png';
 		margin: 0;
 	}
 	#badge {
-		height: 1rem;
+		height: min(5vh, 5vw);
 		margin: 0.5rem 0;
 	}
 	#outer {
