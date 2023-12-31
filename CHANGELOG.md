@@ -1,16 +1,15 @@
 # The Bag of Tricks for View Transitions
 
-## Upcomming
+## 1.1.4 2023-12-31
 
 ### Patch Changes
 
-- [ef4013ab4](https://github.com/martrapp/astro-vt-bot/commit/ef4013ab46822a4b1489fab3f71638e5a83a1e5e) [Jotter:] Add tipps and tricks on astro directives and non-cached images.
-- [f0af95aee](https://github.com/martrapp/astro-vt-bot/commit/f0af95aee53f7e494e33821def3464bb318db606) [Build:] Enable changesets
-- [3606165a4](https://github.com/martrapp/astro-vt-bot/commit/3606165a4e0ef266d3ababa3c7426fc0cd735065) [Linter:] Add detection of illegal view-transition-names
+- [[Linter:](https://events-3bg.pages.dev/library/Linter/)] Add detection of illegal view-transition-names
+- [[Jotter:](https://events-3bg.pages.dev/docs/Jotter/)] Add tipps and tricks on astro directives and non-cached images.
 
-- Plus: [README:] Add badges and better advertising of the information in the Jotter.
-- Lots of preparation for an efficient build with changed BASE_URL.
-- Minor fixes in scroll-to-top demo and demo overview.
+Plus
+- Minor fixes for demos and demo overview.
+- Improvements of the build process.
 
 ## 1.1.3 2023-12-25
 
