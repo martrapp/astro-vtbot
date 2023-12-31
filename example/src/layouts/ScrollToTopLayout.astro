@@ -27,7 +27,10 @@ const { title, background } = Astro.props;
 </style>
 <script is:inline>
 	document.addEventListener('astro:after-swap', () => {
-		document.querySelector('#real')?.innerText = new Date().toLocaleTimeString();
+		const real = document.querySelector('#real');
+		if (real) {
+			real.innerText = new Date().toLocaleTimeString();
+		}
 		scrollTo({ left: 0, top: 0, behavior: 'instant' });
 	});
 </script>
