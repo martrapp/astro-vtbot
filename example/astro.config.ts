@@ -21,7 +21,7 @@ export default defineConfig({
 	vite: {
 		server: {
 			fs: {
-				allow: ['/home/ergberg/'],
+				allow: ['/home/']
 			},
 		},
 	},
