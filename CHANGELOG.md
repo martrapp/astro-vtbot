@@ -1,5 +1,12 @@
 # The Bag of Tricks for View Transitions
 
+## 1.1.5 2024-12-8
+
+
+### Patch Changes
+
+- f5e72f8: Fixes execptions raised when accessing cross origin style sheets in VtBotDebug and Linter
+
 ## 1.1.4 2023-12-31
 
 ### Patch Changes
@@ -8,6 +15,7 @@
 - [[Jotter:](https://events-3bg.pages.dev/docs/Jotter/)] Add tipps and tricks on astro directives and non-cached images.
 
 Plus
+
 - Minor fixes for demos and demo overview.
 - Improvements of the build process.
 
