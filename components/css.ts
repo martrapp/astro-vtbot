@@ -70,15 +70,18 @@ export function elementsWithPropertyinStylesheet(
 		const definedNames = new Set<string>();
 		const matches = style?.innerHTML.matchAll(/view-transition-name:\s*([^;}]*)/g);
 		[...matches].forEach((match) => definedNames.add(match[1]));
-		[...sheet.cssRules].forEach((rule) => {
-			if (rule instanceof CSSStyleRule && rule.style[property]) {
-				const name = rule.style[property];
-				definedNames.delete(name);
-				const els = document.querySelectorAll(rule.selectorText);
-				map.set(name, new Set([...(map.get(name) ?? new Set()), ...[...els]]));
-			}
-		});
-		if (definedNames.size > 0) {
+		try {
+			[...sheet.cssRules].forEach((rule) => {
+				if (rule instanceof CSSStyleRule && rule.style[property]) {
+					const name = rule.style[property];
+					definedNames.delete(name);
+					const els = document.querySelectorAll(rule.selectorText);
+					map.set(name, new Set([...(map.get(name) ?? new Set()), ...[...els]]));
+				}
+			});
+		} catch (e) {
+			console.log(`%c[vtbot] Can't analyze sheet at ${sheet.href}: ${e}`, "color: #888");
+		} if (definedNames.size > 0) {
 			style.setAttribute('data-illegal-transition-names', [...definedNames].join(', '));
 			map.set('', new Set([...(map.get('') ?? new Set()), style]));
 		}

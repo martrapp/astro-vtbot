@@ -1,6 +1,6 @@
 {
   "name": "astro-vtbot",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "A Bag of Tricks for Astro's View Transitions",
   "homepage": "https://github.com/martrapp/astro-vt-bot#readme",
   "bugs": {
@@ -35,7 +35,7 @@
     "build": "cd example && astro build",
     "relocate": "cd example && ./bin/relocate.sh",
     "preview": "cd example && astro preview",
-    "test": "npx playwright test"
+    "test": "(cd tests/fixture/node_modules; rm -rf astro-vtbot; ln -s ../../.. astro-vtbot) &&  npx playwright test"
   },
   "peerDependencies": {
     "astro": "^4.0.0"

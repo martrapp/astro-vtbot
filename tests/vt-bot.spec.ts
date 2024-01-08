@@ -1,5 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
-import { on } from 'events';
+import { error } from 'console';
 
 test.describe('Setup', () => {
 	test('server running', async ({ page }) => {
@@ -17,6 +17,17 @@ test.describe('Debug component', () => {
 		await expect(page).toHaveTitle('Debug2');
 		await expect(page.locator('#debugOutput')).toBeVisible();
 	});
+	test('does not throw', async ({ page }) => {
+		let error = '';
+		page.on('pageerror', err => error += err);
+		await page.goto('/debug/debug1/');
+		await expect(page).toHaveTitle('Debug1');
+		await expect(page.locator('#debugOutput')).not.toBeVisible();
+		await page.locator('#debug2').click();
+		await expect(page).toHaveTitle('Debug2');
+		await expect(error).toBeFalsy();
+	});
+
 });
 
 test.describe('ReplacementSwap', () => {
@@ -62,7 +73,8 @@ test.describe('ReplacementSwap', () => {
 
 test.describe('Linter component', () => {
 	let consoleOutput = '';
-	const captureConsole = (page: Page) =>
+	const captureConsole = (page: Page) => {
+		consoleOutput = '';
 		page.on('console', (msg) => {
 			const text = msg.text();
 			consoleOutput +=
@@ -70,6 +82,7 @@ test.describe('Linter component', () => {
 					? ''
 					: text.replace(/background-color:.*$/, '');
 		});
+	}
 	test('finds nested transition:persit and data-vtbot-replace attributes', async ({ page }) => {
 		captureConsole(page);
 		await page.goto('/linter/one/');
