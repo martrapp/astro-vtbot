@@ -1,0 +1,45 @@
+---
+import Layout from 'src/layouts/Layout.astro';
+import 'src/css/light-dark.css';
+---
+
+<Layout title="PortalPage" background="var(--vtbot-gradbg)">
+	<div class="container" style="view-transition-name:content">
+		<h1 style="view-transition-name:heading">The Portal Page</h1>
+		<p>This is a page that automatically intercepts each navigation.</p>
+		<p>It can show an entertaining animation while the target page is still loading.</p>
+
+		<div>Loading</div>
+	</div>
+</Layout>
+<style is:global>
+	.container {
+		font-size: 2rem;
+	}
+	.container > div {
+		text-align: center;
+		margin: 1rem;
+		font-weight: 800;
+		font-size: 4rem;
+		padding: 10vh;
+		animation: turn 1s ease-in-out infinite;
+	}
+	@keyframes turn {
+		0% {
+			transform: rotate(0deg);
+		}
+		50% {
+			transform: rotate(180deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+	body {
+		margin: auto;
+		max-width: 560px;
+		font-family: monospace;
+		height: 100%;
+		overflow: hidden;
+	}
+</style>

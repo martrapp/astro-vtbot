@@ -1,0 +1,24 @@
+---
+layout: src/layouts/PortalMdxLayout.astro
+page: /portal/page/
+title: Portal Page One
+---
+
+<h1 style="view-transition-name:heading">Portal Demo Page One</h1>
+
+<div style="view-transition-name:content">
+
+A link to the next page: [Beam me to page two](/portal/two/)
+
+This Demo uses view transition events to intercept all navigations with a portal page. The navigation is automatically resumed when the content of the target page is available. This way it can be used to show a loading animation. On the transition from page A to B with the intermediate portal page C, there are two view transitions: One from A to C and one from C to B.
+
+> \+ Benefits are that the logic and animation for the loading state is only implemented once on one single page and can be reused for all transitions.
+
+> \- The most severe drawbacks of this technique are that you can not have morphing effects and persisted elements from A to B directly, but only via the generic C page. 
+
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget ultricies ultricies, nunc nisl aliquam nunc, vitae aliqu et odio sit amet nisl. 
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget ultricies ultricies, nunc nisl ultricies nunc, eget ultricies nisl nisl eget nisl. Nullam euismod, nisl eget ultricies ultricies, nunc nisl ultricies nunc, eget ultricies nisl nisl eget nisl. Nullam euismod, nisl eget ultricies ultricies, nunc nisl ultricies nunc, eget ultricies nisl nisl eget nisl. Nullam euismod, nisl eget ultricies ultricies, nunc nisl ultricies nunc, eget ultricies nisl nisl eget nisl. Nullam euismod, nisl eget ultricies ultricies, nunc nisl ultricies nunc, eget ultricies nisl nisl eget nisl.
+
+</div>
