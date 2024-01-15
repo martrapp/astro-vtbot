@@ -9,20 +9,22 @@ test.describe('Setup', () => {
 });
 
 test.describe('Debug component', () => {
-	test('shows up on both pages', async ({ page }) => {
+	test('logs', async ({ page }) => {
+		let messages = "";
+		page.on('console', msg => msg.text().includes("vtbot-debug") && (messages += msg.text()));
 		await page.goto('/debug/debug1/');
 		await expect(page).toHaveTitle('Debug1');
-		await expect(page.locator('#debugOutput')).not.toBeVisible();
+		expect(messages).not.toBe('');
+		messages = "";
 		await page.locator('#debug2').click();
 		await expect(page).toHaveTitle('Debug2');
-		await expect(page.locator('#debugOutput')).toBeVisible();
+		expect(messages).not.toBe('');
 	});
 	test('does not throw', async ({ page }) => {
 		let error = '';
 		page.on('pageerror', err => error += err);
 		await page.goto('/debug/debug1/');
 		await expect(page).toHaveTitle('Debug1');
-		await expect(page.locator('#debugOutput')).not.toBeVisible();
 		await page.locator('#debug2').click();
 		await expect(page).toHaveTitle('Debug2');
 		await expect(error).toBeFalsy();
@@ -90,7 +92,7 @@ test.describe('Linter component', () => {
 		await page.locator('#totwo').click();
 		await expect(page).toHaveTitle('Linter2');
 		expect(consoleOutput).toBe(
-			`%c[vtbot-linter] nested elements with [data-astro-transition-persist] in old DOM (/linter/one/) %o at %chtml > body > main > p%c is nested inside %o at %chtml > body > main JSHandle@node console.groupEnd%c[vtbot-linter] nested elements with [data-vtbot-replace] in new DOM (/linter/two/) %o at %chtml > body > main > p%c is nested inside %o at %chtml > body > main JSHandle@node console.groupEnd`
+			`%c[vtbot-linter] nested HTML elements with [data-astro-transition-persist] in old DOM (/linter/one/) %o at %chtml > body > main > p%c is nested inside %o at %chtml > body > main JSHandle@node console.groupEnd%c[vtbot-linter] nested HTML elements with [data-vtbot-replace] in new DOM (/linter/two/) %o at %chtml > body > main > p%c is nested inside %o at %chtml > body > main JSHandle@node console.groupEnd`
 		);
 	});
 	test('finds undefined and not unique transition:persit and data-vtbot-replace attributes', async ({
@@ -122,7 +124,7 @@ test.describe('Linter component', () => {
 		await page.locator('#toeight').click();
 		await expect(page).toHaveTitle('Linter8');
 		expect(consoleOutput).toBe(
-			`%c[vtbot-linter] no HTMLElement with view transition name \"olaf\" exists in new DOM (/linter/eight/). Does it got overridden by transition:persist or data-vtbot-replace? %c[vtbot-linter] scoped style id \"y2uoggpx\" is not defined in new DOM (/linter/eight/).  JSHandle@node%c[vtbot-linter] The stylesheet might got optimized away or the element might have lost its styling when being copied by transition:persist or data-vtbot-replace. console.groupEnd`
+			`%c[vtbot-linter] no HTMLElement with view transition name \"olaf\" exists in new DOM (/linter/eight/). This means either that a transition name has been defined but not used, e.g. by setting transition:name on an Astro component instead of an HTML element; or the HTML element that used the transition name has been moved to another DOM in the meantime.console.groupEnd%c[vtbot-linter] scoped style id \"y2uoggpx\" is used but not defined in new DOM (/linter/eight/).  JSHandle@node%c[vtbot-linter] The stylesheet might got optimized away or the HTML element might have lost its style sheet, e.g. when being copied from another DOM. console.groupEnd`
 		);
 	});
 	test('detect illegal view-transition-names', async ({ page }) => {
@@ -132,7 +134,14 @@ test.describe('Linter component', () => {
 		await page.locator('#toten').click();
 		await expect(page).toHaveTitle('Linter10');
 		expect(consoleOutput).toBe(
-			`%c[vtbot-linter] Illegal view-transition-name(s) in old DOM (/linter/nine/) %cMaybe it starts with a number, or is a reserved word, or it contains illegal characters? %cH^rst, 5bs%c in %o at %chtml > head > style:nth-of-type(2) %c-123abc%c in %o at %chtml > body > main > p %cnone%c in %o at %chtml > body > main > h1 console.groupEnd`
+			`%c[vtbot-linter] Illegal view-transition-name(s) in old DOM (/linter/nine/) %cMaybe it starts with a number, or is a reserved word, or it contains illegal characters? %cH^rst, 5bs%c in %o at %chtml > head > style:nth-of-type(2) %c-123abc%c in %o at %chtml > body > main > p console.groupEnd`
 		);
+	}); test('detect non standard script types', async ({ page }) => {
+		captureConsole(page);
+		await page.goto('/linter/eleven/');
+		await expect(page).toHaveTitle('Linter11');
+		await page.locator('#totwelve').click();
+		await expect(page).toHaveTitle('Linter12');
+		expect(consoleOutput).toBe("%c[vtbot-linter] suspicious script types in /linter/twelve/ JSHandle@nodeJSHandle@nodeconsole.groupEndstandard script type 2standard script type 1");
 	});
 });

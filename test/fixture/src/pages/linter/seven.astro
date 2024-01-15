@@ -3,12 +3,16 @@ import Layout from '../../layouts/Layout.astro';
 import Linter from 'astro-vtbot/components/Linter.astro';
 ---
 
-<Layout title="Linter8">
-	<Linter slot="head" />
+<Layout title="Linter7">
+	<Linter expanded slot="head" />
 	<main>
-		<h1>Linter 8</h1>
+		<a id="toeight" href="/linter/eight/">To page 8</a>
+		<h1>Linter 7</h1>
 		<p transition:name="olaf" transition:persist>Some content</p>
-		<a href="/linter/seven/">To page 7</a>
-		<p>Test</p>
 	</main>
 </Layout>
+<style>
+	p {
+		color: red;
+	}
+</style>
