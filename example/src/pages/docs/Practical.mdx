@@ -1,6 +1,6 @@
 ---
 layout: src/layouts/NavBarMdxLayout.astro
-title: Practitioners Guide
+title: Practitioners' Guide
 ---
 
 # A Guide for Practitioners<br/>on View Transition Events
@@ -65,8 +65,12 @@ The only way to run asynchronous code during transitions and wait for it to comp
 
 <dt>My event listener is not called</dt>
 
-<dd><p>Make sure that you have added the event listener to the <code>document</code> object and not to the <code>window</code> object.</p><p>Check the spelling of the event name. You might also use predefined constants (e.g. `import { TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';`)</p></dd>
+<dd><p>Make sure that you have added the event listener to the <code>document</code> object and not to the <code>window</code> object.</p><p>Check the spelling of the event name. You might also use predefined constants (e.g. `import { TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';`)</p>
+<p>Make sure that the handler is installed before the event is triggered: For example, if you install a handler for `astro:after-swap` in an inline script, this script will only be executed after the event has been fired. Listeners for `astro:page-load` can also be installed too late, e.g. if they are contained in a `type="text/partytown"` script, as partytown deferes the execution of scripts to web workers.</p></dd>
 
+<dt>My event listener is called too often</dt>
+
+<dd><p>If you navigate from a page without an inline script to a page with an inline script, this script is executed between `astro:after-swap` and `astro_page-load`. If this script registers an event listener and you now switch back and forth between these two pages, the handler will be installed again and again.</p><p>It is best to install event listeners in module scripts, as they are only executed once, even if they are contained on several pages.</p></dd>
 
 <dt>Checking `window.location.pathname`  does not work as expected </dt>
 
@@ -75,7 +79,7 @@ The only way to run asynchronous code during transitions and wait for it to comp
 
 <dt>The view transition doesn't honor my stylesheets</dt>
 
-<dd><p>The view transition starts after the DOM has been updated, i.e. after the new page has been swapped in. This means that the stylesheet that controls the view transition originate from the page you navigate to and not from the one you leave.</p></dd>
+<dd><p>In browsers with native view transition support, the view transition starts after the DOM has been updated, i.e. after the new page has been swapped in. This means that the stylesheet that controls the view transition originate from the page you navigate to and not from the one you leave.</p><p>Astro's simulated view transitions for browsers that do not support them natively runs the "old" animation on the old page, then swaps the DOM, and then runs the "new" animation on the new page. Thus the CSS to control the "old" animation must be on the old page and the "new" animations CCS must be one the new page.</p></dd>
 </dl>
 
 <dt>`transition:name` only works in `.astro` files?</dt>
@@ -102,7 +106,7 @@ Removing and reinstalling event listeners is tedious, and even if your website u
 3. insert a `<meta/>` element with your marker (this is the reason why our component should be used in the `<head>`)
 4. define a function `enabled()` in the script part that checks if the `<meta/>` with your marker string is present.
 5. call the `enabled()` function in your event listener to ensure that it is only executed on the pages you intended. 
- 
+
 ```astro
 <meta name="your-marker" content="true" /> <!-- mark this page -->
 
