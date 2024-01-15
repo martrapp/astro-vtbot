@@ -5,7 +5,7 @@ import VtBotDebug from '~/components/VtBotDebug.astro';
 import Content from 'src/mdx/demos.mdx';
 ---
 
-<MdxLayout title="Tech Demos" background="#0a0a2a">
+<MdxLayout title="Tech Demos">
 	<h1>
 		<span transition:name="demos">Tech Demos</span><br />
 		<span class="text-gradient">Bag of Tricks</span> for Astro's View Transitions
@@ -18,7 +18,23 @@ import Content from 'src/mdx/demos.mdx';
 			title="VT-BoT Jotter"
 			icon="📝"
 			body="Navigation bar demo with notes on view transition events as well as practical tips & tricks."
-			what="astro:after-swap"
+			what="Notes on view transitions"
+			reload
+		/>
+		<Card
+			what="astro-vtbot/animation"
+			href="/animations/one/"
+			title="More than fade & slide"
+			icon="🎥"
+			body="Additional animations like swing() and zoom() for view transitions"
+			reload
+		/>
+		<Card
+			what="astro:before-preparation astro:before/after-swap"
+			href="/portal/one/"
+			title="One door closes and another one opens"
+			icon="🚪"
+			body="Make all transitions go through a portal page"
 			reload
 		/>
 		<Card

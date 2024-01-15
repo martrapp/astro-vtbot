@@ -1,0 +1,10 @@
+---
+import { getKeyframes, getStyles } from './animation-style';
+export interface Props {
+	name: string;
+}
+const { name = '' } = Astro.props;
+const css = getKeyframes(name) + getStyles(name);
+---
+
+<style set:text={css}></style>
