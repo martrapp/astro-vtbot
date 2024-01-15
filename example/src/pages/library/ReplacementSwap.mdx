@@ -1,6 +1,7 @@
 ---
 layout: src/layouts/LibraryMdxLayout.astro
 title: Replacement Swap
+overview: /components/
 vtn: replswap-3
 ---
 
@@ -25,7 +26,7 @@ The `<ReplacementSwap/>` component is intended for situations in which you do no
 
 ## Usage 
 
-Include the `<ReplacementSwap/>` component directly after the `<ViewTransitions/>` tag in your `<head>` page.
+Install astro-vtbot to your project with `npm install astro-vtbot` and include the `<ReplacementSwap/>` component directly after the `<ViewTransitions/>` tag in your `<head>` page.
 
 Unlike the standard `swap()` action of the Astro view transitions, `<ReplacementSwap>` requires some configuration to work.  You need to tell the component what content to copy from the new page and where to paste it into the current page. Both places are defined by setting the appropriate HTML elements with the `data-vtbot-replace` property. Without such a configuration, `<ReplacementSwap/>` simply falls back to Astro's default behavior.
 
