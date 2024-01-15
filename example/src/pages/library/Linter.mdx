@@ -1,6 +1,7 @@
 ---
 layout: src/layouts/LibraryMdxLayout.astro
 title: Linter
+overview: /components/
 vtn: linter-3
 ---
 
@@ -29,6 +30,7 @@ View transitions can fail or show strange effects if you set transition attribut
 * Elements copied by `transition:persist` or `data-vtbot-replace` should not lose their transition name
 * Elements copied by `transition:persist` or `data-vtbot-replace` should not lose their scoped styles
 * View-transition-names must be [valid CSS identifiers](https://developer.mozilla.org/en-US/docs/Web/CSS/custom-ident).
+* Check for script types that are not executed by the view transition router
 
 
 ### Example output
@@ -68,9 +70,13 @@ When you use `transition:name` or `transition:persist`, Astro normalizes the spe
 
 Valid custom identifiers must not start with a number, i.e. a digit, or a "`-`" sign followed by a digit. Characters beside letters, digits, underscoe and the minus-sign must be properly escaped. The reserved names `unset`, `initial`, `inherit` and `none` are also invalid identifiers for `view-transition-names`.
 
+### Script types not handled by the router
+`<script>` elements might have a `type` attribute. The most common value for this attribute is `"module"` to indicate that the script is an ESM. Other valid values are `""` and `text/javascript`. Both indicate that this script is JavaScript. As this is the default anyways, authors are encouraged to not use these values. 
+
+If the `type` attribute is set to anything else, the script is ignored by the browser. This is fine for e.g. `"text/partytown"` where the partytown lib searches and executes such scripts. Some optimization techniques that instrument HTML might also use there own values. Even though the script will be executed eventually, this typically happens after the `astro:page-load` event. If you define an event listener for `astro:page-load` in those scripts, it will not be called. The `<Linter>` component will issue a warning in these situations. 
 
 ## Usage
-Insert the `<Linter/>` component together with the `<ViewTransitions/>` component into the `<head>` of your page.
+Install astro-vtbot in your project with `npm install astro-vtbot` and insert the `<Linter/>` component near the `<ViewTransitions/>` component into the `<head>` of your page.
 
 ```astro title="Layout.astro" {3, 8}
 ---

@@ -10,7 +10,7 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-	testDir: './tests',
+	testDir: './test',
 	/* Run tests in files in parallel */
 	fullyParallel: true,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -65,7 +65,7 @@ export default defineConfig({
 
 	/* Run your local dev server before starting the tests */
 	webServer: {
-		command: 'cd ./tests/fixture && astro dev --silent',
+		command: 'cd ./test/fixture && astro dev --silent',
 		url: 'http://localhost:4321',
 		reuseExistingServer: !process.env.CI,
 		stdout: 'pipe',

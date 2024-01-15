@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Linter from 'astro-vtbot/components/Linter.astro';
+---
+
+<Layout title="Linter12">
+	<Linter expanded slot="head" />
+	<main>
+		<h1>Linter 12</h1>
+		<a href="/linter/eleven/">To page 11</a>
+	</main>
+	<script type="module">
+		console.log('standard script type 1');
+	</script>
+	<script type="text/javascript">
+		console.log('standard script type 2');
+	</script>
+	<script type="classic">
+		console.log('non standard script type 1');
+	</script>
+	<script type="text/partytown" data-vtbot-linter="ignore">
+		console.log('non standard script type 2');
+	</script>
+	<script type="text/typescript">
+		console.log('non standard script type 3');
+	</script>
+</Layout>

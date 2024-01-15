@@ -1,8 +1,14 @@
 ---
+export interface Props {
+	production?: boolean;
+	expanded?: boolean;
+}
 const TAG = 'vtbot-linter'; // see also start of script
+const { production = false, expanded = false } = Astro.props;
+const active = import.meta.env.DEV || production;
 ---
 
-<meta name={TAG} content="true" />
+{active && <meta name={TAG} content={expanded ? 'expanded' : 'collapsed'} />}
 
 <script>
 	import {
@@ -10,17 +16,23 @@ const TAG = 'vtbot-linter'; // see also start of script
 		type TransitionBeforeSwapEvent,
 		isTransitionBeforeSwapEvent,
 		supportsViewTransitions,
+		TRANSITION_AFTER_SWAP,
 	} from 'astro:transitions/client';
 	import { astroContextIds, deriveCSSSelector, elementsWithStyleProperty } from './css';
 
-	const TAG = 'vtbot-linter';
+	const TAG = 'vtbot-linter'; // see also frontmatter
 
-	const enabled = () => !!document.querySelector(`meta[name="${TAG}"]`);
+	const tag = () => document.querySelector(`meta[name="${TAG}"]`);
+	const enabled = () => !!tag();
+	const expanded = () => tag()?.getAttribute('content') === 'expanded';
+	let group: typeof console.group;
+
 	const ERROR =
 		'background-color: #880000; color: #ffffff; padding: 2px 4px; border-radius: 4px; font-weight: bold;';
 	const WARNING =
 		'background-color: #887700; color: #ffffff; padding: 2px 4px; border-radius: 4px;';
 	const IMPORTANT = 'background-color:#eee; color: #333; font-weight: bold; padding: 2px 4px;';
+	const INFO = 'color:#888;';
 
 	function flagNested(event: TransitionBeforeSwapEvent, property: string, origin?: 'old' | 'new') {
 		const nameMap = new Map<string, Element>();
@@ -38,12 +50,12 @@ const TAG = 'vtbot-linter'; // see also start of script
 		elements.forEach((element) => {
 			const name = element.getAttribute(property);
 			if (!name) {
-				console.groupCollapsed(`%c[vtbot-linter] no value given for ${selector} ${here}`, ERROR);
+				group(`%c[vtbot-linter] no value given for ${selector} ${here}`, ERROR);
 				console.log(`%o at %c${deriveCSSSelector(element)}`, element, IMPORTANT);
 				console.groupEnd();
 			} else {
 				if (name.match(/astro-........-[0-9]+/)) {
-					console.groupCollapsed(
+					group(
 						`%c[vtbot-linter] looks like an implicit name: ${property}=${name} ${here}`,
 						WARNING
 					);
@@ -52,7 +64,7 @@ const TAG = 'vtbot-linter'; // see also start of script
 				}
 				const earlier = nameMap.get(name);
 				if (earlier) {
-					console.groupCollapsed(`%c[vtbot-linter] duplicate ${property}=${name} ${here}`, ERROR);
+					group(`%c[vtbot-linter] duplicate ${property}=${name} ${here}`, ERROR);
 					console.log(
 						`%o at %c${deriveCSSSelector(element)}%c and earlier %o at %c${deriveCSSSelector(
 							earlier
@@ -72,8 +84,8 @@ const TAG = 'vtbot-linter'; // see also start of script
 			const violation = element.parentElement?.closest(selector);
 
 			if (violation) {
-				console.groupCollapsed(
-					`%c[vtbot-linter] nested elements with ${selector} in ${origin} DOM (${
+				group(
+					`%c[vtbot-linter] nested HTML elements with ${selector} in ${origin} DOM (${
 						event[origin === 'old' ? 'from' : 'to'].pathname
 					})`,
 					ERROR
@@ -103,23 +115,29 @@ const TAG = 'vtbot-linter'; // see also start of script
 
 		const namedElements = elementsWithStyleProperty('view-transition-name');
 		const warned = new Set<string>();
+		const ignore = new Set(
+			(
+				(document.querySelector('meta[name=vtbot-linter-ignore]') as HTMLMetaElement)?.content ?? ''
+			).split(' ')
+		);
 
 		[...namedElements.keys()].forEach((name) => {
 			if (name !== '') {
 				const elements = namedElements.get(name)!;
-				if (elements.size === 0) {
+				if (elements.size === 0 && !ignore.has(name)) {
 					warned.add(name);
-					console.log(
-						`%c[vtbot-linter] no HTMLElement with view transition name "${name}" exists ${here}. Does it got overridden by transition:persist or data-vtbot-replace?`,
+					group(
+						`%c[vtbot-linter] no HTMLElement with view transition name "${name}" exists ${here}.`,
 						WARNING
 					);
-				}
-				if (elements.size > 1) {
-					warned.add(name);
-					console.groupCollapsed(
-						`%c[vtbot-linter] view transition name "${name}" is not unique ${here}`,
-						ERROR
+					console.log(
+						`This means either that a transition name has been defined but not used, e.g. by setting transition:name on an Astro component instead of an HTML element; or the HTML element that used the transition name has been moved to another DOM in the meantime.`
 					);
+					console.groupEnd();
+				}
+				if (elements.size > 1 && name !== 'none') {
+					warned.add(name);
+					group(`%c[vtbot-linter] view transition name "${name}" is not unique ${here}`, ERROR);
 					[...elements!.values()]?.forEach((element) => {
 						console.log(`%o at %c${deriveCSSSelector(element)}`, element, IMPORTANT);
 					});
@@ -131,7 +149,7 @@ const TAG = 'vtbot-linter'; // see also start of script
 		// Most illegal view-transition-names were mapped to '' by the browser.
 		// There are some additional keywords to checks for
 		const errors = new Set(
-			['', 'none', 'initial', 'unset', 'inherit'].flatMap((n) => {
+			['', 'initial', 'unset', 'inherit'].flatMap((n) => {
 				const elements = [...(namedElements.get(n)?.values() ?? emptyElementSet)];
 				elements.forEach((element) => {
 					n && !warned.has(n) && element.setAttribute('data-illegal-transition-names', n);
@@ -166,8 +184,8 @@ const TAG = 'vtbot-linter'; // see also start of script
 			}
 		});
 
-		if (errors.size > 0) {
-			console.groupCollapsed(`%c[vtbot-linter] Illegal view-transition-name(s) ${here}`, ERROR);
+		if (supportsViewTransitions && errors.size > 0) {
+			group(`%c[vtbot-linter] Illegal view-transition-name(s) ${here}`, ERROR);
 			console.log(
 				'%cMaybe it starts with a number, or is a reserved word, or it contains illegal characters?',
 				WARNING
@@ -196,48 +214,76 @@ const TAG = 'vtbot-linter'; // see also start of script
 		const notDefined = new Set([...inElements].filter((id) => !inStyleSheets.has(id)));
 		const notUsed = new Set([...inStyleSheets].filter((id) => !inElements.has(id)));
 		notDefined.forEach((id) => {
-			console.groupCollapsed(
-				`%c[vtbot-linter] scoped style id "${id}" is not defined ${here}. `,
-				WARNING
-			);
+			group(`%c[vtbot-linter] scoped style id "${id}" is used but not defined ${here}. `, WARNING);
 			[...document.querySelectorAll(`[data-astro-cid-${id}], [class*="astro-${id}"]`)]
 				.filter((e, _, arr) => !arr.includes(e.parentElement!))
 				.forEach((e) => console.log(e));
 			console.log(
-				'%c[vtbot-linter] The stylesheet might got optimized away or the element might have lost its styling when being copied by transition:persist or data-vtbot-replace.',
+				'%c[vtbot-linter] The stylesheet might got optimized away or the HTML element might have lost its style sheet, e.g. when being copied from another DOM.',
 				IMPORTANT
 			);
 			console.groupEnd();
 		});
-		notUsed.forEach((id) => {
-			console.log(
-				`%c[vtbot-linter] scoped style id "${id}" is defined ${here} but not used. `,
+		if (notUsed.size > 0) {
+			group(
+				`%c[vtbot-linter] Unused styles can remain if for example all originally using HTML elements have been moved to another DOM. `,
 				WARNING
 			);
-		});
+			notUsed.forEach((id) => {
+				console.log(
+					`%c[vtbot-linter] scoped style id "${id}" is defined ${here} but not used in any HTML element. `,
+					WARNING
+				);
+			});
+			console.groupEnd();
+		}
 	}
 
+	function flagSuspiciousScriptTypes(event: TransitionBeforeSwapEvent) {
+		const suss = [...event.newDocument.querySelectorAll('script[type]')].filter(
+			(s) =>
+				s instanceof HTMLScriptElement &&
+				s.type &&
+				s.type !== 'module' &&
+				s.type !== 'text/javascript' &&
+				s.dataset.vtbotLinter !== 'ignore'
+		) as HTMLScriptElement[];
+
+		if (!suss.length) return;
+
+		group(`%c[vtbot-linter] suspicious script types in ${event.to.pathname}`, WARNING);
+		suss.forEach((s) => console.log(s));
+		console.groupEnd();
+	}
+
+	let savedEvent: TransitionBeforeSwapEvent;
+
 	const beforeSwap = (event: Event) => {
+		group = expanded() ? console.group : console.groupCollapsed;
 		if (enabled() && isTransitionBeforeSwapEvent(event)) {
 			flagNested(event, 'data-astro-transition-persist');
 			flagNested(event, 'data-vtbot-replace');
 			if (supportsViewTransitions) {
 				flagNonUniqueOrMissingTransitionNames(event, 'old');
-				flagMissingScopedStyles(event, 'old');
-				const originalSwap = event.swap;
-				event.swap = () => {
-					originalSwap();
-					flagNonUniqueOrMissingTransitionNames(event, 'new');
-					flagMissingScopedStyles(event, 'new');
-				};
 			} else {
 				console.log(
 					'%c[vtbot-linter] check for unique view transition names not supported in this browser',
-					ERROR
+					INFO
 				);
 			}
+			flagMissingScopedStyles(event, 'old');
+			flagSuspiciousScriptTypes(event);
+			savedEvent = event;
+		}
+	};
+
+	const afterSwap = () => {
+		if (enabled()) {
+			flagNonUniqueOrMissingTransitionNames(savedEvent, 'new');
+			flagMissingScopedStyles(savedEvent, 'new');
 		}
 	};
 
 	document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
+	document.addEventListener(TRANSITION_AFTER_SWAP, afterSwap);
 </script>

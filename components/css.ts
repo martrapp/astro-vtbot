@@ -68,7 +68,7 @@ export function elementsWithPropertyinStylesheet(
 	[...document.styleSheets].forEach((sheet) => {
 		const style = sheet.ownerNode as HTMLElement;
 		const definedNames = new Set<string>();
-		const matches = style?.innerHTML.matchAll(/view-transition-name:\s*([^;}]*)/g);
+		const matches = style?.innerHTML.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, "g"));
 		[...matches].forEach((match) => definedNames.add(match[1]));
 		try {
 			[...sheet.cssRules].forEach((rule) => {
