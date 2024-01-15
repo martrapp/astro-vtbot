@@ -3,7 +3,7 @@ import MdxLayout from './MdxLayout.astro';
 const { frontmatter } = Astro.props;
 ---
 
-<MdxLayout title={frontmatter.title}>
+<MdxLayout {...Astro.props}>
 	<div transition:name={frontmatter.vtn}>
 		<slot />
 	</div>

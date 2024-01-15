@@ -1,7 +1,17 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
-const { frontmatter, title } = Astro.props;
+import VtBotDebug from '~/components/VtBotDebug.astro';
 import Linter from '~/components/Linter.astro';
+import 'src/css/light-dark.css';
+
+interface Props {
+	frontmatter?: {
+		title: string;
+		overview?: string;
+	};
+	title?: string;
+}
+const { frontmatter, title} = Astro.props;
 ---
 
 <!doctype html>
@@ -10,67 +20,33 @@ import Linter from '~/components/Linter.astro';
 		<ViewTransitions />
 		<Linter />
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, minimum-scale=1" />
+		<meta name="viewport" content="width=device-width, minimum-scale=1, viewport-fit=cover" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{frontmatter?.title ?? title + ' | vtbot'}</title>
 		<slot name="head" />
 	</head>
 	<body>
-		<header><a href="javascript:history.back()" style="text-decoration: none">⮌ back</a></header>
+		<header><a href="javascript:history.back()">⮌ back</a>
+			{frontmatter?.overview && <a href={frontmatter.overview}> | Overview</a>} | <a href="/">Home</a></header>
 		<main>
 			<slot />
 		</main>
-		<footer><a href="javascript:history.back()" style="text-decoration: none">⮌ back</a></footer>
+		<footer>
+			<a href="javascript:history.back()">⮌ back</a> |
+			{frontmatter?.overview && <a href={frontmatter.overview}>Overview |</a>}
+			<a href=".">back to top</a>
+		</footer>
 
 		<style is:global>
 			::view-transition-group(*) {
 				animation-duration: 0.66s;
 			}
-			:root {
-				background: radial-gradient(circle, #d8e0e8 50%, #f0f8ff 100%);
-				--vtbot-gradbg: linear-gradient(300deg, #fff8, #bdf8);
-				--vtbot-background-color: whitesmoke;
-				background-color: var(--vtbot-background-color);
-				--vtbot-color: darkslategray;
-				--vtbot-accent: darkblue;
-				color: var(--vtbot-color);
-				--vtbot-table-background-color: #ececec;
-			}
-			.dark {
-				display: none;
-			}
-			.light {
-				display: block;
-			}
-			@media (prefers-color-scheme: dark) {
-				.light {
-					display: none;
-				}
-				.dark {
-					display: block;
-				}
-				:root {
-					background: radial-gradient(circle, #012 50%, #000 100%);
-					--vtbot-gradbg: linear-gradient(300deg, rgba(51, 47, 47, 0.8), #012c);
-					--vtbot-background-color: #023;
-					--vtbot-color: #def;
-					--vtbot-accent: #adf;
-					--vtbot-table-background-color: rgb(37, 41, 45);
-				}
-
-				.shiki,
-				.shiki span {
-					color: var(--shiki-dark) !important;
-					background-color: var(--shiki-dark-bg) !important;
-					/* Optional, if you also want font styles */
-					font-style: var(--shiki-dark-font-style) !important;
-					font-weight: var(--shiki-dark-font-weight) !important;
-					text-decoration: var(--shiki-dark-text-decoration) !important;
-				}
-			}
 
 			a {
 				color: var(--vtbot-color);
+			}
+			footer a, header a {
+				text-decoration: none;
 			}
 			main {
 				padding: 1ex 3ex;
@@ -96,7 +72,7 @@ import Linter from '~/components/Linter.astro';
 			#contents + ul ul,
 			#contents + ul ul ul {
 				margin: 0 0;
-				padding: 0.2em  1em;
+				padding: 0.2em 1em;
 			}
 			#contents + ul,
 			#contents + ul li,
@@ -135,7 +111,7 @@ import Linter from '~/components/Linter.astro';
 			h2,
 			h3 {
 				margin-top: 2rem;
-				margin-bottom: 0.5rem
+				margin-bottom: 0.5rem;
 			}
 			body {
 				max-width: 840px;

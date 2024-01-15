@@ -6,21 +6,21 @@ export interface Props {
 	background?: string;
 }
 
-const { title, background } = Astro.props;
+const { title, background = '' } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" style={'background: ' + background}>
 	<head>
 		<slot name="head" />
-		<ViewTransitions/>
+		<ViewTransitions />
 		<Linter />
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, minimum-scale=1" />
+		<meta name="viewport" content="width=device-width, minimum-scale=1, viewport-fit=cover" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{title + ' | vtbot'}</title>
 	</head>
-	<body style={'background: ' + background}>
+	<body>
 		<slot />
 	</body>
 </html>
