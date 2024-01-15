@@ -1,105 +1,23 @@
 ---
-interface Props {
-	overlay?: boolean;
-	showProperties?: boolean;
+export interface Props {
 	production?: boolean;
 }
-const { overlay = false, showProperties = false, production = false } = Astro.props;
+const TAG = 'vtbot-debug';
+const { production = false } = Astro.props;
+const active = import.meta.env.DEV || production;
 ---
 
-{
-	// set marker to convey props from server to client
-	(import.meta.env.DEV || production) && (
-		<meta name="vtbot-debug" content={overlay ? (showProperties ? 'show' : 'hide') : 'console'} />
-	)
-}
-<script is:inline>
-	// start of "early" part, sorry, only js, no ts.
+{active && <meta name={TAG} content='true'/>}
+
+{active &&<script is:inline>
+	// start of "early" part
 	/*
-	 * register as early as possible (=inline script early in head)
+	 * Register as early as possible (=inline script early in head)
 	 * to capture the original data of the events.
 	 */
-	(function iefe() {
+	(function iife() {
 		const PREFIX = '[vtbot-debug]';
-
-		let indent = '';
-
 		const enabled = () => document.querySelector('meta[name="vtbot-debug"]');
-
-		/*
-		 *replacements for console functions
-		 */
-		function replace_log() {
-			let output = document.querySelector('#debugOutput');
-			if (output) {
-				const text = [...arguments].reduce(
-					(a, x) => a + ' ' + x,
-					new Date().toISOString().substring(11) + indent
-				);
-				let bold = false;
-				text.split('**').forEach((s) => {
-					const text = document.createTextNode(s);
-					let node = text;
-					if (bold) {
-						const b = document.createElement('b');
-						b.appendChild(text);
-						node = b;
-					}
-					bold = !bold;
-					output.appendChild(node);
-				});
-				output.append(document.createElement('br'));
-			}
-		}
-
-		function replace_groupCollapsed(s) {
-			console.log(s);
-			indent += ' .';
-		}
-
-		function replace_clear() {
-			const output = document.querySelector('#debugOutput');
-			output && [...output.childNodes].forEach((n) => n.remove(), (indent = ''));
-		}
-
-		const replace_groupEnd = () => (indent = indent.substring(2));
-
-		/*
-		 * div for the overlay
-		 */
-		const appendOutputElementToDocument = () => {
-			if (!document.querySelector('#debugOutput')) {
-				const output = document.createElement('div');
-				output.setAttribute('id', 'debugOutput');
-				output.setAttribute('data-astro-transition-persist', 'debugOutput');
-				document.body.appendChild(output);
-			}
-		};
-
-		/*
-		 * switch console output to overlay
-		 */
-		function switchConsole(replace_log, replace_groupCollapsed, replace_groupEnd) {
-			const debug = enabled();
-			window._vtbot_debug.savedFunctions = { closeCounter: 0 };
-			if (debug.content !== 'console') {
-				appendOutputElementToDocument(document);
-			} else {
-				const output = document.querySelector('#debugOutput');
-				output && output.remove();
-				window._vtbot_debug.savedFunctions.log = undefined;
-				return;
-			}
-
-			window._vtbot_debug.savedFunctions.log = console.log;
-			window._vtbot_debug.savedFunctions.groupCollapsed = console.groupCollapsed;
-			window._vtbot_debug.savedFunctions.groupEnd = console.groupEnd;
-			console.log = replace_log;
-			console.groupCollapsed = replace_groupCollapsed;
-			console.groupEnd = replace_groupEnd;
-			replace_clear();
-			console.log(`${PREFIX} switching console output to overlay.`);
-		}
 
 		/*
 		 * capture the original data of the events
@@ -115,21 +33,9 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 		};
 
 		/*
-		 * When the navigation starts,
-		 * capture the event properties and switch the console output to the overlay.
+		 * capture the event properties at beginning of the processing phase
 		 */
-		const startPreparation = (e) => {
-			doCapture(e);
-			if (enabled()) {
-				switchConsole(replace_log, replace_groupCollapsed, replace_groupEnd);
-				console.log(`${PREFIX} Event handler for ${e.type}`);
-			}
-		};
-
-		/*
-		 * capture the event properties at beginning of swap phase
-		 */
-		const startSwap = (e) => {
+		const startProcessing = (e) => {
 			doCapture(e);
 			if (enabled()) {
 				console.log(`${PREFIX} Event handler for ${e.type}`);
@@ -139,17 +45,17 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 		/*
 		 * Register the two "early" handlers
 		 */
-		if (enabled() && window._vtbot_debug === undefined) {
+		if (window._vtbot_debug === undefined) {
 			window._vtbot_debug = {};
-			document.addEventListener('astro:before-preparation', startPreparation);
-			document.addEventListener('astro:before-swap', startSwap);
+			document.addEventListener('astro:before-preparation', startProcessing);
+			document.addEventListener('astro:before-swap', startProcessing);
 		}
 		// end of "early" part
 	})();
-</script>
+</script>}
 
 <script>
-	// start of "late" part
+	// start of "late" part in (defered loaded) module script
 	import {
 		isTransitionBeforePreparationEvent,
 		isTransitionBeforeSwapEvent,
@@ -160,39 +66,13 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 		TRANSITION_BEFORE_SWAP,
 		TRANSITION_AFTER_SWAP,
 		TRANSITION_PAGE_LOAD,
+		supportsViewTransitions,
 	} from 'astro:transitions/client';
 	import { deriveCSSSelector, elementsWithStyleProperty } from './css';
 
 	const enabled = () => !!document.querySelector('meta[name="vtbot-debug"]');
 	const PREFIX = '[vtbot-debug]';
 
-	/*
-	 * restore console functions
-	 */
-	function switchBackConsole() {
-		// @ts-ignore
-		const _vtbot_debug = window._vtbot_debug;
-		if (_vtbot_debug.savedFunctions.log) {
-			console.log(`${PREFIX} switching console output back to browser console.`);
-			console.log = _vtbot_debug.savedFunctions.log;
-			console.groupCollapsed = _vtbot_debug.savedFunctions.groupCollapsed;
-			console.groupEnd = _vtbot_debug.savedFunctions.groupEnd;
-		}
-	}
-
-	/*
-	 * keep the overlay until we have seen both: astro:page-load and viewTransition.finished
-	 */
-	function closeLog() {
-		if (
-			// @ts-ignore
-			++window._vtbot_debug.savedFunctions.closeCounter === 2 // the later of vt.finished and astro:load
-		) {
-			switchBackConsole();
-		}
-	}
-
-	const show = () => !document.querySelector('meta[name="vtbot-debug"][content="hide"]');
 
 	/*
 	 * address/content surrogate
@@ -215,10 +95,6 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 	const logWithStyle = (s: string) => {
 		// @ts-ignore
 		const _vtbot_debug = window._vtbot_debug;
-		const overlay = _vtbot_debug?.savedFunctions?.log;
-		if (overlay) {
-			console.log(s);
-		} else {
 			const css: string[] = [];
 			s = s.replaceAll('**', '%c');
 			const count = (s.match(/%c/g) || []).length / 2;
@@ -227,7 +103,6 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 				css.push('font-weight: normal');
 			}
 			console.log(s, ...css);
-		}
 	};
 
 	/*
@@ -236,7 +111,6 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 	async function delta(e: Record<string, any>, prop: string, deltaOnly = false) {
 		// @ts-ignore
 		const _vtbot_debug = window._vtbot_debug;
-		const overlay = _vtbot_debug?.savedFunctions?.log;
 		const bold = (s: string) => `**${s}**`;
 		let deref = (x: any) => x;
 		let print = (x: any) => x;
@@ -309,20 +183,6 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 		doCapture(e);
 	}
 
-	/*
-	 * Append the overlay <div> to the new document
-	 */
-	const appendOutputElementToNewDocument = (doc: Document) => {
-		const output = document.querySelector('#debugOutput');
-		if (output) {
-			if (!doc.querySelector('#debugOutput')) {
-				const output = doc.createElement('div');
-				output.setAttribute('id', 'debugOutput');
-				output.setAttribute('data-astro-transition-persist', 'debugOutput');
-				doc.body.appendChild(output);
-			}
-		}
-	};
 
 	/*
 	 * Log beforePreparation
@@ -330,16 +190,14 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 	function beforePreparation(preparationEvent: Event) {
 		if (enabled()) {
 			if (isTransitionBeforePreparationEvent(preparationEvent)) {
-				if (show()) {
 					console.groupCollapsed(`${PREFIX} Properties of the ${preparationEvent.type} event`);
 					logProperties(preparationEvent);
 					console.groupEnd();
-				}
 				const originalLoader = preparationEvent.loader;
 				preparationEvent.loader = async () => {
 					console.log(`${PREFIX} before execution of loader()`);
 					await originalLoader();
-					show() && logProperties(preparationEvent, true);
+					logProperties(preparationEvent, true);
 					console.log(`${PREFIX} after execution of loader()`);
 				};
 				doCapture(preparationEvent);
@@ -366,64 +224,107 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 		let i = 0;
 
 		new Set([...originalMap.keys(), ...newMap.keys()]).forEach((name) => {
-			const oldSet = originalMap.get(name);
-			if ((oldSet?.size ?? 0) > 1) {
-				errors.push(
-					`${bold('ERROR')} view-transition-name ${bold(name)} is not unique in old document\n`
-				);
+			if (name) {
+				const oldSet = originalMap.get(name);
+				if (supportsViewTransitions && (oldSet?.size ?? 0) > 1) {
+					errors.push(
+						`${bold('ERROR')} view-transition-name ${bold(name)} is not unique in old document\n`
+					);
+				}
+				const newSet = newMap.get(name);
+				if (supportsViewTransitions && (newSet?.size ?? 0) > 1) {
+					errors.push(
+						`${bold('ERROR')} view-transition-name ${bold(name)} is not unique in new document\n`
+					);
+				}
+				const oldElement = oldSet ? [...oldSet][0] : undefined;
+				const newElement = newSet ? [...newSet][0] : undefined;
+				
+					transitions.push(
+						`[ transition] ${++i} "${bold(name)}" from ${bold(
+							oldElement ? deriveCSSSelector(oldElement) : '(nowhere)'
+						)} --to-> ${bold(newElement ? deriveCSSSelector(newElement) : '(nowhere)')}`
+					);
 			}
-			const newSet = newMap.get(name);
-			if ((newSet?.size ?? 0) > 1) {
-				errors.push(
-					`${bold('ERROR')} view-transition-name ${bold(name)} is not unique in new document\n`
-				);
-			}
-			const oldElement = oldSet ? [...oldSet][0] : undefined;
-			const newElement = newSet ? [...newSet][0] : undefined;
-			show() &&
-				transitions.push(
-					`[ transition] ${++i} "${bold(name)}" from ${bold(
-						oldElement ? deriveCSSSelector(oldElement) : '(nowhere)'
-					)} --to-> ${bold(newElement ? deriveCSSSelector(newElement) : '(nowhere)')}`
-				);
 		});
 		errors.forEach((s) => logWithStyle(s));
-		if (show()) {
 			console.groupCollapsed(
 				`${PREFIX} Transitions from ${swapEvent.from.pathname} to ${swapEvent.to.pathname}`
 			);
 			transitions.forEach((s) => logWithStyle(s));
 			console.groupEnd();
-		}
+		
 	};
+
+	const moduleScripts = new Set();
+	const recordScripts = () =>
+		[...document.scripts].forEach(
+			(script) => script.type === 'module' && script.src && moduleScripts.add(script.src)
+		);
+
+	function logScripts() {
+		let modules = '';
+		const toExecute = [...document.scripts].filter(
+			(s) =>
+				s.dataset.astroExec !== "" &&
+				(!s.type || s.type === 'module' || s.type === 'text/javascript') &&
+				(s.type !== 'module' ||
+					!s.src ||
+					!moduleScripts.has(s.src) ||
+					((modules += s.src + ' '), false))
+		);
+		if (toExecute.length > 0) {
+			let i = 0;
+			logWithStyle(
+				`${PREFIX} **Scripts** that execute between astro:after-swap and astro:page-load: (${toExecute.length})`
+			);
+			toExecute.forEach((script) => {
+				script.type === 'module' && script.src && moduleScripts.add(script.src);
+				let s = `${PREFIX} ${++i}. `;
+				for (const attribute of script.attributes) {
+					s += `${attribute.name}="${attribute.value}" `;
+				}
+				logWithStyle(
+					s + (script.textContent ?? '').replace(/\n|\s+/g, ' ').substring(0, 60) + '...'
+				);
+			});
+			if (modules) {
+				logWithStyle(
+					`${PREFIX} **Modules scripts** can't be re-executed until next full page reload: ` +
+						modules
+				);
+			}
+		}
+	}
 
 	/*
 	 * Log swap
 	 */
 	function beforeSwap(swapEvent: Event) {
 		if (enabled()) {
-			let output = document.querySelector('#debugOutput');
+			recordScripts();
 			if (isTransitionBeforeSwapEvent(swapEvent)) {
-				appendOutputElementToNewDocument(swapEvent.newDocument);
-				if (show()) {
 					console.groupCollapsed(`${PREFIX} Properties of the ${swapEvent.type} event`);
-					show() && logProperties(swapEvent);
+					logProperties(swapEvent);
 					console.groupEnd();
-				}
-				const originalMap = elementsWithStyleProperty('view-transition-name');
-				originalMap.set(
+				
+				// @ts-ignore
+				const _vtbot_debug = window._vtbot_debug;
+				_vtbot_debug.originalMap = elementsWithStyleProperty('view-transition-name');
+				_vtbot_debug.originalMap.set(
 					'root',
-					(originalMap.get('root') ?? new Set()).add(document.documentElement)
+					(_vtbot_debug.originalMap.get('root') ?? new Set()).add(document.documentElement)
 				);
 				const originalSwap = swapEvent.swap;
 				swapEvent.swap = async () => {
 					console.log(`${PREFIX} before execution of swap()`);
 					originalSwap();
 					// @ts-ignore
-					show() && logProperties(window._vtbot_debug.capture.event, true);
+					logProperties(window._vtbot_debug.capture.event, true);
 					console.log(`${PREFIX} after execution of swap()`);
-					if (!output) console.log(`${PREFIX} %o`, document.documentElement);
-					logTransitions(originalMap, swapEvent);
+					console.log(`${PREFIX} %o`, document.documentElement);
+					// @ts-ignore
+					window._vtbot_debug.savedSwapEvent = swapEvent;
 				};
 				doCapture(swapEvent);
 				swapEvent.viewTransition.updateCallbackDone.then(
@@ -438,11 +339,9 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 				swapEvent.viewTransition.finished.then(
 					() => {
 						console.log(`${PREFIX} resolve viewTransition.finished`);
-						closeLog();
 					},
 					(error: any) => {
 						console.log(`${PREFIX} reject viewTransition.finished with`, error);
-						closeLog();
 					}
 				);
 			} else {
@@ -451,10 +350,22 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 		}
 	}
 
+	const afterSwap = (e) => {
+		if (enabled()) {
+			// @ts-ignore
+			const event = window._vtbot_debug.capture.event;
+			logProperties(event, true);
+			console.log(`${PREFIX} Event handler for ${e.type}`);
+			// @ts-ignore
+			const _vtbot_debug = window._vtbot_debug;
+			logTransitions(_vtbot_debug.originalMap, _vtbot_debug.savedSwapEvent);
+			logScripts();
+		}
+	}
+
 	/*
 	 * Register the "late" handlers
 	 */
-	if (enabled()) {
 		// register as late as possible (= in pageshow event) to be the last handler in the chain
 		window.addEventListener('pageshow', () => {
 			console.log(
@@ -464,46 +375,31 @@ const { overlay = false, showProperties = false, production = false } = Astro.pr
 			document.addEventListener(TRANSITION_AFTER_PREPARATION, (e) => {
 				if (enabled()) {
 					// @ts-ignore
-					show() && logProperties(window._vtbot_debug.capture.event, true);
+					logProperties(window._vtbot_debug.capture.event, true);
 					console.log(`${PREFIX} Event handler for ${e.type}`);
 				}
 			});
 			document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
-			document.addEventListener(TRANSITION_AFTER_SWAP, (e) => {
-				if (enabled()) {
-					// @ts-ignore
-					const event = window._vtbot_debug.capture.event;
-					show() && logProperties(event, true);
-					console.log(`${PREFIX} Event handler for ${e.type}`);
-				}
-			});
+			document.addEventListener(TRANSITION_AFTER_SWAP, afterSwap);
 			document.addEventListener(TRANSITION_PAGE_LOAD, (e) => {
 				if (enabled()) {
 					// @ts-ignore
-					show() && logProperties(window._vtbot_debug.capture.event, true);
-					closeLog();
+					logProperties(window._vtbot_debug.capture.event, true);
 					console.log(`${PREFIX} Event handler for ${e.type}`);
 				}
 			});
+			/*
+			document.addEventListener('animationstart', (e) => {
+				if (enabled() && e instanceof AnimationEvent) {
+					console.log(`${PREFIX} ${e.animationName} started on ${e.target}`);
+				}
+			});
+			document.addEventListener('animationend', (e) => {
+				if (enabled()) {
+					console.log(`${PREFIX} %o`, e);
+				}
+			});
+			*/
 		});
-	}
+	
 </script>
-
-<style is:global>
-	#debugOutput {
-		position: fixed;
-		right: 3vw;
-		top: 3vh;
-		max-width: 70vw;
-		background-color: #eeff;
-		color: black;
-		padding: 1rem;
-		font-size: min(0.8rem, 2vw);
-		z-index: 1;
-		max-width: 60vw;
-	}
-	#debugOutput b {
-		border: 1pt dotted gray;
-		padding: 0 2pt;
-	}
-</style>

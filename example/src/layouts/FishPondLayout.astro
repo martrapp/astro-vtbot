@@ -66,9 +66,10 @@ const { scope, styles } = createAnimationScope('main', { south, north, east, wes
 ---
 
 <Layout title={title} background="rgb(85, 167, 238)">
-	<VtBotDebug overlay showProperties production slot="head" />
+	<VtBotDebug production slot="head" />
 	<div transition:persist="bg" id="bg"></div>
 	<main data-astro-transition-scope={scope}>
+		<div class="info">Open browser console to see debug info</div>
 		<slot />
 	</main>
 </Layout>
@@ -77,11 +78,22 @@ const { scope, styles } = createAnimationScope('main', { south, north, east, wes
 <style is:inline set:text={`:root{--vtbot-background-image: ${vtbotBackgroundImage}}`}></style>
 
 <style is:inline>
+	.info {
+		font-size: min(4vw,4vh);
+		position: sticky;
+		top: 10vh;
+		left: 10vw;
+		max-width: fit-content;
+		background: darkcyan;
+		color: antiquewhite;
+		padding:0.5em;
+		border: 3px solid darkgreen;
+	}
 	:root {
 		font-family: sans-serif;
 	}
 	a {
-		font-size: 5rem;
+		font-size: min(10vw,10vh);
 		color: white;
 	}
 	.nav {
@@ -125,7 +137,8 @@ const { scope, styles } = createAnimationScope('main', { south, north, east, wes
 		mix-blend-mode: normal;
 	}
 	h1 {
-		font-size: 7rem;
+		font-size: min(8vw,8vh);
+		margin-top: 2em;
 		color: lightseagreen;
 		text-align: center;
 		text-shadow:
@@ -233,6 +246,11 @@ const { scope, styles } = createAnimationScope('main', { south, north, east, wes
 	}
 </style>
 
+<style is:global>
+	html {
+		overflow: hidden
+	}
+</style>
 <script>
 	import {
 		TRANSITION_BEFORE_PREPARATION,

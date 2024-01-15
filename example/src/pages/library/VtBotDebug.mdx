@@ -1,6 +1,7 @@
 ---
 layout: src/layouts/LibraryMdxLayout.astro
 title: Reusables
+overview: /components/
 vtn: vtbotdebug-3
 ---
 
@@ -11,7 +12,7 @@ import vtd2_dark from "src/assets/vtd2.dark.png";
 import vtd2_light from "src/assets/vtd2.light.png";
 
 <h1 style="display: inline-block; view-trans 	ition-name: vtbotdebug-1"><span style="display:inline-block; view-transition-name:vtbotdebug-2">🐛</span> Debug Component</h1>
-
+Plin
 
 The `<VtBotDebug/>` component logs the view transition events and their data. 
 
@@ -30,8 +31,9 @@ During view transitions, the `<VtBotDebug>` component logs four types of informa
 * Start and end of the execution of `loader()` and `swap()`
 * The transition groups that participate in the transition
 * The viewTransition promises `ready`, `updateCallbackDone` and `finished`, how they are resolved or rejected
-
-You can see when events happen, what data they carry and when the data is altered by event handlers. 
+* The `::view-transition` pseudo-elements that the browser inserts to control the animations of the view transitions
+* The scripts that will be executed between `astro:after-swap` and `astro:page-load`
+* Upcoming: The animations that run during view transitions 
 
 ```console title="console.log" {1,6,7,12,15}
    18:09:18.024 [vtbot-debug] Event handler for astro:before-preparation
@@ -105,6 +107,19 @@ The `<VtBotDebug>` component logs the transition groups that participate in the 
 <Picture class="dark" src={vtd2_dark} formats={['avif', 'webp']} alt="Example ::view-transition output" />
 <Picture class="light" src={vtd2_light} formats={['avif', 'webp']} alt="Example ::view-transition output" />
 
+### Scripts
+Inline scripts of the new page are executed between `astro:after-swap` and `astro:page-load` if they had not been on the old page. Module scripts are executed the first time they are found after a full page reload. Later occurences on other pages will not result in re-execution as module scrips can only be refreshed in the browser by full page loads.
+
+\[Example output tbd\]
+
+```console title="console.log" {1, 2, 3}
+	 18:09:18.447 [vtbot-debug] Event handler for astro:page-load
+	 18:09:18.447 [vtbot-debug] Scripts to be executed between astro:after-swap and astro:page-load
+	 18:09:18.447 [vtbot-debug] 1: <script>console.log("inline script 1")</script>
+	 18:09:18.447 [vtbot-debug] 2: <script>console.log("inline script 2")</script>
+	 18:09:18.447 [vtbot-debug] 3: <script>console.log("inline script 3")</script>
+``` 
+
 ### View Transition promises
 
 After the view transition got startet, the API provides three promises that can be used to wait for different stages of the transition. The `<VtBotDebug>` component logs when these promises are resolved or rejected. If rejected, the reason is also shown.
@@ -121,6 +136,8 @@ After the view transition got startet, the API provides three promises that can 
 ## Usage
 
 The `<VtBotDebug>` component should be inserted as early as possible in the `<head>` of the page you want to investigate. As it only works for pages with view transitions, it is a good idea to place it just before the `<ViewTransitions />` component.
+
+Install astro-vtbot to your project with `npm install astro-vtbot` and import the component in your page:
 
 ```astro title="MyPage.astro" {3,7}
 ---
@@ -142,16 +159,13 @@ The `<VtBotDebug>` component offers three boolean properties to control its beha
 
 |   Property | Effect |
 |------------|---------|
-| overlay| Redirect the output from the console to an on-screen overlay.|
-| hideProperties | When `overlay` is used, hide the properties of the events to produce shorter logs.|
 | production | Be active in production mode. Helpful when chasing bugs the do not show up in development mode but only in a full build.|
 
-Use these attributes on the `<VtBotDebug>` component e.g. to switch the output to the overlay but hide property details:
 
 ```astro title="PageToDebug.astro" {3}
 <html>
   <head>
-    <VtBotDebug overlay hideProperties />
+    <VtBotDebug production />
 		<ViewTransitions />
   </head>
   ...

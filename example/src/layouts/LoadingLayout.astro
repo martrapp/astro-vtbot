@@ -9,9 +9,10 @@ const { title } = Astro.props;
 ---
 
 <MdxLayout title={title}>
-	<VtBotDebug overlay production slot="head" />
+	<VtBotDebug production slot="head" />
 	<main transition:animate="fade">
 		<h1>{title}</h1>
+		<h3>Open the browser console to see the debug information</h3>
 		<h2 id="loading">⏳ Loading...</h2>
 
 		<p>
