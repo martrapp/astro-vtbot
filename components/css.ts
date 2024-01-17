@@ -59,8 +59,8 @@ export function astroContextIds() {
 	return { inStyleSheets, inElements };
 }
 
-// finds all elements of a _the current document_ with a given property in a stylesheet
-// document.stylesheets dows not seem to work for arbitrary documents
+// finds all elements of a _the current document_ with a given property in a style sheet
+// document.styleSheets does not seem to work for arbitrary documents
 export function elementsWithPropertyinStylesheet(
 	property: string,
 	map: Map<string, Set<Element>> = new Map()
@@ -102,7 +102,8 @@ export function elementsWithPropertyInStyleAttribute(
 	return map;
 }
 
-// finds all elements _of the current document_ with a given property in their style attribute or in a stylesheet
+// finds all elements _of the current document_ with a given property
+// in their style attribute or in a style sheet
 export function elementsWithStyleProperty(
 	property: string,
 	map: Map<string, Set<Element>> = new Map()

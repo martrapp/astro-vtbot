@@ -219,7 +219,7 @@ const active = import.meta.env.DEV || production;
 				.filter((e, _, arr) => !arr.includes(e.parentElement!))
 				.forEach((e) => console.log(e));
 			console.log(
-				'%c[vtbot-linter] The stylesheet might got optimized away or the HTML element might have lost its style sheet, e.g. when being copied from another DOM.',
+				'%c[vtbot-linter] The style sheet might got optimized away or the HTML element might have lost its style sheet, e.g. when being copied from another DOM.',
 				IMPORTANT
 			);
 			console.groupEnd();

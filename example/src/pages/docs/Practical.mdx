@@ -77,9 +77,9 @@ The only way to run asynchronous code during transitions and wait for it to comp
 <dd><p>For normal navigation, `window.location.pathname` contains the page on which the navigation begins. However, when navigating through the history ("Back/Forward" button of the browser), it contains the target page of the navigation. To reliably check where you are and where you are going, use `event.from` and `event.to`</p></dd>
 
 
-<dt>The view transition doesn't honor my stylesheets</dt>
+<dt>The view transition doesn't honor my style sheets</dt>
 
-<dd><p>In browsers with native view transition support, the view transition starts after the DOM has been updated, i.e. after the new page has been swapped in. This means that the stylesheet that controls the view transition originate from the page you navigate to and not from the one you leave.</p><p>Astro's simulated view transitions for browsers that do not support them natively runs the "old" animation on the old page, then swaps the DOM, and then runs the "new" animation on the new page. Thus the CSS to control the "old" animation must be on the old page and the "new" animations CCS must be one the new page.</p></dd>
+<dd><p>In browsers with native view transition support, the view transition starts after the DOM has been updated, i.e. after the new page has been swapped in. This means that the style sheet that controls the view transition originate from the page you navigate to and not from the one you leave.</p><p>Astro's simulated view transitions for browsers that do not support them natively runs the "old" animation on the old page, then swaps the DOM, and then runs the "new" animation on the new page. Thus the CSS to control the "old" animation must be on the old page and the "new" animations CCS must be one the new page.</p></dd>
 </dl>
 
 <dt>`transition:name` only works in `.astro` files?</dt>

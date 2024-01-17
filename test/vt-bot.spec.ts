@@ -124,7 +124,7 @@ test.describe('Linter component', () => {
 		await page.locator('#toeight').click();
 		await expect(page).toHaveTitle('Linter8');
 		expect(consoleOutput).toBe(
-			`%c[vtbot-linter] no HTMLElement with view transition name \"olaf\" exists in new DOM (/linter/eight/). This means either that a transition name has been defined but not used, e.g. by setting transition:name on an Astro component instead of an HTML element; or the HTML element that used the transition name has been moved to another DOM in the meantime.console.groupEnd%c[vtbot-linter] scoped style id \"y2uoggpx\" is used but not defined in new DOM (/linter/eight/).  JSHandle@node%c[vtbot-linter] The stylesheet might got optimized away or the HTML element might have lost its style sheet, e.g. when being copied from another DOM. console.groupEnd`
+			`%c[vtbot-linter] no HTMLElement with view transition name \"olaf\" exists in new DOM (/linter/eight/). This means either that a transition name has been defined but not used, e.g. by setting transition:name on an Astro component instead of an HTML element; or the HTML element that used the transition name has been moved to another DOM in the meantime.console.groupEnd%c[vtbot-linter] scoped style id \"y2uoggpx\" is used but not defined in new DOM (/linter/eight/).  JSHandle@node%c[vtbot-linter] The style sheet might got optimized away or the HTML element might have lost its style sheet, e.g. when being copied from another DOM. console.groupEnd`
 		);
 	});
 	test('detect illegal view-transition-names', async ({ page }) => {

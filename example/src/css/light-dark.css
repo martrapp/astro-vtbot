@@ -23,10 +23,10 @@
 		display: block;
 	}
 	:root {
-		background: radial-gradient(circle, #012 50%, #000 100%);
+		background: radial-gradient(circle, #123 50%, #000 100%);
 		--vtbot-gradbg: linear-gradient(300deg, rgba(51, 47, 47, 0.8), #012c);
 		--vtbot-background-color: #023;
-		--vtbot-color: #def;
+		--vtbot-color: #abc;
 		--vtbot-accent: #adf;
 		--vtbot-table-background-color: rgb(37, 41, 45);
 	}
