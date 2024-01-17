@@ -1,7 +1,24 @@
 # The Bag of Tricks for View Transitions
 
-## 1.1.5 2024-12-8
+## 1.2.0 2024-01-17
 
+### Minor Changes
+
+- 42b417e: Provides the initial version of the Portal component
+- 99f7b20: Provides tech demo and reusable components for new animation types
+- e07a615: Enables installation as an Astro integration with `npx astro add astro-vtbot`. This automatically adds the `<Linter/>` component to all your `<ViewTransition/>` pages!
+- fd48b93: Updates the Practitioners' Guide
+- e6b62ce: Adds documentation about installation and for the new components: Zoom, Swing, AnimationStyle, Portal
+- 8b28dc8: Linter now also checks the `type` property of `<script>` elements for suspicious values
+- 1b93255: Enables VtBotDebug to tell you which of your scripts are executed during view transistion bewtween `astro:after-swap` fired and before `astro:page-load`.
+  Also removes the feature to redirect the log output to an overlay. As the output grows, we are quickly running out of space with the on-screen display. This might come back some day, but then based on the Astros Dev Toolbar.
+
+### Patch Changes
+
+- fa962a7: Cleans up examples
+- 6e31467: Adds types to ReplacementSwap and update docs
+
+## 1.1.5 2024-01-08
 
 ### Patch Changes
 

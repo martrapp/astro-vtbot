@@ -1,6 +1,6 @@
 {
   "name": "astro-vtbot",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "A Bag of Tricks for Astro's View Transitions",
   "homepage": "https://github.com/martrapp/astro-vt-bot#readme",
   "bugs": {
@@ -14,11 +14,27 @@
   "type": "module",
   "files": [
     "components",
-    "index.js"
+    "animations",
+    "integration"
   ],
-  "main": "index.js",
+  "exports": {
+    ".": "./integration/index.ts",
+    "./components/*.astro": {
+      "import": "./components/*.astro",
+      "types": "./components/*.d.ts"
+    },
+    "./animations/*.astro": {
+      "import": "./animations/*.astro",
+      "types": "./animations/*.d.ts"
+    },
+    "./animations/*": "./animations/*.ts",
+    "./package.json": "./package.json",
+    "./vtext": "./integration/view-transition-extension.ts",
+    "./vite-plugin-extend": "./integration/vite-plugin-extend.ts"
+  },
   "keywords": [
     "astro-component",
+    "astro-integration",
     "view-transition",
     "view transition",
     "view transitions",
@@ -33,9 +49,9 @@
     "format": "prettier -w components",
     "dev": "cd example && astro dev",
     "build": "cd example && astro build",
-    "relocate": "cd example && ./bin/relocate.sh",
     "preview": "cd example && astro preview",
-    "test": "(cd tests/fixture/node_modules; rm -rf astro-vtbot; ln -s ../../.. astro-vtbot) &&  npx playwright test"
+    "test": "(cd test/fixture/node_modules; rm -rf astro-vtbot; ln -s ../../.. astro-vtbot) &&  npx playwright test",
+    "relocate": "cd example && ./bin/relocate.sh"
   },
   "peerDependencies": {
     "astro": "^4.0.0"
