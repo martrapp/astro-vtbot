@@ -64,7 +64,7 @@
     "@types/dom-view-transitions": "^1.0.4",
     "@types/node": "^20.10.4",
     "astro": "^4.0.3",
-    "astro-expressive-code": "^0.30.0",
+    "astro-expressive-code": "^0.31.0",
     "prettier": "^3.1.0",
     "prettier-plugin-astro": "^0.12.2",
     "remark-toc": "^9.0.0",
