@@ -1,0 +1,19 @@
+```astro title="Zoom3.astro"
+---
+import { customZoom } from "astro-vtbot/animations/zoom";
+import AnimationStyle from "astro-vtbot/animations/AnimationStyle.astro";
+
+const zoom3Scope = customZoom('zoom3', {
+	keyframes: { scale: { forwardOut: 0, backwardIn: 0 } },
+	base: { duration: '0.3s', easing: 'cubic-bezier(.16,.73,.05,1.52)' },
+	extensions: {
+		forwards: { new: { 'animation-delay': '0.2s' } },
+		backwards: { new: { 'animation-delay': '0.2s' } },
+	},
+});
+---
+<AnimationStyle name="zoom3">
+<div data-astro-transition-scope={zoom3Scope}>
+  ...
+</div>
+```

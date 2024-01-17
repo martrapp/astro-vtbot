@@ -1,0 +1,56 @@
+---
+layout: src/layouts/LibraryMdxLayout.astro
+title: Portal Component
+overview: /components/
+vtn: portal-3
+---
+
+<h1 style="display: inline-block; view-transition-name: portal-1"><span style="display:inline-block; view-transition-name:portal-2">🚪</span>The Portal Component</h1>
+
+With the `<Portal>` component you can force all view transitions through an intermediate portal page. View this in action on the <a href="/portal/one/" data-astro-reload>demo page</a>.
+
+## Contents
+
+## Why would I use this component?
+
+You have some pages that will take long to load? You can not prefetch them or don't want to? You might place loading indicators your pages. But if you want to have a more elaborated loading experience, you can use the Portal component. This component allows you to have the loading animation on a separate page and it forces all transition through tat page, stopping there until the target page is loaded.
+
+
+## How does it work?
+
+When the user clicks a link, submits a form or uses the browser's back and forward buttons, the Portal component will intercept the navigation. Instead of navigating from A to B there will be two view transitions: One from A to the portal page followed by a view transition from the portal page to B.			
+
+## Usage
+
+The `<Portal>` component can be put in the `<head>` of those pages that have a `<ViewTransition />` component. If you want a transition from A to B got through the portal page, you must place the `<Portal>`component on A. The portal page is not automaticall used in the reverse direction. If you also want to see the portal page on links from B to A - or when navigating back through the browser history - you must also insert the `<Portal>` component on page B.
+
+```astro title="MyLayout.astro"
+---
+import { ViewTransitions } from 'astro:transitions';
+import Portal from 'astro-vtbot/components/Portal.astro';
+---
+<html>
+  <head>
+    <ViewTransition />
+		<Portal page="/portal/page">
+		...
+	</head>
+	...
+</html>
+```
+The component has a single property `page` that specifies the URL of the portal page. The portal page must have a `<ViewTransition />` component in its `<head>` as well. If you want to support transition groups and persisted elements, you must also include them on the portal page. The portal page from the [demo](/portal/one/), which has been stripped of its styling, could serve as an example here:
+
+```astro title="/portal/page.astro"
+---
+import Layout from 'src/layouts/Layout.astro';
+import 'src/css/light-dark.css';
+---
+<Layout title="PortalPage">
+	<div transition:name="content">
+		<h1 transition:name="heading">The Portal Page</h1>
+		<p>This is a page that automatically intercepts each navigation.</p>
+		<p>It can show an entertaining animation while the target page is still loading.</p>
+		<div>Loading</div>
+	</div>
+</Layout>
+```

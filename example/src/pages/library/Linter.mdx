@@ -59,7 +59,7 @@ In Astro, `transition:persist` can be used without an explicit identifier. Then 
 
 ### Loss of transition names and scoped styles 
 
-Astro emits scoped styles by default, with different strategies to bind styles to elements. What they all have in common is that they use special identifiers for CSS classes (`astro-xxxxxxxx`) or custom data attributes (`data-astro-cid-xxxxxxxxxx`). If a DOM element gets copied to another DOM with `transition:persist` or `data-vtbot-replace` , these identifiers are copied together with the element. This typically results in the link to the style sheet being broken if the stylesheet to which the identifier refers is not also copied. If you want to use the same stylesheets on different pages, you can define global styles with the `is:global` directive, for example.
+Astro emits scoped styles by default, with different strategies to bind styles to elements. What they all have in common is that they use special identifiers for CSS classes (`astro-xxxxxxxx`) or custom data attributes (`data-astro-cid-xxxxxxxxxx`). If a DOM element gets copied to another DOM with `transition:persist` or `data-vtbot-replace` , these identifiers are copied together with the element. This typically results in the link to the style sheet being broken if the style sheet to which the identifier refers is not also copied. If you want to use the same style sheets on different pages, you can define global styles with the `is:global` directive, for example.
 
 The way Astro links elements with their view-transition-name uses a very similar mechanism. Elements that are copied to another DOM often lose their view-transition-name if the name is defined with `transition:name`. Alternatively, you can define the name of the view transition with the style attribute: `<elem style="view-transition-name: identifier">`. In this way, it remains a part of the persisted element.
 
@@ -76,7 +76,9 @@ Valid custom identifiers must not start with a number, i.e. a digit, or a "`-`" 
 If the `type` attribute is set to anything else, the script is ignored by the browser. This is fine for e.g. `"text/partytown"` where the partytown lib searches and executes such scripts. Some optimization techniques that instrument HTML might also use there own values. Even though the script will be executed eventually, this typically happens after the `astro:page-load` event. If you define an event listener for `astro:page-load` in those scripts, it will not be called. The `<Linter>` component will issue a warning in these situations. 
 
 ## Usage
-Install astro-vtbot in your project with `npm install astro-vtbot` and insert the `<Linter/>` component near the `<ViewTransitions/>` component into the `<head>` of your page.
+[Install `astro-vtbot`](../Installation/) in your project as an Astro integration with `npx astro add astro-vtbot` or as a node module with `npm install astro-vtbot`. If you choose the integration option, `vtbot` will automatically add the `<Linter/>` component to all the pages that use `<ViewTransitions>`. 
+
+If you do not choose the integration, you have to add the `<Linter/>` component to your pages manually: Insert the `<Linter/>` component near the `<ViewTransitions/>` component into the `<head>` of your page.
 
 ```astro title="Layout.astro" {3, 8}
 ---

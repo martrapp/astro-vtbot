@@ -1,0 +1,22 @@
+```astro title="Swing2.astro"
+---
+import { customSwing } from "astro-vtbot/animations/swing";
+import AnimationStyle from "astro-vtbot/animations/AnimationStyle.astro";
+
+const swing2Scope = customSwing('swing2', {
+	keyframes: {
+		axis: { z: 1 },
+		angle: { leave: '180deg', enter: '-180deg' },
+	},
+	base: { duration: '0.3s' },
+	extensions: {
+		forwards: { new: { 'animation-delay': '0.15s' } },
+		backwards: { new: { 'animation-delay': '0.15s' } },
+	},
+});
+---
+<AnimationStyle name="swing2">
+<div data-astro-transition-scope={swing2Scope}>
+  ...
+</div>
+```

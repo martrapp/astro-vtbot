@@ -1,0 +1,74 @@
+---
+layout: src/layouts/LibraryMdxLayout.astro
+title: vtbot integration
+---
+
+# Installing astro-vtbot
+
+`astro-vtbot` can be installed as a full [Astro integration](#installing-as-an-astro-integration) or as a [node package](#installing-as-a-node-module). Both ways install the package as a dependency in your project and allow you to import its components and scripts in your own pages. Installing the package as an Astro integration in addition sets up your project for automatic linting warnings.
+
+## Contents
+
+## Installing as an Astro integration
+
+Installing `astro-vtbot` as an Astro integration will install the package and in addition it will add `vtbot`'s [`<Linter />` component](../Linter/) to all pages that use Astro's `<ViewTransitions />`.
+
+To install `astro-vtbot` as an Astro integration, run the `astro add` command in your project directory ...
+
+```bash
+npx astro add astro-vtbot
+```
+
+... and press the return key twice to answer the questions with "yes":
+
+```bash
+⚠ astro-vtbot is not an official Astro package. Use at your own risk!
+✔ Continue? … yes
+✔ Resolving with third party packages...
+10:26:47 
+  Astro will run the following command:
+  If you skip this step, you can always run it yourself later
+
+ ╭─────────────────────────────────╮
+ │ npm install astro-vtbot@^1.2.0  │
+ ╰─────────────────────────────────╯
+
+✔ Continue? … yes
+✔ Installing dependencies...
+10:26:52   
+   success  Configuration up-to-date.
+```
+
+As a result `astro-vtbot` will hook into your `astro.config` file:
+
+```js title="astro.config.mjs" {3,7}
+import { defineConfig } from "astro/config";
+
+import vtbot from "astro-vtbot";
+
+// https://astro.build/config
+export default defineConfig({
+  integrations: [vtbot()],
+});
+```
+
+When you start Astro in DEV mode, e.g. `npm run dev`, this will automatically add `vtbot`'s [`<Linter />` component](../Linter/) to all pages that use Astro's `<ViewTransitions />`. This will only happen in DEV mode. When you build for production, the `<Linter />` component will not be included.
+
+You can temporarily disable this function without having to remove the integration by setting the `autoLint` option in your `astro.config` file to `false`:
+
+
+```js title="astro.config.mjs" {4} 
+import { defineConfig } from "astro/config";
+import vtbot from "astro-vtbot";
+export default defineConfig({
+  integrations: [vtbot({autoLint: false})],
+});
+```
+
+## Installing as a Node module
+
+To install `astro-vtbot` as a node module without the integration, run the following command in your project directory:
+
+```bash
+npm install astro-vtbot
+```

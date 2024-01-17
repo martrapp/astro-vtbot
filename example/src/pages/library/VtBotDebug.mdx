@@ -11,8 +11,7 @@ import vtd1_light from "src/assets/vtd1.light.png";
 import vtd2_dark from "src/assets/vtd2.dark.png";
 import vtd2_light from "src/assets/vtd2.light.png";
 
-<h1 style="display: inline-block; view-trans 	ition-name: vtbotdebug-1"><span style="display:inline-block; view-transition-name:vtbotdebug-2">🐛</span> Debug Component</h1>
-Plin
+<h1 style="display: inline-block; view-transition-name: vtbotdebug-1"><span style="display:inline-block; view-transition-name:vtbotdebug-2">🐛</span>The Debug Component</h1>
 
 The `<VtBotDebug/>` component logs the view transition events and their data. 
 
@@ -135,9 +134,9 @@ After the view transition got startet, the API provides three promises that can 
 
 ## Usage
 
-The `<VtBotDebug>` component should be inserted as early as possible in the `<head>` of the page you want to investigate. As it only works for pages with view transitions, it is a good idea to place it just before the `<ViewTransitions />` component.
+[Install `astro-vtbot`](../Installation/) in your project as an Astro integration with `npx astro add astro-vtbot` or as a node module with `npm install astro-vtbot`.
 
-Install astro-vtbot to your project with `npm install astro-vtbot` and import the component in your page:
+The `<VtBotDebug>` component should be inserted as early as possible in the `<head>` of the page you want to investigate. As it only works for pages with view transitions, it is a good idea to place it just before the `<ViewTransitions />` component.
 
 ```astro title="MyPage.astro" {3,7}
 ---

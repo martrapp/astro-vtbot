@@ -8,28 +8,132 @@ import { Content } from 'src/mdx/components.mdx';
 	<Content />
 	<ul role="list" class="link-card-grid">
 		<Card
+			href="/library/VtBotDebug/"
+			title="VtBotDebug"
+			icon="🐛"
+			what="Debugging"
+			name="vtbotdebug"
+		>
+			<p>
+				<code>VtBotDebug</code> is a component that helps to understand transition events. It shows the
+				events, their properties, and the overall timing during the processing.
+			</p><p>
+				By default, the component logs to the browser console, but the output can be redirected to a
+				page overlay.
+			</p>
+			<h3>Status</h3><p>Feature complete for the logging part and ready to use.</p>
+			<h3>Future direction</h3><ul>
+				<li>Fix bugs and extend functionality</li>
+			</ul>
+		</Card>
+		<Card
+			href="/library/Linter/"
+			title="Linter"
+			icon="🧹"
+			what="Software Development Life Cycle"
+			name="linter"
+		>
+			This component checks for typical problems during development of view transitions and gives
+			detailed error messages. The main checks are <ul>
+				<li>Whether transition names are unique on a page</li><li>
+					Whether nested elements are annotated with transition:persist
+				</li>
+			</ul>
+			<h3>Status</h3><p>Ready to use</p>
+			<h3>Future direction</h3><ul>
+				<li>Add additional checks for typical issues.</li>
+			</ul>
+		</Card>
+
+		<Card
+			href="/library/AnimationStyle/"
+			title="AnimationnStyle"
+			icon="✨"
+			what="Animation"
+			name="animstyle"
+		>
+			<p>
+				This is a component that can generate style sheets for view transition animations. This
+				works for native view transitions and for Astro's view transition simulation for browsers
+				that do not support them natively.
+			</p><p>
+				This component is used together with the functions offered by <code>animation-style.ts</code
+				>
+			</p>
+			<h3>Status</h3><p>Used as part of the <code>Zoom</code> and <code>Swing</code> components.</p>
+			<h3>Future direction</h3><ul>
+				<li>Add more utility functions</li>
+			</ul>
+		</Card>
+
+		<Card href="/library/Zoom/" title="Zoom" icon="🔎🔍" what="Animation" name="zoom">
+			<p>
+				<code>Zoom</code> offers animation effects for view transitions. It can be used as a replacement
+				for the standard Astro animations <code>fade()</code> and <code>slide()</code>.
+			</p><p>
+				Zoom animations can enlarge the current transition group or shrink it to a point. And the
+				zooming can be combined with a fade effect.
+			</p>
+			<h3>Status</h3><p>Ready to use, see demos.</p>
+			<h3>Future direction</h3><ul>
+				<li>Harden implementation</li>
+			</ul>
+		</Card>
+
+		<Card href="/library/Swing/" title="Swing" icon="🎷" what="Animation" name="swing">
+			<p>
+				<code>Swing</code> offers animation effects similar to <code>Zoom</code>. The effects allow
+				rotations around all axis in 3D space.
+			</p>
+			<p>
+				The effect can be used as a drop-in replacement for <code>fade()</code> and <code
+					>slide()</code
+				>
+				but also offers extensive parameters for configuration.
+			</p>
+			<h3>Status</h3>
+
+			<p>Ready to use, see demos!</p>
+
+			<h3>Future direction</h3><ul>
+				<li>Show more parametrizations in demos</li>
+			</ul>
+		</Card>
+
+		<Card
 			href="/library/ReplacementSwap/"
 			title="ReplacementSwap"
 			icon="↹"
 			iconStyle="color: darkorange"
 			what="Feature Enhancement"
 			name="replswap"
-		><p>
-			The <code>&lt;ReplacementSwap/></code> component supports view transitions for pages with <i>persisted</i> iframes
-			and animated elements, as it allows such elements to remain untouched and thus avoid reloading
-			or restarting.
+		>
+			<p>
+				The <code>ReplacementSwap</code> component solves the problem that view transitions lose the
+				content of <i>persisted</i> iframes and the state of animations on transtions.
 			</p><p>
-				The component changes how the new page replaces the old page. It retains the structure and
-				content of the old page and only replaces the parts that are marked for replacement. Hence
-				the name. This is the opposite of Astro's standard <i>swap() action</i>, where the entire body is copied
-				and persisted elements from the old DOM are <i>re-inserted</i> into the new one.
+				The component changes how the new page replaces the old page during view transitions. It
+				only replaces the parts that are marked for replacement. Hence the name.
 			</p>
-				<h3>Status</h3><p>Ready to use</p>
-				<h3>Future direction</h3><ul>
-					<li>Find and resolve potential bugs (help by opening issues at GitHub)</li>
-					<li>Back patch parts of code to Astro to prevent code duplication.</li>
-				</ul>
+			<h3>Status</h3><p>Ready to use</p>
+			<h3>Future direction</h3><ul>
+				<li>Find and resolve potential bugs.</li>
+			</ul>
+		</Card>
+
+		<Card href="/library/Portal/" title="Portal" icon="🚪" what="Effect" name="portal">
+			<p>
+				The <code>Portal</code> forces all navigations through a single intermediate page. This page
+				can be used to show some loading animation. The transition automatically resumes to the target
+				page of the transition once that page is loaded.
+			</p><p>
+				The benefit of a portal page is that the animation effect can be confined on that very page.
+				A limitation compared to *pure* view transitions is that presisted elements and transition groups from the current page to the target page are only possible if those are also supported by the portal page.
 			</p>
+			<h3>Status</h3><p>Brand new.</p>
+			<h3>Future direction</h3><ul>
+				<li>Add properties for more fine grained contol</li>
+			</ul>
 		</Card>
 		<!--
 			<Card
@@ -55,46 +159,6 @@ import { Content } from 'src/mdx/components.mdx';
 				<p>Work in progress.</p>
 			</Card>
 -->
-		<Card
-			href="/library/Linter/"
-			title="Linter"
-			icon="🧹"
-			what="Software Development Life Cycle"
-			name="linter"
-		>
-			This component checks for typical problems during development of view transitions and gives
-			detailed error messages. The main checks are <ul>
-				<li>Whether transition names are unique on a page</li><li>
-					Whether nested elements are annotated with transition:persist
-				</li>
-			</ul>
-			<h3>Status</h3><p>Ready to use</p>
-			<h3>Future direction</h3><ul>
-				<li>Add additional checks for typical issues.</li>
-			</ul>
-		</Card>
-
-		<Card
-			href="/library/VtBotDebug/"
-			title="VtBotDebug"
-			icon="🐛"
-			what="Debugging"
-			name="vtbotdebug"
-		>
-			<p>
-				<code>VtBotDebug</code> is a component that helps to understand transition events. It shows
-				the events, their properties, and the overall timing during the processing.
-			</p><p>
-				By default, the component logs to the browser console, but the output can be redirected to a
-				page overlay.
-			</p>
-			<h3>Status</h3><p>Feature complete for the logging part and ready to use.</p>
-			<h3>Future direction</h3><ul>
-				<li>Rewrite the overlay as a pretty devToolbar plugin.</li><li>
-					Style the console output.
-				</li>
-			</ul>
-		</Card>
 	</ul>
 </MdxLayout>
 
@@ -111,9 +175,8 @@ import { Content } from 'src/mdx/components.mdx';
 		animation-duration: 0s;
 	}
 	body {
-	max-width: 100%;
-}
-
+		max-width: 90%;
+	}
 </style>
 
 <style>

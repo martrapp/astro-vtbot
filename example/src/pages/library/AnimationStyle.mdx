@@ -1,0 +1,124 @@
+---
+layout: src/layouts/LibraryMdxLayout.astro
+title: Animation Style
+overview: /components/
+vtn: animstyle-3
+---
+
+<h1 style="display: inline-block; view-transition-name: animstyle-1"><span style="display:inline-block; view-transition-name:animstyle-2">✨</span>Animation Style</h1>
+
+
+
+`<AnimationStyle/>` gives the user more direct control over the style sheets for Astro's view transitions. It is accompanioed by a set of functions in `animation-style.ts` that generate the CSS for native view transitions as well as Astro's simulation of view transitions. 
+
+> **Note:** While you will probably use the `<AnimationStyle/>` component in your own project, the functions from `animation-style.ts` are rather building blocks for other components that provide view transition animations and are not normally used by end users. See [`Zoom`](../Zoom/) and [`Swing`](../Swing/) for animations aimed at end users.
+
+## Contents
+
+## Why would I use this component?
+
+For the basic animation use case, [Zoom](../Zoom/) and [Swing](../Swing/) animations can simply be plugged into Astro's `transition:animate={}` property. But for the more elaborated use cases with extended parametrisation, the style sheets for animations during view transitions must be placed manually. The `<AnimationStyle/>` component gives you full control over where to place style sheets for view transitions on your pages. It generates CSS for native view transition as well as Astro's simulation of view transitions. The contents of the style sheets are specified using functions from <code>animation-style.ts</code>.
+
+## Usage 
+
+[Install `astro-vtbot`](../Installation/) in your project running `npx astro add astro-vtbot` or `npm install astro-vtbot`.
+
+### Using &lt;AnimationStyle>
+Using this component is a two step process:
+* define the CSS in the *component script* of your Astro component
+* place the component in the *component template* of your Astro component
+
+```astro title="MyComponent.astro" {5,7}
+---
+import {setStyles} from 'astro-vtbot/animations/animation-style.ts';
+import AnimationStyle from 'astro-vtbot/animations/AnimationStyle.astro';
+
+setStyles("superFade", styles);
+---
+<AnimationStyle name="superFade">
+```
+The `<AnimationStyle/>` component can be placed in the `<head>` or in the `<body>` in your component template. Even if it is not placed in the `<head>`, the generated CSS will appear in the `<head>`. 
+
+The call to `setStyle` and the `<AnimationStyle/>` component are linked by the common identifier `superFade`. The name of the animation is arbitrary, but must be the same in both places. The second parameter to `setStyles()` is a string with the CSS for the animation. 
+
+### Creating CSS and transition scope
+
+How do I get that CSS string for `setStyles()`?
+
+You can use the `styleSheet` function from `animation-style.ts` to generate both, a CSS string for view transition animations and a transition scope id that you can use to reference the style sheet from an HTML element for which you want to define a transition group.
+
+```astro title="MyComponent.astro" {5}
+---
+import {setStyles, styleSheet} from 'astro-vtbot/animations/animation-style.ts';
+import AnimationStyle from 'astro-vtbot/animations/AnimationStyle.astro';
+
+const {scope, styles} = styleSheet({transitionName:"superFade", animations:myFade});
+setStyles("superFade", styles);
+---
+<div data-astro-transition-scope={scope}>
+  ...
+</div>
+```
+The `scope` is an identifier that is used to bind the style sheet to the `<div>`. This is the same thing that happens behind the scenes when you use `transition:animate` in Astro. It typically has the form `astro-xxxxxx` where `xxxxxx` is a random string.
+
+The second parameter to `styleSheet()` is an object that describes the CSS that should be used for the view transition. Here is an example for a fade animation:
+
+```ts
+const anim = {
+  old: {
+    'animation-name': 'fadeIn',
+    'animation-duration': '0.2s',
+    'animation-timing-function': 'linear',
+    'animation-fill-mode': 'forwards',
+  },
+  new: {
+    'animation-name': 'fadeOut',
+    'animation-duration': '0.3s',
+    'animation-timing-function': 'linear',
+    'animation-fill-mode': 'backwards',
+  }
+};
+
+const myFade = {
+  forwards: anim,
+  backwards: anim,
+};
+```
+You might recognize this example from the [Astro Docs about View Transitions](https://docs.astro.build/en/guides/view-transitions/#customizing-animations). The main difference between the input of `styleSheet()` and the Astro custom animation example is that `vtbot` uses kebab-case CSS property keys, while Astro uses a small set of convinient names. See [below](#namedanimationpairs-vs-transitiondirectionalanimations) for details.
+
+Here `myFade` defines `forwards` and `backwards` animations. "Forwards" is what will normally happen when you click a link.  "Backwards" is what is used when you hit the browser back button. Each branch defines the *out animation* for leaving the *`old` page*  and the *in animation* for entering the *`new` page*. The animation for each branch is defined by an object with CSS properties.  
+
+Astro's properties for custom animations are very convenient to use, while the kebab-case properties require more typing. However, supporting the full set of CSS properties is more powerful: for example, you can use `transform-origin` with `styleSheet()`. Astro's custom animations do not support this.  
+
+### NamedAnimationPairs vs. TransitionDirectionalAnimations
+Here are the details about the differences between Astro's `TransitionDirectionalAnimations` and the `NamedAnimationPairs` used by astro-bot's `styleSheet()`: 
+
+|Object | Astro animation | vtbot animation |
+|---|---|---|
+| Object for CSS generation|`TransitionDirectionalAnimations`: an object with `forwards` and `backwards` properties|`NamedAnimationPairs`: an object that can have arbitrarily named properties including `forwards` and `backwards`|
+|Animation pairs|`TransitionAnimation`: `old` and `new` can be objects or arrays of objects|`old` and `new` can only be objects but not arrays|
+|Animation properties|`TransitionAnimation`: an object with entries for 6 CSS animation properties. Keys are `name`, `delay`, `duration`, `easing`, `direction` &amp; `fillmode` |`AnimationCSS`: an object with any CSS properties.  The keys are kebab-case CSS property names.|
+
+### Reusing Astro custom animations with extended()
+
+The `animation-style.ts` file also provides an `extended()` function that can be used to convert Astro's `TransitionDirectionalAnimations` to `NamedAnimationPairs`. This allows you to reuse Astro's custom animations with `styleSheet()`. 
+
+> **Note:** An important limitation is that Astro's `TransitionDirectionalAnimations` can contain arrays, while `NamedAnimationPairs` can not. This means that you can only use Astro custom animations with `extend()` if they do not contain arrays. 
+
+```astro title="MyComponent.astro"
+---
+import { setStyles, styleSheet, extend } from 'astro-vtbot/animations/animation-style.ts';	
+import AnimationStyle from 'astro-vtbot/animations/AnimationStyle.astro';
+import { fade } from 'astro:transitions';
+
+const { scope, styles } = styleSheet({
+	transitionName: 'fade',
+	animations: extend(fade({ duration: 300 })),
+});
+setStyles('fade', styles);
+---
+<AnimationStyle name="fade">
+<div data-astro-transition-scope={scope}>
+	...
+</div>
+```

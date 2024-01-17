@@ -10,7 +10,12 @@ The bag of tricks provides support around Astro's view transitions.
 
 A current deployment of tech demos and the documentation can be found at https://events-3bg.pages.dev/
 
-<span style="font-size: max(2rem,calc(100vw / 30)); float: left; padding: 0 0.5rem 0rem 0;">📓</span><span style="font-size:max(1rem,calc(100vw / 60));">Above all, this includes the [>>>  Jotter <<<](https://events-3bg.pages.dev/docs/Jotter/) with a wealth of information on transition events as well as background information and valuable tips & tricks on view transitions in Astro.</span>
+## !!! NEW TRICKS IN THE BAG !!!
+
+> The bag of tricks now includes [pre-built animations](https://events-3bg.pages.dev/animations/one/) that you can use with your view transitions, just like Astro's built-in `fade()` and `slide()`! Use vtbot's `zoom()` and `swing()` with Astro's `transition:animate` or enjoy completely new freedom in designing view transitions using the advanced parameterization options and the new `<AnimationStyle/>` component!
+
+## The Jotter
+📓 The deployment also includes the [▶ Jotter ◀](https://events-3bg.pages.dev/docs/Jotter/) with a wealth of information on transition events as well as background information and valuable tips & tricks on view transitions in Astro.
 
 Some of the contents are technical demos, some are useful tools, and some are reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
 
@@ -22,30 +27,18 @@ The sources are in the [`example` folder](https://github.com/martrapp/astro-vt-b
 
 ## Reusable Components
 
-For functionality and usage [see the documentation](https://events-3bg.pages.dev/components/).
+* In need for extensions for view transitions because you have issues with iframes on your pages?
+* Wanting support in understanding and debugging view transitions or simply want a second pair of eyes on your view transition settings?
+* Looking for reusable animations or special transition effects?
 
-### Feature Enhancements
+Its all [here and growing](https://events-3bg.pages.dev/components/)😊
 
-#### In this release
+- `<ReplacementSwap/>`: An alterantive DOM swap(), which preserves elements in the original DOM to avoid reinitialization of iframes or CSS animations.
 
-- `<ReplacementSwap />`: An alterantive DOM swap(), which preserves elements in the original DOM to avoid reinitialization of iframes or CSS animations.
+- `<VtBotDebug/>`: A Debugging component that logs the events and their data as they occur.
 
-#### Ideas for upcomming components
+- `<Linter/>`: A linter component that helps you identify problems when setting up transitions.
 
-- A component that identifies and activates the current link in a persistent navigation bar
-- A component that preloads images used in view transitions (including load indicator)
+- `Zoom` and `Swing` animations and the `<AnimationsStyle/>` component allows for extended styling options.
 
-### Development support
-
-#### In this release
-
-- `<VtBotDebug />`: A Debugging component that logs the events and their data as they occur.
-
-
-- `<Linter>`: A linter component that helps you identify problems when setting up transitions.
-
-## Todo list
-
-- find & fix bugs
-- provide additional components and demos
-
+- `<Portal/>` component that forces all view transitions through a portal/loading page. 

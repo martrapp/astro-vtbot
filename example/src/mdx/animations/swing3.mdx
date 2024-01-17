@@ -1,0 +1,25 @@
+```astro title="Swing3.astro"
+---
+import { customSwing } from "astro-vtbot/animations/swing";
+import AnimationStyle from "astro-vtbot/animations/AnimationStyle.astro";
+
+const swing3Scope = customSwing('swing3', {
+	keyframes: { axis: { x: 1 } },
+	base: { duration: '0.3s' },
+	extensions: {
+		forwards: {
+			old: { 'transform-origin': 'top center' },
+			new: { 'transform-origin': 'top center', 'animation-delay': '0.1s' },
+		},
+		backwards: {
+			old: { 'transform-origin': 'top center' },
+			new: { 'transform-origin': 'top center', 'animation-delay': '0.1s' },
+		},
+	},
+});
+---
+<AnimationStyle name="swing3">
+<div data-astro-transition-scope={swing3Scope}>
+  ...
+</div>
+```

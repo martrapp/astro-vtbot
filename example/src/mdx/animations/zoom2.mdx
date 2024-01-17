@@ -1,0 +1,14 @@
+```astro title="Zoom2.astro"
+---
+import { customZoom } from "astro-vtbot/animations/zoom";
+import AnimationStyle from "astro-vtbot/animations/AnimationStyle.astro";
+
+const zoom2Scope = customZoom('zoom2', {
+	keyframes: { scale: { forwardOut: 0, backwardIn: 0 } },
+});
+---
+<AnimationStyle name="zoom2">
+<div data-astro-transition-scope={zoom2Scope}>
+  ...
+</div>
+```
