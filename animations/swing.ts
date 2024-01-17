@@ -1,33 +1,31 @@
 import './swing.css';
-import { NamedAnimationPairs, extend, maybeScopedStyleSheet, setKeyframes, setStyles } from './animation-style';
+import { type NamedAnimationPairs, extend, styleSheet, setKeyframes, setStyles } from './animation-style';
 import type { TransitionAnimation, TransitionDirectionalAnimations } from 'astro';
 
 type SwingKeyframeParameter = {
 	axis?: { x?: number; y?: number; z?: number; };
-	angle?: { grow?: string; shrink?: string; };
-	midOpacity?: number;
-	toOpacity?: number;
+	angle?: { leave?: string; enter?: string; };
+	opacity?: { mid?: number; to?: number; };
 };
 
 type CustomSwingOptions = {
-	keyframes?: SwingKeyframeParameter;
+	keyframes?: SwingKeyframeParameter | string;
 	base?: AnimationProperties;
-	animations?: NamedAnimationPairs;
+	extensions?: NamedAnimationPairs;
 };
 
 
 export const genKeyframes = (
-	name: string,
+	keyframeNamePrefix: string,
 	x: number = 0,
 	y: number = 0,
 	z: number = 0,
-	growAngle = "90deg",
-	shrinkAngle = "-90deg",
+	leaveAngle = "90deg",
+	enterAngle = "-90deg",
 	midOpacity: number = 1,
 	toOpacity: number = 0
-) =>
-	`
-		@keyframes ${name}FwdSwingOut {
+) => setKeyframes(keyframeNamePrefix, `
+		@keyframes ${keyframeNamePrefix}FwdSwingOut {
 		from {
 			transform: rotate3d(${x}, ${y}, ${z}, 0);
 			opacity: 1;
@@ -36,13 +34,13 @@ export const genKeyframes = (
 			opacity: ${midOpacity};
 		}
 		to {
-			transform: rotate3d(${x}, ${y}, ${z}, ${growAngle});
+			transform: rotate3d(${x}, ${y}, ${z}, ${leaveAngle});
 			opacity: ${toOpacity};
 		}
 	}
-	@keyframes ${name}FwdSwingIn {
+	@keyframes ${keyframeNamePrefix}FwdSwingIn {
 		from {
-			transform: rotate3d(${x}, ${y}, ${z}, ${shrinkAngle});
+			transform: rotate3d(${x}, ${y}, ${z}, ${enterAngle});
 			opacity: ${toOpacity};
 		}
 		50% {
@@ -53,7 +51,7 @@ export const genKeyframes = (
 			opacity: 1;
 		}
 	}
-	@keyframes ${name}BwdSwingOut {
+	@keyframes ${keyframeNamePrefix}BwdSwingOut {
 		from {
 			transform: rotate3d(${x}, ${y}, ${z}, 0);
 			opacity: 1;
@@ -62,13 +60,13 @@ export const genKeyframes = (
 			opacity: ${midOpacity};
 		}
 		to {
-			transform: rotate3d(${x}, ${y}, ${z}, ${shrinkAngle});
+			transform: rotate3d(${x}, ${y}, ${z}, ${enterAngle});
 			opacity: ${toOpacity};
 		}
 	}
-	@keyframes ${name}BwdSwingIn {
+	@keyframes ${keyframeNamePrefix}BwdSwingIn {
 		from {
-			transform: rotate3d(${x}, ${y}, ${z}, ${growAngle});
+			transform: rotate3d(${x}, ${y}, ${z}, ${leaveAngle});
 			opacity: ${toOpacity};
 		}
 		50% {
@@ -78,12 +76,12 @@ export const genKeyframes = (
 			transform: rotate3d(${x}, ${y}, ${z}, 0);
 			opacity: 1;
 		}
-	}`;
+	}`);
 
 export type AnimationProperties = Omit<TransitionAnimation, "name">;
 
 export const swing = (animation?: AnimationProperties) => namedSwing('', animation);
-export const namedSwing = (name: string, animation?: AnimationProperties) => {
+export const namedSwing = (keyframeNamePrefix: string, animation?: AnimationProperties) => {
 	const common = {
 		easing: 'ease-in-out',
 		fillMode: 'both',
@@ -92,34 +90,38 @@ export const namedSwing = (name: string, animation?: AnimationProperties) => {
 	};
 
 	const forwards = {
-		old: { ...common, name: `${name}FwdSwingOut` },
-		new: { delay: common.duration, ...common, name: `${name}FwdSwingIn` },
+		old: { ...common, name: `${keyframeNamePrefix}FwdSwingOut` },
+		new: { delay: common.duration, ...common, name: `${keyframeNamePrefix}FwdSwingIn` },
 	};
 
 	const backwards = {
-		old: { ...common, name: `${name}BwdSwingOut` },
-		new: { delay: common.duration, ...common, name: `${name}BwdSwingIn` },
+		old: { ...common, name: `${keyframeNamePrefix}BwdSwingOut` },
+		new: { delay: common.duration, ...common, name: `${keyframeNamePrefix}BwdSwingIn` },
 	};
 	return { forwards, backwards } as TransitionDirectionalAnimations;
 };
 
 
 export const customSwing = (
-	name: string,
+	transitionName: string,
 	options: CustomSwingOptions,
 	scope?: string
 ) => {
-	const { keyframes, base, animations: extensions } = options;
-	const animations = extend(namedSwing(name, base), extensions ?? {});
-	const axis = keyframes?.axis ?? { y: 1 };
+	const { keyframes, base, extensions } = options;
 
-	setKeyframes(
-		name,
-		genKeyframes(name, axis?.x, axis?.y, axis?.z, keyframes?.angle?.grow, keyframes?.angle?.shrink, keyframes?.midOpacity, keyframes?.toOpacity)
-	);
+	let keyframeNamePrefix: string;
 
-	let { scope: finalScope, styles } = maybeScopedStyleSheet(name, scope, animations);
-	setStyles(name, styles);
+	if (typeof keyframes === 'string') {
+		keyframeNamePrefix = keyframes;
+	} else {
+		keyframeNamePrefix = transitionName;
+		const axis = keyframes?.axis ?? { y: 1 };
+		genKeyframes(keyframeNamePrefix, axis?.x, axis?.y, axis?.z, keyframes?.angle?.leave, keyframes?.angle?.enter, keyframes?.opacity?.mid, keyframes?.opacity?.to);
+	}
+
+	const animations = extend(namedSwing(keyframeNamePrefix, base), extensions ?? {});
+	const { scope: finalScope, styles } = styleSheet({ transitionName, scope, animations });
+	setStyles(transitionName, styles);
 	return finalScope;
 };
 

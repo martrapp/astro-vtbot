@@ -11,13 +11,16 @@ export type ScopeAndStyles = {
 	scope: string;
 	styles: string;
 };
+export type StyleSheetOptions = {
+	transitionName: string,
+	animations: NamedAnimationPairs,
+	scope?: string,
+};
 
-export const styleSheet = (transitionName: string, animations: NamedAnimationPairs): ScopeAndStyles => maybeScopedStyleSheet(transitionName, undefined, animations);
+export function styleSheet(options: StyleSheetOptions): ScopeAndStyles {
+	const scope = options.scope ?? 'astro-' + Math.random().toString(36).slice(2, 8);
+	const { transitionName, animations } = options;
 
-export const scopedStyleSheet = (transitionName: string, scope: string, animations: NamedAnimationPairs) => maybeScopedStyleSheet(transitionName, scope, animations).styles;
-
-export function maybeScopedStyleSheet(transitionName: string, scope: string | undefined, animations: NamedAnimationPairs): ScopeAndStyles {
-	scope ??= 'astro-' + Math.random().toString(36).slice(2, 8);
 	const header = `[data-astro-transition-scope=${scope}] {view-transition-name: ${transitionName};}@layer astro {`;
 	const closeLayer = '}';
 
@@ -62,40 +65,43 @@ map["fillMode"] = "animation-fill-mode";
 map["direction"] = "animation-direction";
 const timeString = (value: number | string) => typeof value === 'number' ? value + 'ms' : value;
 
-export const extend = (base: TransitionDirectionalAnimations, extension?: NamedAnimationPairs) => ({
-	forwards: {
-		old: Object.fromEntries([
-			...Object.entries(base.forwards.old).map(([key, value]) => [map[key], timeString(value)]),
-			...Object.entries(extension?.forwards?.old ?? {}),
-		]),
-		new: Object.fromEntries([
-			...Object.entries(base.forwards.new).map(([key, value]) => [map[key], timeString(value)]),
-			...Object.entries(extension?.forwards?.new ?? {}),
-		]),
-	},
-	backwards: {
-		old: Object.fromEntries([
-			...Object.entries(base.backwards.old).map(([key, value]) => [map[key], value]),
-			...Object.entries(extension?.backwards?.old ?? {}),
-		]),
-		new: Object.fromEntries([
-			...Object.entries(base.backwards.new).map(([key, value]) => [map[key], value]),
-			...Object.entries(extension?.backwards?.new ?? {}),
-		]),
-	},
-});
+export const extend = (base: TransitionDirectionalAnimations,
+	extension?: NamedAnimationPairs) => {
+	if (
+		Array.isArray(base.forwards.new) ||
+		Array.isArray(base.forwards.old) ||
+		Array.isArray(base.backwards.new) ||
+		Array.isArray(base.backwards.old)) {
+		throw new Error('extend() can only handle animation objects, not arrays');
+	}
+	return {
+		forwards: {
+			old: Object.fromEntries([
+				...Object.entries(base.forwards.old).map(([key, value]) => [map[key], timeString(value)]),
+				...Object.entries(extension?.forwards?.old ?? {}),
+			]),
+			new: Object.fromEntries([
+				...Object.entries(base.forwards.new).map(([key, value]) => [map[key], timeString(value)]),
+				...Object.entries(extension?.forwards?.new ?? {}),
+			]),
+		},
+		backwards: {
+			old: Object.fromEntries([
+				...Object.entries(base.backwards.old).map(([key, value]) => [map[key], value]),
+				...Object.entries(extension?.backwards?.old ?? {}),
+			]),
+			new: Object.fromEntries([
+				...Object.entries(base.backwards.new).map(([key, value]) => [map[key], value]),
+				...Object.entries(extension?.backwards?.new ?? {}),
+			]),
+		},
+	};
+};
 
 const framesMap = {};
-export function setKeyframes(name: string, css: string) {
-	framesMap[name] = css;
-}
-export function getKeyframes(name: string) {
-	return framesMap[name];
-}
+export const setKeyframes = (name: string, css: string) => framesMap[name] = css;
+export const getKeyframes = (name: string) => framesMap[name];
+
 const stylesMap = {};
-export function setStyles(name: string, css: string) {
-	stylesMap[name] = css;
-}
-export function getStyles(name: string) {
-	return stylesMap[name];
-}
+export const setStyles = (name: string, css: string) => stylesMap[name] = css;
+export const getStyles = (name: string) => stylesMap[name];

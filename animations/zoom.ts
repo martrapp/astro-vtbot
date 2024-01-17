@@ -1,5 +1,5 @@
 import './zoom.css';
-import { NamedAnimationPairs, extend, maybeScopedStyleSheet, setKeyframes, setStyles } from './animation-style';
+import { NamedAnimationPairs, extend, styleSheet, setKeyframes, setStyles } from './animation-style';
 import type { TransitionAnimation, TransitionDirectionalAnimations } from 'astro';
 
 type ZoomKeyframeParameter = {
@@ -8,14 +8,14 @@ type ZoomKeyframeParameter = {
 };
 
 type CustomZoomOptions = {
-	keyframes?: ZoomKeyframeParameter;
+	keyframes?: ZoomKeyframeParameter | string;
 	base?: AnimationProperties;
-	animations?: NamedAnimationPairs;
+	extensions?: NamedAnimationPairs;
 };
 
 
-export const genKeyframes = (
-	name: string,
+const genKeyframes = (
+	keyframeNamePrefix: string,
 	forwardOutScale = 5,
 	forwardOutOpacity = 0,
 	forwardInScale = 0,
@@ -24,9 +24,8 @@ export const genKeyframes = (
 	backwardOutOpacity = 0,
 	backwardInScale = 5,
 	backwardInOpacity = 0,
-) =>
-	`
-	@keyframes ${name}FwdZoomOut {
+) => setKeyframes(keyframeNamePrefix, `
+	@keyframes ${keyframeNamePrefix}FwdZoomOut {
 		from {
 			transform: scale(1);
 			opacity: 1;
@@ -36,17 +35,17 @@ export const genKeyframes = (
 			opacity: ${forwardOutOpacity};
 		}
 	}
-	@keyframes ${name}FwdZoomIn {
+	@keyframes ${keyframeNamePrefix}FwdZoomIn {
 		from {
 			transform: scale(${forwardInScale});
 			opacity: ${forwardInOpacity};
 		}
 		to {
-			transform: scale(1));
+			transform: scale(1);
 			opacity: 1;
 		}
 	}
-	@keyframes ${name}BwdZoomOut {
+	@keyframes ${keyframeNamePrefix}BwdZoomOut {
 		from {
 			transform: scale(1);
 			opacity: 1;
@@ -56,21 +55,21 @@ export const genKeyframes = (
 			opacity: ${backwardOutOpacity};
 		}
 	}
-	@keyframes ${name}BwdZoomIn {
+	@keyframes ${keyframeNamePrefix}BwdZoomIn {
 		from {
 			transform: scale(${backwardInScale});
 			opacity: ${backwardInOpacity};
 		}
 		to {
-			transform: scale(1));
+			transform: scale(1);
 			opacity: 1;
 		}
-	}`;
+	}`);
 
-export type AnimationProperties = Omit<TransitionAnimation, "name">;
+type AnimationProperties = Omit<TransitionAnimation, "name">;
 
 export const zoom = (animation?: AnimationProperties) => namedZoom('', animation);
-export const namedZoom = (name: string, animation?: AnimationProperties) => {
+const namedZoom = (keyframeNamePrefix: string, animation?: AnimationProperties) => {
 	const common = {
 		easing: 'ease-in-out',
 		fillMode: 'both',
@@ -79,34 +78,38 @@ export const namedZoom = (name: string, animation?: AnimationProperties) => {
 	};
 
 	const forwards = {
-		old: { ...common, name: `${name}FwdZoomOut` },
-		new: { ...common, name: `${name}FwdZoomIn` },
+		old: { ...common, name: `${keyframeNamePrefix}FwdZoomOut` },
+		new: { ...common, name: `${keyframeNamePrefix}FwdZoomIn` },
 	};
 
 	const backwards = {
-		old: { ...common, name: `${name}BwdZoomOut` },
-		new: { ...common, name: `${name}BwdZoomIn` },
+		old: { ...common, name: `${keyframeNamePrefix}BwdZoomOut` },
+		new: { ...common, name: `${keyframeNamePrefix}BwdZoomIn` },
 	};
 	return { forwards, backwards } as TransitionDirectionalAnimations;
 };
 
 
 export const customZoom = (
-	name: string,
+	transitionName: string,
 	options: CustomZoomOptions,
 	scope?: string
 ) => {
-	const { keyframes, base, animations: extensions } = options;
-	const { scale, opacity } = keyframes ?? {};
-	const animations = extend(namedZoom(name, base), extensions ?? {});
+	const { keyframes, base, extensions } = options;
 
-	setKeyframes(
-		name,
-		genKeyframes(name, scale?.forwardOut, opacity?.forwardOut, scale?.forwardIn, opacity?.forwardIn, scale?.backwardOut, opacity?.backwardOut, scale?.backwardIn, opacity?.backwardIn)
-	);
+	let keyframeNamePrefix: string;
 
-	let { scope: finalScope, styles } = maybeScopedStyleSheet(name, scope, animations);
-	setStyles(name, styles);
+	if (typeof keyframes === 'string') {
+		keyframeNamePrefix = keyframes;
+	} else {
+		keyframeNamePrefix = transitionName;
+		const { scale, opacity } = keyframes ?? {};
+		genKeyframes(transitionName, scale?.forwardOut, opacity?.forwardOut, scale?.forwardIn, opacity?.forwardIn, scale?.backwardOut, opacity?.backwardOut, scale?.backwardIn, opacity?.backwardIn);
+	}
+
+	const animations = extend(namedZoom(keyframeNamePrefix, base), extensions ?? {});
+	const { scope: finalScope, styles } = styleSheet({ transitionName, scope, animations });
+	setStyles(transitionName, styles);
 	return finalScope;
 };
 

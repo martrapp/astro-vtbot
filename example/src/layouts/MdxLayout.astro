@@ -27,7 +27,7 @@ const { frontmatter, title} = Astro.props;
 	</head>
 	<body>
 		<header><a href="javascript:history.back()">⮌ back</a>
-			{frontmatter?.overview && <a href={frontmatter.overview}> | Overview</a>} | <a href="/">Home</a></header>
+			{frontmatter?.overview && <a href={frontmatter.overview}> | Overview</a>} | <a data-astro-reload href="/">Home</a></header>
 		<main>
 			<slot />
 		</main>
@@ -43,7 +43,8 @@ const { frontmatter, title} = Astro.props;
 			}
 
 			a {
-				color: var(--vtbot-color);
+				color: var(--vtbot-global-accent);
+				text-decoration: dotted underline;
 			}
 			footer a, header a {
 				text-decoration: none;
@@ -59,20 +60,28 @@ const { frontmatter, title} = Astro.props;
 			code {
 				font-size: 1rem;
 				color: var(--vtbot-accent);
+			}	
+			table code {
+				font-size: 0.8rem;
+				color: var(--vtbot-accent);
 			}
+
+			
 			#contents + ul {
 				font-family: sans-serif;
+				line-height: 1.3;
 				background-color: var(--vtbot-table-background-color);
-				padding: 1rem;
-				border-radius: 10px;
+				border-radius: 8px;
 				border: 1px dashed #ccc;
 				box-shadow: 2px 2px 2px #5659;
 			}
-			#contents + ul,
+			#contents + ul {
+				padding: 1em;
+			}
 			#contents + ul ul,
 			#contents + ul ul ul {
 				margin: 0 0;
-				padding: 0.2em 1em;
+				padding: 0em 1em;
 			}
 			#contents + ul,
 			#contents + ul li,
@@ -112,6 +121,7 @@ const { frontmatter, title} = Astro.props;
 			h3 {
 				margin-top: 2rem;
 				margin-bottom: 0.5rem;
+				color: var(--vtbot-global-accent);
 			}
 			body {
 				max-width: 840px;
