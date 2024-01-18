@@ -1,10 +1,16 @@
 import './zoom.css';
-import { NamedAnimationPairs, extend, styleSheet, setKeyframes, setStyles } from './animation-style';
+import {
+	NamedAnimationPairs,
+	extend,
+	styleSheet,
+	setKeyframes,
+	setStyles,
+} from './animation-style';
 import type { TransitionAnimation, TransitionDirectionalAnimations } from 'astro';
 
 type ZoomKeyframeParameter = {
-	scale?: { forwardOut?: number; forwardIn?: number; backwardOut?: number; backwardIn?: number; };
-	opacity?: { forwardOut?: number; forwardIn?: number; backwardOut?: number; backwardIn?: number; };
+	scale?: { forwardOut?: number; forwardIn?: number; backwardOut?: number; backwardIn?: number };
+	opacity?: { forwardOut?: number; forwardIn?: number; backwardOut?: number; backwardIn?: number };
 };
 
 type CustomZoomOptions = {
@@ -12,7 +18,6 @@ type CustomZoomOptions = {
 	base?: AnimationProperties;
 	extensions?: NamedAnimationPairs;
 };
-
 
 const genKeyframes = (
 	keyframeNamePrefix: string,
@@ -23,8 +28,11 @@ const genKeyframes = (
 	backwardOutScale = 0,
 	backwardOutOpacity = 0,
 	backwardInScale = 5,
-	backwardInOpacity = 0,
-) => setKeyframes(keyframeNamePrefix, `
+	backwardInOpacity = 0
+) =>
+	setKeyframes(
+		keyframeNamePrefix,
+		`
 	@keyframes ${keyframeNamePrefix}FwdZoomOut {
 		from {
 			transform: scale(1);
@@ -64,9 +72,10 @@ const genKeyframes = (
 			transform: scale(1);
 			opacity: 1;
 		}
-	}`);
+	}`
+	);
 
-type AnimationProperties = Omit<TransitionAnimation, "name">;
+type AnimationProperties = Omit<TransitionAnimation, 'name'>;
 
 export const zoom = (animation?: AnimationProperties) => namedZoom('', animation);
 const namedZoom = (keyframeNamePrefix: string, animation?: AnimationProperties) => {
@@ -89,12 +98,7 @@ const namedZoom = (keyframeNamePrefix: string, animation?: AnimationProperties) 
 	return { forwards, backwards } as TransitionDirectionalAnimations;
 };
 
-
-export const customZoom = (
-	transitionName: string,
-	options: CustomZoomOptions,
-	scope?: string
-) => {
+export const customZoom = (transitionName: string, options: CustomZoomOptions, scope?: string) => {
 	const { keyframes, base, extensions } = options;
 
 	let keyframeNamePrefix: string;
@@ -104,7 +108,17 @@ export const customZoom = (
 	} else {
 		keyframeNamePrefix = transitionName;
 		const { scale, opacity } = keyframes ?? {};
-		genKeyframes(transitionName, scale?.forwardOut, opacity?.forwardOut, scale?.forwardIn, opacity?.forwardIn, scale?.backwardOut, opacity?.backwardOut, scale?.backwardIn, opacity?.backwardIn);
+		genKeyframes(
+			transitionName,
+			scale?.forwardOut,
+			opacity?.forwardOut,
+			scale?.forwardIn,
+			opacity?.forwardIn,
+			scale?.backwardOut,
+			opacity?.backwardOut,
+			scale?.backwardIn,
+			opacity?.backwardIn
+		);
 	}
 
 	const animations = extend(namedZoom(keyframeNamePrefix, base), extensions ?? {});
@@ -112,4 +126,3 @@ export const customZoom = (
 	setStyles(transitionName, styles);
 	return finalScope;
 };
-

@@ -1,1 +1,1 @@
-export default function Portal(_props: import("./Portal.astro").Props): any;
+export default function Portal(_props: import('./Portal.astro').Props): any;

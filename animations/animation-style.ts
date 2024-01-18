@@ -1,20 +1,19 @@
-import { TransitionDirectionalAnimations } from "astro";
-
+import { TransitionDirectionalAnimations } from 'astro';
 
 type Kebab<T extends string, A extends string = ''> = T extends `${infer F}${infer R}`
 	? Kebab<R, `${A}${F extends Lowercase<F> ? '' : '-'}${Lowercase<F>}`>
 	: A;
 type KebabKeys<T> = { [K in keyof T as K extends string ? Kebab<K> : K]: T[K] };
 type AnimationCSS = KebabKeys<Partial<CSSStyleDeclaration>>;
-export type NamedAnimationPairs = Record<string, { new?: AnimationCSS; old?: AnimationCSS; }>;
+export type NamedAnimationPairs = Record<string, { new?: AnimationCSS; old?: AnimationCSS }>;
 export type ScopeAndStyles = {
 	scope: string;
 	styles: string;
 };
 export type StyleSheetOptions = {
-	transitionName: string,
-	animations: NamedAnimationPairs,
-	scope?: string,
+	transitionName: string;
+	animations: NamedAnimationPairs;
+	scope?: string;
 };
 
 export function styleSheet(options: StyleSheetOptions): ScopeAndStyles {
@@ -28,7 +27,7 @@ export function styleSheet(options: StyleSheetOptions): ScopeAndStyles {
 		dir === 'forwards'
 			? ''
 			: dir === 'backwards'
-				? "[data-astro-transition=back]"
+				? '[data-astro-transition=back]'
 				: `[data-astro-transition=${dir}`;
 
 	const pseudo = (image: string) => `::view-transition-${image}(${transitionName})`;
@@ -47,31 +46,43 @@ export function styleSheet(options: StyleSheetOptions): ScopeAndStyles {
 
 	let styles = header;
 	const dirs = Object.keys(animations);
-	styles = dirs.reduce((acc, dir) => acc + `${the(dir)}${pseudo('old')} {${style(dir, 'old')}}`, styles);
-	styles = dirs.reduce((acc, dir) => acc + `${the(dir)}${pseudo('new')} {${style(dir, 'new')}}`, styles);
+	styles = dirs.reduce(
+		(acc, dir) => acc + `${the(dir)}${pseudo('old')} {${style(dir, 'old')}}`,
+		styles
+	);
+	styles = dirs.reduce(
+		(acc, dir) => acc + `${the(dir)}${pseudo('new')} {${style(dir, 'new')}}`,
+		styles
+	);
 	styles += closeLayer;
 
-	styles = dirs.reduce((acc, dir) => acc + `${fallback(dir, 'old', scope)} {${style(dir, 'old')}}`, styles);
-	styles = dirs.reduce((acc, dir) => acc + `${fallback(dir, 'new', scope)} {${style(dir, 'new')}}`, styles);
+	styles = dirs.reduce(
+		(acc, dir) => acc + `${fallback(dir, 'old', scope)} {${style(dir, 'old')}}`,
+		styles
+	);
+	styles = dirs.reduce(
+		(acc, dir) => acc + `${fallback(dir, 'new', scope)} {${style(dir, 'new')}}`,
+		styles
+	);
 
 	return { scope, styles };
 }
 const map = {};
-map["name"] = "animation-name";
-map["delay"] = "animation-delay";
-map["duration"] = "animation-duration";
-map["easing"] = "animation-timing-function";
-map["fillMode"] = "animation-fill-mode";
-map["direction"] = "animation-direction";
-const timeString = (value: number | string) => typeof value === 'number' ? value + 'ms' : value;
+map['name'] = 'animation-name';
+map['delay'] = 'animation-delay';
+map['duration'] = 'animation-duration';
+map['easing'] = 'animation-timing-function';
+map['fillMode'] = 'animation-fill-mode';
+map['direction'] = 'animation-direction';
+const timeString = (value: number | string) => (typeof value === 'number' ? value + 'ms' : value);
 
-export const extend = (base: TransitionDirectionalAnimations,
-	extension?: NamedAnimationPairs) => {
+export const extend = (base: TransitionDirectionalAnimations, extension?: NamedAnimationPairs) => {
 	if (
 		Array.isArray(base.forwards.new) ||
 		Array.isArray(base.forwards.old) ||
 		Array.isArray(base.backwards.new) ||
-		Array.isArray(base.backwards.old)) {
+		Array.isArray(base.backwards.old)
+	) {
 		throw new Error('extend() can only handle animation objects, not arrays');
 	}
 	return {
@@ -99,9 +110,9 @@ export const extend = (base: TransitionDirectionalAnimations,
 };
 
 const framesMap = {};
-export const setKeyframes = (name: string, css: string) => framesMap[name] = css;
+export const setKeyframes = (name: string, css: string) => (framesMap[name] = css);
 export const getKeyframes = (name: string) => framesMap[name];
 
 const stylesMap = {};
-export const setStyles = (name: string, css: string) => stylesMap[name] = css;
+export const setStyles = (name: string, css: string) => (stylesMap[name] = css);
 export const getStyles = (name: string) => stylesMap[name];

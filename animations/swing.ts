@@ -1,11 +1,17 @@
 import './swing.css';
-import { type NamedAnimationPairs, extend, styleSheet, setKeyframes, setStyles } from './animation-style';
+import {
+	type NamedAnimationPairs,
+	extend,
+	styleSheet,
+	setKeyframes,
+	setStyles,
+} from './animation-style';
 import type { TransitionAnimation, TransitionDirectionalAnimations } from 'astro';
 
 type SwingKeyframeParameter = {
-	axis?: { x?: number; y?: number; z?: number; };
-	angle?: { leave?: string; enter?: string; };
-	opacity?: { mid?: number; to?: number; };
+	axis?: { x?: number; y?: number; z?: number };
+	angle?: { leave?: string; enter?: string };
+	opacity?: { mid?: number; to?: number };
 };
 
 type CustomSwingOptions = {
@@ -14,17 +20,19 @@ type CustomSwingOptions = {
 	extensions?: NamedAnimationPairs;
 };
 
-
 export const genKeyframes = (
 	keyframeNamePrefix: string,
 	x: number = 0,
 	y: number = 0,
 	z: number = 0,
-	leaveAngle = "90deg",
-	enterAngle = "-90deg",
+	leaveAngle = '90deg',
+	enterAngle = '-90deg',
 	midOpacity: number = 1,
 	toOpacity: number = 0
-) => setKeyframes(keyframeNamePrefix, `
+) =>
+	setKeyframes(
+		keyframeNamePrefix,
+		`
 		@keyframes ${keyframeNamePrefix}FwdSwingOut {
 		from {
 			transform: rotate3d(${x}, ${y}, ${z}, 0);
@@ -76,9 +84,10 @@ export const genKeyframes = (
 			transform: rotate3d(${x}, ${y}, ${z}, 0);
 			opacity: 1;
 		}
-	}`);
+	}`
+	);
 
-export type AnimationProperties = Omit<TransitionAnimation, "name">;
+export type AnimationProperties = Omit<TransitionAnimation, 'name'>;
 
 export const swing = (animation?: AnimationProperties) => namedSwing('', animation);
 export const namedSwing = (keyframeNamePrefix: string, animation?: AnimationProperties) => {
@@ -101,7 +110,6 @@ export const namedSwing = (keyframeNamePrefix: string, animation?: AnimationProp
 	return { forwards, backwards } as TransitionDirectionalAnimations;
 };
 
-
 export const customSwing = (
 	transitionName: string,
 	options: CustomSwingOptions,
@@ -116,7 +124,16 @@ export const customSwing = (
 	} else {
 		keyframeNamePrefix = transitionName;
 		const axis = keyframes?.axis ?? { y: 1 };
-		genKeyframes(keyframeNamePrefix, axis?.x, axis?.y, axis?.z, keyframes?.angle?.leave, keyframes?.angle?.enter, keyframes?.opacity?.mid, keyframes?.opacity?.to);
+		genKeyframes(
+			keyframeNamePrefix,
+			axis?.x,
+			axis?.y,
+			axis?.z,
+			keyframes?.angle?.leave,
+			keyframes?.angle?.enter,
+			keyframes?.opacity?.mid,
+			keyframes?.opacity?.to
+		);
 	}
 
 	const animations = extend(namedSwing(keyframeNamePrefix, base), extensions ?? {});
@@ -124,4 +141,3 @@ export const customSwing = (
 	setStyles(transitionName, styles);
 	return finalScope;
 };
-

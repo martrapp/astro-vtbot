@@ -68,7 +68,7 @@ export function elementsWithPropertyinStylesheet(
 	[...document.styleSheets].forEach((sheet) => {
 		const style = sheet.ownerNode as HTMLElement;
 		const definedNames = new Set<string>();
-		const matches = style?.innerHTML.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, "g"));
+		const matches = style?.innerHTML.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'g'));
 		[...matches].forEach((match) => definedNames.add(match[1]));
 		try {
 			[...sheet.cssRules].forEach((rule) => {
@@ -80,8 +80,9 @@ export function elementsWithPropertyinStylesheet(
 				}
 			});
 		} catch (e) {
-			console.log(`%c[vtbot] Can't analyze sheet at ${sheet.href}: ${e}`, "color: #888");
-		} if (definedNames.size > 0) {
+			console.log(`%c[vtbot] Can't analyze sheet at ${sheet.href}: ${e}`, 'color: #888');
+		}
+		if (definedNames.size > 0) {
 			style.setAttribute('data-illegal-transition-names', [...definedNames].join(', '));
 			map.set('', new Set([...(map.get('') ?? new Set()), style]));
 		}
