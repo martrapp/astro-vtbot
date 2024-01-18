@@ -46,11 +46,11 @@
     "debug"
   ],
   "scripts": {
-    "format": "prettier -w components",
+    "format": "prettier -w components integration animations",
     "dev": "cd example && astro dev",
     "build": "cd example && astro build",
     "preview": "cd example && astro preview",
-    "test": "(cd test/fixture/node_modules; rm -rf astro-vtbot; ln -s ../../.. astro-vtbot) &&  npx playwright test",
+    "test": "mkdir -p test/fixture/node_modules && (cd test/fixture/node_modules && rm astro-vtbot; ln -sT ../../.. astro-vtbot) &&  npx playwright test",
     "relocate": "cd example && ./bin/relocate.sh"
   },
   "peerDependencies": {
