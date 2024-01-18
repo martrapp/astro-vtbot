@@ -15,7 +15,6 @@ on:
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
-  pages: write
   id-token: write
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
@@ -23,10 +22,6 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
-
-env:
-  BUILD_PATH: "." # default value when not using subfolders
-  # BUILD_PATH: subfolder
 
 jobs:
   build:
@@ -41,28 +36,26 @@ jobs:
         with:
           node-version: "18"
           cache: npm
-          cache-dependency-path: ${{ env.BUILD_PATH }}/package-lock.json
+          cache-dependency-path: ./package-lock.json
 
       - name: Cache .astro
         uses: actions/cache@v3
         with:
-          path: ${{ env.BUILD_PATH }}/example/node_modules
+          path: ./example/node_modules
           key: astro-cache-${{ github.run_id }}
           restore-keys: astro-cache
 
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v4
-
       - name: Install dependencies
         run: npm install
-        working-directory: ${{ env.BUILD_PATH }}
 
       - name: Build with Astro
-        run: |
-          npm run build -- --site "${{ steps.pages.outputs.origin }}"
-        working-directory: ${{ env.BUILD_PATH }}
+        run: npm run build
 
+      - name: Prepare tests
+        run: npx playwright install
+
+      - name: Run tests
+        run: npm test 
       
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
@@ -70,4 +63,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_PAGES_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: events
-          directory: ${{ env.BUILD_PATH }}/example/dist
+          directory: ./example/dist
