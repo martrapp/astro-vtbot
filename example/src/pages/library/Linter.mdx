@@ -76,7 +76,7 @@ Valid custom identifiers must not start with a number, i.e. a digit, or a "`-`" 
 If the `type` attribute is set to anything else, the script is ignored by the browser. This is fine for e.g. `"text/partytown"` where the partytown lib searches and executes such scripts. Some optimization techniques that instrument HTML might also use there own values. Even though the script will be executed eventually, this typically happens after the `astro:page-load` event. If you define an event listener for `astro:page-load` in those scripts, it will not be called. The `<Linter>` component will issue a warning in these situations. 
 
 ## Usage
-[Install `astro-vtbot`](../Installation/) in your project as an Astro integration with `npx astro add astro-vtbot` or as a node module with `npm install astro-vtbot`. If you choose the integration option, `vtbot` will automatically add the `<Linter/>` component to all the pages that use `<ViewTransitions>`. 
+[Install astro-vtbot](../Installation/) in your project as an Astro integration with `npx astro add astro-vtbot` or as a node module with `npm install astro-vtbot`. If you choose the integration option, `vtbot` will automatically add the `<Linter/>` component to all the pages that use `<ViewTransitions>`. 
 
 If you do not choose the integration, you have to add the `<Linter/>` component to your pages manually: Insert the `<Linter/>` component near the `<ViewTransitions/>` component into the `<head>` of your page.
 

@@ -22,6 +22,8 @@ When the user clicks a link, submits a form or uses the browser's back and forwa
 
 ## Usage
 
+[Install astro-vtbot](../Installation/) in your project running `npx astro add astro-vtbot` or `npm install astro-vtbot`.
+
 The `<Portal>` component can be put in the `<head>` of those pages that have a `<ViewTransition />` component. If you want a transition from A to B got through the portal page, you must place the `<Portal>`component on A. The portal page is not automaticall used in the reverse direction. If you also want to see the portal page on links from B to A - or when navigating back through the browser history - you must also insert the `<Portal>` component on page B.
 
 ```astro title="MyLayout.astro"

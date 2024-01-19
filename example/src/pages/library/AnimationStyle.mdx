@@ -21,7 +21,7 @@ For the basic animation use case, [Zoom](../Zoom/) and [Swing](../Swing/) animat
 
 ## Usage 
 
-[Install `astro-vtbot`](../Installation/) in your project running `npx astro add astro-vtbot` or `npm install astro-vtbot`.
+[Install astro-vtbot](../Installation/) in your project running `npx astro add astro-vtbot` or `npm install astro-vtbot`.
 
 ### Using &lt;AnimationStyle>
 Using this component is a two step process:
@@ -37,7 +37,7 @@ setStyles("superFade", styles);
 ---
 <AnimationStyle name="superFade">
 ```
-The `<AnimationStyle/>` component can be placed in the `<head>` or in the `<body>` in your component template. Even if it is not placed in the `<head>`, the generated CSS will appear in the `<head>`. 
+The `<AnimationStyle/>` component should be placed in the `<head>` of your page. 
 
 The call to `setStyle` and the `<AnimationStyle/>` component are linked by the common identifier `superFade`. The name of the animation is arbitrary, but must be the same in both places. The second parameter to `setStyles()` is a string with the CSS for the animation. 
 
