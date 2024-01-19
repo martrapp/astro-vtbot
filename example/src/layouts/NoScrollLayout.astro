@@ -1,18 +1,20 @@
 ---
-import Layout from './MdxLayout.astro';
+import MdxLayout from './MdxLayout.astro';
+import NoScroll from '~/components/NoScroll.astro';
 
 interface Props {
 	title: string;
 	background: string;
 }
-const { title, background } = Astro.props;
+const { title } = Astro.props;
 ---
 
-<Layout title={title} background={background}>
+<MdxLayout title={title}>
+	<NoScroll slot="head"/>
 	<div transition:animate="slide">
 		<slot />
 	</div>
-</Layout>
+</MdxLayout>
 
 <style is:global>
 	body {
@@ -39,13 +41,4 @@ const { title, background } = Astro.props;
 		color: white;
 	}
 </style>
-<script is:inline>
-	let position = { left: 0, top: 0 };
 
-	document.addEventListener('astro:after-preparation', () => {
-		position = { left: scrollX, top: scrollY };
-	});
-	document.addEventListener('astro:after-swap', () => {
-		scrollTo({ ...position, behavior: 'instant' });
-	});
-</script>

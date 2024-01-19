@@ -1,0 +1,42 @@
+---
+layout: src/layouts/LibraryMdxLayout.astro
+title: No Scroll
+overview: /components/
+vtn: noscroll-3
+---
+
+<h1 style="display: inline-block; view-transition-name: noscroll-1"><span style="display:inline-block; view-transition-name:noscroll-2">📜</span>Don't Scroll on Transition</h1>
+
+This is a very simple component that might come in handy your transition group is further down the page and you do not want to the top of the page or to an anchor on the page when the user clicks a link.
+
+## Contents
+
+## Why would I use this component?
+
+In terms of scrolling, view transitions in Astro behave like normal navigation: if you scroll to another page, you jump to the top of the page. If your link had a #fragment id, you then scroll down to that fragment on the page. If you press the browser's "back" button, your scroll position will be restored to what it was when you left that page.
+
+You can see this component in action in the <a data-astro-reload href="/no-scroll/one/">NoScroll demo</a> and in the <a data-astro-reload href="/animations/one/">Animations demo</a>.
+## Usage
+
+[Install astro-vtbot](../Installation/) in your project running `npx astro add astro-vtbot` or `npm install astro-vtbot`.
+
+### Basic usage
+
+Place the `<NoScroll/>` component in the `<head>` of a page near Astro's `<ViewTransitions/>`. That will prevent scrolling for all view transitions that leave this page to other pages that also have the `<NoScroll/>` in their head.
+
+```astro title="MyPage.astro" {3,8}
+---
+import { ViewTransitions } from 'astro:transitions'; 
+import NoScroll from 'astro-vtbot/components/NoScroll.astro';
+---
+<html>
+  <head>
+		<ViewTransitions/>
+		<NoScroll/>
+		...
+	<head/>
+	...
+</html>
+```
+
+There are no parameters to configure.

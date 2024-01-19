@@ -1,6 +1,7 @@
 ---
 import MdxLayout from './MdxLayout.astro';
 import AnimationStyle from '~/animations/AnimationStyle.astro';
+import NoScroll from '~/components/NoScroll.astro';
 import { createAnimationScope, fade, slide } from 'astro:transitions';
 import { swing, customSwing } from '~/animations/swing';
 import { zoom, customZoom } from '~/animations/zoom';
@@ -92,6 +93,7 @@ const { scope: slideScope, styles: slideStyles } = createAnimationScope('slide',
 <style set:text={noneStyles + fadeStyles + slideStyles + zoom1Styles}></style>
 
 <MdxLayout {...Astro.props}>
+	<NoScroll slot="head"/>
 	<meta name="vtbot-linter-ignore" content="none fade slide swing1 swing2 swing3" slot="head" />
 	<span id="saver" data-animation="zoom1" transition:persist="saver"></span>
 	<div class="button-grid" id="buttonGrid" transition:name="grid" transition:animate={swing()}>
@@ -112,7 +114,7 @@ const { scope: slideScope, styles: slideStyles } = createAnimationScope('slide',
 		Use the buttons above to select an animation style. Then press the link in the demo web site
 		below to see that animation in action. <a href="#done">How do you do that?</a>
 	</p>
-	<div style="perspective: 50cm"><div id="demo"><slot /><br style="clear:both" /></div></div>
+	<div style="perspective: 50cm"><div id="demo"><a href="./#">Flip</a><slot /><br style="clear:both" /></div></div>
 	<hr id="done" />
 	<h2>How were these animations crafted?</h2><p>
 		All animations are made with <a data-astro-reload href="../../library/Zoom/">Zoom</a> and <a data-astro-reload

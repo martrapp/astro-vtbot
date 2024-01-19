@@ -29,6 +29,10 @@
 
 ### This is page two
 
+To achieve this effect, you can put the [&lt;NoScroll /&gt; component](/library/NoScroll/) in the `<head>` of your page.
+
+If you are interested in details, here is a sketch of how that component works:
+
 		We save the actual scroll position in the listener for the `after:preparation` event, i.e. rightbefore the swap. And we restore the scroll position right after the swap, in the `after:swap` listener. 
 
 ```javascript title="no-scroll.js"
