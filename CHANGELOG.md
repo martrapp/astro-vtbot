@@ -1,5 +1,16 @@
 # The Bag of Tricks for View Transitions
 
+## 1.3.0 2024-01-19
+
+### Minor Changes
+
+- d26a1a0: New `<NoScroll />` component keeps scroll positions where they are when navigating to the next page
+
+### Patch Changes
+
+- b496316: Fixes a bug in the ccs selectors for transitions
+- 05bafc3: [Doc] Links usage sections of components to installation instructions
+
 ## 1.2.0 2024-01-17
 
 ### Minor Changes
