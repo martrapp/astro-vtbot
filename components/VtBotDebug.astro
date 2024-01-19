@@ -1,4 +1,5 @@
 ---
+import VtBotDebug1 from './VtBotDebug1.astro';
 export interface Props {
 	production?: boolean;
 }
@@ -7,53 +8,9 @@ const { production = false } = Astro.props;
 const active = import.meta.env.DEV || production;
 ---
 
-{active && <meta name={TAG} content='true'/>}
+{active && <meta name={TAG} content="true" />}
 
-{active &&<script is:inline>
-	// start of "early" part
-	/*
-	 * Register as early as possible (=inline script early in head)
-	 * to capture the original data of the events.
-	 */
-	(function iife() {
-		const PREFIX = '[vtbot-debug]';
-		const enabled = () => document.querySelector('meta[name="vtbot-debug"]');
-
-		/*
-		 * capture the original data of the events
-		 */
-		const doCapture = (e) => {
-			window._vtbot_debug.capture = {
-				...e,
-				type: e.type,
-				cancelable: e.cancelable,
-				defaultPrevented: e.defaultPrevented,
-				event: e,
-			};
-		};
-
-		/*
-		 * capture the event properties at beginning of the processing phase
-		 */
-		const startProcessing = (e) => {
-			doCapture(e);
-			if (enabled()) {
-				console.log(`${PREFIX} Event handler for ${e.type}`);
-			}
-		};
-
-		/*
-		 * Register the two "early" handlers
-		 */
-		if (window._vtbot_debug === undefined) {
-			window._vtbot_debug = {};
-			document.addEventListener('astro:before-preparation', startProcessing);
-			document.addEventListener('astro:before-swap', startProcessing);
-		}
-		// end of "early" part
-	})();
-</script>}
-
+{active && <VtBotDebug1 />}
 <script>
 	// start of "late" part in (defered loaded) module script
 	import {
@@ -72,7 +29,6 @@ const active = import.meta.env.DEV || production;
 
 	const enabled = () => !!document.querySelector('meta[name="vtbot-debug"]');
 	const PREFIX = '[vtbot-debug]';
-
 
 	/*
 	 * address/content surrogate
@@ -95,14 +51,14 @@ const active = import.meta.env.DEV || production;
 	const logWithStyle = (s: string) => {
 		// @ts-ignore
 		const _vtbot_debug = window._vtbot_debug;
-			const css: string[] = [];
-			s = s.replaceAll('**', '%c');
-			const count = (s.match(/%c/g) || []).length / 2;
-			for (let i = 0; i < count; i++) {
-				css.push('display: inline-block; border: dotted 1pt gray; padding: 0 4pt;font-weight: 800');
-				css.push('font-weight: normal');
-			}
-			console.log(s, ...css);
+		const css: string[] = [];
+		s = s.replaceAll('**', '%c');
+		const count = (s.match(/%c/g) || []).length / 2;
+		for (let i = 0; i < count; i++) {
+			css.push('display: inline-block; border: dotted 1pt gray; padding: 0 4pt;font-weight: 800');
+			css.push('font-weight: normal');
+		}
+		console.log(s, ...css);
 	};
 
 	/*
@@ -183,16 +139,15 @@ const active = import.meta.env.DEV || production;
 		doCapture(e);
 	}
 
-
 	/*
 	 * Log beforePreparation
 	 */
 	function beforePreparation(preparationEvent: Event) {
 		if (enabled()) {
 			if (isTransitionBeforePreparationEvent(preparationEvent)) {
-					console.groupCollapsed(`${PREFIX} Properties of the ${preparationEvent.type} event`);
-					logProperties(preparationEvent);
-					console.groupEnd();
+				console.groupCollapsed(`${PREFIX} Properties of the ${preparationEvent.type} event`);
+				logProperties(preparationEvent);
+				console.groupEnd();
 				const originalLoader = preparationEvent.loader;
 				preparationEvent.loader = async () => {
 					console.log(`${PREFIX} before execution of loader()`);
@@ -207,53 +162,49 @@ const active = import.meta.env.DEV || production;
 		}
 	}
 
+	const toCSSSelectorMap = (map: Map<string, Set<Element>> | undefined, where: string) => {
+		const result = new Map<string, string>();
+		if (map) {
+			map.forEach((set, key) => {
+				if (set.size === 1) {
+					result.set(key, deriveCSSSelector([...set][0]));
+				} else if (supportsViewTransitions && (set?.size ?? 0) > 1) {
+					logWithStyle(
+						`${PREFIX} view-transition-name **${key}** is not unique in ${where} document\n`
+					);
+				}
+			});
+		}
+		return result;
+	};
 	const logTransitions = (
-		originalMap: Map<string, Set<Element>> | undefined,
+		originalMap: Map<string, string> | undefined,
 		swapEvent: TransitionBeforeSwapEvent
 	) => {
 		if (originalMap === undefined) return;
 
-		const errors: string[] = [];
-		const transitions: string[] = [];
-
 		// @ts-ignore
-		const overlay = _vtbot_debug?.savedFunctions?.log;
 		const bold = (s: string) => `**${s}**`;
-		const newMap = elementsWithStyleProperty('view-transition-name');
-		newMap.set('root', (newMap.get('root') ?? new Set()).add(document.documentElement));
+		const map = elementsWithStyleProperty('view-transition-name');
+		map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
+		const newMap = toCSSSelectorMap(map, 'new');
 		let i = 0;
 
+		console.groupCollapsed(
+			`${PREFIX} Transitions from ${swapEvent.from.pathname} to ${swapEvent.to.pathname}`
+		);
 		new Set([...originalMap.keys(), ...newMap.keys()]).forEach((name) => {
-			if (name) {
-				const oldSet = originalMap.get(name);
-				if (supportsViewTransitions && (oldSet?.size ?? 0) > 1) {
-					errors.push(
-						`${bold('ERROR')} view-transition-name ${bold(name)} is not unique in old document\n`
-					);
-				}
-				const newSet = newMap.get(name);
-				if (supportsViewTransitions && (newSet?.size ?? 0) > 1) {
-					errors.push(
-						`${bold('ERROR')} view-transition-name ${bold(name)} is not unique in new document\n`
-					);
-				}
-				const oldElement = oldSet ? [...oldSet][0] : undefined;
-				const newElement = newSet ? [...newSet][0] : undefined;
-				
-					transitions.push(
-						`[ transition] ${++i} "${bold(name)}" from ${bold(
-							oldElement ? deriveCSSSelector(oldElement) : '(nowhere)'
-						)} --to-> ${bold(newElement ? deriveCSSSelector(newElement) : '(nowhere)')}`
-					);
-			}
-		});
-		errors.forEach((s) => logWithStyle(s));
-			console.groupCollapsed(
-				`${PREFIX} Transitions from ${swapEvent.from.pathname} to ${swapEvent.to.pathname}`
+			const oldSelector = originalMap.get(name);
+			const newSelector = newMap.get(name);
+
+			logWithStyle(
+				`[ transition] ${++i} "${bold(name)}" from ${bold(
+					oldSelector ?? '(nowhere)'
+				)} --to-> ${bold(newSelector ?? '(nowhere)')}`
 			);
-			transitions.forEach((s) => logWithStyle(s));
-			console.groupEnd();
-		
+		});
+
+		console.groupEnd();
 	};
 
 	const moduleScripts = new Set();
@@ -266,7 +217,7 @@ const active = import.meta.env.DEV || production;
 		let modules = '';
 		const toExecute = [...document.scripts].filter(
 			(s) =>
-				s.dataset.astroExec !== "" &&
+				s.dataset.astroExec !== '' &&
 				(!s.type || s.type === 'module' || s.type === 'text/javascript') &&
 				(s.type !== 'module' ||
 					!s.src ||
@@ -304,17 +255,16 @@ const active = import.meta.env.DEV || production;
 		if (enabled()) {
 			recordScripts();
 			if (isTransitionBeforeSwapEvent(swapEvent)) {
-					console.groupCollapsed(`${PREFIX} Properties of the ${swapEvent.type} event`);
-					logProperties(swapEvent);
-					console.groupEnd();
-				
-				// @ts-ignore
-				const _vtbot_debug = window._vtbot_debug;
-				_vtbot_debug.originalMap = elementsWithStyleProperty('view-transition-name');
-				_vtbot_debug.originalMap.set(
-					'root',
-					(_vtbot_debug.originalMap.get('root') ?? new Set()).add(document.documentElement)
-				);
+				console.groupCollapsed(`${PREFIX} Properties of the ${swapEvent.type} event`);
+				logProperties(swapEvent);
+				console.groupEnd();
+
+				if (supportsViewTransitions) {
+					const map = elementsWithStyleProperty('view-transition-name');
+					map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
+					// @ts-ignore
+					window._vtbot_debug.originalMap = toCSSSelectorMap(map, 'old');
+				}
 				const originalSwap = swapEvent.swap;
 				swapEvent.swap = async () => {
 					console.log(`${PREFIX} before execution of swap()`);
@@ -350,7 +300,7 @@ const active = import.meta.env.DEV || production;
 		}
 	}
 
-	const afterSwap = (e) => {
+	const afterSwap = (e:Event) => {
 		if (enabled()) {
 			// @ts-ignore
 			const event = window._vtbot_debug.capture.event;
@@ -358,37 +308,41 @@ const active = import.meta.env.DEV || production;
 			console.log(`${PREFIX} Event handler for ${e.type}`);
 			// @ts-ignore
 			const _vtbot_debug = window._vtbot_debug;
-			logTransitions(_vtbot_debug.originalMap, _vtbot_debug.savedSwapEvent);
+			if (supportsViewTransitions) {
+				logTransitions(_vtbot_debug.originalMap, _vtbot_debug.savedSwapEvent);
+			} else {
+				logWithStyle(`${PREFIX} morphing transitions are not supported by this browser`);
+			}
 			logScripts();
 		}
-	}
+	};
 
 	/*
 	 * Register the "late" handlers
 	 */
-		// register as late as possible (= in pageshow event) to be the last handler in the chain
-		window.addEventListener('pageshow', () => {
-			console.log(
-				`${PREFIX} Registering event listeners for '${TRANSITION_BEFORE_PREPARATION}', '${TRANSITION_AFTER_PREPARATION}', '${TRANSITION_BEFORE_SWAP}', '${TRANSITION_AFTER_SWAP}' and '${TRANSITION_PAGE_LOAD}'`
-			);
-			document.addEventListener(TRANSITION_BEFORE_PREPARATION, beforePreparation);
-			document.addEventListener(TRANSITION_AFTER_PREPARATION, (e) => {
-				if (enabled()) {
-					// @ts-ignore
-					logProperties(window._vtbot_debug.capture.event, true);
-					console.log(`${PREFIX} Event handler for ${e.type}`);
-				}
-			});
-			document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
-			document.addEventListener(TRANSITION_AFTER_SWAP, afterSwap);
-			document.addEventListener(TRANSITION_PAGE_LOAD, (e) => {
-				if (enabled()) {
-					// @ts-ignore
-					logProperties(window._vtbot_debug.capture.event, true);
-					console.log(`${PREFIX} Event handler for ${e.type}`);
-				}
-			});
-			/*
+	// register as late as possible (= in pageshow event) to be the last handler in the chain
+	window.addEventListener('pageshow', () => {
+		console.log(
+			`${PREFIX} Registering event listeners for '${TRANSITION_BEFORE_PREPARATION}', '${TRANSITION_AFTER_PREPARATION}', '${TRANSITION_BEFORE_SWAP}', '${TRANSITION_AFTER_SWAP}' and '${TRANSITION_PAGE_LOAD}'`
+		);
+		document.addEventListener(TRANSITION_BEFORE_PREPARATION, beforePreparation);
+		document.addEventListener(TRANSITION_AFTER_PREPARATION, (e) => {
+			if (enabled()) {
+				// @ts-ignore
+				logProperties(window._vtbot_debug.capture.event, true);
+				console.log(`${PREFIX} Event handler for ${e.type}`);
+			}
+		});
+		document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
+		document.addEventListener(TRANSITION_AFTER_SWAP, afterSwap);
+		document.addEventListener(TRANSITION_PAGE_LOAD, (e) => {
+			if (enabled()) {
+				// @ts-ignore
+				logProperties(window._vtbot_debug.capture.event, true);
+				console.log(`${PREFIX} Event handler for ${e.type}`);
+			}
+		});
+		/*
 			document.addEventListener('animationstart', (e) => {
 				if (enabled() && e instanceof AnimationEvent) {
 					console.log(`${PREFIX} ${e.animationName} started on ${e.target}`);
@@ -400,6 +354,5 @@ const active = import.meta.env.DEV || production;
 				}
 			});
 			*/
-		});
-	
+	});
 </script>
