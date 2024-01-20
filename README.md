@@ -4,7 +4,7 @@ No, its not a roBOT, its a <b>B</b>ag <b>o</b>f <b>T</b>ricks!
 
 The bag of tricks provides extensions & support around Astro's view transitions.
 
-![Build Status](https://github.com/martrapp/astro-vt-bot/actions/workflows/astro.yml/badge.svg)
+![Build Status](https://github.com/martrapp/astro-vtbot/actions/workflows/astro.yml/badge.svg)
 [![npm version](https://img.shields.io/npm/v/astro-vtbot)](https://www.npmjs.com/package/astro-vtbot)
 
 
@@ -36,7 +36,7 @@ Visit [the documentation](https://events-3bg.pages.dev/components/) of the reusa
 
 The bag of tricks currently contains [several technical demos](https://events-3bg.pages.dev/demos/) that show examples of the implementation of various effects using the view transition events.
 
-The sources are in the [`example` folder](https://github.com/martrapp/astro-vt-bot/tree/main/example).
+The sources are in [this repository](https://github.com/martrapp/astro-vtbot-website).
 
 ## The Jotter
 📓 Last but not least, the deployment also includes the [▶ Jotter ◀](https://events-3bg.pages.dev/docs/Jotter/) with a wealth of information on transition events as well as background information and valuable tips & tricks on view transitions in Astro.
