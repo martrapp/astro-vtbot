@@ -20,7 +20,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 * Wanting support in understanding and debugging view transitions or simply want a second pair of eyes on your view transition settings?
 * Looking for reusable animations or special transition effects?
 
-Its all [here and growing](https://events-3bg.pages.dev/components/)😊
+Visit [the documentation](https://events-3bg.pages.dev/components/) of the reusable components for detailed information.
 
 - `<ReplacementSwap/>`: An alterantive DOM swap(), which preserves elements in the original DOM to avoid reinitialization of iframes or CSS animations.
 
