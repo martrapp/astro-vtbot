@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.3.1 2024-01-20
+
+### Patch Changes
+
+- 364cb09: Exposes the `adapter()` function from the FishPond tech demo in `animation-style-ts` to allow for non standard names with `transition:animate={}`
+
 ## 1.3.0 2024-01-19
 
 ### Minor Changes
