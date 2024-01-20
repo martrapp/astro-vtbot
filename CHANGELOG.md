@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.3.2 2024-01-20
+
+### Patch Changes
+
+- e994f6f: Separates lib from docs and tech demos
+
 ## 1.3.1 2024-01-20
 
 ### Patch Changes
