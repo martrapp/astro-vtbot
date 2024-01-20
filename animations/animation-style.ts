@@ -1,4 +1,4 @@
-import { TransitionDirectionalAnimations } from 'astro';
+import { TransitionAnimationPair, TransitionDirectionalAnimations } from 'astro';
 
 type Kebab<T extends string, A extends string = ''> = T extends `${infer F}${infer R}`
 	? Kebab<R, `${A}${F extends Lowercase<F> ? '' : '-'}${Lowercase<F>}`>
@@ -108,6 +108,10 @@ export const extend = (base: TransitionDirectionalAnimations, extension?: NamedA
 		},
 	};
 };
+
+export const adapter = (
+	anims: Record<string, TransitionAnimationPair>
+): TransitionDirectionalAnimations => anims as unknown as TransitionDirectionalAnimations;
 
 const framesMap = {};
 export const setKeyframes = (name: string, css: string) => (framesMap[name] = css);

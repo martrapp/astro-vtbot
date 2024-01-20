@@ -1,9 +1,10 @@
 ---
-import { createAnimationScope } from 'astro:transitions';
 import { getImage } from 'astro:assets';
 import fishies from 'src/assets/fish.png';
 import VtBotDebug from '~/components/VtBotDebug.astro';
 import Layout from './Layout.astro';
+import type { TransitionDirectionalAnimations } from 'astro';
+import { adapter } from '~/animations/animation-style';
 
 interface Props {
 	title: string;
@@ -61,20 +62,18 @@ const west = {
 		easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
 	},
 };
-
-const { scope, styles } = createAnimationScope('main', { south, north, east, west });
+const pond = {south, north, east, west};
 ---
 
 <Layout title={title} background="rgb(85, 167, 238)">
 	<VtBotDebug production slot="head" />
 	<div transition:persist="bg" id="bg"></div>
-	<main data-astro-transition-scope={scope}>
+	<main transition:animate={adapter(pond)}>
 		<div class="info">Open browser console to see debug info</div>
 		<slot />
 	</main>
 </Layout>
 
-<style set:text={styles}></style>
 <style is:inline set:text={`:root{--vtbot-background-image: ${vtbotBackgroundImage}}`}></style>
 
 <style is:inline>

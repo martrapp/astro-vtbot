@@ -300,7 +300,7 @@ const active = import.meta.env.DEV || production;
 		}
 	}
 
-	const afterSwap = (e:Event) => {
+	const afterSwap = (e: Event) => {
 		if (enabled()) {
 			// @ts-ignore
 			const event = window._vtbot_debug.capture.event;

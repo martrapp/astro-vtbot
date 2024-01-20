@@ -11,7 +11,7 @@ vtn: animstyle-3
 
 `<AnimationStyle/>` gives the user more direct control over the style sheets for Astro's view transitions. It is accompanioed by a set of functions in `animation-style.ts` that generate the CSS for native view transitions as well as Astro's simulation of view transitions. 
 
-> **Note:** While you will probably use the `<AnimationStyle/>` component in your own project, the functions from `animation-style.ts` are rather building blocks for other components that provide view transition animations and are not normally used by end users. See [`Zoom`](../Zoom/) and [`Swing`](../Swing/) for animations aimed at end users.
+> **Note:** While you will probably use the `<AnimationStyle/>` component in your own project. But most functions from `animation-style.ts` are rather building blocks for other components that provide view transition animations and are typically not used by end users. See [`Zoom`](../Zoom/) and [`Swing`](../Swing/) for animations aimed at end users. A notable exception is the `adapter()` function, [see description below](#adapter).
 
 ## Contents
 
@@ -47,19 +47,30 @@ How do I get that CSS string for `setStyles()`?
 
 You can use the `styleSheet` function from `animation-style.ts` to generate both, a CSS string for view transition animations and a transition scope id that you can use to reference the style sheet from an HTML element for which you want to define a transition group.
 
-```astro title="MyComponent.astro" {5}
+```astro title="MyComponent.astro" {6,7,12,17}
 ---
+import { ViewTransitions } from 'astro:transitions';
 import {setStyles, styleSheet} from 'astro-vtbot/animations/animation-style.ts';
 import AnimationStyle from 'astro-vtbot/animations/AnimationStyle.astro';
 
 const {scope, styles} = styleSheet({transitionName:"superFade", animations:myFade});
 setStyles("superFade", styles);
 ---
-<div data-astro-transition-scope={scope}>
-  ...
-</div>
+<html>
+  <head>
+		<ViewTransitions />
+		<AnimationStyle name="superFade">
+		...
+	</head>
+	<body>
+		...
+		<div data-astro-transition-scope={scope}>
+			...
+		</div>
+	</body>
+</html>
 ```
-The `scope` is an identifier that is used to bind the style sheet to the `<div>`. This is the same thing that happens behind the scenes when you use `transition:animate` in Astro. It typically has the form `astro-xxxxxx` where `xxxxxx` is a random string.
+The `scope` is an identifier that is used to bind the style sheet to the `<div>`. This is the same thing that happens behind the scenes when you use `transition:animate` in Astro. It typically has the form `astro-xxxxxxxx` where `xxxxxxxx` is a random string.
 
 The second parameter to `styleSheet()` is an object that describes the CSS that should be used for the view transition. Here is an example for a fade animation:
 
@@ -122,3 +133,26 @@ setStyles('fade', styles);
 	...
 </div>
 ```
+<a id="adapter"/>
+### Using custom direction names with transition:animate=\{}	
+
+One use case supported by `animation-style.ts` is independent of the `<AnimationStyle/>` component. It is about supporting custom animations with `transition:animate={}`. Astro recognizes two direction names for view transitions: `forwards` and `backwards`. If you want to use other or additional names, you will get typing errors. It is possible to cast objects of type `Record<string, TransitionAnimationPair>` to Astro's `TransitionDirectionalAnimations`. The more elegant and typesave way is to use the `adapter()` function from `animation-style.ts`. 
+
+Use your custom animation object or function with `transition:animate` by sending it through the adapter.
+```astro title="MyComponent.astro" {2,6}
+---
+import { adapter } from 'astro-vtbot/animations/animation-style.ts';
+const mySpecialAnimation = {...}
+---
+...
+<div transition:animate={adapter(mySpecialAnimation)}>
+...
+```
+Of course this also works with functions
+```astro title="MyComponent.astro"
+...
+<div transition:animate={adapter(mySpecialAnimationFunction(withParameters))}>
+...
+```
+Now you can use other direction names than `forwards` and `backwards` in your animation. Make sure to select proper direction values by setting `e.direction` to one of your custom direction names in the event handler for `astro:before-preparation`. See this in action in the [FishPond Tech Demo](/fish-pond/center/)
+
