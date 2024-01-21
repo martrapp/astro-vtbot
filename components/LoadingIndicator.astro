@@ -1,0 +1,91 @@
+---
+export interface Props {}
+---
+
+<style is:global>
+	@keyframes vtbot-blink {
+		0%,
+		30% {
+			opacity: 0;
+		}
+		40% {
+			opacity: 0.5;
+		}
+		50%,
+		60% {
+			opacity: 0;
+		}
+		80% {
+			opacity: 0.3;
+		}
+	}
+
+	#vtbot-loading-indicator {
+		position: fixed;
+		top: 3vh;
+		right: 3vw;
+		width: min(10vw, 10vh);
+		z-index: 1000;
+		opacity: 0;
+	}
+
+	.loading #vtbot-loading-indicator {
+		animation: vtbot-blink 1s infinite;
+	}
+</style>
+<script>
+	import {
+		TRANSITION_BEFORE_PREPARATION,
+		TRANSITION_BEFORE_SWAP,
+		isTransitionBeforeSwapEvent,
+	} from 'astro:transitions/client';
+
+	async function ensureLoadingIndicator() {
+		const loadingIndicator = document.getElementById('vtbot-loading-indicator');
+		if (!loadingIndicator) {
+			const favicon = (document.querySelector(`link[rel="icon"]:last-of-type`) as HTMLLinkElement)
+				?.href;
+			let img;
+			if (favicon && favicon.endsWith('.svg')) {
+				const response = await fetch(favicon);
+				const text = await response.text();
+				const parser = new DOMParser();
+				const doc = parser.parseFromString(text, 'image/svg+xml');
+				img = doc.querySelector('svg');
+			} else {
+				img = document.createElement('img');
+				img.src = favicon;
+				img.alt = 'Loading indicator';
+			}
+			const div = document.createElement('div');
+			div.dataset.astroTransitionPersist = div.id = 'vtbot-loading-indicator';
+			div.appendChild(img);
+			document.body.appendChild(div);
+		}
+	}
+
+	const beforePreparation = () => {
+		document.documentElement.classList.add(`loading`);
+		ensureLoadingIndicator();
+	};
+
+	const beforeSwap = (event: Event) => {
+		if (isTransitionBeforeSwapEvent(event)) {
+			document.documentElement.classList.remove(`loading`);
+			const newDocument = event.newDocument;
+			if (
+				!newDocument.getElementById(`vtbot-loading-indicator`) &&
+				!document.body.querySelector('[data-vtbot-replace]')
+			) {
+				const div = newDocument.createElement('div');
+				div.dataset.astroTransitionPersist = 'vtbot-loading-indicator';
+				newDocument.body.appendChild(div);
+			}
+		}
+	};
+
+	document.addEventListener(TRANSITION_BEFORE_PREPARATION, beforePreparation);
+	document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
+
+	ensureLoadingIndicator();
+</script>
