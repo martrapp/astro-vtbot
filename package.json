@@ -42,8 +42,11 @@
     "view transitions",
     "transition",
     "transitions",
-    "swap",
-    "load",
+    "animation",
+    "loading indicator",
+    "loading-indicator",
+    "loading",
+    "indicator",
     "linter",
     "debug"
   ],
