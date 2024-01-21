@@ -1,5 +1,12 @@
 # The Bag of Tricks for View Transitions
 
+## 1.4.0 2024-01-22
+
+### Minor Changes
+
+- 0c5f0e3: Extends integration to automatically add `<LoadingIndicator/>` to pages with `<ViewTransitions/>`
+- bab5d23: Introduces new LoadingIndicator component
+
 ## 1.3.2 2024-01-20
 
 ### Patch Changes

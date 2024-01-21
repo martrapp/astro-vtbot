@@ -1,4 +1,4 @@
-No, its not a roBOT, its a <b>B</b>ag <b>o</b>f <b>T</b>ricks!
+No, its ***NOT*** a roBOT 🤖, its a 👜 <b>B</b>ag <b>o</b>f <b>T</b>ricks!✨
 
 # **Bag of Tricks** for Astro's **View Transitions**
 
@@ -10,15 +10,27 @@ The bag of tricks provides extensions & support around Astro's view transitions.
 
 A current deployment of tech demos and the documentation can be found at https://events-3bg.pages.dev/
 
-## !!! NEW TRICKS IN THE BAG !!!
+## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
 > The bag of tricks now includes [pre-built animations](https://events-3bg.pages.dev/animations/one/) that you can use with your view transitions, just like Astro's built-in `fade()` and `slide()`! Use vtbot's `zoom()` and `swing()` with Astro's `transition:animate` or enjoy completely new freedom in designing view transitions using the advanced parameterization options and the new `<AnimationStyle/>` component!
 
-## Reusable Components
+## Reusable Components 🧩
 
 * In need for extensions for view transitions because you have issues with iframes on your pages?
 * Wanting support in understanding and debugging view transitions or simply want a second pair of eyes on your view transition settings?
 * Looking for reusable animations or special transition effects?
+
+The `astro-vtbot`package isn't a monolithic library. Use the components you need and only pay bandwidth for those. 
+|Component|Brotli bytes added|
+|-------|-----------------|
+Linter 🧹 |~2k
+VtBotDebug 🐛 |~2k
+ReplacementSwap ↹ |~0.5k
+LoadingIndicator ⏳ | ~0.5k
+Zoom 🔎 |~0.5k
+Swing 🎷 |~0.5k
+Portal 🚪 | ~0.3k
+NoScroll 📜| ~0.2k
 
 Visit [the documentation](https://events-3bg.pages.dev/components/) of the reusable components for detailed information.
 
@@ -32,14 +44,16 @@ Visit [the documentation](https://events-3bg.pages.dev/components/) of the reusa
 
 - `<Portal/>` component that forces all view transitions through a portal/loading page. 
 
-## Tech Demos
+- `<NoScroll/>` keep the current vertical and horizontal scroll position when transitioning to the next page.
+
+## Tech Demos 🔥
 
 The bag of tricks currently contains [several technical demos](https://events-3bg.pages.dev/demos/) that show examples of the implementation of various effects using the view transition events.
 
 The sources are in [this repository](https://github.com/martrapp/astro-vtbot-website).
 
-## The Jotter
-📓 Last but not least, the deployment also includes the [▶ Jotter ◀](https://events-3bg.pages.dev/docs/Jotter/) with a wealth of information on transition events as well as background information and valuable tips & tricks on view transitions in Astro.
+## The Jotter 📓
+Last but not least, the deployment also includes the [▶ Jotter ◀](https://events-3bg.pages.dev/docs/Jotter/) with a wealth of information on transition events as well as background information and valuable tips & tricks on view transitions in Astro.
 
 Some of the contents are technical demos, some are useful tools, and some are reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
 
