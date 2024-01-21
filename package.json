@@ -29,7 +29,9 @@
     },
     "./animations/*": "./animations/*.ts",
     "./package.json": "./package.json",
-    "./vtext": "./integration/view-transition-extension.ts",
+    "./vtex1": "./integration/view-transition-extension1.ts",
+    "./vtex2": "./integration/view-transition-extension2.ts",
+    "./vtex3": "./integration/view-transition-extension3.ts",
     "./vite-plugin-extend": "./integration/vite-plugin-extend.ts"
   },
   "keywords": [

@@ -1,17 +1,26 @@
+/// <reference types="astro/client" />
+
 import { parse } from 'acorn';
 import { walk, type Node } from 'estree-walker';
 import type { Plugin } from 'vite';
 
-export default function vitePluginVtbotExtend(): Plugin {
+type ExtendOptions = {
+	linter: boolean;
+	loading: boolean;
+};
+
+export default function vitePluginVtbotExtend(opts: ExtendOptions): Plugin {
 	return {
 		name: 'vtbot:linter',
 		enforce: 'pre',
 		transform(code: string, id: string) {
-			if (!import.meta.env.DEV || id.endsWith('vtpl.astro') || !id.endsWith('.astro')) return;
+			let { linter, loading } = opts;
+			if (!import.meta.env.DEV) linter = false;
+			if ((!linter && !loading) || id.match('vtpl[123]\.astro$') || !id.endsWith('.astro')) return;
 
+			const replacement = `"astro-vtbot/vtex${loading ? (linter ? "3" : "2") : "1"}"`;
 			const match = code.match(/from\s*['"]astro:transitions["']/ms);
 			if (match) {
-				console.log('id :>> ', id);
 				const ast = parse(code, {
 					ecmaVersion: 'latest',
 					sourceType: 'module',
@@ -22,7 +31,7 @@ export default function vitePluginVtbotExtend(): Plugin {
 						if (node.type === 'ImportDeclaration' && node.source.value === 'astro:transitions') {
 							code =
 								code.substring(0, node.source.start) +
-								'"astro-vtbot/vtext"' +
+							replacement +
 								code.substring(node.source.end);
 						}
 					},

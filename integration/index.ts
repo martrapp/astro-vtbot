@@ -2,7 +2,8 @@ import type { AstroConfig, AstroIntegration } from 'astro';
 import vitePluginVtbotExtend from './vite-plugin-extend';
 
 type VtBotOptions = {
-	autoLint: boolean;
+	autoLint?: boolean;
+	loadingIndicator?: boolean;
 };
 
 export default function createIntegration(options?: VtBotOptions): AstroIntegration {
@@ -11,12 +12,15 @@ export default function createIntegration(options?: VtBotOptions): AstroIntegrat
 		name: 'astro-vtbot',
 		hooks: {
 			'astro:config:setup': ({ updateConfig }) => {
-				(options?.autoLint ?? true) &&
+				const linter = options?.autoLint ?? true;
+				const loading = options?.loadingIndicator ?? true;
+				if (linter || loading) {
 					updateConfig({
 						vite: {
-							plugins: [vitePluginVtbotExtend()],
+							plugins: [vitePluginVtbotExtend({ linter, loading })],
 						},
 					});
+				}
 			},
 
 			'astro:config:done': async ({ config: cfg }) => {
