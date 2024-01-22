@@ -12,7 +12,9 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> The bag of tricks now includes [pre-built animations](https://events-3bg.pages.dev/animations/one/) that you can use with your view transitions, just like Astro's built-in `fade()` and `slide()`! Use vtbot's `zoom()` and `swing()` with Astro's `transition:animate` or enjoy completely new freedom in designing view transitions using the advanced parameterization options and the new `<AnimationStyle/>` component!
+> ⏳ [New Component](https://events-3bg.pages.dev/library/LoadingIndicator/): `<LoadingIndicator/>` is added per default when `astro-vtbot` is installed as an Astro integration with `npx astro add astro-vtbot`.
+
+> 🎥 The bag of tricks now includes [pre-built animations](https://events-3bg.pages.dev/animations/one/) that you can use with your view transitions, just like Astro's built-in `fade()` and `slide()`! Use vtbot's `zoom()` and `swing()` with Astro's `transition:animate` or enjoy completely new freedom in designing view transitions using the advanced parameterization options and the new `<AnimationStyle/>` component!
 
 ## Reusable Components 🧩
 
@@ -34,11 +36,13 @@ NoScroll 📜| ~0.2k
 
 Visit [the documentation](https://events-3bg.pages.dev/components/) of the reusable components for detailed information.
 
-- `<ReplacementSwap/>`: An alterantive DOM swap(), which preserves elements in the original DOM to avoid reinitialization of iframes or CSS animations.
+- `<Linter/>`: A linter component that helps you identify problems when setting up transitions.
 
 - `<VtBotDebug/>`: A Debugging component that logs the events and their data as they occur.
 
-- `<Linter/>`: A linter component that helps you identify problems when setting up transitions.
+- `<ReplacementSwap/>`: An alterantive DOM swap(), which preserves elements in the original DOM to avoid reinitialization of iframes or CSS animations.
+
+- `<LoadIndicator>`: Have you ever missed the visual feedback on sites with view transitions as to whether the app has noticed the click? Here you go!
 
 - `Zoom` and `Swing` animations and the `<AnimationsStyle/>` component allows for extended styling options.
 
