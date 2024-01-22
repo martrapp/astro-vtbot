@@ -16,7 +16,7 @@ export default function vitePluginVtbotExtend(opts: ExtendOptions): Plugin {
 		transform(code: string, id: string) {
 			let { linter, loading } = opts;
 			if (!import.meta.env.DEV) linter = false;
-			if ((!linter && !loading) || id.match('vtpl[123]\.astro$') || !id.endsWith('.astro')) return;
+			if ((!linter && !loading) || id.match(/vtpl[123]\.astro$/) || !id.endsWith('.astro')) return;
 
 			const replacement = `"astro-vtbot/vtex${loading ? (linter ? "3" : "2") : "1"}"`;
 			const match = code.match(/from\s*['"]astro:transitions["']/ms);
