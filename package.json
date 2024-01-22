@@ -23,6 +23,7 @@
       "import": "./components/*.astro",
       "types": "./components/*.d.ts"
     },
+    "./components/*": "./components/*.ts",
     "./animations/*.astro": {
       "import": "./animations/*.astro",
       "types": "./animations/*.d.ts"
