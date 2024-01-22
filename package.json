@@ -1,7 +1,7 @@
 {
   "name": "astro-vtbot",
-  "version": "1.4.0",
-  "description": "A Bag of Tricks for Astro's View Transitions",
+  "version": "1.4.1",
+  "description": "The 👜 Bag of Tricks ✨ for Astro's View Transitions",
   "homepage": "https://github.com/martrapp/astro-vtbot#readme",
   "bugs": {
     "url": "https://github.com/martrapp/astro-vtbot/issues"

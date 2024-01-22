@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.4.1 2024-01-22
+
+### Patch Changes
+
+chores & typos
+
 ## 1.4.0 2024-01-22
 
 ### Minor Changes
