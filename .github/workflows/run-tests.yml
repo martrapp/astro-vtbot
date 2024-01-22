@@ -40,7 +40,4 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Build with Astro
-        run: npm run build
-
       
