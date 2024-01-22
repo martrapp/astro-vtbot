@@ -2,11 +2,11 @@
 #
 # To get started with Astro see: https://docs.astro.build/en/getting-started/
 #
-name: Run Tests
+name: Run Checks
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches: [ main ]
 
 jobs:
