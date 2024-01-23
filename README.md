@@ -22,7 +22,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 * Wanting support in understanding and debugging view transitions or simply want a second pair of eyes on your view transition settings?
 * Looking for reusable animations or special transition effects?
 
-The `astro-vtbot`package isn't a monolithic library. Use the components you need and only pay bandwidth for those. 
+The `astro-vtbot`package isn't a monolithic library. Use the components you need and only pay bandwidth for those.
 |Component|Brotli bytes added|
 |-------|-----------------|
 Linter 🧹 |~2k
@@ -46,7 +46,7 @@ Visit [the documentation](https://events-3bg.pages.dev/components/) of the reusa
 
 - `Zoom` and `Swing` animations and the `<AnimationsStyle/>` component allows for extended styling options.
 
-- `<Portal/>` component that forces all view transitions through a portal/loading page. 
+- `<Portal/>` component that forces all view transitions through a portal/loading page.
 
 - `<NoScroll/>` keep the current vertical and horizontal scroll position when transitioning to the next page.
 
@@ -61,3 +61,5 @@ Last but not least, the deployment also includes the [▶ Jotter ◀](https://ev
 
 Some of the contents are technical demos, some are useful tools, and some are reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
 
+## The Loading Indicator
+`<LoadIndicator>` or `<LoadingIndicator>` should get updated to take params. For example, calling `<LoadIndicator progressbar position="top"/>` or something like that should display a line of progress at the topmost edge of the browser window, indicating the progress of loading of the incoming page.
