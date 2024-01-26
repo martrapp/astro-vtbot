@@ -61,5 +61,3 @@ Last but not least, the deployment also includes the [▶ Jotter ◀](https://ev
 
 Some of the contents are technical demos, some are useful tools, and some are reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
 
-## The Loading Indicator
-`<LoadIndicator>` or `<LoadingIndicator>` should get updated to take params. For example, calling `<LoadIndicator progressbar position="top"/>` or something like that should display a line of progress at the topmost edge of the browser window, indicating the progress of loading of the incoming page.
