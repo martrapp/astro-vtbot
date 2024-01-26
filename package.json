@@ -6,6 +6,10 @@
   "bugs": {
     "url": "https://github.com/martrapp/astro-vtbot/issues"
   },
+  "author": {
+    "name": "Martin Trapp",
+    "url": "http://github.com/martrapp"
+  },
   "license": "ISC",
   "repository": {
     "type": "git",
