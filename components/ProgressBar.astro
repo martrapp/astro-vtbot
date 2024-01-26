@@ -1,0 +1,19 @@
+---
+---
+<script>
+  import "https://unpkg.com/@swup/progress-plugin@3"
+	import { loading } from 'astro-vtbot/components/loading-indicator';
+
+	//@ts-ignore
+	const plugin = new SwupProgressPlugin();
+
+	document.addEventListener('astro:after-swap', () => plugin.progressBar.installStyleElement());
+
+	loading(() => plugin.startShowingProgress(), () => plugin.stopShowingProgress());
+</script>
+
+<style is:global>
+	.swup-progress-bar {
+	}
+</style>
+
