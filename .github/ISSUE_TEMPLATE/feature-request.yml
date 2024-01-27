@@ -1,6 +1,6 @@
 name: "✨ Feature Request"
-description: Request a new feature
-labels: []
+description: Want to be able to pull a new trick ✨ out of the bag 👜? Use this link.
+labels: [enhancement]
 assignees: []
 body:
   - type: textarea
