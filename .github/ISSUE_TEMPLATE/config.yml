@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Issue or feature request
+    url: https://github.com/martrapp/astro-vtbot/issues/new/choose
+    about: Report bugs or request a new trick for the bag using this link.
+  - name: GitHub Discussions
+    url: https://github.com/martrapp/astro-vtbot/discussions
+    about: Does the issue involve a lot of explanation, or are you not sure how it can be split into actionable tasks? Consider starting a discussion first.
