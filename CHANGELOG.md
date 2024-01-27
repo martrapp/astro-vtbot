@@ -1,5 +1,12 @@
 # The Bag of Tricks for View Transitions
 
+## 1.4.3
+
+### Patch Changes
+
+- 073f70f: Gives user styles precedence over the built-in CSS of the LoadingIndicator"
+- 2e56e9a: Fixes a bug where explicitly set properties of `<ViewTransitions />` were lost.
+
 ## 1.4.2 2024-01-22
 
 ### Patch Changes
