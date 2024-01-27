@@ -1,0 +1,19 @@
+name: "✨ Feature Request"
+description: Request a new feature
+labels: []
+assignees: []
+body:
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Describe the Request
+      description: A clear and concise description of what the new feature should be.
+    validations:
+      required: true
+  - type: checkboxes
+    id: will-pr
+    attributes:
+      label: Participation
+      options:
+        - label:  I am willing to contribute a PR to make this happen.
+          required: false
