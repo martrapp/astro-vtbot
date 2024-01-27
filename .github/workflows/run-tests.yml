@@ -1,7 +1,4 @@
-# Sample workflow for building and deploying an Astro site to GitHub Pages
-#
-# To get started with Astro see: https://docs.astro.build/en/getting-started/
-#
+
 name: Run Tests
 
 on:

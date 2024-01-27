@@ -1,11 +1,13 @@
 name: Release
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 permissions: {}
 jobs:
   release:
-    if: github.repository_owner == 'martrapp'
+    if: ${{ github.repository_owner == 'martrapp' }}
     permissions:
       contents: write 
       pull-requests: write 
