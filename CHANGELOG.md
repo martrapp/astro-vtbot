@@ -1,38 +1,45 @@
 # The Bag of Tricks for View Transitions
 
-## 1.4.2 2024-01-22
+## 1.4.3 - 2024-01-27
 
 ### Patch Changes
+
+- 073f70f: Gives user styles precedence over the built-in CSS of the `<LoadingIndicator />`
+- 2e56e9a: Fixes a bug where explicitly set properties of `<ViewTransitions />` were lost.
+
+## 1.4.2 - 2024-01-22
+
+### Patch - Changes
 
 - f4554b6: Adds a new component for easier development of custom loading indicators: The BrakePad (https://events-3bg.pages.dev/library/LoadingIndicator/#slowing-things-down-during-development)
 - f4554b6: Extends LoadingIndicator use JavaScript in custom loading indicators
 
-## 1.4.1 2024-01-22
+## 1.4.1 - 2024-01-22
 
 ### Patch Changes
 
 chores & typos
 
-## 1.4.0 2024-01-22
+## 1.4.0 - 2024-01-22
 
 ### Minor Changes
 
 - 0c5f0e3: Extends integration to automatically add `<LoadingIndicator/>` to pages with `<ViewTransitions/>`
 - bab5d23: Introduces new LoadingIndicator component
 
-## 1.3.2 2024-01-20
+## 1.3.2 - 2024-01-20
 
 ### Patch Changes
 
 - e994f6f: Separates lib from docs and tech demos
 
-## 1.3.1 2024-01-20
+## 1.3.1 - 2024-01-20
 
 ### Patch Changes
 
 - 364cb09: Exposes the `adapter()` function from the FishPond tech demo in `animation-style-ts` to allow for non standard names with `transition:animate={}`
 
-## 1.3.0 2024-01-19
+## 1.3.0 - 2024-01-19
 
 ### Minor Changes
 
@@ -43,7 +50,7 @@ chores & typos
 - b496316: Fixes a bug in the ccs selectors for transitions
 - 05bafc3: [Doc] Links usage sections of components to installation instructions
 
-## 1.2.0 2024-01-17
+## 1.2.0 - 2024-01-17
 
 ### Minor Changes
 
@@ -61,13 +68,13 @@ chores & typos
 - fa962a7: Cleans up examples
 - 6e31467: Adds types to ReplacementSwap and update docs
 
-## 1.1.5 2024-01-08
+## 1.1.5 - 2024-01-08
 
 ### Patch Changes
 
 - f5e72f8: Fixes execptions raised when accessing cross origin style sheets in VtBotDebug and Linter
 
-## 1.1.4 2023-12-31
+## 1.1.4 - 2023-12-31
 
 ### Patch Changes
 
@@ -79,7 +86,7 @@ Plus
 - Minor fixes for demos and demo overview.
 - Improvements of the build process.
 
-## 1.1.3 2023-12-25
+## 1.1.3 - 2023-12-25
 
 ### Patch Changes
 
@@ -91,13 +98,13 @@ Plus
 
 - Plus: Correction of typos and improvement of wording
 
-## 1.1.2 2023-12-23
+## 1.1.2 - 2023-12-23
 
 ### Patch Changes
 
 - [6b49bd33f](https://github.com/martrapp/astro-vtbot/commit/6b49bd33f621981a03c01b20c20b8ffe32e210ef) Remove dependency on table-string
 
-## 1.1.1 2023-12-23
+## 1.1.1 - 2023-12-23
 
 ### Patch Changes
 
@@ -105,7 +112,7 @@ Plus
 
 - Plus wording...
 
-## 1.1.0 2023-12-22
+## 1.1.0 - 2023-12-22
 
 ### Minor Changes
 
@@ -116,7 +123,7 @@ Plus
 
 Plus: more tests, extended documentation, many code refactorings, elimination of `<xmp>` tags, and dependency updates.
 
-## 1.0.0 2023-12-11
+## 1.0.0 - 2023-12-11
 
 ### Major Changes
 
