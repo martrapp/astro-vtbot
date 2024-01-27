@@ -8,7 +8,6 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 permissions: {}
 jobs:
   release:
-    if: github.repository == 'martrapp/astro-vtbot'
     permissions:
       contents: write 
       pull-requests: write 
