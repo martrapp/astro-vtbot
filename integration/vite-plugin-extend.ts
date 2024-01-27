@@ -18,7 +18,7 @@ export default function vitePluginVtbotExtend(opts: ExtendOptions): Plugin {
 			if (!import.meta.env.DEV) linter = false;
 			if ((!linter && !loading) || id.match(/vtpl[123]\.astro$/) || !id.endsWith('.astro')) return;
 
-			const replacement = `"astro-vtbot/vtex${loading ? (linter ? "3" : "2") : "1"}"`;
+			const replacement = `"astro-vtbot/vtex${loading ? (linter ? '3' : '2') : '1'}"`;
 			const match = code.match(/from\s*['"]astro:transitions["']/ms);
 			if (match) {
 				const ast = parse(code, {
@@ -31,7 +31,7 @@ export default function vitePluginVtbotExtend(opts: ExtendOptions): Plugin {
 						if (node.type === 'ImportDeclaration' && node.source.value === 'astro:transitions') {
 							code =
 								code.substring(0, node.source.start) +
-							replacement +
+								replacement +
 								code.substring(node.source.end);
 						}
 					},
