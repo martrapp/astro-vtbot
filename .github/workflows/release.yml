@@ -1,16 +1,12 @@
 name: Release
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
 concurrency: ${{ github.workflow }}-${{ github.ref }}
-permissions: {}
+
 jobs:
   release:
-    permissions:
-      contents: write 
-      pull-requests: write 
     name: Release
     runs-on: ubuntu-latest
     steps:
@@ -19,11 +15,7 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - name: Publish to npm
-        id: changesets
+      - name: Create Release Pull Request
         uses: changesets/action@v1
-        with:
-          publish: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.VTBOT_NPM_TOKEN }}
