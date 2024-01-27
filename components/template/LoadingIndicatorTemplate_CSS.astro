@@ -1,25 +1,33 @@
 ---
-import LoadingIndicator from 'astro-vtbot/components/LoadingIndicator.astro'
+import LoadingIndicator from 'astro-vtbot/components/LoadingIndicator.astro';
 ---
 
-{/* By rendering <LoadingIndicator/> here, 
-		you inherit the logic that sets the "loading" CSS class */}
+{
+	/* By rendering <LoadingIndicator/> here, 
+		you inherit the logic that sets the "loading" CSS class */
+}
 <LoadingIndicator />
 
-{/* Defining this div is only necessary 
-		if you do not want to use the default element that holds the favicon image  */}
-<div id="vtbot-loading-indicator"> <!-- make sure to use this id -->
-  ...
-<div>
-	
-<style is:global>
-	#vtbot-loading-indicator { 
-	/* basic styling, typically with position: fixed */
-	/* hide the indicator with display: none, opacity: 0, visibility: hidden, right: -100vw, ... */
-		...
-	}
-	html.loading #vtbot-loading-indicator {
-	/* show the indicator with display: block, opacity: 1, visibility: visible, right: 3vw, ... */
-		...
-	}
-</style>
+{
+	/* Defining this div is only necessary 
+		if you do not want to use the default element that holds the favicon image  */
+}
+<div id="vtbot-loading-indicator">
+	<!-- make sure to use this id -->
+	<!-- ...  -->
+	<div>
+		<style is:global>
+			#vtbot-loading-indicator {
+				/* basic styling, typically with position: fixed */
+				/* hide the indicator with display: none, opacity: 0, visibility: hidden, right: -100vw, ... */
+
+				/* ... */
+			}
+			html.loading #vtbot-loading-indicator {
+				/* show the indicator with display: block, opacity: 1, visibility: visible, right: 3vw, ... */
+
+				/* ... */
+			}
+		</style>
+	</div>
+</div>

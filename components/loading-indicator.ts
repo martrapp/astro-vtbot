@@ -1,6 +1,9 @@
 /// <reference types="astro/client" />
-import { TRANSITION_BEFORE_PREPARATION, TRANSITION_BEFORE_SWAP, TRANSITION_PAGE_LOAD } from 'astro:transitions/client';
-
+import {
+	TRANSITION_BEFORE_PREPARATION,
+	TRANSITION_BEFORE_SWAP,
+	TRANSITION_PAGE_LOAD,
+} from 'astro:transitions/client';
 
 let show: () => void;
 let hide: () => void;
@@ -36,7 +39,6 @@ export async function ensureLoadingIndicator() {
 	}
 }
 
-
 const beforePreparation = () => {
 	if (!ownIndicator) ensureLoadingIndicator();
 	document.documentElement.classList.add(`loading`);
@@ -56,4 +58,3 @@ export function init(createIndicator: boolean = false) {
 	createIndicator && document.addEventListener(TRANSITION_PAGE_LOAD, ensureLoadingIndicator);
 	!createIndicator && document.removeEventListener(TRANSITION_PAGE_LOAD, ensureLoadingIndicator);
 }
-

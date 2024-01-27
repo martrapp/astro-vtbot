@@ -3,5 +3,5 @@ import { ViewTransitions } from 'astro:transitions';
 import LoadingIndicator from '../components/LoadingIndicator.astro';
 ---
 
-<ViewTransitions />
+<ViewTransitions {...Astro.props} />
 <LoadingIndicator />
