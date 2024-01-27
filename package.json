@@ -1,5 +1,8 @@
 {
   "name": "astro-vtbot",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "1.4.2",
   "description": "The 👜 Bag of Tricks ✨ for Astro's View Transitions",
   "homepage": "https://github.com/martrapp/astro-vtbot#readme",
@@ -57,7 +60,9 @@
   ],
   "scripts": {
     "format": "prettier -w components integration animations",
-    "test": "mkdir -p test/fixture/node_modules && (cd test/fixture/node_modules && rm -f astro-vtbot; ln -sT ../../.. astro-vtbot) &&  npx playwright test"
+    "test": "mkdir -p test/fixture/node_modules && (cd test/fixture/node_modules && rm -f astro-vtbot; ln -sT ../../.. astro-vtbot) &&  npx playwright test",
+    "changeset": "changeset",
+    "release": "changeset publish"
   },
   "peerDependencies": {
     "astro": "^4.0.0"

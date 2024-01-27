@@ -1,0 +1,27 @@
+name: Release
+on:
+  workflow_dispatch:
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+permissions: {}
+jobs:
+  release:
+    if: github.repository_owner == 'martrapp'
+    permissions:
+      contents: write 
+      pull-requests: write 
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm ci
+      - name: Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
