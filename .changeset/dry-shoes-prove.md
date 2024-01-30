@@ -2,4 +2,4 @@
 "astro-vtbot": patch
 ---
 
-Makes the implementation of `<LoadingIndicator />` more robust and adds configuration options
+Makes the implementation of `<LoadingIndicator />` more robust and adds configuration options for image and position
