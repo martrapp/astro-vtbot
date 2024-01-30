@@ -1,6 +1,23 @@
 ---
-export interface Props {}
+export interface Props {
+	top?: string;
+	bottom?: string;
+	left?: string;
+	right?: string;
+	src?: string;
+}
+const { top = '', bottom = '', left = '', right = '', src = '' } = Astro.props;
 ---
+
+<meta name="vtbot-loading-indicator" content=`${top};${bottom};${left};${right};${src}` />
+<script>
+	import { initialize, vtbotLoadingIndicator } from './loading-indicator';
+	const data = document.querySelectorAll("meta[name='vtbot-loading-indicator']");
+	const [top, bottom, left, right, src] = (data[data.length - 1] as HTMLMetaElement).content.split(
+		';'
+	);
+	initialize(() => vtbotLoadingIndicator({ top, bottom, left, right, src }), true);
+</script>
 
 <style is:global>
 	@layer vtbot {
@@ -23,8 +40,6 @@ export interface Props {}
 
 		#vtbot-loading-indicator {
 			position: fixed;
-			top: 3vh;
-			right: 3vw;
 			width: min(10vw, 10vh);
 			z-index: 1000;
 			opacity: 0;
@@ -39,7 +54,3 @@ export interface Props {}
 		}
 	}
 </style>
-<script>
-	import { init } from './loading-indicator';
-	init(true);
-</script>
