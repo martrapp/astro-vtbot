@@ -1,15 +1,33 @@
 ---
-// just define javascript or typescript code for hide & show functions in the script below
+// Just define javascript or typescript code for hide & show functions
+// in the script below.
+
+// You also have to provide the HTML for the loading indicator.
+// Include it on your pages, preferable via a common layout
+// or - if it is simple - generate it dynamically in the `show` function.
+
+// If you have time consuming setup tasks, you should not run them in `show`.
+// It is better to move them to the optional `initializer` function,
+// which is executed shortly after a page has been loaded,
+// and not when the indicator is already to be displayed
+
+// You can generate the default loading indicator of the back of tricks
+// by calling `vtbotLoadingIndicator()`, preferably in the `initializer` function.
 ---
 
 <script>
 	import { loading } from 'astro-vtbot/components/loading-indicator';
-	loading(show, hide);
+	loading(show, hide, initializer);
 
 	function show() {
 		// show loading indicator
 	}
 	function hide() {
 		// hide loading indicator
+	}
+
+	function initializer() {
+		// this function is optional
+		// remove the init parameter in the call to loading above if you do not need it
 	}
 </script>

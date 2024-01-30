@@ -7,54 +7,81 @@ import {
 
 let show: () => void;
 let hide: () => void;
-let ownIndicator: boolean = false;
+let initializer: (() => void | Promise<void>) | undefined;
 
-export function loading(newShow: () => void, newHide: () => void) {
-	init(false);
+export function loading(newShow: () => void, newHide: () => void, newInit: () => void = () => {}) {
 	show = newShow;
 	hide = newHide;
+	initialize(newInit);
 }
 
-export async function ensureLoadingIndicator() {
+const doShow = () => {
+	document.documentElement.classList.add(`loading`);
+	show && show();
+};
+
+const doHide = () => {
+	document.documentElement.classList.remove(`loading`);
+	hide && hide();
+};
+
+const doInit = () => {
+	initializer && initializer();
+};
+
+export function initialize(onPageLoad?: () => void | Promise<void>, lowPrio = false) {
+	if (!(initializer && lowPrio)) initializer = onPageLoad;
+	document.addEventListener(TRANSITION_PAGE_LOAD, doInit);
+	document.addEventListener(TRANSITION_BEFORE_PREPARATION, doShow);
+	document.addEventListener(TRANSITION_BEFORE_SWAP, doHide);
+}
+
+type Options = { src: string; top: string; bottom: string; left: string; right: string };
+
+export async function vtbotLoadingIndicator(options: Options) {
 	const loadingIndicator = document.getElementById('vtbot-loading-indicator');
-	if (!loadingIndicator) {
-		const favicon = (document.querySelector(`link[rel="icon"]:last-of-type`) as HTMLLinkElement)
-			?.href;
-		let img: HTMLImageElement | SVGSVGElement | null;
-		if (favicon && favicon.endsWith('.svg')) {
+	if (loadingIndicator) return;
+
+	const favicon =
+		(options.src ||
+			(document.querySelector(`link[rel="icon"]:last-of-type`) as HTMLLinkElement)?.href) ??
+		'/favicon.ico';
+
+	let src = '';
+	try {
+		if (!(await fetch(favicon)).ok) throw new Error();
+	} catch (_) {
+		// not ok, or aborted in fetch
+		src =
+			'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%23888" /%3E%3C/svg%3E';
+	}
+
+	let img: HTMLImageElement | SVGSVGElement | null = null;
+
+	if (!src) {
+		if (favicon?.endsWith('.svg')) {
 			const response = await fetch(favicon);
 			const text = await response.text();
 			const parser = new DOMParser();
 			const doc = parser.parseFromString(text, 'image/svg+xml');
 			img = doc.querySelector('svg');
 		} else {
-			img = document.createElement('img');
-			img.src = favicon;
-			img.alt = 'Loading indicator';
+			src = favicon;
 		}
-		const div = document.createElement('div');
-		div.id = 'vtbot-loading-indicator';
-		div.appendChild(img);
-		document.body.appendChild(div);
 	}
-}
+	if (!img) {
+		img = document.createElement('img');
+		img.src = src;
+		img.alt = 'Loading indicator';
+	}
+	const div = document.createElement('div');
 
-const beforePreparation = () => {
-	if (!ownIndicator) ensureLoadingIndicator();
-	document.documentElement.classList.add(`loading`);
-	show && show();
-};
+	div.style[options.top || !options.bottom ? 'top' : 'bottom'] =
+		options.top || options.bottom || '3vh';
+	div.style[options.right || !options.left ? 'right' : 'left'] =
+		options.right || options.left || '3vw';
 
-const beforeSwap = (event: Event) => {
-	document.documentElement.classList.remove(`loading`);
-	hide && hide();
-};
-
-export function init(createIndicator: boolean = false) {
-	if (ownIndicator) return;
-	ownIndicator = !createIndicator;
-	document.addEventListener(TRANSITION_BEFORE_PREPARATION, beforePreparation);
-	document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
-	createIndicator && document.addEventListener(TRANSITION_PAGE_LOAD, ensureLoadingIndicator);
-	!createIndicator && document.removeEventListener(TRANSITION_PAGE_LOAD, ensureLoadingIndicator);
+	div.id = 'vtbot-loading-indicator';
+	div.appendChild(img!);
+	document.body.appendChild(div);
 }

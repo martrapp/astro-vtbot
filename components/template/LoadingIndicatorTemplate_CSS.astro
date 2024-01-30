@@ -3,17 +3,18 @@ import LoadingIndicator from 'astro-vtbot/components/LoadingIndicator.astro';
 ---
 
 {
-	/* By rendering <LoadingIndicator/> here, 
+	/* By rendering <LoadingIndicator/> here,
 		you inherit the logic that sets the "loading" CSS class */
 }
 <LoadingIndicator />
 
 {
-	/* Defining this div is only necessary 
+	/* Defining this div is only necessary
 		if you do not want to use the default element that holds the favicon image  */
 }
 <div id="vtbot-loading-indicator">
 	<!-- make sure to use this id -->
+	<!-- or you might end up with two indicators -->
 	<!-- ...  -->
 	<div>
 		<style is:global>
