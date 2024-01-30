@@ -12,13 +12,14 @@ const active = import.meta.env.DEV || production;
 
 <script>
 	import {
+		TRANSITION_AFTER_SWAP,
 		TRANSITION_BEFORE_SWAP,
-		type TransitionBeforeSwapEvent,
 		isTransitionBeforeSwapEvent,
 		supportsViewTransitions,
-		TRANSITION_AFTER_SWAP,
+		type TransitionBeforeSwapEvent,
 	} from 'astro:transitions/client';
-	import { astroContextIds, deriveCSSSelector, elementsWithStyleProperty } from './css';
+	import { astroContextIds, elementsWithStyleProperty } from './css';
+	import { deriveCSSSelector } from './derive-css-selector';
 
 	const TAG = 'vtbot-linter'; // see also frontmatter
 
