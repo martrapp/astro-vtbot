@@ -1,5 +1,12 @@
 # The Bag of Tricks for View Transitions
 
+## 1.4.4
+
+### Patch Changes
+
+- 877b6d6: Makes the implementation of `<LoadingIndicator />` more robust and adds configuration options for image and position
+- 502e89b: `<VtBotDebug />` now shows which scripts are executed and which aren't between `astro:after-swap` & `astro:page-load` events
+
 ## 1.4.3 - 2024-01-27
 
 ### Patch Changes
