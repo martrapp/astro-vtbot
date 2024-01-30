@@ -223,7 +223,7 @@ const active = import.meta.env.DEV || production;
 		let i = 0;
 		if (toExecute.length > 0) {
 			prefix.groupCollapsed(
-				`Scripts that will be executed between astro:after-swap and astro:page-load: (${toExecute.length})`
+				`Scripts executions from now to astro:page-load: (${toExecute.length})`
 			);
 			toExecute.forEach((script) => {
 				i = logScript(script, i);
