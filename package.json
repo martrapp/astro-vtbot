@@ -22,7 +22,8 @@
   "files": [
     "components",
     "animations",
-    "integration"
+    "integration",
+    "assets"
   ],
   "exports": {
     ".": "./integration/index.ts",
