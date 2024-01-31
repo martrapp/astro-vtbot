@@ -35,6 +35,8 @@ export function astroContextIds() {
 	return { inStyleSheets, inElements };
 }
 
+let div: HTMLDivElement = document.createElement('div');
+
 // finds all elements of a _the current document_ with a given property in a style sheet
 // document.styleSheets does not seem to work for arbitrary documents
 export function elementsWithPropertyinStylesheet(
@@ -45,7 +47,7 @@ export function elementsWithPropertyinStylesheet(
 		const style = sheet.ownerNode as HTMLElement;
 		const definedNames = new Set<string>();
 		const matches = style?.innerHTML.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'g'));
-		[...matches].forEach((match) => definedNames.add(match[1]));
+		[...matches].forEach((match) => definedNames.add(decode(property, match[1])));
 		try {
 			[...sheet.cssRules].forEach((rule) => {
 				if (rule instanceof CSSStyleRule && rule.style[property]) {
@@ -64,6 +66,13 @@ export function elementsWithPropertyinStylesheet(
 		}
 	});
 	return map;
+
+	function decode(prop: string, value: string): string {
+		div.style[prop] = '';
+		div.style[prop] = value;
+		const res = div.style[prop];
+		return res || value;
+	}
 }
 
 // finds all elements of a document with a given property in their style attribute
