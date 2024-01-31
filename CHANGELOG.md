@@ -1,5 +1,12 @@
 # The Bag of Tricks for View Transitions
 
+## 1.4.5 - 2024-01-31
+
+### Patch Changes
+
+- c1e5a97: Fixed the check for illegal view transition names which didn't interprete encoded characters correctly
+- d6069f4: Adds the new assets directory with the brand new **Bag of Tricks Logo** from Chris to the package exports 
+
 ## 1.4.4 - 2024-01-30
 
 ### Patch Changes
