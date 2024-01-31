@@ -10,26 +10,25 @@ test.describe('Setup', () => {
 
 test.describe('Debug component', () => {
 	test('logs', async ({ page }) => {
-		let messages = "";
-		page.on('console', msg => msg.text().includes("vtbot-debug") && (messages += msg.text()));
+		let messages = '';
+		page.on('console', (msg) => msg.text().includes('vtbot-debug') && (messages += msg.text()));
 		await page.goto('/debug/debug1/');
 		await expect(page).toHaveTitle('Debug1');
 		expect(messages).not.toBe('');
-		messages = "";
+		messages = '';
 		await page.locator('#debug2').click();
 		await expect(page).toHaveTitle('Debug2');
 		expect(messages).not.toBe('');
 	});
 	test('does not throw', async ({ page }) => {
 		let error = '';
-		page.on('pageerror', err => error += err);
+		page.on('pageerror', (err) => (error += err));
 		await page.goto('/debug/debug1/');
 		await expect(page).toHaveTitle('Debug1');
 		await page.locator('#debug2').click();
 		await expect(page).toHaveTitle('Debug2');
 		await expect(error).toBeFalsy();
 	});
-
 });
 
 test.describe('ReplacementSwap', () => {
@@ -84,7 +83,7 @@ test.describe('Linter component', () => {
 					? ''
 					: text.replace(/background-color:.*$/, '');
 		});
-	}
+	};
 	test('finds nested transition:persit and data-vtbot-replace attributes', async ({ page }) => {
 		captureConsole(page);
 		await page.goto('/linter/one/');
@@ -136,12 +135,15 @@ test.describe('Linter component', () => {
 		expect(consoleOutput).toBe(
 			`%c[vtbot-linter] Illegal view-transition-name(s) in old DOM (/linter/nine/) %cMaybe it starts with a number, or is a reserved word, or it contains illegal characters? %cH^rst, 5bs%c in %o at %chtml > head > style:nth-of-type(2) %c-123abc%c in %o at %chtml > body > main > p console.groupEnd`
 		);
-	}); test('detect non standard script types', async ({ page }) => {
+	});
+	test('detect non standard script types', async ({ page }) => {
 		captureConsole(page);
 		await page.goto('/linter/eleven/');
 		await expect(page).toHaveTitle('Linter11');
 		await page.locator('#totwelve').click();
 		await expect(page).toHaveTitle('Linter12');
-		expect(consoleOutput).toBe("%c[vtbot-linter] suspicious script types in /linter/twelve/ JSHandle@nodeJSHandle@nodeconsole.groupEndstandard script type 2standard script type 1");
+		expect(consoleOutput).toBe(
+			'%c[vtbot-linter] suspicious script types in /linter/twelve/ JSHandle@nodeJSHandle@nodeconsole.groupEndstandard script type 2standard script type 1'
+		);
 	});
 });
