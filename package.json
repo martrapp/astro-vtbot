@@ -35,6 +35,7 @@
       "import": "./animations/*.astro",
       "types": "./animations/*.d.ts"
     },
+    "./assets/*": "./assets/*",
     "./animations/*": "./animations/*.ts",
     "./package.json": "./package.json",
     "./vtex1": "./integration/view-transition-extension1.ts",
@@ -59,7 +60,7 @@
     "debug"
   ],
   "scripts": {
-    "format": "prettier -w components integration animations",
+    "format": "prettier -w components integration animations test",
     "test": "mkdir -p test/fixture/node_modules && (cd test/fixture/node_modules && rm -f astro-vtbot; ln -sT ../../.. astro-vtbot) &&  npx playwright test",
     "changeset": "changeset",
     "release": "changeset publish"
@@ -73,7 +74,7 @@
     "@playwright/test": "^1.40.0",
     "@types/dom-view-transitions": "^1.0.4",
     "@types/node": "^20.10.4",
-    "astro": "^4.0.3",
+    "astro": "latest",
     "prettier": "^3.1.0",
     "prettier-plugin-astro": "^0.13.0",
     "typescript": "^5.3.3"
