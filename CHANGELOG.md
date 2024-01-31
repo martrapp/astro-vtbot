@@ -5,7 +5,7 @@
 ### Patch Changes
 
 - c1e5a97: Fixed the check for illegal view transition names which didn't interprete encoded characters correctly
-- d6069f4: Adds the new assets directory to the package exports
+- d6069f4: Adds the new assets directory with the brand new **Bag of Tricks Logo** from Chris to the package exports 
 
 ## 1.4.4 - 2024-01-30
 
