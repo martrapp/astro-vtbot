@@ -2,23 +2,23 @@ name: Publish Package to npmjs
 on:
   workflow_dispatch:
     inputs:
-      dryRun:
-        description: 'DryRun?'
+      options:
+        description: 'Publish options'
         required: true
         default: '--dry-run'
         type: choice
         options:
           - '--dry-run'
-          - ' '
+          - '--provenance --access public'
 
 jobs:
   log-inputs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "--dry-run: $DRY_RUN"
+          echo "--dry-run: $OPTIONS"
         env:
-          DRY_RUN: ${{ inputs.dryRun }}
+          OPTIONS: ${{ inputs.options }}
 
   build:
     runs-on: ubuntu-latest
@@ -33,7 +33,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm install -g npm
       - run: npm ci
-      - run: npm publish ${DRY_RUN} --provenance --access public
+      - run: npm publish ${OPTIONS}
         env:
-          DRY_RUN: ${{ inputs.dryRun }}
+          OPTIONS: ${{ inputs.options }}
           NODE_AUTH_TOKEN: ${{ secrets.VTBOT_NPM_TOKEN }}
