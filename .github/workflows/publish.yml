@@ -1,0 +1,39 @@
+name: Publish Package to npmjs
+on:
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: 'DryRun?'
+        required: true
+        default: '--dry-run'
+        type: choice
+        options:
+          - '--dry-run'
+          - ' '
+
+jobs:
+  log-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "--dry-run: $DRY_RUN"
+        env:
+          DRY_RUN: ${{ inputs.dryRun }}
+
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm install -g npm
+      - run: npm ci
+      - run: npm publish ${DRY_RUN} --provenance --access public
+        env:
+          DRY_RUN: ${{ inputs.dryRun }}
+          NODE_AUTH_TOKEN: ${{ secrets.VTBOT_NPM_TOKEN }}
