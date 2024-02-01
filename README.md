@@ -1,4 +1,4 @@
-No, its ***NOT*** a roBOT 🤖, its a 👜 <b>B</b>ag <b>o</b>f <b>T</b>ricks!✨
+No, its **_NOT_** a roBOT 🤖, its a 👜 <b>B</b>ag <b>o</b>f <b>T</b>ricks!✨
 
 # **Bag of Tricks** for Astro's **View Transitions**
 
@@ -6,7 +6,6 @@ The bag of tricks provides extensions & support around Astro's view transitions.
 
 ![Build Status](https://github.com/martrapp/astro-vtbot/actions/workflows/run-tests.yml/badge.svg)
 [![npm version](https://img.shields.io/npm/v/astro-vtbot)](https://www.npmjs.com/package/astro-vtbot)
-
 
 A current deployment of tech demos and the documentation can be found at https://events-3bg.pages.dev/
 
@@ -18,21 +17,21 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## Reusable Components 🧩
 
-* In need for extensions for view transitions because you have issues with iframes on your pages?
-* Wanting support in understanding and debugging view transitions or simply want a second pair of eyes on your view transition settings?
-* Looking for reusable animations or special transition effects?
+- In need for extensions for view transitions because you have issues with iframes on your pages?
+- Wanting support in understanding and debugging view transitions or simply want a second pair of eyes on your view transition settings?
+- Looking for reusable animations or special transition effects?
 
 The `astro-vtbot`package isn't a monolithic library. Use the components you need and only pay bandwidth for those.
 |Component|Brotli bytes added|
 |-------|-----------------|
 Linter 🧹 |~2k
-VtBotDebug 🐛 |~2k
+VtBotDebug 🐛 |~2.2k
 ReplacementSwap ↹ |~0.5k
 LoadingIndicator ⏳ | ~0.5k
 Zoom 🔎 |~0.5k
 Swing 🎷 |~0.5k
 Portal 🚪 | ~0.3k
-NoScroll 📜| ~0.2k
+NoScroll 📜| ~0.1k
 
 Visit [the documentation](https://events-3bg.pages.dev/components/) of the reusable components for detailed information.
 
@@ -57,7 +56,7 @@ The bag of tricks currently contains [several technical demos](https://events-3b
 The sources are in [this repository](https://github.com/martrapp/astro-vtbot-website).
 
 ## The Jotter 📓
+
 Last but not least, the deployment also includes the [▶ Jotter ◀](https://events-3bg.pages.dev/docs/Jotter/) with a wealth of information on transition events as well as background information and valuable tips & tricks on view transitions in Astro.
 
 Some of the contents are technical demos, some are useful tools, and some are reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
-
