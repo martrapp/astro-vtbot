@@ -32,6 +32,13 @@ const active = import.meta.env.DEV || production;
 	prefix.init('[vtbot-debug]', 'color: #48f');
 	const enabled = () => !!document.querySelector('meta[name="vtbot-debug"]');
 
+	let beginning = 0;
+	// group -> pseudo -> animationName -> {start, end}
+	let animations: Record<
+		string,
+		Record<string, Record<string, { start: AnimationEvent; end: AnimationEvent }>>
+	> = {};
+
 	/*
 	 * address/content surrogate
 	 */
@@ -137,29 +144,6 @@ const active = import.meta.env.DEV || production;
 		doCapture(e);
 	}
 
-	/*
-	 * Log beforePreparation
-	 */
-	function beforePreparation(preparationEvent: Event) {
-		if (enabled()) {
-			if (isTransitionBeforePreparationEvent(preparationEvent)) {
-				prefix.groupCollapsed(`Properties of the ${preparationEvent.type} event`);
-				logProperties(preparationEvent);
-				console.groupEnd();
-				const originalLoader = preparationEvent.loader;
-				preparationEvent.loader = async () => {
-					prefix.log(`before execution of loader()`);
-					await originalLoader();
-					logProperties(preparationEvent, true);
-					prefix.log(`after execution of loader()`);
-				};
-				doCapture(preparationEvent);
-			} else {
-				console.log('not a TransitionBeforePreparationEvent');
-			}
-		}
-	}
-
 	const toCSSSelectorMap = (map: Map<string, Set<Element>> | undefined, where: string) => {
 		const result = new Map<string, string>();
 		if (map) {
@@ -249,7 +233,7 @@ const active = import.meta.env.DEV || production;
 			if (script.src) {
 				console.log(s);
 			} else {
-				console.groupCollapsed(s);
+				console.groupCollapsed(s + 'inline script ');
 				console.log(script.textContent ?? '');
 				console.groupEnd();
 			}
@@ -257,9 +241,108 @@ const active = import.meta.env.DEV || production;
 		}
 	}
 
-	/*
-	 * Log swap
-	 */
+	function stamp(e: AnimationEvent) {
+		return (e.timeStamp - beginning).toFixed(2);
+	}
+	function transition(e: AnimationEvent) {
+		return e.pseudoElement.match(/\(([^)]*)\)/)![1];
+	}
+	function id(e: AnimationEvent) {
+		return e.animationName + '@' + e.pseudoElement;
+	}
+
+	function logAnimPseudo(
+		name: string,
+		anims: Record<string, { start: AnimationEvent; end: AnimationEvent }>
+	) {
+		const keys = Object.keys(anims);
+		if (keys.length === 0) return;
+		if (keys.length > 1) {
+			console.group(name);
+			keys.sort().forEach((anim) => {
+				const a = anims[anim];
+				console.log(`${anim} from ${stamp(a.start)} to ${stamp(a.end)}`);
+			});
+			console.groupEnd();
+		} else {
+			const k = keys[0];
+			const a = anims[k];
+			console.log(`${name} ${k} from ${stamp(a.start)} to ${stamp(a.end)}`);
+		}
+	}
+
+	function logAnimTrans(
+		name: string,
+		pseudos: Record<string, Record<string, { start: AnimationEvent; end: AnimationEvent }>>
+	) {
+		console.groupCollapsed(name);
+		const group = `::view-transition-group(${name})`;
+		if (group in pseudos) {
+			logAnimPseudo(group, pseudos[group]);
+			delete pseudos[group];
+		}
+		const old = `::view-transition-old(${name})`;
+		if (old in pseudos) {
+			logAnimPseudo(old, pseudos[old]);
+			delete pseudos[old];
+		}
+		const new_ = `::view-transition-new(${name})`;
+		if (new_ in pseudos) {
+			logAnimPseudo(new_, pseudos[new_]);
+			delete pseudos[new_];
+		}
+		Object.keys(pseudos)
+			.sort()
+			.forEach((name) => {
+				logAnimPseudo(name, pseudos[name]);
+			});
+		console.groupEnd();
+	}
+
+	function logAnimations() {
+		prefix.groupCollapsed(`Animations`);
+		if ('root' in animations) logAnimTrans('root', animations['root']);
+		delete animations['root'];
+
+		Object.keys(animations)
+			.sort()
+			.forEach((name) => {
+				logAnimTrans(name, animations[name]);
+			});
+		console.groupEnd();
+	}
+	/* ------------------------------------------------------ */
+
+	function beforePreparation(preparationEvent: Event) {
+		if (enabled()) {
+			if (isTransitionBeforePreparationEvent(preparationEvent)) {
+				prefix.groupCollapsed(`Properties of the ${preparationEvent.type} event`);
+				logProperties(preparationEvent);
+				console.groupEnd();
+				const originalLoader = preparationEvent.loader;
+				preparationEvent.loader = async () => {
+					prefix.log(`before execution of loader()`);
+					await originalLoader();
+					logProperties(preparationEvent, true);
+					prefix.log(`after execution of loader()`);
+				};
+				doCapture(preparationEvent);
+			} else {
+				console.log('not a TransitionBeforePreparationEvent');
+			}
+		}
+	}
+
+	function afterPreparation(): EventListenerOrEventListenerObject {
+		return (e) => {
+			if (enabled()) {
+				// @ts-ignore
+				logProperties(window._vtbot_debug.capture.event, true);
+				prefix.log(`Event handler for ${e.type}`);
+			}
+		};
+	}
+
 	function beforeSwap(swapEvent: Event) {
 		if (enabled()) {
 			recordScripts();
@@ -297,9 +380,11 @@ const active = import.meta.env.DEV || production;
 				swapEvent.viewTransition.finished.then(
 					() => {
 						prefix.log(`resolve viewTransition.finished`);
+						logAnimations();
 					},
 					(error: any) => {
 						prefix.log(`reject viewTransition.finished with`, error);
+						logAnimations();
 					}
 				);
 			} else {
@@ -322,53 +407,55 @@ const active = import.meta.env.DEV || production;
 				prefix.log(`morphing transitions are not supported by this browser`);
 			}
 			logScripts();
+
+			beginning = 0;
+			animations = {};
 		}
 	};
+
+	function pageLoad(): EventListenerOrEventListenerObject {
+		return (e) => {
+			if (enabled()) {
+				// @ts-ignore
+				logProperties(window._vtbot_debug.capture.event, true);
+				prefix.log(`Event handler for ${e.type}`);
+			}
+		};
+	}
+
+	function animationStart(e: Event) {
+		if (enabled() && e instanceof AnimationEvent) {
+			beginning !== 0 || (beginning = e.timeStamp);
+			const trans = transition(e);
+			animations[trans] ??= {};
+			const pseudo = e.pseudoElement;
+			animations[trans][pseudo] ??= {};
+			const animation = e.animationName;
+			animations[trans][pseudo][animation] = {
+				start: e,
+				end: e,
+			};
+		}
+	}
+
+	function animationEnd(e: Event) {
+		if (enabled() && e instanceof AnimationEvent) {
+			animations[transition(e)][e.pseudoElement][e.animationName].end = e;
+		}
+	}
 
 	/*
 	 * Register the "late" handlers
 	 */
 	// register as late as possible (= in pageshow event) to be the last handler in the chain
 	window.addEventListener('pageshow', () => {
-		let beginning = 0;
-
-		prefix.log(
-			`Registering event listeners for '${TRANSITION_BEFORE_PREPARATION}', '${TRANSITION_AFTER_PREPARATION}', '${TRANSITION_BEFORE_SWAP}', '${TRANSITION_AFTER_SWAP}' and '${TRANSITION_PAGE_LOAD}'`
-		);
+		prefix.log(`Setup ...`);
 		document.addEventListener(TRANSITION_BEFORE_PREPARATION, beforePreparation);
-		document.addEventListener(TRANSITION_AFTER_PREPARATION, (e) => {
-			if (enabled()) {
-				// @ts-ignore
-				logProperties(window._vtbot_debug.capture.event, true);
-				prefix.log(`Event handler for ${e.type}`);
-			}
-		});
+		document.addEventListener(TRANSITION_AFTER_PREPARATION, afterPreparation);
 		document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
 		document.addEventListener(TRANSITION_AFTER_SWAP, afterSwap);
-		document.addEventListener(TRANSITION_PAGE_LOAD, (e) => {
-			if (enabled()) {
-				// @ts-ignore
-				logProperties(window._vtbot_debug.capture.event, true);
-				prefix.log(`Event handler for ${e.type}`);
-				beginning = 0;
-			}
-		});
-		/*
-		document.addEventListener('animationstart', (e) => {
-			beginning ??= e.timeStamp;
-			if (enabled() && e instanceof AnimationEvent) {
-				console.log(
-					`${PREFIX} ${e.timeStamp-beginning} ${e.pseudoElement} started ${e.animationName}`
-				);
-			}
-		});
-		document.addEventListener('animationend', (e) => {
-			if (enabled()) {
-				console.log(
-					`${PREFIX} ${e.timeStamp-beginning} ${e.pseudoElement} ended ${e.animationName}`
-				);
-			}
-		});
-	*/
+		document.addEventListener(TRANSITION_PAGE_LOAD, pageLoad);
+		document.addEventListener('animationstart', animationStart);
+		document.addEventListener('animationend', animationEnd);
 	});
 </script>
