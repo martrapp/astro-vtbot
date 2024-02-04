@@ -24,14 +24,15 @@ A current deployment of tech demos and the documentation can be found at https:/
 The `astro-vtbot`package isn't a monolithic library. Use the components you need and only pay bandwidth for those.
 |Component|Brotli bytes added|
 |-------|-----------------|
-Linter 🧹 |~2k
-VtBotDebug 🐛 |~2.2k
-ReplacementSwap ↹ |~0.5k
-LoadingIndicator ⏳ | ~0.5k
-Zoom 🔎 |~0.5k
-Swing 🎷 |~0.5k
-Portal 🚪 | ~0.3k
+BrakePad 🦥 | ~0.1k
+Linter 🧹 | ~2k
+LoadingIndicator ⏳ | ~0.6k
 NoScroll 📜| ~0.1k
+Portal 🚪 | ~0.3k
+ReplacementSwap ↹ | ~0.5k
+Swing 🎷 | ~0.5k
+VtBotDebug 🐛 | ~2.6k
+Zoom 🔎 | ~0.5k
 
 Visit [the documentation](https://events-3bg.pages.dev/components/) of the reusable components for detailed information.
 
