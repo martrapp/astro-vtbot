@@ -1,11 +1,19 @@
 # The Bag of Tricks for View Transitions
 
+## 1.4.6
+
+### Patch Changes
+
+- 555fd41: Extends `VtBotDebug` with the ability to log the animations that happen during a view transition
+- 14cc29b: Adds detailed logging to `<VtBotDebug/>` to inform about the animations that run during view transitions
+- c4a5911: Adds a `production` property to the `<BrakePad />`. Making the brake a pure DEV mode features unless requested otherwise.
+
 ## 1.4.5 - 2024-01-31
 
 ### Patch Changes
 
 - c1e5a97: Fixed the check for illegal view transition names which didn't interprete encoded characters correctly
-- d6069f4: Adds the new assets directory with the brand new **Bag of Tricks Logo** from Chris to the package exports 
+- d6069f4: Adds the new assets directory with the brand new **Bag of Tricks Logo** from Chris to the package exports
 
 ## 1.4.4 - 2024-01-30
 
