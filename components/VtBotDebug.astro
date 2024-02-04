@@ -57,6 +57,13 @@ const active = import.meta.env.DEV || production;
 		Record<string, Record<string, { start: AnimationEvent; end: AnimationEvent }>>
 	> = {};
 
+	let beginning = 0;
+	// group -> pseudo -> animationName -> {start, end}
+	let animations: Record<
+		string,
+		Record<string, Record<string, { start: AnimationEvent; end: AnimationEvent }>>
+	> = {};
+
 	/*
 	 * address/content surrogate
 	 */
