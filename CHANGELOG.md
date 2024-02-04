@@ -1,11 +1,10 @@
 # The Bag of Tricks for View Transitions
 
-## 1.4.6
+## 1.4.6 - 2024-02-04
 
 ### Patch Changes
 
-- 555fd41: Extends `VtBotDebug` with the ability to log the animations that happen during a view transition
-- 14cc29b: Adds detailed logging to `<VtBotDebug/>` to inform about the animations that run during view transitions
+- 555fd41 & 14cc29b: Extends `VtBotDebug` with the ability to log the animations that happen during a view transition
 - c4a5911: Adds a `production` property to the `<BrakePad />`. Making the brake a pure DEV mode features unless requested otherwise.
 
 ## 1.4.5 - 2024-01-31
