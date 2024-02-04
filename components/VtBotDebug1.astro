@@ -1,5 +1,5 @@
 ---
-// Conditionally including this scipt directly in VtBotDebog.astro did not work for prettier
+// Including this scipt directly in VtBotDebug.astro did not work for prettier
 ---
 
 <script is:inline>
@@ -35,6 +35,7 @@
 			doCapture(e);
 			if (enabled()) {
 				console.log(`%c${PREFIX}%c Event handler for ${e.type}`, 'color:#48f', '');
+				window._vtbot_debug.active = 2;
 			}
 		};
 
