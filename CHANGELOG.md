@@ -1,6 +1,6 @@
 # The Bag of Tricks for View Transitions
 
-## 1.4.7
+## 1.4.7 - 2024-02-07
 
 ### Patch Changes
 
