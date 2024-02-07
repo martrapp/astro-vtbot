@@ -32,7 +32,7 @@
 
 ### Patch - Changes
 
-- f4554b6: Adds a new component for easier development of custom loading indicators: The BrakePad (https://events-3bg.pages.dev/library/LoadingIndicator/#slowing-things-down-during-development)
+- f4554b6: Adds a new component for easier development of custom loading indicators: [The BrakePad](https://events-3bg.pages.dev/library/BrakePad/)
 - f4554b6: Extends LoadingIndicator use JavaScript in custom loading indicators
 
 ## 1.4.1 - 2024-01-22

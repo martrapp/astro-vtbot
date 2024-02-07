@@ -61,3 +61,15 @@ The sources are in [this repository](https://github.com/martrapp/astro-vtbot-web
 Last but not least, the deployment also includes the [▶ Jotter ◀](https://events-3bg.pages.dev/docs/Jotter/) with a wealth of information on transition events as well as background information and valuable tips & tricks on view transitions in Astro.
 
 Some of the contents are technical demos, some are useful tools, and some are reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
+
+## Troubleshooting
+
+For help, check out the `Discussions` tab on the [GitHub repo](https://github.com/martrapp/astro-vtbot/discussions).
+
+## Contributing
+
+This package is maintained by [martrapp](https://github.com/martrapp) independently from Astro. You're welcome to contribute by submitting an issue or opening a PR!
+
+## Changelog
+
+See [CHANGELOG.md](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md) for a history of changes to this package.

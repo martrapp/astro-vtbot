@@ -12,14 +12,6 @@ on:
           - '--provenance --access public'
 
 jobs:
-  log-inputs:
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo "--dry-run: $OPTIONS"
-        env:
-          OPTIONS: ${{ inputs.options }}
-
   build:
     runs-on: ubuntu-latest
     permissions:

@@ -34,13 +34,19 @@ const active = import.meta.env.DEV || production;
 	const COLORED = 'color: #48f';
 	const ALTERNATE = 'color: #585';
 
+	type Events = Set<string>;
+	type ActiveElements = Map<EventTarget, Events>;
+	type ListeningScripts = Record<string, ActiveElements>;
+
 	declare global {
 		interface Window {
 			_vtbot_debug: {
 				capture: Record<string, any>;
 				originalMap: Map<string, string>;
 				savedSwapEvent: TransitionBeforeSwapEvent;
-				active: number;
+				listeningScripts: ListeningScripts;
+				// 2 = waiting for both, page-load and finished, 1 = waiting for one, 0 = all done
+				closing: number;
 			};
 		}
 	}
@@ -48,14 +54,15 @@ const active = import.meta.env.DEV || production;
 	prefix.init('[vtbot-debug]', COLORED);
 	const enabled_out = () => !!document.querySelector('meta[name="vtbot-debug"]');
 
-	const enabled_in = () => window._vtbot_debug.active > 0;
+	const enabled_in = () => window._vtbot_debug.closing > 0;
 
 	let beginning = 0;
-	// group -> pseudo -> animationName -> {start, end}
-	let animations: Record<
-		string,
-		Record<string, Record<string, { start: AnimationEvent; end: AnimationEvent }>>
-	> = {};
+
+	// transition -> pseudo -> animationName -> {start, end}
+	type Animation = { start: AnimationEvent; end: AnimationEvent };
+	type AnimPseudo = Record<string, Animation>;
+	type AnimTransition = Record<string, AnimPseudo>;
+	let animations: Record<string, AnimTransition> = Object.create(null);
 
 	/*
 	 * address/content surrogate
@@ -275,10 +282,7 @@ const active = import.meta.env.DEV || production;
 		return e.pseudoElement.match(/\(([^)]*)\)/)?.[1] ?? '~other~';
 	}
 
-	function logAnimPseudo(
-		name: string,
-		anims: Record<string, { start: AnimationEvent; end: AnimationEvent }>
-	) {
+	function logAnimPseudo(name: string, anims: AnimPseudo) {
 		const keys = Object.keys(anims);
 		if (keys.length === 0) return;
 		if (keys.length > 1) {
@@ -295,35 +299,31 @@ const active = import.meta.env.DEV || production;
 		}
 	}
 
-	function logAnimTrans(
-		name: string,
-		idx: number,
-		pseudos: Record<string, Record<string, { start: AnimationEvent; end: AnimationEvent }>>
-	) {
+	function logAnimTransition(name: string, idx: number, transition: AnimTransition) {
 		if (idx >= 0) {
 			console.groupCollapsed(`%ctransition ${++idx} %c${name}`, ALTERNATE, BOLD);
 		} else {
 			console.groupCollapsed(`%cother`, ALTERNATE);
 		}
 		const group = `::view-transition-group(${name})`;
-		if (group in pseudos) {
-			logAnimPseudo(group, pseudos[group]);
-			delete pseudos[group];
+		if (group in transition) {
+			logAnimPseudo(group, transition[group]);
+			delete transition[group];
 		}
 		const old = `::view-transition-old(${name})`;
-		if (old in pseudos) {
-			logAnimPseudo(old, pseudos[old]);
-			delete pseudos[old];
+		if (old in transition) {
+			logAnimPseudo(old, transition[old]);
+			delete transition[old];
 		}
 		const new_ = `::view-transition-new(${name})`;
-		if (new_ in pseudos) {
-			logAnimPseudo(new_, pseudos[new_]);
-			delete pseudos[new_];
+		if (new_ in transition) {
+			logAnimPseudo(new_, transition[new_]);
+			delete transition[new_];
 		}
-		Object.keys(pseudos)
+		Object.keys(transition)
 			.sort()
 			.forEach((name) => {
-				logAnimPseudo(name, pseudos[name]);
+				logAnimPseudo(name, transition[name]);
 			});
 		console.groupEnd();
 
@@ -334,7 +334,7 @@ const active = import.meta.env.DEV || production;
 		prefix.groupCollapsed(`Animations`);
 		let idx = 0;
 		if ('root' in animations) {
-			idx = logAnimTrans('root', idx, animations['root']);
+			idx = logAnimTransition('root', idx, animations['root']);
 			delete animations['root'];
 		}
 
@@ -345,13 +345,33 @@ const active = import.meta.env.DEV || production;
 				if (name === '~other~') {
 					other = true;
 				} else {
-					idx = logAnimTrans(name, idx, animations[name]);
+					idx = logAnimTransition(name, idx, animations[name]);
 				}
 			});
 		if (other) {
-			logAnimTrans('', -1, animations['~other~']);
+			logAnimTransition('', -1, animations['~other~']);
 		}
 		console.groupEnd();
+	}
+
+	function checkActiveElements() {
+		const scripts = window._vtbot_debug.listeningScripts;
+		for (const src in scripts) {
+			const script = scripts[src];
+			for (const el of script.keys()) {
+				if (
+					el !== window &&
+					el !== document &&
+					el instanceof HTMLElement &&
+					el.ownerDocument !== document
+				) {
+					prefix.log(
+						`%c${[...script.get(el)!.values()].join(', ')} for dead ${el} from ${src}`,
+						'color:red'
+					);
+				}
+			}
+		}
 	}
 
 	/* ------------------------------------------------------ */
@@ -392,6 +412,7 @@ const active = import.meta.env.DEV || production;
 				prefix.groupCollapsed(`Properties of the ${swapEvent.type} event`);
 				logProperties(swapEvent);
 				console.groupEnd();
+				// checkActiveElements();
 
 				if (supportsViewTransitions) {
 					const map = elementsWithStyleProperty('view-transition-name');
@@ -402,6 +423,7 @@ const active = import.meta.env.DEV || production;
 				swapEvent.swap = async () => {
 					prefix.log(`before execution of swap()`);
 					originalSwap();
+					//	checkActiveElements();
 					logProperties(window._vtbot_debug.capture.event, true);
 					prefix.log(`after execution of swap()`);
 					prefix.log(`%o`, document.documentElement);
@@ -420,12 +442,12 @@ const active = import.meta.env.DEV || production;
 					() => {
 						prefix.log(`resolve viewTransition.finished`);
 						logAnimations();
-						window._vtbot_debug.active--;
+						window._vtbot_debug.closing--;
 					},
 					(error: any) => {
 						prefix.log(`reject viewTransition.finished with`, error);
 						logAnimations();
-						window._vtbot_debug.active--;
+						window._vtbot_debug.closing--;
 					}
 				);
 			} else {
@@ -436,9 +458,9 @@ const active = import.meta.env.DEV || production;
 
 	const afterSwap = (e: Event) => {
 		if (enabled_in()) {
+			prefix.log(`Event handler for ${e.type}`);
 			const event = window._vtbot_debug.capture.event;
 			logProperties(event, true);
-			prefix.log(`Event handler for ${e.type}`);
 			const _vtbot_debug = window._vtbot_debug;
 			if (supportsViewTransitions) {
 				logTransitions(_vtbot_debug.originalMap, _vtbot_debug.savedSwapEvent);
@@ -448,7 +470,7 @@ const active = import.meta.env.DEV || production;
 			logScripts();
 
 			beginning = 0;
-			animations = {};
+			animations = Object.create(null);
 		}
 	};
 
@@ -456,7 +478,7 @@ const active = import.meta.env.DEV || production;
 		if (enabled_in()) {
 			logProperties(window._vtbot_debug.capture.event, true);
 			prefix.log(`Event handler for ${e.type}`);
-			window._vtbot_debug.active--;
+			window._vtbot_debug.closing--;
 		}
 	}
 
@@ -464,7 +486,7 @@ const active = import.meta.env.DEV || production;
 		if (e instanceof AnimationEvent) {
 			beginning !== 0 || (beginning = e.timeStamp);
 			const trans = transition(e);
-			animations[trans] ??= {};
+			animations[trans] ??= Object.create(null);
 			const pseudo = e.pseudoElement;
 			animations[trans][pseudo] ??= {};
 			const animation = e.animationName;
