@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.4.7
+
+### Patch Changes
+
+- d6b3977: Update to Astro 4.3.4 and small code brushing
+
 ## 1.4.6 - 2024-02-04
 
 ### Patch Changes
