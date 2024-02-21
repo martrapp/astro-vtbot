@@ -1,4 +1,4 @@
-import type { AstroConfig, AstroIntegration } from 'astro';
+import type {AstroIntegration } from 'astro';
 import vitePluginVtbotExtend from './vite-plugin-extend';
 
 type VtBotOptions = {
@@ -7,7 +7,6 @@ type VtBotOptions = {
 };
 
 export default function createIntegration(options?: VtBotOptions): AstroIntegration {
-	let config: AstroConfig;
 	return {
 		name: 'astro-vtbot',
 		hooks: {
@@ -21,10 +20,6 @@ export default function createIntegration(options?: VtBotOptions): AstroIntegrat
 						},
 					});
 				}
-			},
-
-			'astro:config:done': async ({ config: cfg }) => {
-				config = cfg;
 			},
 		},
 	};

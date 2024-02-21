@@ -1,6 +1,9 @@
 // todos:
 // check for different CSS rule types (beside CSSStyleRule)
 
+const decodeDiv = document.createElement('div');
+
+export const ILLEGAL_TRANSITION_NAMES = "data-vtbot-illegal-transition-names"
 export function astroContextIds() {
 	const inStyleSheets = new Set<string>();
 	const inElements = new Set<string>();
@@ -9,10 +12,10 @@ export function astroContextIds() {
 		[...sheet.cssRules].forEach((rule) => {
 			if (rule instanceof CSSStyleRule) {
 				[...rule.selectorText.matchAll(/data-astro-cid-(\w{8})/g)].forEach((match) =>
-					inStyleSheets.add(match[1])
+					inStyleSheets.add(match[1]!)
 				);
 				[...rule.selectorText.matchAll(/\.astro-(\w{8})/g)].forEach((match) =>
-					inStyleSheets.add(match[1])
+					inStyleSheets.add(match[1]!)
 				);
 			}
 		});
@@ -35,23 +38,23 @@ export function astroContextIds() {
 	return { inStyleSheets, inElements };
 }
 
-let div: HTMLDivElement = document.createElement('div');
 
-// finds all elements of a _the current document_ with a given property in a style sheet
+type SupportedCSSProperties = 'view-transition-name';
+// finds all elements of a _the current document_ with a given _string_ property in a style sheet
 // document.styleSheets does not seem to work for arbitrary documents
 export function elementsWithPropertyinStylesheet(
-	property: string,
+	property: SupportedCSSProperties,
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
 	[...document.styleSheets].forEach((sheet) => {
 		const style = sheet.ownerNode as HTMLElement;
 		const definedNames = new Set<string>();
-		const matches = style?.innerHTML.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'g'));
-		[...matches].forEach((match) => definedNames.add(decode(property, match[1])));
+		const matches = style?.innerHTML.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'gu'));
+		[...matches].forEach((match) => definedNames.add(decode(property, match[1]!)));
 		try {
 			[...sheet.cssRules].forEach((rule) => {
-				if (rule instanceof CSSStyleRule && rule.style[property]) {
-					const name = rule.style[property];
+				if (rule instanceof CSSStyleRule && rule.style[property as keyof CSSStyleDeclaration]) {
+					const name = rule.style[property as	keyof CSSStyleDeclaration] as string;
 					definedNames.delete(name);
 					const els = document.querySelectorAll(rule.selectorText);
 					map.set(name, new Set([...(map.get(name) ?? new Set()), ...[...els]]));
@@ -61,16 +64,17 @@ export function elementsWithPropertyinStylesheet(
 			console.log(`%c[vtbot] Can't analyze sheet at ${sheet.href}: ${e}`, 'color: #888');
 		}
 		if (definedNames.size > 0) {
-			style.setAttribute('data-illegal-transition-names', [...definedNames].join(', '));
+			const illegalNames = [...definedNames].join(', ');
+			style.setAttribute(ILLEGAL_TRANSITION_NAMES, illegalNames);
 			map.set('', new Set([...(map.get('') ?? new Set()), style]));
 		}
 	});
 	return map;
 
-	function decode(prop: string, value: string): string {
-		div.style[prop] = '';
-		div.style[prop] = value;
-		const res = div.style[prop];
+	function decode(prop: SupportedCSSProperties, value: string): string {
+		decodeDiv.style[prop as any] = '';
+		decodeDiv.style[prop as any] = value;
+		const res = decodeDiv.style[prop as any];
 		return res || value;
 	}
 }
@@ -78,20 +82,21 @@ export function elementsWithPropertyinStylesheet(
 // finds all elements of a document with a given property in their style attribute
 export function elementsWithPropertyInStyleAttribute(
 	doc: Document,
-	property: string,
+	property: SupportedCSSProperties,
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
 	doc.querySelectorAll(`[style*="${property}:"`).forEach((el) => {
-		const name = (el as HTMLElement).style[property];
+		const name = (el as HTMLElement).style[property as any]!;
 		map.set(name, new Set([...(map.get(name) ?? new Set()), el]));
 	});
 	return map;
 }
 
+
 // finds all elements _of the current document_ with a given property
 // in their style attribute or in a style sheet
 export function elementsWithStyleProperty(
-	property: string,
+	property: SupportedCSSProperties,
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
 	return elementsWithPropertyInStyleAttribute(

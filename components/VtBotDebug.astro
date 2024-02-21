@@ -82,8 +82,7 @@ const active = import.meta.env.DEV || production;
 		return `@${a} (${humanReadable(html.length)})`;
 	};
 
-	const logWithStyle = (s: string, usePrefix, ...rest) => {
-		const _vtbot_debug = window._vtbot_debug;
+	const logWithStyle = (s: string, usePrefix: boolean, ...rest: string[]) => {
 		const css: string[] = [...rest];
 		s = s.replaceAll('**', '%c');
 		const count = ((s.match(/%c/g) || []).length - rest.length) / 2;
@@ -173,7 +172,7 @@ const active = import.meta.env.DEV || production;
 		if (map) {
 			map.forEach((set, key) => {
 				if (set.size === 1) {
-					result.set(key, deriveCSSSelector([...set][0]));
+					result.set(key, deriveCSSSelector([...set][0]!));
 				} else if (supportsViewTransitions && (set?.size ?? 0) > 1) {
 					prefix.log(`view-transition-name ${key} is not unique in ${where} document\n`);
 				}
@@ -288,13 +287,13 @@ const active = import.meta.env.DEV || production;
 		if (keys.length > 1) {
 			console.group(name);
 			keys.sort().forEach((anim) => {
-				const a = anims[anim];
+				const a = anims[anim]!;
 				console.log(`${anim} from ${stamp(a.start)} to ${stamp(a.end)}`);
 			});
 			console.groupEnd();
 		} else {
-			const k = keys[0];
-			const a = anims[k];
+			const k = keys[0]!;
+			const a = anims[k]!;
 			console.log(`${name} ${k} from ${stamp(a.start)} to ${stamp(a.end)}`);
 		}
 	}
@@ -307,23 +306,23 @@ const active = import.meta.env.DEV || production;
 		}
 		const group = `::view-transition-group(${name})`;
 		if (group in transition) {
-			logAnimPseudo(group, transition[group]);
+			logAnimPseudo(group, transition[group]!);
 			delete transition[group];
 		}
 		const old = `::view-transition-old(${name})`;
 		if (old in transition) {
-			logAnimPseudo(old, transition[old]);
+			logAnimPseudo(old, transition[old]!);
 			delete transition[old];
 		}
 		const new_ = `::view-transition-new(${name})`;
 		if (new_ in transition) {
-			logAnimPseudo(new_, transition[new_]);
+			logAnimPseudo(new_, transition[new_]!);
 			delete transition[new_];
 		}
 		Object.keys(transition)
 			.sort()
 			.forEach((name) => {
-				logAnimPseudo(name, transition[name]);
+				logAnimPseudo(name, transition[name]!);
 			});
 		console.groupEnd();
 
@@ -345,33 +344,13 @@ const active = import.meta.env.DEV || production;
 				if (name === '~other~') {
 					other = true;
 				} else {
-					idx = logAnimTransition(name, idx, animations[name]);
+					idx = logAnimTransition(name, idx, animations[name]!);
 				}
 			});
 		if (other) {
-			logAnimTransition('', -1, animations['~other~']);
+			logAnimTransition('', -1, animations['~other~']!);
 		}
 		console.groupEnd();
-	}
-
-	function checkActiveElements() {
-		const scripts = window._vtbot_debug.listeningScripts;
-		for (const src in scripts) {
-			const script = scripts[src];
-			for (const el of script.keys()) {
-				if (
-					el !== window &&
-					el !== document &&
-					el instanceof HTMLElement &&
-					el.ownerDocument !== document
-				) {
-					prefix.log(
-						`%c${[...script.get(el)!.values()].join(', ')} for dead ${el} from ${src}`,
-						'color:red'
-					);
-				}
-			}
-		}
 	}
 
 	/* ------------------------------------------------------ */
@@ -488,9 +467,9 @@ const active = import.meta.env.DEV || production;
 			const trans = transition(e);
 			animations[trans] ??= Object.create(null);
 			const pseudo = e.pseudoElement;
-			animations[trans][pseudo] ??= {};
+			animations[trans]![pseudo] ??= {};
 			const animation = e.animationName;
-			animations[trans][pseudo][animation] = {
+			animations[trans]![pseudo]![animation] = {
 				start: e,
 				end: e,
 			};
@@ -499,7 +478,7 @@ const active = import.meta.env.DEV || production;
 
 	function animationEnd(e: Event) {
 		if (e instanceof AnimationEvent) {
-			animations[transition(e)][e.pseudoElement][e.animationName].end = e;
+			animations[transition(e)]![e.pseudoElement]![e.animationName]!.end = e;
 		}
 	}
 

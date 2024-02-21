@@ -20,6 +20,7 @@
 			};
 		};
 
+		/*
 		const file = (stacktrace) => {
 			if (!stacktrace) return '<unknown>';
 			const lines = stacktrace.split('\n');
@@ -34,8 +35,8 @@
 			return match ? match[1] ?? match[2] ?? match[3] : '<unknown>';
 		};
 
+
 		const originalAddEventListener = EventTarget.prototype.addEventListener;
-		/*
 		EventTarget.prototype.addEventListener = function (eventName, eventHandler) {
 			if (this !== window || this !== document) {
 				const srcFile = file(new Error().stack);

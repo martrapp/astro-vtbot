@@ -1,6 +1,6 @@
 import './zoom.css';
 import {
-	NamedAnimationPairs,
+	type NamedAnimationPairs,
 	extend,
 	styleSheet,
 	setKeyframes,

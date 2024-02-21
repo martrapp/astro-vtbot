@@ -1,8 +1,11 @@
 ---
-export interface Props {}
+export interface Props {
+	preserveRootAttributes: string
+}
+const {preserveRootAttributes} = Astro.props;
 ---
-
-<meta name="vtbot-replace-swap" content="true" />
+<!-- eslint-disable-next-line  -->
+<meta name="vtbot-replace-swap" content={preserveRootAttributes} />
 <script>
 	import { TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
 	import { customSwap } from './swap-utils';

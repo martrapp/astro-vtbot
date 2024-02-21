@@ -1,11 +1,11 @@
-import { TransitionAnimationPair, TransitionDirectionalAnimations } from 'astro';
+import type { TransitionAnimationPair, TransitionDirectionalAnimations } from 'astro';
 
 type Kebab<T extends string, A extends string = ''> = T extends `${infer F}${infer R}`
 	? Kebab<R, `${A}${F extends Lowercase<F> ? '' : '-'}${Lowercase<F>}`>
 	: A;
 type KebabKeys<T> = { [K in keyof T as K extends string ? Kebab<K> : K]: T[K] };
 type AnimationCSS = KebabKeys<Partial<CSSStyleDeclaration>>;
-export type NamedAnimationPairs = Record<string, { new?: AnimationCSS; old?: AnimationCSS }>;
+export type NamedAnimationPairs = Record<string, { new?: AnimationCSS; old?: AnimationCSS; }>;
 export type ScopeAndStyles = {
 	scope: string;
 	styles: string;
@@ -13,7 +13,7 @@ export type ScopeAndStyles = {
 export type StyleSheetOptions = {
 	transitionName: string;
 	animations: NamedAnimationPairs;
-	scope?: string;
+	scope: string | undefined;
 };
 
 export function styleSheet(options: StyleSheetOptions): ScopeAndStyles {
@@ -33,7 +33,7 @@ export function styleSheet(options: StyleSheetOptions): ScopeAndStyles {
 	const pseudo = (image: string) => `::view-transition-${image}(${transitionName})`;
 
 	const style = (dir: string, image: string) =>
-		Object.entries(animations[dir][image])
+		Object.entries((animations[dir] as any)[image])
 			.map(([k, v]) => `${k}: ${v}`)
 			.join('; ');
 
@@ -67,7 +67,7 @@ export function styleSheet(options: StyleSheetOptions): ScopeAndStyles {
 
 	return { scope, styles };
 }
-const map = {};
+const map: Record<string, string> = {};
 map['name'] = 'animation-name';
 map['delay'] = 'animation-delay';
 map['duration'] = 'animation-duration';
@@ -113,10 +113,10 @@ export const adapter = (
 	anims: Record<string, TransitionAnimationPair>
 ): TransitionDirectionalAnimations => anims as unknown as TransitionDirectionalAnimations;
 
-const framesMap = {};
+const framesMap: Record<string, string> = {};
 export const setKeyframes = (name: string, css: string) => (framesMap[name] = css);
 export const getKeyframes = (name: string) => framesMap[name];
 
-const stylesMap = {};
+const stylesMap: Record<string,string> = {};
 export const setStyles = (name: string, css: string) => (stylesMap[name] = css);
 export const getStyles = (name: string) => stylesMap[name];

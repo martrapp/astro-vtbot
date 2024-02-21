@@ -62,14 +62,15 @@
   ],
   "scripts": {
     "format": "prettier -w components integration animations test",
-    "test": "mkdir -p test/fixture/node_modules && (cd test/fixture/node_modules && rm -f astro-vtbot; ln -sT ../../.. astro-vtbot) &&  npx playwright test",
+    "test": "scripts/test.sh",
     "changeset": "changeset",
     "release": "changeset publish"
   },
   "peerDependencies": {
-    "astro": "^4.0.0"
+    "astro": "latest"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.5.4",
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "^2.27.1",
     "@playwright/test": "^1.40.0",
