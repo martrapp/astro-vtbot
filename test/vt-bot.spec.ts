@@ -48,12 +48,12 @@ test.describe('ReplacementSwap', () => {
 		await expect(page.locator('main')).toHaveText('Main1two');
 		await page.locator('#two').click();
 		await expect(page).toHaveTitle('Repl2');
-		await expect(page.locator('main')).toHaveText('Main2three');
+		await expect(page.locator('main')).toHaveText('Main2onethree');
 	});
 	test('falls back to original swap', async ({ page }) => {
 		await page.goto('/repl/two/');
 		await expect(page).toHaveTitle('Repl2');
-		await expect(page.locator('main')).toHaveText('Main2three');
+		await expect(page.locator('main')).toHaveText('Main2onethree');
 		await page.locator('#three').click();
 		await expect(page).toHaveTitle('Repl3');
 		await expect(page.locator('header')).toHaveText('Header3');
@@ -69,6 +69,30 @@ test.describe('ReplacementSwap', () => {
 		await expect(page).toHaveTitle('Repl4');
 		expect(await page.locator('header:above(footer)').count()).toBe(0);
 		expect(await page.locator('footer:above(header)').count()).toBe(1);
+	});
+	test('can swap lang attribute', async ({ page }) => {
+		await page.goto('/repl/one/');
+		await expect(page).toHaveTitle('Repl1');
+		expect(await (page.locator('html').getAttribute('lang'))).toBe('es');
+		await page.locator('#two').click();
+		await expect(page).toHaveTitle('Repl2');
+		expect(await (page.locator('html').getAttribute('lang'))).toBe('de');
+	});
+	test('can persist html attributes', async ({ page }) => {
+		await page.goto('/repl/one/');
+		await expect(page).toHaveTitle('Repl1');
+		await page.locator('html').evaluate((el, value) => el.setAttribute('theme', value), 'dark');
+		await page.locator('html').evaluate((el, value) => el.setAttribute('dark', value), 'very');
+		await page.locator('#two').click();
+		await expect(page).toHaveTitle('Repl2');
+		expect(await (page.locator('html').getAttribute('theme'))).toBe('dark');
+		expect(await (page.locator('html').getAttribute('dark'))).toBe(null);
+		await page.locator('html').evaluate((el, value) => el.setAttribute('theme', value), 'dark');
+		await page.locator('html').evaluate((el, value) => el.setAttribute('dark', value), 'very');
+		await page.locator('#one').click();
+		await expect(page).toHaveTitle('Repl1');
+		expect(await (page.locator('html').getAttribute('theme'))).toBe(null);
+		expect(await (page.locator('html').getAttribute('dark'))).toBe('very');
 	});
 });
 

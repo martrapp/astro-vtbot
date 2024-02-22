@@ -1,14 +1,20 @@
 ---
 export interface Props {
-	preserveRootAttributes: string
+	rootAttributesToPreserve?: string;
 }
-const {preserveRootAttributes} = Astro.props;
+const { rootAttributesToPreserve = '' } = Astro.props;
 ---
-<!-- eslint-disable-next-line  -->
-<meta name="vtbot-replace-swap" content={preserveRootAttributes} />
+
+<meta name="vtbot-replace-swap" content={rootAttributesToPreserve} />
 <script>
 	import { TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
 	import { customSwap } from './swap-utils';
+
+	const TAG = 'vtbot-replace-swap';
+	const preserve = () =>
+		(document.querySelector(`meta[name="${TAG}"]`)?.getAttribute('content') ?? '')
+			.split(',')
+			.map((s) => s.trim());
 
 	document.addEventListener(TRANSITION_BEFORE_SWAP, (event) => {
 		if (isTransitionBeforeSwapEvent(event)) {
@@ -28,7 +34,7 @@ const {preserveRootAttributes} = Astro.props;
 					originalSwap();
 					return;
 				}
-				customSwap(event.newDocument, () => {
+				customSwap(event.newDocument, preserve(), () => {
 					intersection.forEach((name) => {
 						const oldEl = oldEls.find((el) => (el as HTMLElement).dataset.vtbotReplace === name);
 						const newEl = newEls.find((el) => (el as HTMLElement).dataset.vtbotReplace === name);

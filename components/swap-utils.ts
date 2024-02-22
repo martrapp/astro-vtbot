@@ -19,13 +19,14 @@ export const disarmKnownScripts = (doc: Document) => {
 /*
  * Swap in the atttributes of the html element
  */
-export const swapInHTMLAttributes = (doc: Document) => {
+export const swapInHTMLAttributes = (doc: Document, rootAttributesToPreserve: string[]) => {
+	const preserve = (name: string) => name.startsWith('data-astro-') || rootAttributesToPreserve.includes(name);
 	const html = document.documentElement;
-	const astroAttributes = [...html.attributes].filter(
-		({ name }) => (html.removeAttribute(name), name.startsWith('data-astro-'))
+	[...html.attributes].forEach(
+		({ name }) => preserve(name) || html.removeAttribute(name)
 	);
-	[...doc.documentElement.attributes, ...astroAttributes].forEach(({ name, value }) =>
-		html.setAttribute(name, value)
+	[...doc.documentElement.attributes].forEach(({ name, value }) =>
+		preserve(name) || html.setAttribute(name, value)
 	);
 };
 
@@ -75,31 +76,11 @@ export const restoreFocus = ({ activeElement, start, end }: SavedFocus) => {
  * Execute all steps of the original swap function except the swap of the body element.
  * Accepts a function to substitute the swap of the body element.
  */
-export const customSwap = (doc: Document, swapBody: (doc: Document) => void) => {
+export const customSwap = (doc: Document, rootAttributesToPreserve: string[] = [], swapBody: (doc: Document) => void) => {
 	disarmKnownScripts(doc);
-	swapInHTMLAttributes(doc);
+	swapInHTMLAttributes(doc, rootAttributesToPreserve);
 	swapInHeadElements(doc);
 	const savedFocus = saveFocus();
 	swapBody(doc);
 	restoreFocus(savedFocus);
 };
-
-/*
- * Default swap function
- *
-const defaultSwap = (beforeSwapEvent: TransitionBeforeSwapEvent) => {
-	customSwap(beforeSwapEvent.newDocument, (doc) => {
-		// Persist elements in the existing body
-		const oldBody = document.body;
-		document.body.replaceWith(doc.body);
-
-		for (const el of oldBody.querySelectorAll(`[${PERSIST_ATTR}]`)) {
-			const id = el.getAttribute(PERSIST_ATTR);
-			const newEl = document.querySelector(`[${PERSIST_ATTR}="${id}"]`);
-			if (newEl) {
-				newEl.replaceWith(el);
-			}
-		}
-	});
-};
-*/

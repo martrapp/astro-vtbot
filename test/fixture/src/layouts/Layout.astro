@@ -2,13 +2,14 @@
 import { ViewTransitions } from 'astro:transitions';
 export interface Props {
 	title: string;
+	lang?: string;
 }
 
-const { title } = Astro.props;
+const { title, lang="en" } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<slot name="head" />
 		<ViewTransitions />
