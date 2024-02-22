@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.5.0
+
+### Minor Changes
+
+- c6902df: [ReplacementSwap] Adds the ability to preserve attributes of the `<html>` root element.
+
 ## 1.4.7 - 2024-02-07
 
 ### Patch Changes
