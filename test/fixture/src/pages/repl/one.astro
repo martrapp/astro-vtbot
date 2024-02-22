@@ -3,8 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import ReplacementSwap from 'astro-vtbot/components/ReplacementSwap.astro';
 ---
 
-<Layout title="Repl1">
-	<ReplacementSwap slot="head" />
+<Layout lang="es" title="Repl1">
+	<ReplacementSwap slot="head" rootAttributesToPreserve="theme" />
 	<header data-vtbot-replace="footer">Header1</header>
 	<main data-vtbot-replace="main">Main1<a id="two" href="/repl/two/">two</a></main>
 	<a id="four" href="/repl/four/">four</a>

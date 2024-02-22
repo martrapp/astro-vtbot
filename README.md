@@ -11,6 +11,10 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
+> ↹  You can now tell the  `<ReplacementSwap />` component which attributes of the `<html>`element [to preserve]() during view transitions!
+
+### Recently learned tricks ##
+
 > ⏳ [New Component](https://events-3bg.pages.dev/library/LoadingIndicator/): `<LoadingIndicator/>` is added per default when `astro-vtbot` is installed as an Astro integration with `npx astro add astro-vtbot`.
 
 > 🎥 The bag of tricks now includes [pre-built animations](https://events-3bg.pages.dev/animations/one/) that you can use with your view transitions, just like Astro's built-in `fade()` and `slide()`! Use vtbot's `zoom()` and `swing()` with Astro's `transition:animate` or enjoy completely new freedom in designing view transitions using the advanced parameterization options and the new `<AnimationStyle/>` component!
