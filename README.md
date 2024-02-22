@@ -11,7 +11,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> ↹  You can now tell the  `<ReplacementSwap />` component which attributes of the `<html>`element [to preserve]() during view transitions!
+> ↹  You can now tell the  `<ReplacementSwap />` component which attributes of the `<html>`element [to preserve](https://events-3bg.pages.dev/library/ReplacementSwap/#properties) during view transitions!
 
 ### Recently learned tricks ##
 
