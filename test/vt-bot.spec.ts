@@ -73,10 +73,10 @@ test.describe('ReplacementSwap', () => {
 	test('can swap lang attribute', async ({ page }) => {
 		await page.goto('/repl/one/');
 		await expect(page).toHaveTitle('Repl1');
-		expect(await (page.locator('html').getAttribute('lang'))).toBe('es');
+		expect(await page.locator('html').getAttribute('lang')).toBe('es');
 		await page.locator('#two').click();
 		await expect(page).toHaveTitle('Repl2');
-		expect(await (page.locator('html').getAttribute('lang'))).toBe('de');
+		expect(await page.locator('html').getAttribute('lang')).toBe('de');
 	});
 	test('can persist html attributes', async ({ page }) => {
 		await page.goto('/repl/one/');
@@ -85,14 +85,14 @@ test.describe('ReplacementSwap', () => {
 		await page.locator('html').evaluate((el, value) => el.setAttribute('dark', value), 'very');
 		await page.locator('#two').click();
 		await expect(page).toHaveTitle('Repl2');
-		expect(await (page.locator('html').getAttribute('theme'))).toBe('dark');
-		expect(await (page.locator('html').getAttribute('dark'))).toBe(null);
+		expect(await page.locator('html').getAttribute('theme')).toBe('dark');
+		expect(await page.locator('html').getAttribute('dark')).toBe(null);
 		await page.locator('html').evaluate((el, value) => el.setAttribute('theme', value), 'dark');
 		await page.locator('html').evaluate((el, value) => el.setAttribute('dark', value), 'very');
 		await page.locator('#one').click();
 		await expect(page).toHaveTitle('Repl1');
-		expect(await (page.locator('html').getAttribute('theme'))).toBe(null);
-		expect(await (page.locator('html').getAttribute('dark'))).toBe('very');
+		expect(await page.locator('html').getAttribute('theme')).toBe(null);
+		expect(await page.locator('html').getAttribute('dark')).toBe('very');
 	});
 });
 

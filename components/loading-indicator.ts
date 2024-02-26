@@ -36,7 +36,13 @@ export function initialize(onPageLoad?: () => void | Promise<void>, lowPrio = fa
 	document.addEventListener(TRANSITION_BEFORE_SWAP, doHide);
 }
 
-type Options = { src: string|undefined; top: string|undefined; bottom: string|undefined; left: string|undefined; right: string|undefined };
+type Options = {
+	src: string | undefined;
+	top: string | undefined;
+	bottom: string | undefined;
+	left: string | undefined;
+	right: string | undefined;
+};
 
 export async function vtbotLoadingIndicator(options: Options) {
 	const loadingIndicator = document.getElementById('vtbot-loading-indicator');

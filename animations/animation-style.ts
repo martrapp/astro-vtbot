@@ -5,7 +5,7 @@ type Kebab<T extends string, A extends string = ''> = T extends `${infer F}${inf
 	: A;
 type KebabKeys<T> = { [K in keyof T as K extends string ? Kebab<K> : K]: T[K] };
 type AnimationCSS = KebabKeys<Partial<CSSStyleDeclaration>>;
-export type NamedAnimationPairs = Record<string, { new?: AnimationCSS; old?: AnimationCSS; }>;
+export type NamedAnimationPairs = Record<string, { new?: AnimationCSS; old?: AnimationCSS }>;
 export type ScopeAndStyles = {
 	scope: string;
 	styles: string;
@@ -117,6 +117,6 @@ const framesMap: Record<string, string> = {};
 export const setKeyframes = (name: string, css: string) => (framesMap[name] = css);
 export const getKeyframes = (name: string) => framesMap[name];
 
-const stylesMap: Record<string,string> = {};
+const stylesMap: Record<string, string> = {};
 export const setStyles = (name: string, css: string) => (stylesMap[name] = css);
 export const getStyles = (name: string) => stylesMap[name];

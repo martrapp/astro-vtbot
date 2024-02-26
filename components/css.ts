@@ -3,7 +3,7 @@
 
 const decodeDiv = document.createElement('div');
 
-export const ILLEGAL_TRANSITION_NAMES = "data-vtbot-illegal-transition-names"
+export const ILLEGAL_TRANSITION_NAMES = 'data-vtbot-illegal-transition-names';
 export function astroContextIds() {
 	const inStyleSheets = new Set<string>();
 	const inElements = new Set<string>();
@@ -38,7 +38,6 @@ export function astroContextIds() {
 	return { inStyleSheets, inElements };
 }
 
-
 type SupportedCSSProperties = 'view-transition-name';
 // finds all elements of a _the current document_ with a given _string_ property in a style sheet
 // document.styleSheets does not seem to work for arbitrary documents
@@ -54,7 +53,7 @@ export function elementsWithPropertyinStylesheet(
 		try {
 			[...sheet.cssRules].forEach((rule) => {
 				if (rule instanceof CSSStyleRule && rule.style[property as keyof CSSStyleDeclaration]) {
-					const name = rule.style[property as	keyof CSSStyleDeclaration] as string;
+					const name = rule.style[property as keyof CSSStyleDeclaration] as string;
 					definedNames.delete(name);
 					const els = document.querySelectorAll(rule.selectorText);
 					map.set(name, new Set([...(map.get(name) ?? new Set()), ...[...els]]));
@@ -91,7 +90,6 @@ export function elementsWithPropertyInStyleAttribute(
 	});
 	return map;
 }
-
 
 // finds all elements _of the current document_ with a given property
 // in their style attribute or in a style sheet

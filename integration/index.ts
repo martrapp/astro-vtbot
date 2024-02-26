@@ -1,4 +1,4 @@
-import type {AstroIntegration } from 'astro';
+import type { AstroIntegration } from 'astro';
 import vitePluginVtbotExtend from './vite-plugin-extend';
 
 type VtBotOptions = {
