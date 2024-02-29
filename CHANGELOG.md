@@ -1,5 +1,15 @@
 # The Bag of Tricks for View Transitions
 
+## 1.6.0
+
+### Minor Changes
+
+- c0e62e0: Adds a new animation called "Move"
+
+### Patch Changes
+
+- fea73d1: Fix bug with auto inserted root group in VtBotDebug
+
 ## 1.5.0 - 2924-02-22
 
 ### Minor Changes
