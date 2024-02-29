@@ -189,7 +189,8 @@ const active = import.meta.env.DEV || production;
 
 		const bold = (s: string) => `**${s}**`;
 		const map = elementsWithStyleProperty('view-transition-name');
-		map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
+		[...map.values()].filter((set) => set.has(document.documentElement)).length === 0 &&
+			map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
 		const newMap = toCSSSelectorMap(map, 'new');
 		let i = 0;
 
@@ -209,14 +210,14 @@ const active = import.meta.env.DEV || production;
 			const oldSelector = originalMap!.get(name);
 			const newSelector = newMap.get(name);
 
-			logWithStyle(
-				`%ctransition ${++i}%c ${bold(name)} from ${bold(
-					oldSelector ?? '(nowhere)'
-				)} --to-> ${bold(newSelector ?? '(nowhere)')}`,
-				false,
-				ALTERNATE,
-				NORMAL
-			);
+			if (oldSelector || newSelector) {
+				logWithStyle(
+					`%ctransition ${++i}%c ${bold(name)} from ${bold(
+						oldSelector ?? '(nowhere)'
+					)} --to-> ${bold(newSelector ?? '(nowhere)')}`,
+					false
+				);
+			}
 		}
 	};
 
@@ -395,7 +396,8 @@ const active = import.meta.env.DEV || production;
 
 				if (supportsViewTransitions) {
 					const map = elementsWithStyleProperty('view-transition-name');
-					map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
+					[...map.values()].filter((set) => set.has(document.documentElement)).length === 0 &&
+						map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
 					window._vtbot_debug.originalMap = toCSSSelectorMap(map, 'old');
 				}
 				const originalSwap = swapEvent.swap;
