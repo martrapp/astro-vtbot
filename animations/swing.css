@@ -38,3 +38,6 @@
 		opacity: 1;
 	}
 }
+::view-transition-image-pair(*) {
+	perspective: 50cm;
+}

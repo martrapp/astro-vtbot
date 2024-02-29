@@ -32,8 +32,7 @@ export const genKeyframes = (
 ) =>
 	setKeyframes(
 		keyframeNamePrefix,
-		`
-		@keyframes ${keyframeNamePrefix}FwdSwingOut {
+		`@keyframes ${keyframeNamePrefix}FwdSwingOut {
 		from {
 			transform: rotate3d(${x}, ${y}, ${z}, 0);
 			opacity: 1;
@@ -84,7 +83,11 @@ export const genKeyframes = (
 			transform: rotate3d(${x}, ${y}, ${z}, 0);
 			opacity: 1;
 		}
-	}`
+	}
+	::view-transition-image-pair(*) {
+		perspective: 50cm;
+	}
+	`
 	);
 
 export type AnimationProperties = Omit<TransitionAnimation, 'name'>;

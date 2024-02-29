@@ -11,9 +11,12 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> ↹  You can now tell the  `<ReplacementSwap />` component which attributes of the `<html>`element [to preserve](https://events-3bg.pages.dev/library/ReplacementSwap/#properties) during view transitions!
+The [animation demo](https://events-3bg.pages.dev/animations/one/) got a new row of examples featuring the new [`move()` animation](https://events-3bg.pages.dev/library/Move/)!
 
 ### Recently learned tricks ##
+
+> ↹  You can now tell the  `<ReplacementSwap />` component which attributes of the `<html>`element [to preserve](https://events-3bg.pages.dev/library/ReplacementSwap/#properties) during view transitions!
+
 
 > ⏳ [New Component](https://events-3bg.pages.dev/library/LoadingIndicator/): `<LoadingIndicator/>` is added per default when `astro-vtbot` is installed as an Astro integration with `npx astro add astro-vtbot`.
 
@@ -31,6 +34,7 @@ The `astro-vtbot`package isn't a monolithic library. Use the components you need
 BrakePad 🦥 | ~0.1k
 Linter 🧹 | ~2k
 LoadingIndicator ⏳ | ~0.6k
+Move 🚟 | ~0.5k
 NoScroll 📜| ~0.1k
 Portal 🚪 | ~0.3k
 ReplacementSwap ↹ | ~0.5k
