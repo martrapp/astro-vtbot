@@ -11,7 +11,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-The [animation demo](https://events-3bg.pages.dev/animations/one/) got a new row of examples featuring the new [`move()` animation](https://events-3bg.pages.dev/library/Move/)!
+> The [animation demo](https://events-3bg.pages.dev/animations/one/) got a new row of examples featuring the new [`move()` animation](https://events-3bg.pages.dev/library/Move/)!
 
 ### Recently learned tricks ##
 
