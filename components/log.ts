@@ -17,3 +17,12 @@ export function groupCollapsed(...args: any[]) {
 export function group(...args: any[]) {
 	console.group(PREFIX + (args.shift() ?? ''), PREFIX_ON, PREFIX_OFF, ...args);
 }
+export function slog(...args: any[]) {
+	console.log(...args);
+}
+export function sgroupCollapsed(...args: any[]) {
+	console.groupCollapsed(...args);
+}
+export function sgroup(...args: any[]) {
+	console.group(...args);
+}

@@ -27,7 +27,7 @@ const active = import.meta.env.DEV || production;
 	} from 'astro:transitions/client';
 	import { elementsWithStyleProperty } from './css';
 	import { deriveCSSSelector } from './derive-css-selector';
-	import * as prefix from './prefix';
+	import * as prefix from './log';
 
 	const BOLD = 'font-weight: 800';
 	const NORMAL = '';
@@ -90,7 +90,7 @@ const active = import.meta.env.DEV || production;
 			css.push(BOLD);
 			css.push(NORMAL);
 		}
-		(usePrefix ? prefix : console).log(s, ...css);
+		prefix[usePrefix ? "log": "slog"](s, ...css);
 	};
 
 	/*
@@ -265,10 +265,10 @@ const active = import.meta.env.DEV || production;
 				s += `${attribute.name}="${attribute.value}" `;
 			}
 			if (script.src) {
-				console.log(s, ALTERNATE, NORMAL);
+				prefix.slog(s, ALTERNATE, NORMAL);
 			} else {
-				console.groupCollapsed(s + 'inline script ', ALTERNATE, NORMAL);
-				console.log(script.textContent ?? '');
+				prefix.sgroupCollapsed(s + 'inline script ', ALTERNATE, NORMAL);
+				prefix.slog(script.textContent ?? '');
 				console.groupEnd();
 			}
 			return idx;
@@ -286,24 +286,24 @@ const active = import.meta.env.DEV || production;
 		const keys = Object.keys(anims);
 		if (keys.length === 0) return;
 		if (keys.length > 1) {
-			console.group(name);
+			prefix.sgroup(name);
 			keys.sort().forEach((anim) => {
 				const a = anims[anim]!;
-				console.log(`${anim} from ${stamp(a.start)} to ${stamp(a.end)}`);
+				prefix.slog(`${anim} from ${stamp(a.start)} to ${stamp(a.end)}`);
 			});
 			console.groupEnd();
 		} else {
 			const k = keys[0]!;
 			const a = anims[k]!;
-			console.log(`${name} ${k} from ${stamp(a.start)} to ${stamp(a.end)}`);
+			prefix.slog(`${name} ${k} from ${stamp(a.start)} to ${stamp(a.end)}`);
 		}
 	}
 
 	function logAnimTransition(name: string, idx: number, transition: AnimTransition) {
 		if (idx >= 0) {
-			console.groupCollapsed(`%ctransition ${++idx} %c${name}`, ALTERNATE, BOLD);
+			prefix.sgroupCollapsed(`%ctransition ${++idx} %c${name}`, ALTERNATE, BOLD);
 		} else {
-			console.groupCollapsed(`%cother`, ALTERNATE);
+			prefix.sgroupCollapsed(`%cother`, ALTERNATE);
 		}
 		const group = `::view-transition-group(${name})`;
 		if (group in transition) {
@@ -371,7 +371,7 @@ const active = import.meta.env.DEV || production;
 				};
 				doCapture(preparationEvent);
 			} else {
-				console.log('not a TransitionBeforePreparationEvent');
+				prefix.slog('not a TransitionBeforePreparationEvent');
 			}
 		}
 	}
@@ -432,7 +432,7 @@ const active = import.meta.env.DEV || production;
 					}
 				);
 			} else {
-				console.log('not a TransitionBeforeSwapEvent');
+				prefix.slog('not a TransitionBeforeSwapEvent');
 			}
 		}
 	}
