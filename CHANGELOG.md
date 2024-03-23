@@ -1,5 +1,13 @@
 # The Bag of Tricks for View Transitions
 
+## 1.6.1
+
+### Patch Changes
+
+- 213aa81: Updates dependencies
+- 36a4944: Improves the detection of the favicon icon.
+- bfb7994: Sync: Adds support for data-astro-rerun
+
 ## 1.6.0 - 2024-02-29
 
 ### Minor Changes
