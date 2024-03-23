@@ -21,43 +21,6 @@
 		};
 
 		/*
-		const file = (stacktrace) => {
-			if (!stacktrace) return '<unknown>';
-			const lines = stacktrace.split('\n');
-			if (lines[0] === 'Error') lines.shift();
-			lines.shift();
-			let line = lines.shift();
-			while (line && line.endsWith('[native code]')) {
-				line = lines.shift();
-			}
-			if (!line) return '<unknown>';
-			const match = line.match(/@(.*):\d+:\d+$|at (.*):\d+:\d+$|\((.*):\d+:\d+\)$/);
-			return match ? match[1] ?? match[2] ?? match[3] : '<unknown>';
-		};
-
-
-		const originalAddEventListener = EventTarget.prototype.addEventListener;
-		EventTarget.prototype.addEventListener = function (eventName, eventHandler) {
-			if (this !== window || this !== document) {
-				const srcFile = file(new Error().stack);
-				if (srcFile === '<unknown>') {
-					console.warn(
-						'Could not determine source file for event listener',
-						this,
-						eventName,
-						eventHandler
-					);
-				}
-				const scripts = window._vtbot_debug.listeningScripts;
-				const script = (scripts[srcFile] ??= new Map());
-				script.has(this) || script.set(this, new Set());
-				script.get(this).add('event: ' + eventName);
-			}
-			originalAddEventListener.call(this, eventName, eventHandler);
-		};
-		*/
-
-		/*
 		 * capture the event properties at beginning of the processing phase
 		 */
 		const startProcessing = (e) => {
