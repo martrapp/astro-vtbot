@@ -11,7 +11,9 @@ type SavedFocus = {
 export const disarmKnownScripts = (doc: Document) => {
 	[...doc.scripts].forEach((newScript) => {
 		newScript.dataset.astroExec = '';
-		const found = [...document.scripts].find((oldScript) => oldScript.isEqualNode(newScript));
+		const found =
+			!newScript.hasAttribute('data-astro-rerun') &&
+			[...document.scripts].find((oldScript) => oldScript.isEqualNode(newScript));
 		if (!found) delete newScript.dataset.astroExec;
 	});
 };
