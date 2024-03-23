@@ -50,7 +50,7 @@ export async function vtbotLoadingIndicator(options: Options) {
 
 	const favicon =
 		(options.src ||
-			(document.querySelector(`link[rel="icon"]:last-of-type`) as HTMLLinkElement)?.href) ??
+			(document.querySelector(`link[rel*="icon"]:last-of-type`) as HTMLLinkElement)?.href) ??
 		'/favicon.ico';
 
 	let src = '';
