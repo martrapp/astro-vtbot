@@ -1,0 +1,87 @@
+---
+export interface Props {}
+---
+
+<script>
+	function afterLoad(e: TransitionBeforePreparationEvent) {
+		closeMobileMenu();
+		markMainFrameForReplacementSwap(document);
+		markMainFrameForReplacementSwap(e.newDocument);
+		setTransitionScope(e);
+	}
+
+	function beforeSwap(e: TransitionBeforeSwapEvent) {
+		removeCurrentPageMarker();
+		setCurrentPageMarker(e);
+	}
+
+	function closeMobileMenu() {
+		if (document.body.hasAttribute('data-mobile-menu-expanded')) {
+			document.body
+				.querySelector('starlight-menu-button')!
+				.closest('nav')!
+				.dispatchEvent(
+					new KeyboardEvent('keyup', {
+						key: 'Escape',
+						code: 'Escape',
+						charCode: 27,
+						keyCode: 27,
+						shiftKey: false,
+						ctrlKey: false,
+						altKey: false,
+						metaKey: false,
+					})
+				);
+		}
+	}
+
+	function markMainFrameForReplacementSwap(doc: Document) {
+		doc.body.querySelector('.main-frame')!.setAttribute('data-vtbot-replace', 'main');
+	}
+
+	function setTransitionScope(e: TransitionBeforePreparationEvent) {
+		const meta = document.querySelector('meta[name="vtbot-main-transition-scope"]');
+		if (!meta) return;
+		const mainTransitionScope = (meta as HTMLMetaElement).content || 'none';
+		setMainTransitionScope(document, mainTransitionScope);
+		setMainTransitionScope(e.newDocument, mainTransitionScope);
+
+		function setMainTransitionScope(doc: Document, value: string) {
+			const main = doc.querySelector('.main-frame main') as HTMLElement;
+			main && (main.dataset.astroTransitionScope = value);
+		}
+	}
+
+	function removeCurrentPageMarker() {
+		document.querySelector('[aria-current="page"]')?.removeAttribute('aria-current');
+	}
+
+	function setCurrentPageMarker(e: TransitionBeforeSwapEvent) {
+		document
+			.querySelector(`.sidebar-pane a[href="${e.to.pathname}"]`)
+			?.setAttribute('aria-current', 'page');
+	}
+
+	import {
+		TRANSITION_BEFORE_PREPARATION,
+		TRANSITION_BEFORE_SWAP,
+		TransitionBeforePreparationEvent,
+		TransitionBeforeSwapEvent,
+		isTransitionBeforePreparationEvent,
+		isTransitionBeforeSwapEvent,
+	} from 'astro:transitions/client';
+
+	document.addEventListener(TRANSITION_BEFORE_PREPARATION, (e) => {
+		if (isTransitionBeforePreparationEvent(e)) {
+			const originalLoader = e.loader;
+			e.loader = async () => {
+				await originalLoader();
+				afterLoad(e);
+			};
+		}
+	});
+
+	document.addEventListener(TRANSITION_BEFORE_SWAP, (e) => {
+		if (isTransitionBeforeSwapEvent(e)) beforeSwap(e);
+	});
+</script>
