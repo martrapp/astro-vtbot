@@ -1,5 +1,15 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.0 - 2024-04-01
+
+### Minor Changes
+
+- 6f0992b: Adds support for enabling view transitions for Starlight sites!
+
+### Patch Changes
+
+- 3141b05: [Linter]: Stop complaining about unused styling scopes.
+
 ## 1.6.1 - 2024-03-23
 
 ### Patch Changes
