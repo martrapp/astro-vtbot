@@ -1,5 +1,6 @@
 /// <reference types="astro/client" />
 import {
+	TRANSITION_AFTER_PREPARATION,
 	TRANSITION_BEFORE_PREPARATION,
 	TRANSITION_BEFORE_SWAP,
 	TRANSITION_PAGE_LOAD,
@@ -33,7 +34,7 @@ export function initialize(onPageLoad?: () => void | Promise<void>, lowPrio = fa
 	if (!(initializer && lowPrio)) initializer = onPageLoad;
 	document.addEventListener(TRANSITION_PAGE_LOAD, doInit);
 	document.addEventListener(TRANSITION_BEFORE_PREPARATION, doShow);
-	document.addEventListener(TRANSITION_BEFORE_SWAP, doHide);
+	document.addEventListener(TRANSITION_AFTER_PREPARATION, doHide);
 }
 
 type Options = {

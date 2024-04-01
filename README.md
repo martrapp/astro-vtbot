@@ -11,34 +11,36 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> The [animation demo](https://events-3bg.pages.dev/animations/one/) got a new row of examples featuring the new [`move()` animation](https://events-3bg.pages.dev/library/Move/)!
+### 🌟 STARLIGHT EDITION 🌟
+> The [Jotter](https://events-3bg.pages.dev/jotter/) now leverages Starlight! The beginning of a more structured and searchable version of the pile of notes that it was.
+
+> Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
 
 ### Recently learned tricks ##
 
-> ↹  You can now tell the  `<ReplacementSwap />` component which attributes of the `<html>`element [to preserve](https://events-3bg.pages.dev/library/ReplacementSwap/#properties) during view transitions!
-
+> The [animation demo](https://events-3bg.pages.dev/animations/one/) got a new row of examples featuring the new [`move()` animation](https://events-3bg.pages.dev/library/Move/)!
 
 > ⏳ [New Component](https://events-3bg.pages.dev/library/LoadingIndicator/): `<LoadingIndicator/>` is added per default when `astro-vtbot` is installed as an Astro integration with `npx astro add astro-vtbot`.
-
-> 🎥 The bag of tricks now includes [pre-built animations](https://events-3bg.pages.dev/animations/one/) that you can use with your view transitions, just like Astro's built-in `fade()` and `slide()`! Use vtbot's `zoom()` and `swing()` with Astro's `transition:animate` or enjoy completely new freedom in designing view transitions using the advanced parameterization options and the new `<AnimationStyle/>` component!
 
 ## Reusable Components 🧩
 
 - In need for extensions for view transitions because you have issues with iframes on your pages?
-- Wanting support in understanding and debugging view transitions or simply want a second pair of eyes on your view transition settings?
+- Wanting support in understanding and debugging view transitions or simply want a second pair of eyes 👀 on your view transition settings?
 - Looking for reusable animations or special transition effects?
+- Want to use view transitions on your Starlight site?
 
 The `astro-vtbot`package isn't a monolithic library. Use the components you need and only pay bandwidth for those.
 |Component|Brotli bytes added|
 |-------|-----------------|
 Animation Style ✨| ~0.1k
 BrakePad 🦥 | ~0.1k
-Linter 🧹 | ~2k
+Linter 🧹 | ~2.0k
 LoadingIndicator ⏳ | ~0.6k
 Move 🚟 | ~0.5k
 NoScroll 📜| ~0.1k
 Portal 🚪 | ~0.3k
 ReplacementSwap ↹ | ~0.5k
+Starlight &hellip; 🌟 | ~3.0k
 Swing 🎷 | ~0.5k
 VtBotDebug 🐛 | ~2.7k
 Zoom 🔎 | ~0.5k
@@ -67,7 +69,7 @@ The sources are in [this repository](https://github.com/martrapp/astro-vtbot-web
 
 ## The Jotter 📓
 
-Last but not least, the deployment also includes the [▶ Jotter ◀](https://events-3bg.pages.dev/docs/Jotter/) with a wealth of information on transition events as well as background information and valuable tips & tricks on view transitions in Astro.
+Last but not least, the deployment also includes the [▶ Jotter ◀](https://events-3bg.pages.dev/jotter/) with a wealth of information on transition events as well as background information and valuable tips & tricks on view transitions in Astro.
 
 Some of the contents are technical demos, some are useful tools, and some are reusable components that you can use in your own project to handle edge cases that go beyond Astro's standard features.
 
