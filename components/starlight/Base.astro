@@ -1,6 +1,5 @@
 ---
 import type { Props as StarlightProps } from '@astrojs/starlight/props';
-import StarlightHead from '@astrojs/starlight/components/Head.astro';
 import { ViewTransitions } from 'astro:transitions';
 
 import ReplacementSwap from '../ReplacementSwap.astro';
@@ -12,10 +11,9 @@ export interface Props extends StarlightProps {
 const mainTransitionScope = (Astro.props['data-astro-transition-scope'] as string) || 'none';
 ---
 
-<StarlightHead {...Astro.props} />
+<slot/>
 <ViewTransitions fallback={Astro.props.viewTransitionsFallback} />
 <ReplacementSwap rootAttributesToPreserve="data-theme" />
 <Connector />
 <meta name="vtbot-main-transition-scope" content={mainTransitionScope} />
-<script>
-</script>
+
