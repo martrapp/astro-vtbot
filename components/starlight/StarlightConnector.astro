@@ -53,7 +53,7 @@ export interface Props {}
 	}
 
 	function removeCurrentPageMarker() {
-		document.querySelector('[aria-current="page"]')?.removeAttribute('aria-current');
+		document.querySelector('.sidebar-pane a[aria-current="page"]')?.removeAttribute('aria-current');
 	}
 
 	function setCurrentPageMarker(e: TransitionBeforeSwapEvent) {
