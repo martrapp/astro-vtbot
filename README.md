@@ -14,7 +14,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 ### 🌟 STARLIGHT EDITION 🌟
 > The [Jotter](https://events-3bg.pages.dev/jotter/) now leverages Starlight! The beginning of a more structured and searchable version of the pile of notes that it was.
 
-> Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and look like a SPA!
+> Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
 
 ### Recently learned tricks ##
 
