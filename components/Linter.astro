@@ -229,19 +229,6 @@ const active = import.meta.env.DEV || production;
 			);
 			console.groupEnd();
 		});
-		if (notUsed.size > 0) {
-			group(
-				`%c[vtbot-linter] Unused styles can remain if for example all originally using HTML elements have been moved to another DOM. `,
-				WARNING
-			);
-			notUsed.forEach((id) => {
-				console.log(
-					`%c[vtbot-linter] scoped style id "${id}" is defined ${here} but not used in any HTML element. `,
-					WARNING
-				);
-			});
-			console.groupEnd();
-		}
 	}
 
 	function flagSuspiciousScriptTypes(event: TransitionBeforeSwapEvent) {
