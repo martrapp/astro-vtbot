@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.2 - 2024-04-02
+
+### Patch Changes
+
+- 9e8532a: Fixes a bug accessing an attribute of null when linking to view transition pages outside the starlight site.
+
 ## 1.7.1 - 2024-04-02
 
 ### Patch Changes
