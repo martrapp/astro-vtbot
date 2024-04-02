@@ -1,10 +1,10 @@
 # The Bag of Tricks for View Transitions
 
-## 1.7.1
+## 1.7.1 - 2024-04-02
 
 ### Patch Changes
 
-- 0a21a85: Fixes an issue with the sidebar when navigating from or to pages with template:splash
+- 0a21a85: Fixes an issue with the sidebar when navigating from or to pages with `template:splash`
 
 ## 1.7.0 - 2024-04-01
 
