@@ -11,8 +11,7 @@ export interface Props {}
 	}
 
 	function beforeSwap(e: TransitionBeforeSwapEvent) {
-		removeCurrentPageMarker();
-		setCurrentPageMarker(e);
+		updateSidebar(e);
 	}
 
 	function closeMobileMenu() {
@@ -36,7 +35,7 @@ export interface Props {}
 	}
 
 	function markMainFrameForReplacementSwap(doc: Document) {
-		doc.body.querySelector('.main-frame')!.setAttribute('data-vtbot-replace', 'main');
+		doc.body.querySelector('div.main-frame')!.setAttribute('data-vtbot-replace', 'main');
 	}
 
 	function setTransitionScope(e: TransitionBeforePreparationEvent) {
@@ -52,14 +51,24 @@ export interface Props {}
 		}
 	}
 
-	function removeCurrentPageMarker() {
-		document.querySelector('.sidebar-pane a[aria-current="page"]')?.removeAttribute('aria-current');
-	}
-
-	function setCurrentPageMarker(e: TransitionBeforeSwapEvent) {
-		document
-			.querySelector(`.sidebar-pane a[href="${e.to.pathname}"]`)
-			?.setAttribute('aria-current', 'page');
+	function updateSidebar(e: TransitionBeforeSwapEvent) {
+		const newSidebar = e.newDocument.querySelector('nav.sidebar');
+		if (!newSidebar) {
+			document.querySelector('nav.sidebar')?.remove();
+		} else {
+			const sidebar = document.querySelector('nav.sidebar');
+			if (!sidebar) {
+				document.querySelector('div.main-frame')?.insertAdjacentElement('beforebegin', newSidebar);
+			} else {
+				const oldContent = sidebar.querySelector('.sidebar-content');
+				const newContent = newSidebar.querySelector('.sidebar-content');
+				if (oldContent && newContent) {
+					oldContent.replaceWith(newContent);
+				} else {
+					sidebar.replaceWith(newSidebar);
+				}
+			}
+		}
 	}
 
 	import {
