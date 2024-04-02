@@ -17,9 +17,7 @@ export interface Props {}
 	function closeMobileMenu() {
 		if (document.body.hasAttribute('data-mobile-menu-expanded')) {
 			document.body
-				.querySelector('starlight-menu-button')!
-				.closest('nav')!
-				.dispatchEvent(
+				.querySelector('starlight-menu-button')?.closest('nav')?.dispatchEvent(
 					new KeyboardEvent('keyup', {
 						key: 'Escape',
 						code: 'Escape',
@@ -35,7 +33,7 @@ export interface Props {}
 	}
 
 	function markMainFrameForReplacementSwap(doc: Document) {
-		doc.body.querySelector('div.main-frame')!.setAttribute('data-vtbot-replace', 'main');
+		doc.body.querySelector('div.main-frame')?.setAttribute('data-vtbot-replace', 'main');
 	}
 
 	function setTransitionScope(e: TransitionBeforePreparationEvent) {
