@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.3 - 2024-04-05
+
+### Patch Changes
+
+- 3e61ad9: Fixes an issue where view transitions reset Starlight's ThemeSelector to show an incorrect value.
+
 ## 1.7.2 - 2024-04-02
 
 ### Patch Changes
