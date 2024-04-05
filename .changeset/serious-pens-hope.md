@@ -2,4 +2,4 @@
 "astro-vtbot": patch
 ---
 
-Fixes an issue where Starlight's ThemeSelector displayed the wrong theme
+Fixes an issue where view transitions reset Starlight's ThemeSelector to show an incorrect value.
