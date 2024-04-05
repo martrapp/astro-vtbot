@@ -10,14 +10,16 @@ export interface Props {}
 		setTransitionScope(e);
 	}
 
-	function beforeSwap(e: TransitionBeforeSwapEvent) {
+	function afterSwap(e: TransitionBeforeSwapEvent) {
 		updateSidebar(e);
 	}
 
 	function closeMobileMenu() {
 		if (document.body.hasAttribute('data-mobile-menu-expanded')) {
 			document.body
-				.querySelector('starlight-menu-button')?.closest('nav')?.dispatchEvent(
+				.querySelector('starlight-menu-button')
+				?.closest('nav')
+				?.dispatchEvent(
 					new KeyboardEvent('keyup', {
 						key: 'Escape',
 						code: 'Escape',
@@ -89,6 +91,12 @@ export interface Props {}
 	});
 
 	document.addEventListener(TRANSITION_BEFORE_SWAP, (e) => {
-		if (isTransitionBeforeSwapEvent(e)) beforeSwap(e);
+		if (isTransitionBeforeSwapEvent(e)) {
+			const originalSwap = e.swap;
+			e.swap = () => {
+				originalSwap();
+				afterSwap(e);
+			};
+		}
 	});
 </script>
