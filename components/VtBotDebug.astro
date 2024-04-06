@@ -54,7 +54,7 @@ const active = import.meta.env.DEV || production;
 	prefix.init('[vtbot-debug]', COLORED);
 	const enabled_out = () => !!document.querySelector('meta[name="vtbot-debug"]');
 
-	const enabled_in = () => window._vtbot_debug.closing > 0;
+	const enabled_in = () => window._vtbot_debug?.closing ?? 0 > 0;
 
 	let beginning = 0;
 
