@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.4 - 2024-04-06
+
+### Patch Changes
+
+- b35d054: Makes the viewTransitionsFallback property optional in the Starlight integration.
+
 ## 1.7.3 - 2024-04-05
 
 ### Patch Changes
