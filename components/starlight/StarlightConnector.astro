@@ -3,11 +3,18 @@ export interface Props {}
 ---
 
 <script>
-	function afterLoad(e: TransitionBeforePreparationEvent) {
+	const STARLIGHT_MAIN_FRAME = 'div.main-frame';
+	const STARLIGHT_MAIN_SECTION = `${STARLIGHT_MAIN_FRAME} main`;
+	const STARLIGHT_MOBILE_MENU_EXPANDED = 'data-mobile-menu-expanded';
+	const STARLIGHT_SIDEBAR = 'nav.sidebar';
+	const STARLIGHT_MENU_BUTTON = 'starlight-menu-button';
+	const STARLIGHT_SIDEBAR_CONTENT = `${STARLIGHT_SIDEBAR} .sidebar-content`;
+
+	function afterLoader(e: TransitionBeforePreparationEvent) {
 		closeMobileMenu();
 		markMainFrameForReplacementSwap(document);
 		markMainFrameForReplacementSwap(e.newDocument);
-		setTransitionScope(e);
+		setMainTransitionScope(e);
 	}
 
 	function afterSwap(e: TransitionBeforeSwapEvent) {
@@ -15,9 +22,9 @@ export interface Props {}
 	}
 
 	function closeMobileMenu() {
-		if (document.body.hasAttribute('data-mobile-menu-expanded')) {
+		if (document.body.hasAttribute(STARLIGHT_MOBILE_MENU_EXPANDED)) {
 			document.body
-				.querySelector('starlight-menu-button')
+				.querySelector(STARLIGHT_MENU_BUTTON)
 				?.closest('nav')
 				?.dispatchEvent(
 					new KeyboardEvent('keyup', {
@@ -35,10 +42,10 @@ export interface Props {}
 	}
 
 	function markMainFrameForReplacementSwap(doc: Document) {
-		doc.body.querySelector('div.main-frame')?.setAttribute('data-vtbot-replace', 'main');
+		doc.body.querySelector(STARLIGHT_MAIN_FRAME)?.setAttribute('data-vtbot-replace', 'main');
 	}
 
-	function setTransitionScope(e: TransitionBeforePreparationEvent) {
+	function setMainTransitionScope(e: TransitionBeforePreparationEvent) {
 		const meta = document.querySelector('meta[name="vtbot-main-transition-scope"]');
 		if (!meta) return;
 		const mainTransitionScope = (meta as HTMLMetaElement).content || 'none';
@@ -46,22 +53,24 @@ export interface Props {}
 		setMainTransitionScope(e.newDocument, mainTransitionScope);
 
 		function setMainTransitionScope(doc: Document, value: string) {
-			const main = doc.querySelector('.main-frame main') as HTMLElement;
+			const main = doc.querySelector(STARLIGHT_MAIN_SECTION) as HTMLElement;
 			main && (main.dataset.astroTransitionScope = value);
 		}
 	}
 
 	function updateSidebar(e: TransitionBeforeSwapEvent) {
-		const newSidebar = e.newDocument.querySelector('nav.sidebar');
+		const newSidebar = e.newDocument.querySelector(STARLIGHT_SIDEBAR);
 		if (!newSidebar) {
-			document.querySelector('nav.sidebar')?.remove();
+			document.querySelector(STARLIGHT_SIDEBAR)?.remove();
 		} else {
-			const sidebar = document.querySelector('nav.sidebar');
+			const sidebar = document.querySelector(STARLIGHT_SIDEBAR);
 			if (!sidebar) {
-				document.querySelector('div.main-frame')?.insertAdjacentElement('beforebegin', newSidebar);
+				document
+					.querySelector(STARLIGHT_MAIN_FRAME)
+					?.insertAdjacentElement('beforebegin', newSidebar);
 			} else {
-				const oldContent = sidebar.querySelector('.sidebar-content');
-				const newContent = newSidebar.querySelector('.sidebar-content');
+				const oldContent = sidebar.querySelector(STARLIGHT_SIDEBAR_CONTENT);
+				const newContent = newSidebar.querySelector(STARLIGHT_SIDEBAR_CONTENT);
 				if (oldContent && newContent) {
 					oldContent.replaceWith(newContent);
 				} else {
@@ -85,7 +94,7 @@ export interface Props {}
 			const originalLoader = e.loader;
 			e.loader = async () => {
 				await originalLoader();
-				afterLoad(e);
+				afterLoader(e);
 			};
 		}
 	});
