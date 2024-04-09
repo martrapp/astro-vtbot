@@ -51,7 +51,7 @@ export interface Props {}
 		document
 			.querySelectorAll('[aria-current="page"]')
 			?.forEach((el) => el.removeAttribute('aria-current'));
-		const currentPage = e.newDocument.querySelector(
+		const currentPage = document.querySelector(
 			`${STARLIGHT_SIDEBAR_CONTENT} a[href="${e.to.pathname}"]`
 		);
 		currentPage?.setAttribute('aria-current', 'page');
