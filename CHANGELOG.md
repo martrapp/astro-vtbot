@@ -1,5 +1,9 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.7 - 2024-04-09
+
+- 614712e: Fixes a bug in updateCurrentPageMarker
+
 ## 1.7.6 - 2024-04-09
 
 ### Patch Changes
