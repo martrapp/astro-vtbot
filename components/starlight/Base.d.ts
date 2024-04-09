@@ -1,1 +1,1 @@
-export default function Base(_props: import('./Head.astro').Props): any;
+export default function Base(_props: import('./Base.astro').Props): any;
