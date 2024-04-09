@@ -11,9 +11,9 @@ export interface Props {}
 	const STARLIGHT_SIDEBAR_CONTENT = `${STARLIGHT_SIDEBAR} .sidebar-content`;
 
 	function afterLoader(e: TransitionBeforePreparationEvent) {
-		closeMobileMenu();
 		markMainFrameForReplacementSwap(document);
 		markMainFrameForReplacementSwap(e.newDocument);
+		closeMobileMenu();
 		setMainTransitionScope(e);
 	}
 
