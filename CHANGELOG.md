@@ -1,5 +1,12 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.5 - 2024-04-09
+
+### Patch Changes
+
+- 6bbd038: Fixes a bug with VtBotDebug when included in production build.
+- 53388e2: Makes the coding more defensive and the dependencies on the Starlight page structure more obvious.
+
 ## 1.7.4 - 2024-04-06
 
 ### Patch Changes
