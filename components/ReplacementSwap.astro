@@ -39,7 +39,7 @@ const { rootAttributesToPreserve = '' } = Astro.props;
 						const oldEl = oldEls.find((el) => (el as HTMLElement).dataset.vtbotReplace === name);
 						const newEl = newEls.find((el) => (el as HTMLElement).dataset.vtbotReplace === name);
 						if (oldEl && newEl) {
-							oldEl.replaceWith(newEl);
+							astroBodySwap(oldEl, newEl);
 						}
 					});
 					[...document.querySelectorAll("[class*='astro-route-announcer']")].forEach((e) =>
@@ -49,4 +49,27 @@ const { rootAttributesToPreserve = '' } = Astro.props;
 			};
 		}
 	});
+
+	function astroBodySwap(oldEl: Element, newEl: Element) {
+		const PERSIST_ATTR = 'data-astro-transition-persist';
+
+		const shouldCopyProps = (el: HTMLElement) => {
+			const persistProps = el.dataset.astroTransitionPersistProps;
+			return persistProps == null || persistProps === 'false';
+		};
+
+		oldEl.replaceWith(newEl);
+
+		for (const el of oldEl.querySelectorAll(`[${PERSIST_ATTR}]`)) {
+			const id = el.getAttribute(PERSIST_ATTR);
+			const newEl = document.querySelector(`[${PERSIST_ATTR}="${id}"]`);
+			if (newEl) {
+				newEl.replaceWith(el);
+				if (el.localName === 'astro-island' && shouldCopyProps(el as HTMLElement)) {
+					el.setAttribute('ssr', '');
+					el.setAttribute('props', newEl.getAttribute('props')!);
+				}
+			}
+		}
+	}
 </script>

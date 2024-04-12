@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ReplacementSwap from 'astro-vtbot/components/ReplacementSwap.astro';
+---
+
+<Layout title="Repl6">
+	<ReplacementSwap slot="head" />
+	<header>Header6</header>
+	<main data-vtbot-replace="main1">
+		<div>
+			<p>test5</p>
+			<p data-astro-transition-persist="homer"></p>
+		</div>
+	</main>
+	<main data-vtbot-replace="main2">
+		<div>
+			<p>test7</p>
+			<p data-astro-transition-persist="simpson"></p>
+		</div>
+		<a id="five" href="/repl/five/">five</a>
+	</main>
+	<footer>Footer6</footer>
+</Layout>
