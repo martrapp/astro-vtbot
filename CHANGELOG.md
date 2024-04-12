@@ -1,5 +1,13 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.8
+
+### Patch Changes
+
+- 2ca7b06: Adds a reusable, improved way to identify sidebar entries.
+- 2e96f5e: Adds handling of data-astro-transition-persist to ReplacementSwap for replaced content.
+- 93b47de: Improves sidebar handling: Automatically opens categories when navigated to and scrolls them into view.
+
 ## 1.7.7 - 2024-04-09
 
 - 614712e: Fixes a bug in updateCurrentPageMarker
