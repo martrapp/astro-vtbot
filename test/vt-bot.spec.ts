@@ -1,5 +1,4 @@
 import { test, expect, Page } from '@playwright/test';
-import { error } from 'console';
 
 test.describe('Setup', () => {
 	test('server running', async ({ page }) => {
@@ -94,6 +93,15 @@ test.describe('ReplacementSwap', () => {
 		expect(await page.locator('html').getAttribute('theme')).toBe(null);
 		expect(await page.locator('html').getAttribute('dark')).toBe('very');
 	});
+
+	test('can handle data-astro-transition-persist', async ({ page }) => {
+		await page.goto('/repl/five/');
+		await expect(page).toHaveTitle('Repl5');
+		await page.locator('#six').click();
+		await expect(page).toHaveTitle('Repl6');
+		expect(await page.locator('main #persist').count()).toBe(1);
+	});
+
 });
 
 test.describe('Linter component', () => {

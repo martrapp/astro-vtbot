@@ -11,16 +11,22 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
+### More Starlight Improvements: ###
+> Improved sidebar handling: When you navigate to a page that has its entry within a collapsed category, the category is now automatically turned open. If the current page marker is outside the visible
+part of the sidebar, it is automatically scrolled into view.
+
+> If you want to use `transition:persist` inside the main content area, you can do that now! As of v1.7.8 the `<ReplacementSwap />` component handles `data-astro-transition-persist` attributes within the replaced DOM trees in the same way as Astro's built-in `swap()` function does.
+
+### Recently learned tricks ##
+
 ### 🌟 STARLIGHT EDITION 🌟
 > The [Jotter](https://events-3bg.pages.dev/jotter/) now leverages Starlight! The beginning of a more structured and searchable version of the pile of notes that it was.
 
 > Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
 
-### Recently learned tricks ##
 
 > The [animation demo](https://events-3bg.pages.dev/animations/one/) got a new row of examples featuring the new [`move()` animation](https://events-3bg.pages.dev/library/Move/)!
 
-> ⏳ [New Component](https://events-3bg.pages.dev/library/LoadingIndicator/): `<LoadingIndicator/>` is added per default when `astro-vtbot` is installed as an Astro integration with `npx astro add astro-vtbot`.
 
 ## Reusable Components 🧩
 
