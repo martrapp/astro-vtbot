@@ -1,0 +1,33 @@
+export const MAIN_FRAME = 'div.main-frame';
+export const MAIN_SECTION = `${MAIN_FRAME} main`;
+export const MOBILE_MENU_EXPANDED = 'data-mobile-menu-expanded';
+export const MENU_BUTTON = 'starlight-menu-button';
+export const SIDEBAR = 'nav.sidebar';
+export const SIDEBAR_CONTENT = `${SIDEBAR} .sidebar-content`;
+
+/*
+ * Returns the the sidebar anchor that best fits the parameter URL.
+ */
+export function sidebarEntry(url: URL): Element | null {
+	const normalized = normalize(url.href);
+	const target = normalized.split('');
+	const anchors = document.querySelectorAll<HTMLAnchorElement>(`${SIDEBAR_CONTENT} a`);
+	if (anchors.length === 0) return null;
+
+	const anchorsArray = [...anchors];
+	const normalizedArray = anchorsArray.map((anchor) =>
+		normalize(new URL(anchor.href, location.href).href)
+	);
+
+	return anchorsArray[
+		normalizedArray
+			.map((href) => href.split('').findIndex((char, index) => char !== target[index]))
+			.map((len, idx) => len !== -1 ? len
+				: Math.min(normalized.length, normalizedArray[idx].length) + (normalized.length === normalizedArray[idx].length ? 1 : 0))
+			.reduce((best, current, idx, arr) => (current > arr[best] ? idx : best), 0)
+	];
+}
+
+function normalize(url: string): string {
+	return url.replace(/\/#/, '#').replace(/\/$/, '');
+}
