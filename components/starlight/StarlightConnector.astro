@@ -3,13 +3,12 @@ export interface Props {}
 ---
 
 <script>
-	const STARLIGHT_MAIN_FRAME = 'div.main-frame';
-	const STARLIGHT_MAIN_SECTION = `${STARLIGHT_MAIN_FRAME} main`;
-	const STARLIGHT_MOBILE_MENU_EXPANDED = 'data-mobile-menu-expanded';
-	const STARLIGHT_SIDEBAR = 'nav.sidebar';
-	const STARLIGHT_MENU_BUTTON = 'starlight-menu-button';
-	const STARLIGHT_SIDEBAR_CONTENT = `${STARLIGHT_SIDEBAR} .sidebar-content`;
-	const REPLACE_SIDEBAR_CONTENT = 'vtbot-starlight-replace-sidebar-content';
+	import { sidebarEntry } from './utils';
+	import * as STARLIGHT from './utils';
+
+	export const REPLACE_SIDEBAR_CONTENT = 'vtbot-starlight-replace-sidebar-content';
+
+	openCurrentCategory();
 
 	function afterLoader(e: TransitionBeforePreparationEvent) {
 		markMainFrameForReplacementSwap(document);
@@ -21,14 +20,15 @@ export interface Props {}
 
 	function afterSwap(e: TransitionBeforeSwapEvent) {
 		updateSidebar(e);
+		openCurrentCategory();
 	}
 
 	/* ---------------- */
 
 	function closeMobileMenu() {
-		if (document.body.hasAttribute(STARLIGHT_MOBILE_MENU_EXPANDED)) {
+		if (document.body.hasAttribute(STARLIGHT.MOBILE_MENU_EXPANDED)) {
 			document.body
-				.querySelector(STARLIGHT_MENU_BUTTON)
+				.querySelector(STARLIGHT.MENU_BUTTON)
 				?.closest('nav')
 				?.dispatchEvent(
 					new KeyboardEvent('keyup', {
@@ -49,16 +49,14 @@ export interface Props {}
 		const replace = document.querySelector(`meta[name="${REPLACE_SIDEBAR_CONTENT}"]`);
 		if (replace) return;
 		document
-			.querySelectorAll('[aria-current="page"]')
+			.querySelectorAll(`${STARLIGHT.SIDEBAR_CONTENT} [aria-current="page"]`)
 			?.forEach((el) => el.removeAttribute('aria-current'));
-		const currentPage = document.querySelector(
-			`${STARLIGHT_SIDEBAR_CONTENT} a[href="${e.to.pathname}"]`
-		);
-		currentPage?.setAttribute('aria-current', 'page');
+
+		sidebarEntry(e.to)?.setAttribute('aria-current', 'page');
 	}
 
 	function markMainFrameForReplacementSwap(doc: Document) {
-		doc.body.querySelector(STARLIGHT_MAIN_FRAME)?.setAttribute('data-vtbot-replace', 'main');
+		doc.body.querySelector(STARLIGHT.MAIN_FRAME)?.setAttribute('data-vtbot-replace', 'main');
 	}
 
 	function setMainTransitionScope(e: TransitionBeforePreparationEvent) {
@@ -69,26 +67,26 @@ export interface Props {}
 		setMainTransitionScope(e.newDocument, mainTransitionScope);
 
 		function setMainTransitionScope(doc: Document, value: string) {
-			const main = doc.querySelector(STARLIGHT_MAIN_SECTION) as HTMLElement;
+			const main = doc.querySelector(STARLIGHT.MAIN_SECTION) as HTMLElement;
 			main && (main.dataset.astroTransitionScope = value);
 		}
 	}
 
 	function updateSidebar(e: TransitionBeforeSwapEvent) {
 		const replace = document.querySelector(`meta[name="${REPLACE_SIDEBAR_CONTENT}"]`);
-		const newSidebar = e.newDocument.querySelector(STARLIGHT_SIDEBAR);
+		const newSidebar = e.newDocument.querySelector(STARLIGHT.SIDEBAR);
 		if (!newSidebar) {
-			document.querySelector(STARLIGHT_SIDEBAR)?.remove();
+			document.querySelector(STARLIGHT.SIDEBAR)?.remove();
 		} else {
-			const sidebar = document.querySelector(STARLIGHT_SIDEBAR);
+			const sidebar = document.querySelector(STARLIGHT.SIDEBAR);
 			if (!sidebar) {
 				document
-					.querySelector(STARLIGHT_MAIN_FRAME)
+					.querySelector(STARLIGHT.MAIN_FRAME)
 					?.insertAdjacentElement('beforebegin', newSidebar);
 			} else {
 				if (replace) {
-					const oldContent = sidebar.querySelector(STARLIGHT_SIDEBAR_CONTENT);
-					const newContent = newSidebar.querySelector(STARLIGHT_SIDEBAR_CONTENT);
+					const oldContent = sidebar.querySelector(STARLIGHT.SIDEBAR_CONTENT);
+					const newContent = newSidebar.querySelector(STARLIGHT.SIDEBAR_CONTENT);
 					if (oldContent && newContent) {
 						oldContent.replaceWith(newContent);
 					} else {
@@ -98,6 +96,20 @@ export interface Props {}
 			}
 		}
 	}
+
+	function openCurrentCategory() {
+		const currentLink = document.querySelector(
+			`${STARLIGHT.SIDEBAR_CONTENT} [aria-current="page"]`
+		);
+		currentLink?.scrollIntoView({ block: 'center', behavior: 'instant'});
+		let category = currentLink?.closest('details');
+		while (category) {
+			category.open = true;
+			category = category.parentElement?.closest('details');
+		}
+	}
+
+	/*--------------------------*/
 
 	import {
 		TRANSITION_BEFORE_PREPARATION,
