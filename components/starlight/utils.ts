@@ -8,7 +8,7 @@ export const SIDEBAR_CONTENT = `${SIDEBAR} .sidebar-content`;
 /*
  * Returns the the sidebar anchor that best fits the parameter URL.
  */
-export function sidebarEntry(url: URL): Element | null {
+export function sidebarEntry(url: URL): HTMLAnchorElement | null {
 	const normalized = normalize(url.href);
 	const target = normalized.split('');
 	const anchors = document.querySelectorAll<HTMLAnchorElement>(`${SIDEBAR_CONTENT} a`);
@@ -26,8 +26,32 @@ export function sidebarEntry(url: URL): Element | null {
 				: Math.min(normalized.length, normalizedArray[idx].length) + (normalized.length === normalizedArray[idx].length ? 1 : 0))
 			.reduce((best, current, idx, arr) => (current > arr[best] ? idx : best), 0)
 	];
+	function normalize(url: string): string {
+		return url.replace(/\/#/, '#').replace(/\/$/, '');
+	}
 }
 
-function normalize(url: string): string {
-	return url.replace(/\/#/, '#').replace(/\/$/, '');
+export function clearCurrentPageMarker() {
+	document
+		.querySelectorAll(`${SIDEBAR_CONTENT} [aria-current="page"]`)
+		?.forEach((el) => el.removeAttribute('aria-current'));
 }
+
+export function updateCurrentPageMarker(url: URL) {
+	clearCurrentPageMarker();
+	sidebarEntry(url)?.setAttribute('aria-current', 'page');
+}
+
+export function openCategory(url?: URL) {
+	const currentLink = url
+		? sidebarEntry(url)
+		: document.querySelector(`${SIDEBAR_CONTENT} [aria-current="page"]`);
+	let category = currentLink?.closest('details');
+	while (category) {
+		category.open = true;
+		category = category.parentElement?.closest('details');
+	}
+	currentLink?.scrollIntoView({ block: 'center', behavior: 'instant' });
+}
+
+

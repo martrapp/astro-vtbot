@@ -1,26 +1,35 @@
 ---
-export interface Props {}
+
 ---
 
 <script>
-	import { sidebarEntry } from './utils';
+	import { openCategory, updateCurrentPageMarker } from './utils';
 	import * as STARLIGHT from './utils';
 
 	export const REPLACE_SIDEBAR_CONTENT = 'vtbot-starlight-replace-sidebar-content';
+	export const RETAIN_CURRENT_PAGE_MARKER = 'vtbot-starlight-retain-current-page-marker';
 
-	openCurrentCategory();
+	const queryMarkers = () => ({
+		replaceSidebarContent: document.querySelector(`head meta[name="${REPLACE_SIDEBAR_CONTENT}"]`),
+		retainCurrentPageMarker: document.querySelector(`head meta[name="${RETAIN_CURRENT_PAGE_MARKER}"]`),
+
+		mainTransitionScope:  document.querySelector<HTMLMetaElement>('head meta[name="vtbot-main-transition-scope"]')?.content,
+	});
+	let { replaceSidebarContent, retainCurrentPageMarker, mainTransitionScope } = queryMarkers();
+
+	openCategory();
 
 	function afterLoader(e: TransitionBeforePreparationEvent) {
 		markMainFrameForReplacementSwap(document);
 		markMainFrameForReplacementSwap(e.newDocument);
 		closeMobileMenu();
 		setMainTransitionScope(e);
-		updateCurrentPageMarker(e);
+		!replaceSidebarContent && !retainCurrentPageMarker && updateCurrentPageMarker(e.to);
 	}
 
 	function afterSwap(e: TransitionBeforeSwapEvent) {
 		updateSidebar(e);
-		openCurrentCategory();
+		!retainCurrentPageMarker && openCategory();
 	}
 
 	/* ---------------- */
@@ -45,35 +54,22 @@ export interface Props {}
 		}
 	}
 
-	function updateCurrentPageMarker(e: TransitionBeforePreparationEvent) {
-		const replace = document.querySelector(`meta[name="${REPLACE_SIDEBAR_CONTENT}"]`);
-		if (replace) return;
-		document
-			.querySelectorAll(`${STARLIGHT.SIDEBAR_CONTENT} [aria-current="page"]`)
-			?.forEach((el) => el.removeAttribute('aria-current'));
-
-		sidebarEntry(e.to)?.setAttribute('aria-current', 'page');
-	}
-
 	function markMainFrameForReplacementSwap(doc: Document) {
 		doc.body.querySelector(STARLIGHT.MAIN_FRAME)?.setAttribute('data-vtbot-replace', 'main');
 	}
 
 	function setMainTransitionScope(e: TransitionBeforePreparationEvent) {
-		const meta = document.querySelector('meta[name="vtbot-main-transition-scope"]');
-		if (!meta) return;
-		const mainTransitionScope = (meta as HTMLMetaElement).content || 'none';
+		if (!mainTransitionScope) return;
 		setMainTransitionScope(document, mainTransitionScope);
 		setMainTransitionScope(e.newDocument, mainTransitionScope);
 
 		function setMainTransitionScope(doc: Document, value: string) {
-			const main = doc.querySelector(STARLIGHT.MAIN_SECTION) as HTMLElement;
+			const main = doc.querySelector<HTMLElement>(STARLIGHT.MAIN_SECTION);
 			main && (main.dataset.astroTransitionScope = value);
 		}
 	}
 
 	function updateSidebar(e: TransitionBeforeSwapEvent) {
-		const replace = document.querySelector(`meta[name="${REPLACE_SIDEBAR_CONTENT}"]`);
 		const newSidebar = e.newDocument.querySelector(STARLIGHT.SIDEBAR);
 		if (!newSidebar) {
 			document.querySelector(STARLIGHT.SIDEBAR)?.remove();
@@ -84,7 +80,7 @@ export interface Props {}
 					.querySelector(STARLIGHT.MAIN_FRAME)
 					?.insertAdjacentElement('beforebegin', newSidebar);
 			} else {
-				if (replace) {
+				if (replaceSidebarContent) {
 					const oldContent = sidebar.querySelector(STARLIGHT.SIDEBAR_CONTENT);
 					const newContent = newSidebar.querySelector(STARLIGHT.SIDEBAR_CONTENT);
 					if (oldContent && newContent) {
@@ -94,18 +90,6 @@ export interface Props {}
 					}
 				}
 			}
-		}
-	}
-
-	function openCurrentCategory() {
-		const currentLink = document.querySelector(
-			`${STARLIGHT.SIDEBAR_CONTENT} [aria-current="page"]`
-		);
-		currentLink?.scrollIntoView({ block: 'center', behavior: 'instant'});
-		let category = currentLink?.closest('details');
-		while (category) {
-			category.open = true;
-			category = category.parentElement?.closest('details');
 		}
 	}
 
@@ -121,6 +105,8 @@ export interface Props {}
 	} from 'astro:transitions/client';
 
 	document.addEventListener(TRANSITION_BEFORE_PREPARATION, (e) => {
+		({ replaceSidebarContent, retainCurrentPageMarker, mainTransitionScope } = queryMarkers());
+
 		if (isTransitionBeforePreparationEvent(e)) {
 			const originalLoader = e.loader;
 			e.loader = async () => {
