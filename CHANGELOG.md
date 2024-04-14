@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.9 - 2024-04-14
+
+### Patch Changes
+
+- 46c79d3: Adds support for tweaking the sidebar of Starlight sites, see https://events-3bg.pages.dev/jotter/starlight/guide/#sidebar-behavior
+
 ## 1.7.8 - 2024-04-12
 
 ### Patch Changes
