@@ -8,11 +8,13 @@ import StarlightConnector from './StarlightConnector.astro';
 export interface Props extends StarlightProps {
 	viewTransitionsFallback?: Parameters<typeof ViewTransitions>[0]['fallback'];
 	replaceSidebarContent?: Boolean;
+	retainCurrentPageMarker?: Boolean;
 	'data-astro-transition-scope'?: string;
 }
 const {
 	viewTransitionsFallback,
 	replaceSidebarContent,
+	retainCurrentPageMarker,
 	'data-astro-transition-scope': mainTransitionScope,
 } = Astro.props;
 ---
@@ -22,4 +24,5 @@ const {
 <ReplacementSwap rootAttributesToPreserve="data-theme" />
 {mainTransitionScope && <meta name="vtbot-main-transition-scope" content={mainTransitionScope} />}
 {replaceSidebarContent && <meta name="vtbot-starlight-replace-sidebar-content" content="true" />}
+{retainCurrentPageMarker && <meta name="vtbot-starlight-retain-current-page-marker" content="true" />}
 <StarlightConnector />

@@ -14,7 +14,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ### More Starlight Improvements: ###
 > Improved sidebar handling: When you navigate to a page that has its entry within a collapsed category, the category is now automatically turned open. If the current page marker is outside the visible
-part of the sidebar, it is automatically scrolled into view.
+part of the sidebar, it is automatically scrolled into view. **New: Support for your own customizations!**
 
 > If you want to use `transition:persist` inside the main content area, you can do that now! As of v1.7.8 the `<ReplacementSwap />` component handles `data-astro-transition-persist` attributes within the replaced DOM trees in the same way as Astro's built-in `swap()` function does.
 
