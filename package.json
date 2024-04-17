@@ -31,7 +31,9 @@
       "import": "./components/*.astro",
       "types": "./components/*.d.ts"
     },
-    "./components/*": "./components/*.ts",
+    "./components/loading-indicator": "./components/loading-indicator.ts",
+    "./components/swap-utils": "./components/swap-utils.ts",
+    "./components/starlight/utils": "./components/starlight/utils.ts",
     "./animations/*.astro": {
       "import": "./animations/*.astro",
       "types": "./animations/*.d.ts"
@@ -71,7 +73,7 @@
     "@astrojs/starlight": "latest",
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "^2.27.1",
-    "@playwright/test": "^1.40.0",
+    "@playwright/test": "^1.43.1",
     "@types/dom-view-transitions": "^1.0.4",
     "@types/node": "^20.10.4",
     "astro": "latest",

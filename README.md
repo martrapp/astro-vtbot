@@ -60,9 +60,9 @@ Visit [the documentation](https://events-3bg.pages.dev/components/) of the reusa
 
 - `<ReplacementSwap/>`: An alterantive DOM swap(), which preserves elements in the original DOM to avoid reinitialization of iframes or CSS animations.
 
-- `<LoadIndicator>`: Have you ever missed the visual feedback on sites with view transitions as to whether the app has noticed the click? Here you go!
+- `<LoadIndicator>`: Have you ever missed the visual feedback on sites with view transitions as to whether the app has noticed the click? You need a loading indicator! Here you go!
 
-- `Zoom` and `Swing` animations and the `<AnimationsStyle/>` component allows for extended styling options.
+- `Zoom`, `<Move>` and `Swing` animations and the `<AnimationsStyle/>` component allows for extended styling options.
 
 - `<Portal/>` component that forces all view transitions through a portal/loading page.
 

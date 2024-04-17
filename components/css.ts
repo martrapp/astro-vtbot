@@ -41,22 +41,29 @@ export function astroContextIds() {
 type SupportedCSSProperties = 'view-transition-name';
 // finds all elements of a _the current document_ with a given _string_ property in a style sheet
 // document.styleSheets does not seem to work for arbitrary documents
-export function elementsWithPropertyinStylesheet(
+export function elementsWithPropertyInStylesheet(
 	property: SupportedCSSProperties,
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
 	[...document.styleSheets].forEach((sheet) => {
 		const style = sheet.ownerNode as HTMLElement;
 		const definedNames = new Set<string>();
-		const matches = style?.innerHTML.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'gu'));
+		const matches = style?.innerHTML.replace(/@supports[^{]*\{/gu,"").matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'gu'));
 		[...matches].forEach((match) => definedNames.add(decode(property, match[1]!)));
 		try {
 			[...sheet.cssRules].forEach((rule) => {
-				if (rule instanceof CSSStyleRule && rule.style[property as keyof CSSStyleDeclaration]) {
+				if (rule instanceof CSSStyleRule) {
 					const name = rule.style[property as keyof CSSStyleDeclaration] as string;
-					definedNames.delete(name);
-					const els = document.querySelectorAll(rule.selectorText);
-					map.set(name, new Set([...(map.get(name) ?? new Set()), ...[...els]]));
+					if (name) {
+						definedNames.delete(name);
+						map.set(
+							name,
+							new Set([
+								...(map.get(name) ?? new Set()),
+								...document.querySelectorAll(rule.selectorText),
+							])
+						);
+					}
 				}
 			});
 		} catch (e) {
@@ -100,6 +107,6 @@ export function elementsWithStyleProperty(
 	return elementsWithPropertyInStyleAttribute(
 		document,
 		property,
-		elementsWithPropertyinStylesheet(property, map)
+		elementsWithPropertyInStylesheet(property, map)
 	);
 }
