@@ -90,7 +90,7 @@ const active = import.meta.env.DEV || production;
 			css.push(BOLD);
 			css.push(NORMAL);
 		}
-		prefix[usePrefix ? "log": "slog"](s, ...css);
+		prefix[usePrefix ? 'log' : 'slog'](s, ...css);
 	};
 
 	/*
@@ -234,7 +234,7 @@ const active = import.meta.env.DEV || production;
 		const scriptsArray = [...scripts];
 		const toExecute = scriptsArray.filter(
 			(s) =>
-				s.dataset.astroExec !== '' &&
+				(s.dataset.astroExec !== '' || s.dataset.astroRerun) &&
 				(!s.type || s.type === 'module' || s.type === 'text/javascript') &&
 				(s.type !== 'module' || !knownModuleScripts.has(s.src))
 		);
