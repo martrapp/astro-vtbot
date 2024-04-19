@@ -1,5 +1,13 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.10
+
+### Patch Changes
+
+- 2cd5f25: Honor `data-astro-rerun` when listing which scripts might run.
+- ac261cf: Provides the PageOffset component which eliminates pseudo-scrolling morph animations of large elements like whole body or huge content areas.
+- 2e1f8c8: Linter: Fixes a bug in style sheet parsing when a view-transition-name appeared inside a @supports condition.
+
 ## 1.7.9 - 2024-04-14
 
 ### Patch Changes
