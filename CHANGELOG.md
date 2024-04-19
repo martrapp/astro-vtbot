@@ -1,36 +1,36 @@
 # The Bag of Tricks for View Transitions
 
-## 1.7.10
+## 1.7.10 - 2024-04-19
 
 ### Patch Changes
 
-- 2cd5f25: Honor `data-astro-rerun` when listing which scripts might run.
-- ac261cf: Provides the PageOffset component which eliminates pseudo-scrolling morph animations of large elements like whole body or huge content areas.
+- 2cd5f25: VtBotDebug: Honor `data-astro-rerun` when listing which scripts might run.
+- ac261cf: New Component: Provides the PageOffset component which eliminates pseudo-scrolling morph animations of large elements like whole body or huge content areas.
 - 2e1f8c8: Linter: Fixes a bug in style sheet parsing when a view-transition-name appeared inside a @supports condition.
 
 ## 1.7.9 - 2024-04-14
 
 ### Patch Changes
 
-- 46c79d3: Adds support for tweaking the sidebar of Starlight sites, see https://events-3bg.pages.dev/jotter/starlight/guide/#sidebar-behavior
+- 46c79d3: Starlight Support: Adds support for tweaking the sidebar of Starlight sites, see https://events-3bg.pages.dev/jotter/starlight/guide/#sidebar-behavior
 
 ## 1.7.8 - 2024-04-12
 
 ### Patch Changes
 
-- 2ca7b06: Adds a reusable, improved way to identify sidebar entries.
-- 2e96f5e: Adds handling of data-astro-transition-persist to ReplacementSwap for replaced content.
-- 93b47de: Improves sidebar handling: Automatically opens categories when navigated to and scrolls them into view.
+- 2ca7b06: Starlight Support: Adds a reusable, improved way to identify sidebar entries.
+- 2e96f5e: ReplacementSwap: Adds handling of data-astro-transition-persist to ReplacementSwap for replaced content.
+- 93b47de: Starlight Support: Improves sidebar handling: Automatically opens categories when navigated to and scrolls them into view.
 
 ## 1.7.7 - 2024-04-09
 
-- 614712e: Fixes a bug in updateCurrentPageMarker
+- 614712e: Starlight Support: Fixes a bug in updateCurrentPageMarker
 
 ## 1.7.6 - 2024-04-09
 
 ### Patch Changes
 
-- aa5b84d: Improves Starlight sidebar support to give a choice between replacement and update:
+- aa5b84d: Starlight Support: Improves Starlight sidebar support to give a choice between replacement and update:
 
   By default, the content of the sidebar is retained during navigation and only the highlighting of the current page is updated. The alternative is to replace the sidebar content on each navigation (with the content read from the next page). This is activated by adding `replaceSidebarContent` to the component `VtbotStarlight` in `./src/components/starlight/Head.astro`.
 
@@ -38,38 +38,38 @@
 
 ### Patch Changes
 
-- 6bbd038: Fixes a bug with VtBotDebug when included in production build.
-- 53388e2: Makes the coding more defensive and the dependencies on the Starlight page structure more obvious.
+- 6bbd038: VtBotDebug: Fixes a bug with VtBotDebug when included in production build.
+- 53388e2: Starlight Support: Makes the coding more defensive and the dependencies on the Starlight page structure more obvious.
 
 ## 1.7.4 - 2024-04-06
 
 ### Patch Changes
 
-- b35d054: Makes the viewTransitionsFallback property optional in the Starlight integration.
+- b35d054: Starlight Support: Makes the viewTransitionsFallback property optional in the Starlight integration.
 
 ## 1.7.3 - 2024-04-05
 
 ### Patch Changes
 
-- 3e61ad9: Fixes an issue where view transitions reset Starlight's ThemeSelector to show an incorrect value.
+- 3e61ad9: Starlight Support: Fixes an issue where view transitions reset Starlight's ThemeSelector to show an incorrect value.
 
 ## 1.7.2 - 2024-04-02
 
 ### Patch Changes
 
-- 9e8532a: Fixes a bug accessing an attribute of null when linking to view transition pages outside the starlight site.
+- 9e8532a: Starlight Support: Fixes a bug accessing an attribute of null when linking to view transition pages outside the starlight site.
 
 ## 1.7.1 - 2024-04-02
 
 ### Patch Changes
 
-- 0a21a85: Fixes an issue with the sidebar when navigating from or to pages with `template:splash`
+- 0a21a85: Starlight Support: Fixes an issue with the sidebar when navigating from or to pages with `template:splash`
 
 ## 1.7.0 - 2024-04-01
 
 ### Minor Changes
 
-- 6f0992b: Adds support for enabling view transitions for Starlight sites!
+- 6f0992b: Starlight Support: Adds support for enabling view transitions for Starlight sites!
 
 ### Patch Changes
 
