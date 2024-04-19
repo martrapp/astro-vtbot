@@ -13,7 +13,12 @@ A current deployment of tech demos and the documentation can be found at https:/
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
 ### More Starlight Improvements: ###
-> Improved sidebar handling: When you navigate to a page that has its entry within a collapsed category, the category is now automatically turned open. If the current page marker is outside the visible
+
+The selection of optional Starlight components keeps growing:
+
+> Eliminate the Pseudo-Scrolling of the Main Section: With [`<PageOffset />`](https://events-3bg.pages.dev/library/PageOffset/), The Bag offers a simple to use component that eliminates pseudo scrolling effects induced by morph tranistions on elements that are larger than the viewport. Especially usfull to get a smooth and neat transition animation for your main content.
+
+> Improved Sidebar Handling: When you navigate to a page that has its entry within a collapsed category, the category is now automatically turned open. If the current page marker is outside the visible
 part of the sidebar, it is automatically scrolled into view. **New: Support for your own customizations!**
 
 > If you want to use `transition:persist` inside the main content area, you can do that now! As of v1.7.8 the `<ReplacementSwap />` component handles `data-astro-transition-persist` attributes within the replaced DOM trees in the same way as Astro's built-in `swap()` function does.
@@ -41,16 +46,17 @@ The `astro-vtbot`package isn't a monolithic library. Use the components you need
 |-------|-----------------|
 Animation Style ✨| ~0.1k
 BrakePad 🦥 | ~0.1k
-Linter 🧹 | ~2.0k
-LoadingIndicator ⏳ | ~0.6k
-Move 🚟 | ~0.5k
-NoScroll 📜| ~0.1k
-Portal 🚪 | ~0.3k
+Linter 🧹 | ~1.6k
+LoadingIndicator ⏳ | ~0.2k
+Move 🚟 | ~0.2k
+NoScroll 📜 | ~0.1k
+PageOffset 📄⇞ | ~0.2k
+Portal 🚪 | ~0.1k
 ReplacementSwap ↹ | ~0.5k
 Starlight &hellip; 🌟 | ~3.0k
-Swing 🎷 | ~0.5k
-VtBotDebug 🐛 | ~2.7k
-Zoom 🔎 | ~0.5k
+Swing 🎷 | ~0.1k
+VtBotDebug 🐛 | ~2.8k
+Zoom 🔎 | ~0.1k
 
 Visit [the documentation](https://events-3bg.pages.dev/components/) of the reusable components for detailed information.
 
