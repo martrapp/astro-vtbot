@@ -1,11 +1,11 @@
 # The Bag of Tricks for View Transitions
 
-## 1.7.12
+## 1.7.12 - 2024-04-20
 
 ### Patch Changes
 
-- aa522c2: LoadingIndicator: Improves the way the loading indicator tries to find an icon to display.
 - fe3ca60: PageOrder: adds a new component to the Starlight support that changes the direction of the transition based on the order of the pages in the sidebar.
+- aa522c2: LoadingIndicator: Improves the way the loading indicator tries to find an icon to display.
 
 ## 1.7.11 - 2024-04-20
 
