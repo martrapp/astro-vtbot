@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.11 - 2024-04-20
+
+### Patch Changes
+
+- 58afbd6: Fixes a bug where importing vtbot as an integration zeroed all content collection types.
+
 ## 1.7.10 - 2024-04-19
 
 ### Patch Changes
