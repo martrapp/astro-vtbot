@@ -1,5 +1,3 @@
-/// <reference types="astro/client" />
-
 import { parse } from 'acorn';
 import { walk, type Node } from 'estree-walker';
 import type { Plugin } from 'vite';
