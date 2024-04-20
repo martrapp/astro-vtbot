@@ -4,6 +4,7 @@ export const MOBILE_MENU_EXPANDED = 'data-mobile-menu-expanded';
 export const MENU_BUTTON = 'starlight-menu-button';
 export const SIDEBAR = 'nav.sidebar';
 export const SIDEBAR_CONTENT = `${SIDEBAR} .sidebar-content`;
+export const SIDEBAR_TOPLEVEL = `${SIDEBAR_CONTENT} .top-level`;
 
 /*
  * Returns the the sidebar anchor that best fits the parameter URL.
