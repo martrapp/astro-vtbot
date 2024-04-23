@@ -1,7 +1,6 @@
 No, its **_NOT_** a roBOT 🤖, its a 👜 <b>B</b>ag <b>o</b>f <b>T</b>ricks!✨
 
 # **The Bag of Tricks** for Astro's **View Transitions**
-## "If it doesn't move, it's probably unmoved."
 
 The bag of tricks provides extensions & support around Astro's view transitions.
 
