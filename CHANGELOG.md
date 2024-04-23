@@ -1,11 +1,11 @@
 # The Bag of Tricks for View Transitions
 
-## 1.7.13
+## 1.7.13 - 2024-04-23
 
 ### Patch Changes
 
-- 87c87ff: Starlight utils: Adds an optional parameter to `openCategory` to opt-out of scrolling.
-- 9f8fe2c: Adds a new general purpose component that allows to postpone viewTransition.finished
+- 87c87ff: Starlight utils: Adds an optional parameter to `openCategory()` to opt-out of scrolling.
+- 9f8fe2c: Adds a new experimental component (ReadyToFinished) that allows to postpone viewTransition.finished
 
 ## 1.7.12 - 2024-04-20
 
