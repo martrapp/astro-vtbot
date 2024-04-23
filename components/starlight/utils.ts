@@ -43,7 +43,7 @@ export function updateCurrentPageMarker(url: URL) {
 	sidebarEntry(url)?.setAttribute('aria-current', 'page');
 }
 
-export function openCategory(url?: URL) {
+export function openCategory(url?: URL, scrollIntoView = true) {
 	const currentLink = url
 		? sidebarEntry(url)
 		: document.querySelector(`${SIDEBAR_CONTENT} [aria-current="page"]`);
@@ -52,7 +52,7 @@ export function openCategory(url?: URL) {
 		category.open = true;
 		category = category.parentElement?.closest('details');
 	}
-	currentLink?.scrollIntoView({ block: 'center', behavior: 'instant' });
+	scrollIntoView && currentLink?.scrollIntoView({ block: 'center', behavior: 'instant' });
 }
 
 
