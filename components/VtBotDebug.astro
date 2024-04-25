@@ -376,13 +376,11 @@ const active = import.meta.env.DEV || production;
 		}
 	}
 
-	function afterPreparation(): EventListenerOrEventListenerObject {
-		return (e) => {
-			if (enabled_out()) {
-				logProperties(window._vtbot_debug.capture.event, true);
-				prefix.log(`Event handler for ${e.type}`);
-			}
-		};
+	function afterPreparation(e:Event) {
+		if (enabled_out()) {
+			logProperties(window._vtbot_debug.capture.event, true);
+			prefix.log(`Event handler for ${e.type}`);
+		}
 	}
 
 	function beforeSwap(swapEvent: Event) {
