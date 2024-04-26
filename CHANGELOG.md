@@ -1,5 +1,12 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.14 - 2024-04-26
+
+### Patch Changes
+
+- bc1cd73: VtBotDebug: Fixes an issue where `astro:after-preparation` was not logged at all.
+- a92071a: ReplacementSwap: Extends the ability to handle `transition:persist` to children of `html.head`.
+
 ## 1.7.13 - 2024-04-23
 
 ### Patch Changes
