@@ -1,3 +1,5 @@
+const PERSIST_ATTR = 'data-astro-transition-persist';
+
 type SavedFocus = {
 	activeElement: HTMLElement | null;
 	start?: number | null;
@@ -36,8 +38,11 @@ export const swapInHTMLAttributes = (doc: Document, rootAttributesToPreserve: st
  */
 export const swapInHeadElements = (doc: Document) => {
 	[...document.head.children].forEach((e) => {
+
 		if (e instanceof HTMLElement) {
-			let other = [...doc.head.children].find((o) => o.isEqualNode(e));
+			const id = e.getAttribute(PERSIST_ATTR);
+			let other: Element | "" | null | undefined = id && doc.head.querySelector(`[${PERSIST_ATTR}="${id}"]`);
+			other ||= [...doc.head.children].find((o) => o.isEqualNode(e));
 			(other ?? e).remove();
 		}
 	});
@@ -72,6 +77,29 @@ export const restoreFocus = ({ activeElement, start, end }: SavedFocus) => {
 		}
 	}
 };
+
+export function astroBodySwap(oldEl: Element, newEl: Element) {
+	const PERSIST_ATTR = 'data-astro-transition-persist';
+
+	const shouldCopyProps = (el: HTMLElement) => {
+		const persistProps = el.dataset.astroTransitionPersistProps;
+		return persistProps == null || persistProps === 'false';
+	};
+
+	oldEl.replaceWith(newEl);
+
+	for (const el of oldEl.querySelectorAll(`[${PERSIST_ATTR}]`)) {
+		const id = el.getAttribute(PERSIST_ATTR);
+		const newEl = document.querySelector(`[${PERSIST_ATTR}="${id}"]`);
+		if (newEl) {
+			newEl.replaceWith(el);
+			if (el.localName === 'astro-island' && shouldCopyProps(el as HTMLElement)) {
+				el.setAttribute('ssr', '');
+				el.setAttribute('props', newEl.getAttribute('props')!);
+			}
+		}
+	}
+}
 
 /*
  * Execute all steps of the original swap function except the swap of the body element.

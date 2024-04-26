@@ -8,7 +8,7 @@ const { rootAttributesToPreserve = '' } = Astro.props;
 <meta name="vtbot-replace-swap" content={rootAttributesToPreserve} />
 <script>
 	import { TRANSITION_BEFORE_SWAP, isTransitionBeforeSwapEvent } from 'astro:transitions/client';
-	import { customSwap } from './swap-utils';
+	import { customSwap, astroBodySwap } from './swap-utils';
 
 	const TAG = 'vtbot-replace-swap';
 	const preserve = () =>
@@ -50,26 +50,4 @@ const { rootAttributesToPreserve = '' } = Astro.props;
 		}
 	});
 
-	function astroBodySwap(oldEl: Element, newEl: Element) {
-		const PERSIST_ATTR = 'data-astro-transition-persist';
-
-		const shouldCopyProps = (el: HTMLElement) => {
-			const persistProps = el.dataset.astroTransitionPersistProps;
-			return persistProps == null || persistProps === 'false';
-		};
-
-		oldEl.replaceWith(newEl);
-
-		for (const el of oldEl.querySelectorAll(`[${PERSIST_ATTR}]`)) {
-			const id = el.getAttribute(PERSIST_ATTR);
-			const newEl = document.querySelector(`[${PERSIST_ATTR}="${id}"]`);
-			if (newEl) {
-				newEl.replaceWith(el);
-				if (el.localName === 'astro-island' && shouldCopyProps(el as HTMLElement)) {
-					el.setAttribute('ssr', '');
-					el.setAttribute('props', newEl.getAttribute('props')!);
-				}
-			}
-		}
-	}
 </script>
