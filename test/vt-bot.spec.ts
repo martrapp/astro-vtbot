@@ -100,6 +100,7 @@ test.describe('ReplacementSwap', () => {
 		await page.locator('#six').click();
 		await expect(page).toHaveTitle('Repl6');
 		expect(await page.locator('main #persist').count()).toBe(1);
+		expect(await page.locator('head meta[name="persist"]').getAttribute("content")).toBe('5');
 	});
 
 });
