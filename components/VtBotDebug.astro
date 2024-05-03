@@ -376,7 +376,7 @@ const active = import.meta.env.DEV || production;
 		}
 	}
 
-	function afterPreparation(e:Event) {
+	function afterPreparation(e: Event) {
 		if (enabled_out()) {
 			logProperties(window._vtbot_debug.capture.event, true);
 			prefix.log(`Event handler for ${e.type}`);
@@ -409,26 +409,25 @@ const active = import.meta.env.DEV || production;
 					window._vtbot_debug.savedSwapEvent = swapEvent;
 				};
 				doCapture(swapEvent);
-				swapEvent.viewTransition.updateCallbackDone.then(
-					() => prefix.log(`resolve viewTransition.updateCallbackDone`),
-					(error: any) => prefix.log(`reject viewTransition.updateCallbackDone with`, error)
-				);
-				swapEvent.viewTransition.ready.then(
-					() => prefix.log(`resolve viewTransition.ready`),
-					(error: any) => prefix.log(`reject viewTransition.ready with`, error)
-				);
-				swapEvent.viewTransition.finished.then(
-					() => {
+				swapEvent.viewTransition.updateCallbackDone
+					.then(() => prefix.log(`resolve viewTransition.updateCallbackDone`))
+					.catch((error: any) =>
+						prefix.log(`reject viewTransition.updateCallbackDone with`, error)
+					);
+				swapEvent.viewTransition.ready
+					.then(() => prefix.log(`resolve viewTransition.ready`))
+					.catch((error: any) => prefix.log(`reject viewTransition.ready with`, error));
+				swapEvent.viewTransition.finished
+					.then(() => {
 						prefix.log(`resolve viewTransition.finished`);
 						logAnimations();
 						window._vtbot_debug.closing--;
-					},
-					(error: any) => {
+					})
+					.catch((error: any) => {
 						prefix.log(`reject viewTransition.finished with`, error);
 						logAnimations();
 						window._vtbot_debug.closing--;
-					}
-				);
+					});
 			} else {
 				prefix.slog('not a TransitionBeforeSwapEvent');
 			}
