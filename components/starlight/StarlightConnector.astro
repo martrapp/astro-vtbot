@@ -11,18 +11,24 @@
 
 	const queryMarkers = () => ({
 		replaceSidebarContent: document.querySelector(`head meta[name="${REPLACE_SIDEBAR_CONTENT}"]`),
-		retainCurrentPageMarker: document.querySelector(`head meta[name="${RETAIN_CURRENT_PAGE_MARKER}"]`),
+		retainCurrentPageMarker: document.querySelector(
+			`head meta[name="${RETAIN_CURRENT_PAGE_MARKER}"]`
+		),
 
-		mainTransitionScope:  document.querySelector<HTMLMetaElement>('head meta[name="vtbot-main-transition-scope"]')?.content,
+		mainTransitionScope: document.querySelector<HTMLMetaElement>(
+			'head meta[name="vtbot-main-transition-scope"]'
+		)?.content,
 	});
 	let { replaceSidebarContent, retainCurrentPageMarker, mainTransitionScope } = queryMarkers();
 
 	openCategory();
+	updateLanguageSelector(window.document);
 
 	function afterLoader(e: TransitionBeforePreparationEvent) {
 		markMainFrameForReplacementSwap(document);
 		markMainFrameForReplacementSwap(e.newDocument);
 		closeMobileMenu();
+		updateLanguageSelector(e.newDocument);
 		setMainTransitionScope(e);
 		!replaceSidebarContent && !retainCurrentPageMarker && updateCurrentPageMarker(e.to);
 	}
@@ -91,6 +97,14 @@
 				}
 			}
 		}
+	}
+
+	function updateLanguageSelector(doc: Document) {
+		doc
+			.querySelectorAll(STARLIGHT.LANGUAGE_SELECTOR)
+			.forEach((el, idx) =>
+				el.setAttribute('data-vtbot-replace', `vtbot-${STARLIGHT.LANGUAGE_SELECTOR}-${idx}`)
+			);
 	}
 
 	/*--------------------------*/

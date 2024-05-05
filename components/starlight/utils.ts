@@ -5,6 +5,7 @@ export const MENU_BUTTON = 'starlight-menu-button';
 export const SIDEBAR = 'nav.sidebar';
 export const SIDEBAR_CONTENT = `${SIDEBAR} .sidebar-content`;
 export const SIDEBAR_TOPLEVEL = `${SIDEBAR_CONTENT} .top-level`;
+export const LANGUAGE_SELECTOR = 'starlight-lang-select';
 
 /*
  * Returns the the sidebar anchor that best fits the parameter URL.
