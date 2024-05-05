@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.15
+
+### Patch Changes
+
+- 7d50a65: Fixes an issue where switching languages did select a different page.
+
 ## 1.7.14 - 2024-04-26
 
 ### Patch Changes
