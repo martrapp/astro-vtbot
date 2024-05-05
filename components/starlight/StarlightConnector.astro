@@ -103,7 +103,7 @@
 		doc
 			.querySelectorAll(STARLIGHT.LANGUAGE_SELECTOR)
 			.forEach((el, idx) =>
-				el.setAttribute('data-vtbot-replace', STARLIGHT.LANGUAGE_SELECTOR + idx)
+				el.setAttribute('data-vtbot-replace', `vtbot-${STARLIGHT.LANGUAGE_SELECTOR}-${idx}`)
 			);
 	}
 
