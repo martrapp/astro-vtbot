@@ -69,14 +69,14 @@
     "release": "changeset publish"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.5.4",
-    "@astrojs/starlight": "latest",
+    "@astrojs/check": "^0.6.0",
+    "@astrojs/starlight": "^0.22.2",
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "^2.27.1",
-    "@playwright/test": "^1.43.1",
+    "@playwright/test": "^1.44.0",
     "@types/dom-view-transitions": "^1.0.4",
-    "@types/node": "^20.10.4",
-    "astro": "latest",
+    "@types/node": "^20.12.10",
+    "astro": "^4.7.1",
     "prettier": "^3.1.0",
     "prettier-plugin-astro": "^0.13.0",
     "typescript": "^5.3.3"
