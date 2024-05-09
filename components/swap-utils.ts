@@ -1,3 +1,8 @@
+/*
+ * These functions are deprecated.
+ * Starting from Astro 4.8, please have a look at astro/dist/transitions/swap-functions.js
+ */
+
 const PERSIST_ATTR = 'data-astro-transition-persist';
 
 type SavedFocus = {
