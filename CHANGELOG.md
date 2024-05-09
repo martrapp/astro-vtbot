@@ -1,10 +1,11 @@
 # The Bag of Tricks for View Transitions
 
-## 1.7.16
+## 1.7.16 - 2024-05-09
 
 ### Patch Changes
 
 - b8245de: Starting with Astro 4.8, The Bag's swap-utils are obsolete and deprecated.
+  For an alternative, you can check out astro/dist/transitions/swap-functions.js
 
 ## 1.7.15 - 2024-05-05
 
