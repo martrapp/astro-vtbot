@@ -8,7 +8,7 @@ const { rootAttributesToPreserve = '' } = Astro.props;
 <meta name="vtbot-replace-swap" content={rootAttributesToPreserve} />
 <script>
 	import { TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';
-	import { swapFunctions } from './swap-utils-connector';
+	import * as swapFunctions from './swap-functions';
 
 	const TAG = 'vtbot-replace-swap';
 	const preserve = () =>
