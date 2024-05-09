@@ -10,6 +10,7 @@ const { rootAttributesToPreserve = '' } = Astro.props;
 	import { TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';
 	import * as swapFunctions from './swap-functions';
 
+
 	const TAG = 'vtbot-replace-swap';
 	const preserve = () =>
 		(document.querySelector(`meta[name="${TAG}"]`)?.getAttribute('content') ?? '')
