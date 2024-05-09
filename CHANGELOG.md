@@ -1,11 +1,17 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.16
+
+### Patch Changes
+
+- b8245de: Starting with Astro 4.8, The Bag's swap-utils are obsolete and deprecated.
+
 ## 1.7.15 - 2024-05-05
 
 ### Patch Changes
 
 - 7d50a65: Fixes an issue where switching languages did select a different page.
-     plus: Improvements to robustness and test coverage.
+  plus: Improvements to robustness and test coverage.
 
 ## 1.7.14 - 2024-04-26
 
