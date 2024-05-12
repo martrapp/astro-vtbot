@@ -47,11 +47,14 @@
     "./vite-plugin-extend": "./integration/vite-plugin-extend.ts"
   },
   "keywords": [
+    "astro",
+    "bag of tricks",
     "astro-component",
     "astro-integration",
     "view-transition",
     "view transition",
     "view transitions",
+    "starlight",
     "transition",
     "transitions",
     "animation",
