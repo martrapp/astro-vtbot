@@ -11,6 +11,11 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
+### Improved Support for `swap()`-related Topics!!
+> VtBotDebug now shows the changes that are made to the DOM during swap.
+
+> Support for `swap()` replacements is now automatically synced with Astro's main development. Astro extents the semantics of the `swap()` functions? All extensions are supported by The Bag and are available for your individual swaps!
+
 ### More Starlight Improvements: ###
 
 The selection of optional Starlight components keeps growing:
