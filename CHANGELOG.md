@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.18
+
+### Patch Changes
+
+- 3158250: Adds support for @lorenzo_lewis/starlight-multi-sidebar.
+
 ## 1.7.17 - 2024-05-13
 
 ### Patch Changes
