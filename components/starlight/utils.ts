@@ -6,7 +6,7 @@ export const SIDEBAR = 'nav.sidebar';
 export const SIDEBAR_CONTENT = `${SIDEBAR} .sidebar-content`;
 export const SIDEBAR_TOPLEVEL = `${SIDEBAR_CONTENT} .top-level`;
 export const LANGUAGE_SELECTOR = 'starlight-lang-select';
-
+export const MULTI_SIDEBAR = `${SIDEBAR_CONTENT} .__collapse`
 /*
  * Returns the the sidebar anchor that best fits the parameter URL.
  */

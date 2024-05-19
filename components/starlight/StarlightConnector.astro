@@ -23,12 +23,14 @@
 
 	openCategory();
 	updateLanguageSelector(window.document);
+	updateMultiSidebar(window.document);
 
 	function afterLoader(e: TransitionBeforePreparationEvent) {
 		markMainFrameForReplacementSwap(document);
 		markMainFrameForReplacementSwap(e.newDocument);
 		closeMobileMenu();
 		updateLanguageSelector(e.newDocument);
+		updateMultiSidebar(e.newDocument);
 		setMainTransitionScope(e);
 		!replaceSidebarContent && !retainCurrentPageMarker && updateCurrentPageMarker(e.to);
 	}
@@ -107,6 +109,17 @@
 			);
 	}
 
+	function updateMultiSidebar(doc: Document) {
+		doc
+			.querySelectorAll(`${STARLIGHT.MULTI_SIDEBAR} input`)
+			.forEach((el, idx) =>
+				el.setAttribute(
+					'data-vtbot-replace',
+					`vtbot-${STARLIGHT.MULTI_SIDEBAR.replaceAll(' ', '-')}-${idx}`
+				)
+			);
+	}
+
 	/*--------------------------*/
 
 	import {
@@ -114,29 +127,23 @@
 		TRANSITION_BEFORE_SWAP,
 		TransitionBeforePreparationEvent,
 		TransitionBeforeSwapEvent,
-		isTransitionBeforePreparationEvent,
-		isTransitionBeforeSwapEvent,
 	} from 'astro:transitions/client';
 
 	document.addEventListener(TRANSITION_BEFORE_PREPARATION, (e) => {
 		({ replaceSidebarContent, retainCurrentPageMarker, mainTransitionScope } = queryMarkers());
 
-		if (isTransitionBeforePreparationEvent(e)) {
-			const originalLoader = e.loader;
-			e.loader = async () => {
-				await originalLoader();
-				afterLoader(e);
-			};
-		}
+		const originalLoader = e.loader;
+		e.loader = async () => {
+			await originalLoader();
+			afterLoader(e);
+		};
 	});
 
 	document.addEventListener(TRANSITION_BEFORE_SWAP, (e) => {
-		if (isTransitionBeforeSwapEvent(e)) {
-			const originalSwap = e.swap;
-			e.swap = () => {
-				originalSwap();
-				afterSwap(e);
-			};
-		}
+		const originalSwap = e.swap;
+		e.swap = () => {
+			originalSwap();
+			afterSwap(e);
+		};
 	});
 </script>
