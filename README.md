@@ -11,7 +11,10 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-### Improved Support for `swap()`-related Topics!!
+### 🗃️ Do you love Lorenzo's Multi Sidebar for Starlight?
+> ... then you'll appreciate that The Bag's Starlight support got you covered from day one: View transition support starting with the first npm release of @lorenzo_lewis/starlight-multi-sidebar!
+
+### Improved Support for swap()-related Topics!!
 > VtBotDebug now shows the changes that are made to the DOM during swap.
 
 > Support for `swap()` replacements is now automatically synced with Astro's main development. Astro extents the semantics of the `swap()` functions? All extensions are supported by The Bag and are available for your individual swaps!
@@ -24,15 +27,14 @@ The selection of optional Starlight components keeps growing:
 
 > Eliminate the Pseudo-Scrolling of the Main Section: With [`<PageOffset />`](https://events-3bg.pages.dev/library/PageOffset/), The Bag offers a simple to use component that eliminates pseudo scrolling effects induced by morph transitions on elements that are larger than the viewport. Especially useful to get a smooth and neat transition animation for your main content.
 
-> Improved Sidebar Handling: When you navigate to a page that has its entry within a collapsed category, the category is now automatically turned open. If the current page marker is outside the visible
-part of the sidebar, it is automatically scrolled into view. **New: Support for your own customizations!**
 
 ## Recently learned tricks ##
 
+> Improved Sidebar Handling: When you navigate to a page that has its entry within a collapsed category, the category is now automatically turned open. If the current page marker is outside the visible
+part of the sidebar, it is automatically scrolled into view. **New: Support for your own customizations!**
+
 > If you want to use `transition:persist` inside the main content area, you can do that now! As of v1.7.8 the `<ReplacementSwap />` component handles `data-astro-transition-persist` attributes within the replaced DOM trees in the same way as Astro's built-in `swap()` function does.
 
-
-> The [Jotter](https://events-3bg.pages.dev/jotter/) now leverages Starlight! The beginning of a more structured and searchable version of the pile of notes that it was.
 
 > Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
 
