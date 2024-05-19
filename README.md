@@ -15,6 +15,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 > ... then you'll appreciate that The Bag's Starlight support got you covered from day one: View transition support starting with the first npm release of @lorenzo_lewis/starlight-multi-sidebar!
 
 ### Improved Support for swap()-related Topics!!
+
 > VtBotDebug now shows the changes that are made to the DOM during swap.
 
 > Support for `swap()` replacements is now automatically synced with Astro's main development. Astro extents the semantics of the `swap()` functions? All extensions are supported by The Bag and are available for your individual swaps!

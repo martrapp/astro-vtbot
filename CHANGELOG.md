@@ -1,10 +1,10 @@
 # The Bag of Tricks for View Transitions
 
-## 1.7.17
+## 1.7.17 - 2024-05-13
 
 ### Patch Changes
 
-- 061d97b: VtBotDebug now also shows the changes that are made to the DOM during swap()
+- 061d97b: VtBotDebug now shows the changes that are made to the DOM during swap()
 
 ## 1.7.16 - 2024-05-09
 
