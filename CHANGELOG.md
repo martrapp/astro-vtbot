@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.19 - 2024-05-21
+
+### Patch Changes
+
+- 310a1d3: Updates support for starlight-multi-sidebar upto v0.1.3
+
 ## 1.7.18 - 2024-05-19
 
 ### Patch Changes
