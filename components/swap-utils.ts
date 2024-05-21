@@ -43,10 +43,10 @@ export const swapInHTMLAttributes = (doc: Document, rootAttributesToPreserve: st
  */
 export const swapInHeadElements = (doc: Document) => {
 	[...document.head.children].forEach((e) => {
-
 		if (e instanceof HTMLElement) {
 			const id = e.getAttribute(PERSIST_ATTR);
-			let other: Element | "" | null | undefined = id && doc.head.querySelector(`[${PERSIST_ATTR}="${id}"]`);
+			let other: Element | '' | null | undefined =
+				id && doc.head.querySelector(`[${PERSIST_ATTR}="${id}"]`);
 			other ||= [...doc.head.children].find((o) => o.isEqualNode(e));
 			(other ?? e).remove();
 		}

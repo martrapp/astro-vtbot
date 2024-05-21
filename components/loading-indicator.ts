@@ -10,7 +10,7 @@ let show: () => void;
 let hide: () => void;
 let initializer: (() => void | Promise<void>) | undefined;
 
-export function loading(newShow: () => void, newHide: () => void, newInit: () => void = () => { }) {
+export function loading(newShow: () => void, newHide: () => void, newInit: () => void = () => {}) {
 	show = newShow;
 	hide = newHide;
 	initialize(newInit);
@@ -49,8 +49,10 @@ export async function vtbotLoadingIndicator(options: Options) {
 	const loadingIndicator = document.getElementById('vtbot-loading-indicator');
 	if (loadingIndicator) return;
 
-	const icons = options.src ? [] : document.querySelectorAll<HTMLLinkElement>(`head link[rel*="icon"]`);
-	const favicon = (options.src || (icons[icons.length - 1])?.href) ?? '/favicon.ico';
+	const icons = options.src
+		? []
+		: document.querySelectorAll<HTMLLinkElement>(`head link[rel*="icon"]`);
+	const favicon = (options.src || icons[icons.length - 1]?.href) ?? '/favicon.ico';
 
 	let src = '';
 	try {
