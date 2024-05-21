@@ -4,13 +4,16 @@ import AutoNameSelected from 'astro-vtbot/components/AutoNameSelected.astro';
 ---
 
 <Layout title="Selected1">
-	<AutoNameSelected slot="head" />
+	<AutoNameSelected slot="head" prefix="one" selector="a" />
+	<AutoNameSelected slot="head" prefix="two" selector="h1, h2" />
+	<AutoNameSelected slot="head" prefix="three" selector="h2" />
+	<AutoNameSelected slot="head" force={false} />
 	<h1>Auto Name Selected</h1>
 	<h2>A level 2 heading</h2>
 	<h3>A level 3 heading</h3>
 	<h2>Another level 2 heading</h2>
 	<h3>Yet another level 3 heading</h3>
-	<button>a lonly button</button>
+	<a href=".">a lonly link</a>
 	<h2>The last heading</h2>
+	<a id="click" href="/name-selected/two/">two</a>
 </Layout>
-<script></script>

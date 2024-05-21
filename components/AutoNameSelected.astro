@@ -1,0 +1,55 @@
+---
+export interface Props {
+	selector?: string;
+	prefix?: string;
+	force?: boolean;
+}
+const { selector, prefix, force } = Astro.props;
+if (prefix && prefix.includes(' ')) {
+	throw new Error(
+		`[vtbot] AutoNameSelected: prefix must not contain space characters: '${prefix}'`
+	);
+}
+---
+
+{
+	(selector || prefix || force !== undefined) && (
+		<meta
+			name="vtbot-auto-name-selected"
+			content={(prefix ?? '') + ' ' + (force ?? '') + ' ' + (selector ?? '')}
+		/>
+	)
+}
+
+<script>
+	import { TRANSITION_BEFORE_PREPARATION } from 'astro:transitions/client';
+
+	const markHeadings = (doc: Document) => {
+		[...document.querySelectorAll<HTMLMetaElement>('meta[name="vtbot-auto-name-selected"]')]
+			.map((meta) => meta.content ?? '  ')
+			.forEach((m) => {
+				const [first, second, ...rest] = m.split(' ');
+				const joined = rest.join(' ');
+				const selector = joined || 'h1, h2, h3, h4, h5, h6';
+				const prefix = first || 'vtbot-hx';
+				const force = second ? JSON.parse(second) : true;
+				const all = doc.querySelectorAll(selector);
+				console.log({ force, prefix, selector, all });
+				all.forEach((e, idx) => {
+					const style = (e as HTMLElement).style;
+					if (!style.viewTransitionName || force) {
+						style.viewTransitionName = `${prefix}-` + idx;
+					}
+				});
+			});
+	};
+
+	document.addEventListener(TRANSITION_BEFORE_PREPARATION, (e) => {
+		markHeadings(document);
+		const originalLoader = e.loader;
+		e.loader = async () => {
+			await originalLoader();
+			markHeadings(e.newDocument);
+		};
+	});
+</script>

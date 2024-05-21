@@ -29,6 +29,22 @@ test.describe('BrakePad component', () => {
 		expect(milliseconds).toBeLessThan(2500);
 	});
 });
+
+test.describe('AutoNameSelected', () => {
+	test('works as advertised', async ({ page }) => {
+		let text = '';
+		page.on('console', (msg) => msg.text().startsWith('test') && (text += msg.text().substring(4)));
+		await page.goto('/name-selected/one/');
+		await expect(page).toHaveTitle('Selected1');
+
+		await page.locator('#click').click();
+		await expect(page).toHaveTitle('Selected2');
+
+		expect(text).toBe(
+			' H1 two-0 H2 three-0 H3 vtbot-hx-2 H2 three-1 H3 vtbot-hx-4 A one-0 H2 three-2 A one-1'
+		);
+	});
+});
 test.describe('Debug component', () => {
 	test('logs', async ({ page }) => {
 		let messages = '';
