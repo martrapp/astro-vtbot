@@ -48,7 +48,9 @@ export function elementsWithPropertyInStylesheet(
 	[...document.styleSheets].forEach((sheet) => {
 		const style = sheet.ownerNode as HTMLElement;
 		const definedNames = new Set<string>();
-		const matches = style?.innerHTML.replace(/@supports[^{]*\{/gu,"").matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'gu'));
+		const matches = style?.innerHTML
+			.replace(/@supports[^{]*\{/gu, '')
+			.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'gu'));
 		[...matches].forEach((match) => definedNames.add(decode(property, match[1]!)));
 		try {
 			[...sheet.cssRules].forEach((rule) => {

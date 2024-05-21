@@ -7,6 +7,28 @@ test.describe('Setup', () => {
 	});
 });
 
+test.describe('BrakePad component', () => {
+	test('delays for specified time', async ({ page }) => {
+		let milliseconds = 0;
+		page.on('console', (msg) => {
+			milliseconds = parseInt(msg.text().split(':')[1], 10);
+		});
+		await page.goto('/brake/one/');
+		await expect(page).toHaveTitle('Brake2');
+		expect(milliseconds).toBeGreaterThan(300);
+		expect(milliseconds).toBeLessThan(500);
+	});
+	test('default is 2s', async ({ page }) => {
+		let milliseconds = 0;
+		page.on('console', (msg) => {
+			milliseconds = parseInt(msg.text().split(':')[1], 10);
+		});
+		await page.goto('/brake/two/');
+		await expect(page).toHaveTitle('Brake1');
+		expect(milliseconds).toBeGreaterThan(2000);
+		expect(milliseconds).toBeLessThan(2500);
+	});
+});
 test.describe('Debug component', () => {
 	test('logs', async ({ page }) => {
 		let messages = '';
@@ -100,9 +122,8 @@ test.describe('ReplacementSwap', () => {
 		await page.locator('#six').click();
 		await expect(page).toHaveTitle('Repl6');
 		expect(await page.locator('main #persist').count()).toBe(1);
-		expect(await page.locator('head meta[name="persist"]').getAttribute("content")).toBe('5');
+		expect(await page.locator('head meta[name="persist"]').getAttribute('content')).toBe('5');
 	});
-
 });
 
 test.describe('Linter component', () => {

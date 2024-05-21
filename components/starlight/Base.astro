@@ -24,5 +24,9 @@ const {
 <ReplacementSwap rootAttributesToPreserve="data-theme" />
 {mainTransitionScope && <meta name="vtbot-main-transition-scope" content={mainTransitionScope} />}
 {replaceSidebarContent && <meta name="vtbot-starlight-replace-sidebar-content" content="true" />}
-{retainCurrentPageMarker && <meta name="vtbot-starlight-retain-current-page-marker" content="true" />}
+{
+	retainCurrentPageMarker && (
+		<meta name="vtbot-starlight-retain-current-page-marker" content="true" />
+	)
+}
 <StarlightConnector />

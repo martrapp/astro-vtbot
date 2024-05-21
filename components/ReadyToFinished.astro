@@ -3,10 +3,13 @@ export interface Props {
 	duration: string;
 }
 const { duration } = Astro.props;
-const name="vtbot-ready-to-finished";
+const name = 'vtbot-ready-to-finished';
 ---
 
-<span id={name} style={`view-transition-name: ${name}`} data-vtbot-ready-to-finished-duration={duration}></span>
+<span
+	id={name}
+	style={`view-transition-name: ${name}`}
+	data-vtbot-ready-to-finished-duration={duration}></span>
 <style is:global>
 	@keyframes vtbot-ready-to-finished {
 	}
@@ -27,6 +30,10 @@ const name="vtbot-ready-to-finished";
 	import { TRANSITION_AFTER_SWAP } from 'astro:transitions/client';
 
 	document.addEventListener(TRANSITION_AFTER_SWAP, () => {
-		document.documentElement.style.setProperty('--vtbot-ready-to-finished-duration', document.querySelector<HTMLSpanElement>("[data-vtbot-ready-to-finished-duration]")?.dataset.vtbotReadyToFinishedDuration || '0s');
+		document.documentElement.style.setProperty(
+			'--vtbot-ready-to-finished-duration',
+			document.querySelector<HTMLSpanElement>('[data-vtbot-ready-to-finished-duration]')?.dataset
+				.vtbotReadyToFinishedDuration || '0s'
+		);
 	});
 </script>

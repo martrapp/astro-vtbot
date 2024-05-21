@@ -67,7 +67,7 @@
   ],
   "scripts": {
     "format": "prettier -w components integration animations test",
-    "test": "scripts/test.sh",
+    "test": "npm run format; scripts/test.sh",
     "changeset": "changeset",
     "release": "changeset publish"
   },

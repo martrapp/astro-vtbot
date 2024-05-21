@@ -5,6 +5,7 @@
 <script>
 	import { openCategory, updateCurrentPageMarker } from './utils';
 	import * as STARLIGHT from './utils';
+	import { updateMultiSidebar } from './starlight-multi-sidebar';
 
 	export const REPLACE_SIDEBAR_CONTENT = 'vtbot-starlight-replace-sidebar-content';
 	export const RETAIN_CURRENT_PAGE_MARKER = 'vtbot-starlight-retain-current-page-marker';
@@ -106,17 +107,6 @@
 			.querySelectorAll(STARLIGHT.LANGUAGE_SELECTOR)
 			.forEach((el, idx) =>
 				el.setAttribute('data-vtbot-replace', `vtbot-${STARLIGHT.LANGUAGE_SELECTOR}-${idx}`)
-			);
-	}
-
-	function updateMultiSidebar(doc: Document) {
-		doc
-			.querySelectorAll(`${STARLIGHT.MULTI_SIDEBAR} input`)
-			.forEach((el, idx) =>
-				el.setAttribute(
-					'data-vtbot-replace',
-					`vtbot-${STARLIGHT.MULTI_SIDEBAR.replaceAll(' ', '-')}-${idx}`
-				)
 			);
 	}
 
