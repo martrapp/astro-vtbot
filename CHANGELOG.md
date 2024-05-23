@@ -1,10 +1,11 @@
 # The Bag of Tricks for View Transitions
 
-## 1.7.20
+## 1.7.20 - 2024-05-23
 
 ### Patch Changes
 
 - f4a579d: [AutoNameSelected] New component that supports declaratively adding view transition names for additional morph effects.
+- Plus: @lorenzo_lewis/starlight-multi-sidebar support extended to @lorenzo_lewis/starlight-utils
 
 ## 1.7.19 - 2024-05-21
 
