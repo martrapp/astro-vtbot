@@ -11,14 +11,16 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
+### Automatically Name Selected Elements for Additional Morph Effects
+
+> The Bag features a new component to declaratively assign view transition names to selected elements: `<AutoNameSelected/>`. [This component](https://events-3bg.pages.dev/library/AutoNameSelected/) provides for a lot of fun as can be seen in the [image gallery demo](https://events-3bg.pages.dev/image-gallery/).
+
 ### 🗃️ Do you love Lorenzo's Multi Sidebar for Starlight?
-> ... then you'll appreciate that The Bag's Starlight support got you covered from day one: View transition support starting with the first npm release of @lorenzo_lewis/starlight-multi-sidebar!
+> ... then you'll appreciate that The Bag's Starlight support got you covered from day one: View transition support starting with the first npm release of @lorenzo_lewis/starlight~~multi-sidebar~~**utils**!
 
 ### Improved Support for swap()-related Topics!!
 
 > VtBotDebug now shows the changes that are made to the DOM during swap.
-
-> Support for `swap()` replacements is now automatically synced with Astro's main development. Astro extents the semantics of the `swap()` functions? All extensions are supported by The Bag and are available for your individual swaps!
 
 ### More Starlight Improvements: ###
 
@@ -33,9 +35,6 @@ The selection of optional Starlight components keeps growing:
 
 > Improved Sidebar Handling: When you navigate to a page that has its entry within a collapsed category, the category is now automatically turned open. If the current page marker is outside the visible
 part of the sidebar, it is automatically scrolled into view. **New: Support for your own customizations!**
-
-> If you want to use `transition:persist` inside the main content area, you can do that now! As of v1.7.8 the `<ReplacementSwap />` component handles `data-astro-transition-persist` attributes within the replaced DOM trees in the same way as Astro's built-in `swap()` function does.
-
 
 > Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
 
@@ -53,6 +52,7 @@ The `astro-vtbot`package isn't a monolithic library. Use the components you need
 |Component|Brotli bytes added|
 |-------|-----------------|
 Animation Style ✨| ~0.1k
+AutoNameSelected 📛 | ~0.3k
 BrakePad 🦥 | ~0.2k
 Linter 🧹 | ~1.9k
 LoadingIndicator ⏳ | ~0.4k
