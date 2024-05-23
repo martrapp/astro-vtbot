@@ -29,6 +29,29 @@ test.describe('BrakePad component', () => {
 		expect(milliseconds).toBeLessThan(2500);
 	});
 });
+
+test.describe('AutoNameSelected', () => {
+	test('works as advertised', async ({ page }) => {
+		let text = '';
+		page.on('console', (msg) => msg.text().startsWith('test') && (text += msg.text().substring(4)));
+		await page.goto('/name-selected/one/');
+		await expect(page).toHaveTitle('Selected1');
+
+		text = '';
+		await page.locator('#click').click();
+		await expect(page).toHaveTitle('Selected2');
+		expect(text).toBe(
+			" H1 'two-0' H2 'none' H3 'vtbot-hx-2' H4 '' H5 'none' H6 'three-1' H2 '' H3 'vtbot-hx-7' A 'one-0' H2 '' A 'one-1'"
+		);
+
+		text = '';
+		await page.locator('#click').click();
+		await expect(page).toHaveTitle('Selected1');
+		expect(text).toBe(
+			" H1 'none' H2 'none' H3 'one-1' H4 '' H5 '' H6 'vtbot-hx-5' H2 'none' H3 'one-3' A 'none' H2 'none' A 'none'"
+		);
+	});
+});
 test.describe('Debug component', () => {
 	test('logs', async ({ page }) => {
 		let messages = '';

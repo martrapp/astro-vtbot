@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AutoNameSelected from 'astro-vtbot/components/AutoNameSelected.astro';
+---
+
+<Layout title="Selected2">
+	<AutoNameSelected slot="head" prefix="one" selector="a" />
+	<AutoNameSelected slot="head" prefix="two" selector="h1, h2, h4, h5" />
+	<AutoNameSelected slot="head" prefix="three" selector="h2,h6" />
+	<AutoNameSelected slot="head" force={false} />
+	<AutoNameSelected slot="head" prefix="" selector="h2,h4,h5" />
+	<AutoNameSelected slot="head" force={false} prefix="none" selector="h2:first-of-type, h5" />
+	<h1>Auto Name Selected 2</h1>
+	<h2>A level 2 heading</h2>
+	<h3>A level 3 heading</h3>
+	<h4>X</h4>
+	<h5>Y</h5>
+	<h6>Z</h6>
+	<h2>Another level 2 heading</h2>
+	<h3>Yet another level 3 heading</h3>
+	<a href=".">a lonly link</a>
+	<h2>The last heading</h2>
+	<a id="click" href="/name-selected/one/">one</a>
+</Layout>
