@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.21 - 2024-05-25
+
+### Patch Changes
+
+- c377ed5: Adds the starlight-blog package to the friendly neighbor list, see https://events-3bg.pages.dev/jotter/starlight/guide/#friendly-neighbor.
+
 ## 1.7.20 - 2024-05-23
 
 ### Patch Changes
