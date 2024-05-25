@@ -79,9 +79,9 @@
     "@playwright/test": "^1.44.1",
     "@types/dom-view-transitions": "^1.0.4",
     "@types/node": "^20.12.12",
-    "astro": "^4.9.0",
+    "astro": "^4.9.1",
     "prettier": "^3.1.0",
-    "prettier-plugin-astro": "^0.13.0",
+    "prettier-plugin-astro": "^0.14.0",
     "typescript": "^5.3.3"
   },
   "funding": {
