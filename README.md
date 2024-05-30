@@ -11,18 +11,32 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
+### More Starlight Improvements: ###
+
+#### Mission Accomplished
+> This release completes the series of additions to the view transition support for Starlight!
+The last two of the [originally planned features](https://events-3bg.pages.dev/jotter/starlight/inner-workings/) are:
+- The [`<BorderControl fence={{}} />` component](https://events-3bg.pages.dev/library/BorderControl/) that helps you to maintain Starlight state in a mixed Starlight / non-Starlight project.
+- The [`<SwapSound src="..." />` component](https://events-3bg.pages.dev/library/SwapSound/) that provides transition animation for the ears, an audible loading and transition indicator, or simply lots of noise from click to finish.
+
+Of course there will be further additions if required. Please contact me if you are missing something.
+
+#### Friendly Neighbor List
+> The Friendly Neighbor List of the Starlight support keeps growing. Now features:
+- starlight-image-zoom
+- starlight-utils
+- starlight-blog
+- starlight-docsearch
+
 ### Automatically Name Selected Elements for Additional Morph Effects
 
 > The Bag features a new component to declaratively assign view transition names to selected elements: `<AutoNameSelected/>`. [This component](https://events-3bg.pages.dev/library/AutoNameSelected/) provides for a lot of fun as can be seen in the [image gallery demo](https://events-3bg.pages.dev/image-gallery/).
 
-### 🗃️ Do you love Lorenzo's Multi Sidebar for Starlight?
-> ... then you'll appreciate that The Bag's Starlight support got you covered from day one: View transition support starting with the first npm release of @lorenzo_lewis/starlight~~multi-sidebar~~**utils**!
 
-### Improved Support for swap()-related Topics!!
+## Recently Learned Tricks ##
 
-> VtBotDebug now shows the changes that are made to the DOM during swap.
+> Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
 
-### More Starlight Improvements: ###
 
 The selection of optional Starlight components keeps growing:
 
@@ -30,13 +44,6 @@ The selection of optional Starlight components keeps growing:
 
 > Eliminate the Pseudo-Scrolling of the Main Section: With [`<PageOffset />`](https://events-3bg.pages.dev/library/PageOffset/), The Bag offers a simple to use component that eliminates pseudo scrolling effects induced by morph transitions on elements that are larger than the viewport. Especially useful to get a smooth and neat transition animation for your main content.
 
-
-## Recently learned tricks ##
-
-> Improved Sidebar Handling: When you navigate to a page that has its entry within a collapsed category, the category is now automatically turned open. If the current page marker is outside the visible
-part of the sidebar, it is automatically scrolled into view. **New: Support for your own customizations!**
-
-> Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
 
 
 
@@ -53,6 +60,7 @@ The `astro-vtbot`package isn't a monolithic library. Use the components you need
 |-------|-----------------|
 Animation Style ✨| ~0.1k
 AutoNameSelected 📛 | ~0.3k
+BorderControl 🛂 | ~0.1k
 BrakePad 🦥 | ~0.2k
 Linter 🧹 | ~1.9k
 LoadingIndicator ⏳ | ~0.4k
@@ -62,6 +70,7 @@ PageOffset 📄⇞ | ~0.1k
 Portal 🚪 | ~0.2k
 ReplacementSwap ↹ | ~0.5k
 Starlight &hellip; 🌟 | ~3.0k
+SwapSound 🔊 | -0.3k
 Swing 🎷 | ~0.1k
 VtBotDebug 🐛 | ~2.8k
 Zoom 🔎 | ~0.1k
