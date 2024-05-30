@@ -6,7 +6,63 @@ test.describe('Setup', () => {
 		await expect(page.locator('body')).toHaveText('astro-vtbot test server');
 	});
 });
+test.describe('AutoNameSelected', () => {
+	test('works as advertised', async ({ page }) => {
+		let text = '';
+		page.on('console', (msg) => msg.text().startsWith('test') && (text += msg.text().substring(4)));
+		await page.goto('/name-selected/one/');
+		await expect(page).toHaveTitle('Selected1');
 
+		text = '';
+		await page.locator('#click').click();
+		await expect(page).toHaveTitle('Selected2');
+		expect(text).toBe(
+			" H1 'two-0' H2 'none' H3 'vtbot-hx-2' H4 '' H5 'none' H6 'three-1' H2 '' H3 'vtbot-hx-7' A 'one-0' H2 '' A 'one-1'"
+		);
+
+		text = '';
+		await page.locator('#click').click();
+		await expect(page).toHaveTitle('Selected1');
+		expect(text).toBe(
+			" H1 'none' H2 'none' H3 'one-1' H4 '' H5 '' H6 'vtbot-hx-5' H2 'none' H3 'one-3' A 'none' H2 'none' A 'none'"
+		);
+	});
+});
+
+test.describe('Border control', () => {
+	test('protects against outside', async ({ page }) => {
+		const text: string[] = [];
+		page.on(
+			'console',
+			(msg) => msg.text().startsWith('[test]') && text.push(msg.text().substring(7))
+		);
+		await page.goto('/bor/der1/one/');
+		await expect(page).toHaveTitle('Border1');
+		expect(text.join(' ')).toEqual('loaded');
+		await page.locator('#click').click();
+		await expect(page).toHaveTitle('Target');
+		expect(text.join(' ')).toEqual('loaded after-swap');
+		await page.goBack();
+		await expect(page).toHaveTitle('Border1');
+		expect(text.join(' ')).toEqual('loaded after-swap loaded');
+	});
+	test('protects the inside', async ({ page }) => {
+		const text: string[] = [];
+		page.on(
+			'console',
+			(msg) => msg.text().startsWith('[test]') && text.push(msg.text().substring(7))
+		);
+		await page.goto('/bor/der1/two/');
+		await expect(page).toHaveTitle('Border2');
+		expect(text.join(' ')).toEqual('loaded');
+		await page.locator('#click').click();
+		await expect(page).toHaveTitle('Target');
+		expect(text.join(' ')).toEqual('loaded after-swap');
+		await page.goBack();
+		await expect(page).toHaveTitle('Border2');
+		expect(text.join(' ')).toEqual('loaded after-swap loaded');
+	});
+});
 test.describe('BrakePad component', () => {
 	test('delays for specified time', async ({ page }) => {
 		let milliseconds = 0;
@@ -30,28 +86,6 @@ test.describe('BrakePad component', () => {
 	});
 });
 
-test.describe('AutoNameSelected', () => {
-	test('works as advertised', async ({ page }) => {
-		let text = '';
-		page.on('console', (msg) => msg.text().startsWith('test') && (text += msg.text().substring(4)));
-		await page.goto('/name-selected/one/');
-		await expect(page).toHaveTitle('Selected1');
-
-		text = '';
-		await page.locator('#click').click();
-		await expect(page).toHaveTitle('Selected2');
-		expect(text).toBe(
-			" H1 'two-0' H2 'none' H3 'vtbot-hx-2' H4 '' H5 'none' H6 'three-1' H2 '' H3 'vtbot-hx-7' A 'one-0' H2 '' A 'one-1'"
-		);
-
-		text = '';
-		await page.locator('#click').click();
-		await expect(page).toHaveTitle('Selected1');
-		expect(text).toBe(
-			" H1 'none' H2 'none' H3 'one-1' H4 '' H5 '' H6 'vtbot-hx-5' H2 'none' H3 'one-3' A 'none' H2 'none' A 'none'"
-		);
-	});
-});
 test.describe('Debug component', () => {
 	test('logs', async ({ page }) => {
 		let messages = '';
@@ -72,80 +106,6 @@ test.describe('Debug component', () => {
 		await page.locator('#debug2').click();
 		await expect(page).toHaveTitle('Debug2');
 		await expect(error).toBeFalsy();
-	});
-});
-
-test.describe('ReplacementSwap', () => {
-	test('keeps header and footer', async ({ page }) => {
-		await page.goto('/repl/one/');
-		await expect(page).toHaveTitle('Repl1');
-		await expect(page.locator('header')).toHaveText('Header1');
-		await expect(page.locator('footer')).toHaveText('Footer1');
-		await page.locator('#two').click();
-		await expect(page).toHaveTitle('Repl2');
-		await expect(page.locator('header')).toHaveText('Header1');
-		await expect(page.locator('footer')).toHaveText('Footer1');
-	});
-	test('replaces main', async ({ page }) => {
-		await page.goto('/repl/one/');
-		await expect(page).toHaveTitle('Repl1');
-		await expect(page.locator('main')).toHaveText('Main1two');
-		await page.locator('#two').click();
-		await expect(page).toHaveTitle('Repl2');
-		await expect(page.locator('main')).toHaveText('Main2onethree');
-	});
-	test('falls back to original swap', async ({ page }) => {
-		await page.goto('/repl/two/');
-		await expect(page).toHaveTitle('Repl2');
-		await expect(page.locator('main')).toHaveText('Main2onethree');
-		await page.locator('#three').click();
-		await expect(page).toHaveTitle('Repl3');
-		await expect(page.locator('header')).toHaveText('Header3');
-		await expect(page.locator('main')).toHaveText('Main3');
-		await expect(page.locator('footer')).toHaveText('Footer3');
-	});
-	test('can swap header with footer', async ({ page }) => {
-		await page.goto('/repl/one/');
-		await expect(page).toHaveTitle('Repl1');
-		expect(await page.locator('header:above(footer)').count()).toBe(1);
-		expect(await page.locator('footer:above(header)').count()).toBe(0);
-		await page.locator('#four').click();
-		await expect(page).toHaveTitle('Repl4');
-		expect(await page.locator('header:above(footer)').count()).toBe(0);
-		expect(await page.locator('footer:above(header)').count()).toBe(1);
-	});
-	test('can swap lang attribute', async ({ page }) => {
-		await page.goto('/repl/one/');
-		await expect(page).toHaveTitle('Repl1');
-		expect(await page.locator('html').getAttribute('lang')).toBe('es');
-		await page.locator('#two').click();
-		await expect(page).toHaveTitle('Repl2');
-		expect(await page.locator('html').getAttribute('lang')).toBe('de');
-	});
-	test('can persist html attributes', async ({ page }) => {
-		await page.goto('/repl/one/');
-		await expect(page).toHaveTitle('Repl1');
-		await page.locator('html').evaluate((el, value) => el.setAttribute('theme', value), 'dark');
-		await page.locator('html').evaluate((el, value) => el.setAttribute('dark', value), 'very');
-		await page.locator('#two').click();
-		await expect(page).toHaveTitle('Repl2');
-		expect(await page.locator('html').getAttribute('theme')).toBe('dark');
-		expect(await page.locator('html').getAttribute('dark')).toBe(null);
-		await page.locator('html').evaluate((el, value) => el.setAttribute('theme', value), 'dark');
-		await page.locator('html').evaluate((el, value) => el.setAttribute('dark', value), 'very');
-		await page.locator('#one').click();
-		await expect(page).toHaveTitle('Repl1');
-		expect(await page.locator('html').getAttribute('theme')).toBe(null);
-		expect(await page.locator('html').getAttribute('dark')).toBe('very');
-	});
-
-	test('can handle data-astro-transition-persist', async ({ page }) => {
-		await page.goto('/repl/five/');
-		await expect(page).toHaveTitle('Repl5');
-		await page.locator('#six').click();
-		await expect(page).toHaveTitle('Repl6');
-		expect(await page.locator('main #persist').count()).toBe(1);
-		expect(await page.locator('head meta[name="persist"]').getAttribute('content')).toBe('5');
 	});
 });
 
@@ -222,5 +182,79 @@ test.describe('Linter component', () => {
 		expect(consoleOutput).toBe(
 			'%c[vtbot-linter] suspicious script types in /linter/twelve/ JSHandle@nodeJSHandle@nodeconsole.groupEndstandard script type 2standard script type 1'
 		);
+	});
+});
+
+test.describe('ReplacementSwap', () => {
+	test('keeps header and footer', async ({ page }) => {
+		await page.goto('/repl/one/');
+		await expect(page).toHaveTitle('Repl1');
+		await expect(page.locator('header')).toHaveText('Header1');
+		await expect(page.locator('footer')).toHaveText('Footer1');
+		await page.locator('#two').click();
+		await expect(page).toHaveTitle('Repl2');
+		await expect(page.locator('header')).toHaveText('Header1');
+		await expect(page.locator('footer')).toHaveText('Footer1');
+	});
+	test('replaces main', async ({ page }) => {
+		await page.goto('/repl/one/');
+		await expect(page).toHaveTitle('Repl1');
+		await expect(page.locator('main')).toHaveText('Main1two');
+		await page.locator('#two').click();
+		await expect(page).toHaveTitle('Repl2');
+		await expect(page.locator('main')).toHaveText('Main2onethree');
+	});
+	test('falls back to original swap', async ({ page }) => {
+		await page.goto('/repl/two/');
+		await expect(page).toHaveTitle('Repl2');
+		await expect(page.locator('main')).toHaveText('Main2onethree');
+		await page.locator('#three').click();
+		await expect(page).toHaveTitle('Repl3');
+		await expect(page.locator('header')).toHaveText('Header3');
+		await expect(page.locator('main')).toHaveText('Main3');
+		await expect(page.locator('footer')).toHaveText('Footer3');
+	});
+	test('can swap header with footer', async ({ page }) => {
+		await page.goto('/repl/one/');
+		await expect(page).toHaveTitle('Repl1');
+		expect(await page.locator('header:above(footer)').count()).toBe(1);
+		expect(await page.locator('footer:above(header)').count()).toBe(0);
+		await page.locator('#four').click();
+		await expect(page).toHaveTitle('Repl4');
+		expect(await page.locator('header:above(footer)').count()).toBe(0);
+		expect(await page.locator('footer:above(header)').count()).toBe(1);
+	});
+	test('can swap lang attribute', async ({ page }) => {
+		await page.goto('/repl/one/');
+		await expect(page).toHaveTitle('Repl1');
+		expect(await page.locator('html').getAttribute('lang')).toBe('es');
+		await page.locator('#two').click();
+		await expect(page).toHaveTitle('Repl2');
+		expect(await page.locator('html').getAttribute('lang')).toBe('de');
+	});
+	test('can persist html attributes', async ({ page }) => {
+		await page.goto('/repl/one/');
+		await expect(page).toHaveTitle('Repl1');
+		await page.locator('html').evaluate((el, value) => el.setAttribute('theme', value), 'dark');
+		await page.locator('html').evaluate((el, value) => el.setAttribute('dark', value), 'very');
+		await page.locator('#two').click();
+		await expect(page).toHaveTitle('Repl2');
+		expect(await page.locator('html').getAttribute('theme')).toBe('dark');
+		expect(await page.locator('html').getAttribute('dark')).toBe(null);
+		await page.locator('html').evaluate((el, value) => el.setAttribute('theme', value), 'dark');
+		await page.locator('html').evaluate((el, value) => el.setAttribute('dark', value), 'very');
+		await page.locator('#one').click();
+		await expect(page).toHaveTitle('Repl1');
+		expect(await page.locator('html').getAttribute('theme')).toBe(null);
+		expect(await page.locator('html').getAttribute('dark')).toBe('very');
+	});
+
+	test('can handle data-astro-transition-persist', async ({ page }) => {
+		await page.goto('/repl/five/');
+		await expect(page).toHaveTitle('Repl5');
+		await page.locator('#six').click();
+		await expect(page).toHaveTitle('Repl6');
+		expect(await page.locator('main #persist').count()).toBe(1);
+		expect(await page.locator('head meta[name="persist"]').getAttribute('content')).toBe('5');
 	});
 });
