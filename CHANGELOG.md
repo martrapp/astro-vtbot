@@ -1,5 +1,12 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.22
+
+### Patch Changes
+
+- c56e9a7: Adds a new component: SwapSound, the audible loading and swapping indicator ;-)
+- c56e9a7: Adds a new component: BorderControl simplifies mixed sites with ReplacementSwap and other view transitions.
+
 ## 1.7.21 - 2024-05-25
 
 ### Patch Changes
