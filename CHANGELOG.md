@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.23
+
+### Patch Changes
+
+- b6ee610: Fixes a bug with imports when using loading-indicator.ts
+
 ## 1.7.22 - 2024-05-30
 
 ### Patch Changes
