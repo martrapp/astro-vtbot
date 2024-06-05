@@ -24,9 +24,9 @@ const doInit = () => {
 
 export function initialize(onPageLoad?: () => void | Promise<void>, lowPrio = false) {
 	if (!(initializer && lowPrio)) initializer = onPageLoad;
-	document.addEventListener("astro:page-load", doInit);
-	document.addEventListener("astro:before-preparation", doShow);
-	document.addEventListener("astro:after-preparation", doHide);
+	document.addEventListener('astro:page-load', doInit);
+	document.addEventListener('astro:before-preparation', doShow);
+	document.addEventListener('astro:after-preparation', doHide);
 }
 
 type Options = {
