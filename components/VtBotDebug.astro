@@ -40,13 +40,15 @@ const active = import.meta.env.DEV || production;
 
 	declare global {
 		interface Window {
-			_vtbot_debug: {
-				capture: Record<string, any>;
-				originalMap: Map<string, string>;
-				savedSwapEvent: TransitionBeforeSwapEvent;
-				listeningScripts: ListeningScripts;
-				// 2 = waiting for both, page-load and finished, 1 = waiting for one, 0 = all done
-				closing: number;
+			_vtbot: {
+				debug: {
+					capture: Record<string, any>;
+					originalMap: Map<string, string>;
+					savedSwapEvent: TransitionBeforeSwapEvent;
+					listeningScripts: ListeningScripts;
+					// 2 = waiting for both, page-load and finished, 1 = waiting for one, 0 = all done
+					closing: number;
+				};
 			};
 		}
 	}
@@ -54,7 +56,7 @@ const active = import.meta.env.DEV || production;
 	prefix.init('[vtbot-debug]', COLORED);
 	const enabled_out = () => !!document.querySelector('meta[name="vtbot-debug"]');
 
-	const enabled_in = () => window._vtbot_debug?.closing ?? 0 > 0;
+	const enabled_in = () => window._vtbot?.debug?.closing ?? 0 > 0;
 
 	let beginning = 0;
 
@@ -97,7 +99,7 @@ const active = import.meta.env.DEV || production;
 	 * log a property of the event
 	 */
 	async function delta(e: Record<string, any>, prop: string, deltaOnly = false) {
-		const _vtbot_debug = window._vtbot_debug;
+		const vtbot_debug = window._vtbot.debug;
 		let bold = (s: string) => `**${s}**`;
 		let deref = (x: any) => x;
 		let print = (x: any) => x;
@@ -114,11 +116,11 @@ const active = import.meta.env.DEV || production;
 			bold = (x) => x + '\n';
 		}
 
-		let different = () => value(deref(_vtbot_debug.capture[prop])) !== value(deref(e[prop]));
+		let different = () => value(deref(vtbot_debug.capture[prop])) !== value(deref(e[prop]));
 
 		if (different()) {
 			logWithStyle(
-				`%c${prop}%c changed from ${bold(print(_vtbot_debug.capture[prop]))} to ${bold(print(e[prop]))}`,
+				`%c${prop}%c changed from ${bold(print(vtbot_debug.capture[prop]))} to ${bold(print(e[prop]))}`,
 				deltaOnly,
 				ALTERNATE,
 				NORMAL
@@ -132,7 +134,7 @@ const active = import.meta.env.DEV || production;
 	 * Capture the event properties
 	 */
 	const doCapture = (e: Event) => {
-		window._vtbot_debug.capture = {
+		window._vtbot.debug.capture = {
 			...e,
 			type: e.type,
 			cancelable: e.cancelable,
@@ -448,7 +450,7 @@ const active = import.meta.env.DEV || production;
 
 	function afterPreparation(e: Event) {
 		if (enabled_out()) {
-			logProperties(window._vtbot_debug.capture.event, true);
+			logProperties(window._vtbot.debug.capture.event, true);
 			prefix.log(`Event handler for ${e.type}`);
 		}
 	}
@@ -464,17 +466,17 @@ const active = import.meta.env.DEV || production;
 					const map = elementsWithStyleProperty('view-transition-name');
 					[...map.values()].filter((set) => set.has(document.documentElement)).length === 0 &&
 						map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
-					window._vtbot_debug.originalMap = toCSSSelectorMap(map, 'old');
+					window._vtbot.debug.originalMap = toCSSSelectorMap(map, 'old');
 				}
 				activateMutationObserver();
 				const originalSwap = swapEvent.swap;
 				swapEvent.swap = async () => {
 					prefix.log(`before execution of swap()`);
 					originalSwap();
-					logProperties(window._vtbot_debug.capture.event, true);
+					logProperties(window._vtbot.debug.capture.event, true);
 					prefix.log(`after execution of swap()`);
 					prefix.log(`%o`, document.documentElement);
-					window._vtbot_debug.savedSwapEvent = swapEvent;
+					window._vtbot.debug.savedSwapEvent = swapEvent;
 				};
 				doCapture(swapEvent);
 				swapEvent.viewTransition.updateCallbackDone
@@ -493,7 +495,7 @@ const active = import.meta.env.DEV || production;
 					})
 					.finally(() => {
 						logAnimations();
-						window._vtbot_debug.closing--;
+						window._vtbot.debug.closing--;
 					});
 			} else {
 				prefix.slog('not a TransitionBeforeSwapEvent');
@@ -504,11 +506,11 @@ const active = import.meta.env.DEV || production;
 	const afterSwap = (e: Event) => {
 		if (enabled_in()) {
 			prefix.log(`Event handler for ${e.type}`);
-			const event = window._vtbot_debug.capture.event;
+			const event = window._vtbot.debug.capture.event;
 			logProperties(event, true);
-			const _vtbot_debug = window._vtbot_debug;
+			const vtbot_debug = window._vtbot.debug;
 			if (supportsViewTransitions) {
-				logTransitions(_vtbot_debug.originalMap, _vtbot_debug.savedSwapEvent);
+				logTransitions(vtbot_debug.originalMap, vtbot_debug.savedSwapEvent);
 			} else {
 				prefix.log(`morphing transitions are not supported by this browser`);
 			}
@@ -521,9 +523,9 @@ const active = import.meta.env.DEV || production;
 
 	function pageLoad(e: Event) {
 		if (enabled_in()) {
-			logProperties(window._vtbot_debug.capture.event, true);
+			logProperties(window._vtbot.debug.capture.event, true);
 			prefix.log(`Event handler for ${e.type}`);
-			window._vtbot_debug.closing--;
+			window._vtbot.debug.closing--;
 		}
 	}
 
