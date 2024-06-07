@@ -1,24 +1,52 @@
-// todos:
-// check for different CSS rule types (beside CSSStyleRule)
-
 const decodeDiv = document.createElement('div');
 
 export const ILLEGAL_TRANSITION_NAMES = 'data-vtbot-illegal-transition-names';
+
+export function walkSheets(
+	sheets: CSSStyleSheet[],
+	withSheet?: (sheet: CSSStyleSheet) => void,
+	withStyleRule?: (rule: CSSStyleRule) => void,
+	afterSheet?: (sheet: CSSStyleSheet) => void
+) {
+	sheets.forEach((sheet) => {
+		try {
+			withSheet && withSheet(sheet);
+			walkRules([...sheet.cssRules], withSheet, withStyleRule, afterSheet);
+			afterSheet && afterSheet(sheet);
+		} catch (e) {
+			console.log(`%c[vtbot] Can't analyze sheet at ${sheet.href}: ${e}`, 'color: #888');
+		}
+	});
+}
+
+export function walkRules(
+	rules: CSSRule[],
+	withSheet?: (sheet: CSSStyleSheet) => void,
+	withStyleRule?: (rule: CSSStyleRule) => void,
+	afterSheet?: (sheet: CSSStyleSheet) => void
+) {
+	rules.forEach((rule) => {
+		if (rule instanceof CSSStyleRule) {
+			withStyleRule && withStyleRule(rule);
+		} else if ('cssRules' in rule && rule.cssRules instanceof CSSRuleList) {
+			walkRules([...rule.cssRules], withSheet, withStyleRule, afterSheet);
+		} else if ('styleSheet' in rule && rule.styleSheet instanceof CSSStyleSheet) {
+			walkSheets([rule.styleSheet], withSheet, withStyleRule, afterSheet);
+		}
+	});
+}
+
 export function astroContextIds() {
 	const inStyleSheets = new Set<string>();
 	const inElements = new Set<string>();
 
-	[...document.styleSheets].forEach((sheet) => {
-		[...sheet.cssRules].forEach((rule) => {
-			if (rule instanceof CSSStyleRule) {
-				[...rule.selectorText.matchAll(/data-astro-cid-(\w{8})/g)].forEach((match) =>
-					inStyleSheets.add(match[1]!)
-				);
-				[...rule.selectorText.matchAll(/\.astro-(\w{8})/g)].forEach((match) =>
-					inStyleSheets.add(match[1]!)
-				);
-			}
-		});
+	walkSheets([...document.styleSheets], undefined, (r) => {
+		[...r.selectorText.matchAll(/data-astro-cid-(\w{8})/g)].forEach((match) =>
+			inStyleSheets.add(match[1]!)
+		);
+		[...r.selectorText.matchAll(/\.astro-(\w{8})/g)].forEach((match) =>
+			inStyleSheets.add(match[1]!)
+		);
 	});
 
 	const ASTRO_CID = 'astroCid';
@@ -45,36 +73,38 @@ export function elementsWithPropertyInStylesheet(
 	property: SupportedCSSProperties,
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
-	[...document.styleSheets].forEach((sheet) => {
-		const style = sheet.ownerNode as HTMLElement;
-		const definedNames = new Set<string>();
-		const matches = style?.innerHTML
-			.replace(/@supports[^{]*\{/gu, '')
-			.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'gu'));
-		[...matches].forEach((match) => definedNames.add(decode(property, match[1]!)));
-		try {
-			[...sheet.cssRules].forEach((rule) => {
-				if (rule instanceof CSSStyleRule) {
-					const name = rule.style[property as keyof CSSStyleDeclaration] as string;
-					if (name) {
-						definedNames.delete(name);
-						map.set(
-							name,
-							new Set([
-								...(map.get(name) ?? new Set()),
-								...document.querySelectorAll(rule.selectorText),
-							])
-						);
-					}
-				}
-			});
-		} catch (e) {
-			console.log(`%c[vtbot] Can't analyze sheet at ${sheet.href}: ${e}`, 'color: #888');
+	let style: HTMLElement[] = [];
+	const definedNames: Set<string>[] = [];
+
+	const definitions = new Map<CSSStyleSheet, Set<string>>();
+
+	walkSheets([...document.styleSheets], (sheet) => {
+		const owner = sheet.ownerNode;
+		if (definitions.has(sheet)) return;
+		const set = new Set<string>();
+		definitions.set(sheet, set);
+		const text = (owner?.textContent ?? '').replace(/@supports[^;{]+/g, '');
+		const matches = text.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'gu'));
+		[...matches].forEach((match) => set.add(decode(property, match[1]!)));
+	});
+
+	walkSheets([...document.styleSheets], undefined, (rule) => {
+		const name = rule.style[property as keyof CSSStyleDeclaration] as string;
+		if (name) {
+			definitions.get(rule.parentStyleSheet!)?.delete(name);
+			map.set(
+				name,
+				new Set([...(map.get(name) ?? new Set()), ...document.querySelectorAll(rule.selectorText)])
+			);
 		}
-		if (definedNames.size > 0) {
-			const illegalNames = [...definedNames].join(', ');
-			style.setAttribute(ILLEGAL_TRANSITION_NAMES, illegalNames);
-			map.set('', new Set([...(map.get('') ?? new Set()), style]));
+	});
+
+	definitions.forEach((set, sheet) => {
+		const styleElement = sheet.ownerNode as HTMLElement;
+		if (set.size > 0) {
+			const illegalNames = [...set].join(', ');
+			styleElement.setAttribute(ILLEGAL_TRANSITION_NAMES, illegalNames);
+			map.set('', new Set([...(map.get('') ?? new Set()), styleElement]));
 		}
 	});
 	return map;
