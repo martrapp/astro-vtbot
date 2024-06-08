@@ -190,7 +190,7 @@ const active = import.meta.env.DEV || production;
 		if (originalMap === undefined) return;
 
 		const bold = (s: string) => `**${s}**`;
-		const map = elementsWithStyleProperty('view-transition-name');
+		const map = elementsWithStyleProperty(document, 'view-transition-name');
 		[...map.values()].filter((set) => set.has(document.documentElement)).length === 0 &&
 			map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
 		const newMap = toCSSSelectorMap(map, 'new');
@@ -463,7 +463,7 @@ const active = import.meta.env.DEV || production;
 				logProperties(swapEvent);
 				console.groupEnd();
 				if (supportsViewTransitions) {
-					const map = elementsWithStyleProperty('view-transition-name');
+					const map = elementsWithStyleProperty(document, 'view-transition-name');
 					[...map.values()].filter((set) => set.has(document.documentElement)).length === 0 &&
 						map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
 					window._vtbot.debug.originalMap = toCSSSelectorMap(map, 'old');

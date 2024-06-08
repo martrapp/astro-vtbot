@@ -26,12 +26,12 @@ export function walkRules(
 	afterSheet?: (sheet: CSSStyleSheet) => void
 ) {
 	rules.forEach((rule) => {
-		if (rule instanceof CSSStyleRule) {
-			withStyleRule && withStyleRule(rule);
-		} else if ('cssRules' in rule && rule.cssRules instanceof CSSRuleList) {
-			walkRules([...rule.cssRules], withSheet, withStyleRule, afterSheet);
-		} else if ('styleSheet' in rule && rule.styleSheet instanceof CSSStyleSheet) {
-			walkSheets([rule.styleSheet], withSheet, withStyleRule, afterSheet);
+		if (rule.constructor.name === 'CSSStyleRule') {
+			withStyleRule && withStyleRule(rule as CSSStyleRule);
+		} else if ('cssRules' in rule) {
+			walkRules([...(rule.cssRules as CSSRuleList)], withSheet, withStyleRule, afterSheet);
+		} else if ('styleSheet' in rule) {
+			walkSheets([rule.styleSheet as CSSStyleSheet], withSheet, withStyleRule, afterSheet);
 		}
 	});
 }
@@ -67,16 +67,16 @@ export function astroContextIds() {
 }
 
 type SupportedCSSProperties = 'view-transition-name';
-// finds all elements of a _the current document_ with a given _string_ property in a style sheet
-// document.styleSheets does not seem to work for arbitrary documents
+// finds all elements of _an active_ document with a given _string_ property in a style sheet.
+// document.styleSheets does not work for documents that are not associated with a window
 export function elementsWithPropertyInStylesheet(
+	doc: Document,
 	property: SupportedCSSProperties,
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
-
 	const definitions = new Map<CSSStyleSheet, Set<string>>();
 
-	walkSheets([...document.styleSheets], (sheet) => {
+	walkSheets([...doc.styleSheets], (sheet) => {
 		const owner = sheet.ownerNode;
 		if (definitions.has(sheet)) return;
 		const set = new Set<string>();
@@ -86,7 +86,7 @@ export function elementsWithPropertyInStylesheet(
 		[...matches].forEach((match) => set.add(decode(property, match[1]!)));
 	});
 
-	walkSheets([...document.styleSheets], undefined, (rule) => {
+	walkSheets([...doc.styleSheets], undefined, (rule) => {
 		const name = rule.style[property as keyof CSSStyleDeclaration] as string;
 		if (name) {
 			definitions.get(rule.parentStyleSheet!)?.delete(name);
@@ -128,15 +128,16 @@ export function elementsWithPropertyInStyleAttribute(
 	return map;
 }
 
-// finds all elements _of the current document_ with a given property
+// finds all elements of _an active_ document with a given property
 // in their style attribute or in a style sheet
 export function elementsWithStyleProperty(
+	doc = document,
 	property: SupportedCSSProperties,
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
 	return elementsWithPropertyInStyleAttribute(
-		document,
+		doc,
 		property,
-		elementsWithPropertyInStylesheet(property, map)
+		elementsWithPropertyInStylesheet(doc, property, map)
 	);
 }
