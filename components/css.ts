@@ -73,8 +73,6 @@ export function elementsWithPropertyInStylesheet(
 	property: SupportedCSSProperties,
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
-	let style: HTMLElement[] = [];
-	const definedNames: Set<string>[] = [];
 
 	const definitions = new Map<CSSStyleSheet, Set<string>>();
 
