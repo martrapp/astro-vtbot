@@ -36,11 +36,11 @@ export function walkRules(
 	});
 }
 
-export function astroContextIds() {
+export function astroContextIds(doc = document) {
 	const inStyleSheets = new Set<string>();
 	const inElements = new Set<string>();
 
-	walkSheets([...document.styleSheets], undefined, (r) => {
+	walkSheets([...doc.styleSheets], undefined, (r) => {
 		[...r.selectorText.matchAll(/data-astro-cid-(\w{8})/g)].forEach((match) =>
 			inStyleSheets.add(match[1]!)
 		);
@@ -50,7 +50,7 @@ export function astroContextIds() {
 	});
 
 	const ASTRO_CID = 'astroCid';
-	[...document.querySelectorAll('*')].forEach((el) => {
+	[...doc.querySelectorAll('*')].forEach((el) => {
 		Object.keys((el as HTMLElement).dataset).forEach((key) => {
 			if (key.startsWith(ASTRO_CID)) {
 				inElements.add(key.substring(ASTRO_CID.length).toLowerCase().replace(/^-/g, ''));
@@ -92,7 +92,7 @@ export function elementsWithPropertyInStylesheet(
 			definitions.get(rule.parentStyleSheet!)?.delete(name);
 			map.set(
 				name,
-				new Set([...(map.get(name) ?? new Set()), ...document.querySelectorAll(rule.selectorText)])
+				new Set([...(map.get(name) ?? new Set()), ...doc.querySelectorAll(rule.selectorText)])
 			);
 		}
 	});
@@ -131,7 +131,7 @@ export function elementsWithPropertyInStyleAttribute(
 // finds all elements of _an active_ document with a given property
 // in their style attribute or in a style sheet
 export function elementsWithStyleProperty(
-	doc = document,
+	doc: Document,
 	property: SupportedCSSProperties,
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
