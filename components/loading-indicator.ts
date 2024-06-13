@@ -1,16 +1,8 @@
-/// <reference types="astro/client" />
-import {
-	TRANSITION_AFTER_PREPARATION,
-	TRANSITION_BEFORE_PREPARATION,
-	TRANSITION_BEFORE_SWAP,
-	TRANSITION_PAGE_LOAD,
-} from 'astro:transitions/client';
-
 let show: () => void;
 let hide: () => void;
 let initializer: (() => void | Promise<void>) | undefined;
 
-export function loading(newShow: () => void, newHide: () => void, newInit: () => void = () => { }) {
+export function loading(newShow: () => void, newHide: () => void, newInit: () => void = () => {}) {
 	show = newShow;
 	hide = newHide;
 	initialize(newInit);
@@ -32,9 +24,9 @@ const doInit = () => {
 
 export function initialize(onPageLoad?: () => void | Promise<void>, lowPrio = false) {
 	if (!(initializer && lowPrio)) initializer = onPageLoad;
-	document.addEventListener(TRANSITION_PAGE_LOAD, doInit);
-	document.addEventListener(TRANSITION_BEFORE_PREPARATION, doShow);
-	document.addEventListener(TRANSITION_AFTER_PREPARATION, doHide);
+	document.addEventListener('astro:page-load', doInit);
+	document.addEventListener('astro:before-preparation', doShow);
+	document.addEventListener('astro:after-preparation', doHide);
 }
 
 type Options = {
@@ -49,8 +41,10 @@ export async function vtbotLoadingIndicator(options: Options) {
 	const loadingIndicator = document.getElementById('vtbot-loading-indicator');
 	if (loadingIndicator) return;
 
-	const icons = options.src ? [] : document.querySelectorAll<HTMLLinkElement>(`head link[rel*="icon"]`);
-	const favicon = (options.src || (icons[icons.length - 1])?.href) ?? '/favicon.ico';
+	const icons = options.src
+		? []
+		: document.querySelectorAll<HTMLLinkElement>(`head link[rel*="icon"]`);
+	const favicon = (options.src || icons[icons.length - 1]?.href) ?? '/favicon.ico';
 
 	let src = '';
 	try {

@@ -13,12 +13,14 @@ const { name } = Astro.props;
 	document.addEventListener(TRANSITION_BEFORE_SWAP, (e) => {
 		oldScrollPosition = scrollY;
 		if (isTransitionBeforeSwapEvent(e)) {
-			e.viewTransition.ready.then(() => {
-				document.documentElement.style.setProperty(
-					'--vtbot-page-offset',
-					window.scrollY - oldScrollPosition + 'px'
-				);
-			}).catch(()=>{});
+			e.viewTransition.ready
+				.then(() => {
+					document.documentElement.style.setProperty(
+						'--vtbot-page-offset',
+						window.scrollY - oldScrollPosition + 'px'
+					);
+				})
+				.catch(() => {});
 		}
 	});
 </script>

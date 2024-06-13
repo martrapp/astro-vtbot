@@ -5,29 +5,34 @@ export const MENU_BUTTON = 'starlight-menu-button';
 export const SIDEBAR = 'nav.sidebar';
 export const SIDEBAR_CONTENT = `${SIDEBAR} .sidebar-content`;
 export const SIDEBAR_TOPLEVEL = `${SIDEBAR_CONTENT} .top-level`;
+export const LANGUAGE_SELECTOR = 'starlight-lang-select';
 
 /*
  * Returns the the sidebar anchor that best fits the parameter URL.
  */
 export function sidebarEntry(url: URL): HTMLAnchorElement | null {
-	const normalized = normalize(url.href);
+	const normalized = removeTrailingSlash(url.href);
 	const target = normalized.split('');
-	const anchors = document.querySelectorAll<HTMLAnchorElement>(`${SIDEBAR_CONTENT} a`);
+	const anchors = document.querySelectorAll<HTMLAnchorElement>(`${SIDEBAR_CONTENT} a[href^='/']`);
 	if (anchors.length === 0) return null;
 
 	const anchorsArray = [...anchors];
 	const normalizedArray = anchorsArray.map((anchor) =>
-		normalize(new URL(anchor.href, location.href).href)
+		removeTrailingSlash(new URL(anchor.href, location.href).href)
 	);
 
 	return anchorsArray[
 		normalizedArray
 			.map((href) => href.split('').findIndex((char, index) => char !== target[index]))
-			.map((len, idx) => len !== -1 ? len
-				: Math.min(normalized.length, normalizedArray[idx].length) + (normalized.length === normalizedArray[idx].length ? 1 : 0))
+			.map((len, idx) =>
+				len !== -1
+					? len
+					: Math.min(normalized.length, normalizedArray[idx].length) +
+						(normalized.length === normalizedArray[idx].length ? 1 : 0)
+			)
 			.reduce((best, current, idx, arr) => (current > arr[best] ? idx : best), 0)
 	];
-	function normalize(url: string): string {
+	function removeTrailingSlash(url: string): string {
 		return url.replace(/\/#/, '#').replace(/\/$/, '');
 	}
 }
@@ -54,5 +59,3 @@ export function openCategory(url?: URL, scrollIntoView = true) {
 	}
 	scrollIntoView && currentLink?.scrollIntoView({ block: 'center', behavior: 'instant' });
 }
-
-

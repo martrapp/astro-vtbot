@@ -13,23 +13,37 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ### More Starlight Improvements: ###
 
+#### Mission Accomplished
+> This release completes the series of additions to the view transition support for Starlight!
+The last two of the [originally planned features](https://events-3bg.pages.dev/jotter/starlight/inner-workings/) are:
+- The [`<BorderControl fence={{}} />` component](https://events-3bg.pages.dev/library/BorderControl/) that helps you to maintain Starlight state in a mixed Starlight / non-Starlight project.
+- The [`<SwapSound src="..." />` component](https://events-3bg.pages.dev/library/SwapSound/) that provides transition animation for the ears, an audible loading and transition indicator, or simply lots of noise from click to finish.
+
+Of course there will be further additions if required. Please contact me if you are missing something.
+
+#### Friendly Neighbor List
+> The Friendly Neighbor List of the Starlight support keeps growing. Now features:
+- starlight-image-zoom
+- starlight-utils
+- starlight-blog
+- starlight-docsearch
+
+### Automatically Name Selected Elements for Additional Morph Effects
+
+> The Bag features a new component to declaratively assign view transition names to selected elements: `<AutoNameSelected/>`. [This component](https://events-3bg.pages.dev/library/AutoNameSelected/) provides for a lot of fun as can be seen in the [image gallery demo](https://events-3bg.pages.dev/image-gallery/).
+
+
+## Recently Learned Tricks ##
+
+> Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
+
+
 The selection of optional Starlight components keeps growing:
 
 > Ever wished clicking on Starlight's _previous page_ and _next page_ links would slide content from the left respectively from the right?  Now you can enable `<PageOrder />` on Starlight sites. This automatically alters the _direction_ of the view transition. Visit a page further down the sidebar and get a _forward_ navigation, visit a page further up, and you get a _back_ navigation.
 
 > Eliminate the Pseudo-Scrolling of the Main Section: With [`<PageOffset />`](https://events-3bg.pages.dev/library/PageOffset/), The Bag offers a simple to use component that eliminates pseudo scrolling effects induced by morph transitions on elements that are larger than the viewport. Especially useful to get a smooth and neat transition animation for your main content.
 
-> Improved Sidebar Handling: When you navigate to a page that has its entry within a collapsed category, the category is now automatically turned open. If the current page marker is outside the visible
-part of the sidebar, it is automatically scrolled into view. **New: Support for your own customizations!**
-
-## Recently learned tricks ##
-
-> If you want to use `transition:persist` inside the main content area, you can do that now! As of v1.7.8 the `<ReplacementSwap />` component handles `data-astro-transition-persist` attributes within the replaced DOM trees in the same way as Astro's built-in `swap()` function does.
-
-
-> The [Jotter](https://events-3bg.pages.dev/jotter/) now leverages Starlight! The beginning of a more structured and searchable version of the pile of notes that it was.
-
-> Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
 
 
 
@@ -45,6 +59,8 @@ The `astro-vtbot`package isn't a monolithic library. Use the components you need
 |Component|Brotli bytes added|
 |-------|-----------------|
 Animation Style ✨| ~0.1k
+AutoNameSelected 📛 | ~0.3k
+BorderControl 🛂 | ~0.1k
 BrakePad 🦥 | ~0.2k
 Linter 🧹 | ~1.9k
 LoadingIndicator ⏳ | ~0.4k
@@ -54,6 +70,7 @@ PageOffset 📄⇞ | ~0.1k
 Portal 🚪 | ~0.2k
 ReplacementSwap ↹ | ~0.5k
 Starlight &hellip; 🌟 | ~3.0k
+SwapSound 🔊 | -0.3k
 Swing 🎷 | ~0.1k
 VtBotDebug 🐛 | ~2.8k
 Zoom 🔎 | ~0.1k

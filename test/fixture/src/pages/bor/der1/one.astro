@@ -1,0 +1,10 @@
+---
+import BorderLayout from '../../../layouts/BorderLayout.astro';
+import BorderControl from 'astro-vtbot/components/BorderControl.astro';
+---
+
+<BorderLayout title="Border1">
+	<BorderControl fence={{ outside: ['/bor/der2'] }} />
+	<h1>Border test</h1>
+	<a id="click" href="/bor/der2/target/">click</a>
+</BorderLayout>

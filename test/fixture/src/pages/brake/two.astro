@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BrakePad from 'astro-vtbot/components/BrakePad.astro';
+---
+
+<Layout title="Brake2">
+	<BrakePad slot="head" />
+	<h1>Brake Two</h1>
+	<a href="/brake/one/" id="click">Click</a>
+</Layout>
+
+<script>
+	import { navigate } from 'astro:transitions/client';
+	window.addEventListener('load', async () => {
+		const start = Date.now();
+		await navigate('/brake/one/');
+		const end = Date.now();
+		console.log('Time to navigate:', end - start);
+	});
+</script>

@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.7.14",
+  "version": "1.7.23",
   "description": "The 👜 Bag of Tricks ✨ for Astro's View Transitions",
   "homepage": "https://github.com/martrapp/astro-vtbot#readme",
   "bugs": {
@@ -47,11 +47,14 @@
     "./vite-plugin-extend": "./integration/vite-plugin-extend.ts"
   },
   "keywords": [
+    "astro",
+    "bag of tricks",
     "astro-component",
     "astro-integration",
     "view-transition",
     "view transition",
     "view transitions",
+    "starlight",
     "transition",
     "transitions",
     "animation",
@@ -64,21 +67,21 @@
   ],
   "scripts": {
     "format": "prettier -w components integration animations test",
-    "test": "scripts/test.sh",
+    "test": "npm run format; scripts/test.sh",
     "changeset": "changeset",
     "release": "changeset publish"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.5.4",
-    "@astrojs/starlight": "latest",
+    "@astrojs/check": "^0.7.0",
+    "@astrojs/starlight": "^0.24.0",
     "@changesets/changelog-github": "0.5.0",
-    "@changesets/cli": "^2.27.1",
-    "@playwright/test": "^1.43.1",
+    "@changesets/cli": "^2.27.5",
+    "@playwright/test": "^1.44.1",
     "@types/dom-view-transitions": "^1.0.4",
-    "@types/node": "^20.10.4",
-    "astro": "latest",
-    "prettier": "^3.1.0",
-    "prettier-plugin-astro": "^0.13.0",
+    "@types/node": "^20.14.2",
+    "astro": "^4.9.3",
+    "prettier": "^3.3.1",
+    "prettier-plugin-astro": "^0.14.0",
     "typescript": "^5.3.3"
   },
   "funding": {

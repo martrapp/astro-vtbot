@@ -1,5 +1,63 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.23 - 2024-06-01
+
+### Patch Changes
+
+- b6ee610: Fixes a bug with imports when using loading-indicator.ts
+
+## 1.7.22 - 2024-05-30
+
+### Patch Changes
+
+- c56e9a7: Adds a new component: SwapSound, the audible loading and swapping indicator ;-)
+- c56e9a7: Adds a new component: BorderControl simplifies mixed sites with ReplacementSwap and other view transitions.
+
+## 1.7.21 - 2024-05-25
+
+### Patch Changes
+
+- c377ed5: Adds the starlight-blog package to the friendly neighbor list, see https://events-3bg.pages.dev/jotter/starlight/guide/#friendly-neighbor.
+
+## 1.7.20 - 2024-05-23
+
+### Patch Changes
+
+- f4a579d: [AutoNameSelected] New component that supports declaratively adding view transition names for additional morph effects.
+- Plus: @lorenzo_lewis/starlight-multi-sidebar support extended to @lorenzo_lewis/starlight-utils
+
+## 1.7.19 - 2024-05-21
+
+### Patch Changes
+
+- 310a1d3: Updates support for starlight-multi-sidebar upto v0.1.3
+
+## 1.7.18 - 2024-05-19
+
+### Patch Changes
+
+- 3158250: Adds support for @lorenzo_lewis/starlight-multi-sidebar.
+
+## 1.7.17 - 2024-05-13
+
+### Patch Changes
+
+- 061d97b: VtBotDebug now shows the changes that are made to the DOM during swap()
+
+## 1.7.16 - 2024-05-09
+
+### Patch Changes
+
+- b8245de: Starting with Astro 4.8, The Bag's swap-utils are obsolete and deprecated.
+  For an alternative, you can check out astro/dist/transitions/swap-functions.js
+
+## 1.7.15 - 2024-05-05
+
+### Patch Changes
+
+- 7d50a65: Fixes an issue where switching languages did select a different page.
+  plus: Improvements to robustness and test coverage.
+
 ## 1.7.14 - 2024-04-26
 
 ### Patch Changes

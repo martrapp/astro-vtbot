@@ -363,9 +363,79 @@ const active = import.meta.env.DEV || production;
 		console.groupEnd();
 	}
 
+	const mutations: string[] = [];
+	const mutationObserver = new MutationObserver(mutationObserverCallback);
+	const mutationObserverOptions = {
+		childList: true,
+		subtree: true,
+		attributes: true,
+		attributeOldValue: true,
+		characterData: true,
+		characterDataOldValue: true,
+	};
+
+	function mutationObserverCallback(records: MutationRecord[]) {
+		for (const record of records) {
+			const target = record.target as Element;
+			const text = 'At ' + deriveCSSSelector(target) + ': ';
+			switch (record.type) {
+				case 'attributes':
+					mutations.push(
+						text +
+							`override ${record.attributeName}="${record.oldValue}" (currently: "${target.getAttribute(record.attributeName!)}")`
+					);
+					break;
+
+				case 'characterData':
+					mutations.push(text + `"${record.oldValue} => "${target.nodeValue}"`);
+					break;
+
+				default:
+					const attributes = (el: Element) => {
+						let result = '';
+						for (let i = 0; i < el.attributes.length; ++i) {
+							const attr = el.attributes[i];
+							result += ` ${attr.name}="${attr.value}"`;
+						}
+						return result;
+					};
+					const element = (el: Element) => `<${el.tagName.toLowerCase()}${attributes(el)}>`;
+					const what = (node: Node) =>
+						node.nodeType === Node.TEXT_NODE
+							? `"${node.textContent}"`
+							: node.nodeType === Node.ELEMENT_NODE
+								? element(node as Element)
+								: node.nodeName;
+
+					record.removedNodes.forEach((node) => {
+						mutations.push(text + `removed ${what(node)}`);
+					});
+					record.addedNodes.forEach((node) => {
+						mutations.push(text + `added ${what(node)}`);
+					});
+
+					break;
+			}
+		}
+	}
+	function activateMutationObserver() {
+		mutations.length = 0;
+		mutationObserver.observe(document.documentElement, mutationObserverOptions);
+	}
+	function deactivateMutationObserver() {
+		mutationObserver.disconnect();
+		if (mutations.length > 0) {
+			prefix.groupCollapsed(`DOM Mutations`);
+			for (const mutation of mutations) {
+				prefix.slog(mutation);
+			}
+			console.groupEnd();
+		}
+		mutations.length = 0;
+	}
 	/* ------------------------------------------------------ */
 
-	function beforePreparation(preparationEvent: Event) {
+	function beforePreparation(preparationEvent: TransitionBeforePreparationEvent) {
 		if (enabled_out()) {
 			if (isTransitionBeforePreparationEvent(preparationEvent)) {
 				prefix.groupCollapsed(`Properties of the ${preparationEvent.type} event`);
@@ -399,19 +469,17 @@ const active = import.meta.env.DEV || production;
 				prefix.groupCollapsed(`Properties of the ${swapEvent.type} event`);
 				logProperties(swapEvent);
 				console.groupEnd();
-				// checkActiveElements();
-
 				if (supportsViewTransitions) {
 					const map = elementsWithStyleProperty('view-transition-name');
 					[...map.values()].filter((set) => set.has(document.documentElement)).length === 0 &&
 						map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
 					window._vtbot_debug.originalMap = toCSSSelectorMap(map, 'old');
 				}
+				activateMutationObserver();
 				const originalSwap = swapEvent.swap;
 				swapEvent.swap = async () => {
 					prefix.log(`before execution of swap()`);
 					originalSwap();
-					//	checkActiveElements();
 					logProperties(window._vtbot_debug.capture.event, true);
 					prefix.log(`after execution of swap()`);
 					prefix.log(`%o`, document.documentElement);
@@ -420,20 +488,19 @@ const active = import.meta.env.DEV || production;
 				doCapture(swapEvent);
 				swapEvent.viewTransition.updateCallbackDone
 					.then(() => prefix.log(`resolve viewTransition.updateCallbackDone`))
-					.catch((error: any) =>
-						prefix.log(`reject viewTransition.updateCallbackDone with`, error)
-					);
+					.catch((error: any) => prefix.log(`reject viewTransition.updateCallbackDone with`, error))
+					.finally(deactivateMutationObserver);
 				swapEvent.viewTransition.ready
 					.then(() => prefix.log(`resolve viewTransition.ready`))
 					.catch((error: any) => prefix.log(`reject viewTransition.ready with`, error));
 				swapEvent.viewTransition.finished
 					.then(() => {
 						prefix.log(`resolve viewTransition.finished`);
-						logAnimations();
-						window._vtbot_debug.closing--;
 					})
 					.catch((error: any) => {
 						prefix.log(`reject viewTransition.finished with`, error);
+					})
+					.finally(() => {
 						logAnimations();
 						window._vtbot_debug.closing--;
 					});
