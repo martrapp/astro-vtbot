@@ -99,9 +99,9 @@ const active = import.meta.env.DEV || production;
 	async function delta(e: Record<string, any>, prop: string, deltaOnly = false) {
 		const _vtbot_debug = window._vtbot_debug;
 		let bold = (s: string) => `**${s}**`;
-		let deref = (x: any) => x;
-		let print = (x: any) => x;
-		let value = (x: any) => x;
+		let deref = (x: any) => x; // map value from properties
+		let print = (x: any) => x; // pretty print value
+		let value = (x: any) => x; // comaprison for difference
 
 		if (prop === 'to' || prop === 'from') {
 			deref = (x) => x?.href;
@@ -112,6 +112,14 @@ const active = import.meta.env.DEV || production;
 		} else if (prop === 'swap' || prop === 'loader') {
 			print = (x) => (x ? x.toString() : '(null)');
 			bold = (x) => x + '\n';
+		} else if (prop === 'signal') {
+			print = (x) => {
+				if (x.aborted) {
+					return `aborted${x.reason ? ' (' + x.reason + ')' : ''}${x.onabort ? ': ' + x.onabort.toString + '\n' : ''}`;
+				}
+				return `not aborted ${x.onabort ? ': ' + x.onabort.toString + '\n' : ''}`;
+			};
+			deref = print;
 		}
 
 		let different = () => value(deref(_vtbot_debug.capture[prop])) !== value(deref(e[prop]));
@@ -157,6 +165,7 @@ const active = import.meta.env.DEV || production;
 		delta(e, 'navigationType', deltaOnly);
 		delta(e, 'info', deltaOnly);
 		delta(e, 'newDocument', deltaOnly);
+		delta(e, 'signal', deltaOnly);
 		if (isTransitionBeforePreparationEvent(e)) {
 			delta(e, 'formData', deltaOnly);
 			delta(e, 'loader', deltaOnly);
