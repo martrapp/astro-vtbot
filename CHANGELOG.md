@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.24
+
+### Patch Changes
+
+- 1e6e93c: VtBotDebug: include new signal property in event properties.
+
 ## 1.7.23 - 2024-06-01
 
 ### Patch Changes
