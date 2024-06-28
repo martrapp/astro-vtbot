@@ -1,28 +1,56 @@
-// todos:
-// check for different CSS rule types (beside CSSStyleRule)
-
 const decodeDiv = document.createElement('div');
 
 export const ILLEGAL_TRANSITION_NAMES = 'data-vtbot-illegal-transition-names';
-export function astroContextIds() {
+
+export function walkSheets(
+	sheets: CSSStyleSheet[],
+	withSheet?: (sheet: CSSStyleSheet) => void,
+	withStyleRule?: (rule: CSSStyleRule) => void,
+	afterSheet?: (sheet: CSSStyleSheet) => void
+) {
+	sheets.forEach((sheet) => {
+		try {
+			withSheet && withSheet(sheet);
+			walkRules([...sheet.cssRules], withSheet, withStyleRule, afterSheet);
+			afterSheet && afterSheet(sheet);
+		} catch (e) {
+			console.log(`%c[vtbot] Can't analyze sheet at ${sheet.href}: ${e}`, 'color: #888');
+		}
+	});
+}
+
+export function walkRules(
+	rules: CSSRule[],
+	withSheet?: (sheet: CSSStyleSheet) => void,
+	withStyleRule?: (rule: CSSStyleRule) => void,
+	afterSheet?: (sheet: CSSStyleSheet) => void
+) {
+	rules.forEach((rule) => {
+		if (rule.constructor.name === 'CSSStyleRule') {
+			withStyleRule && withStyleRule(rule as CSSStyleRule);
+		} else if ('cssRules' in rule) {
+			walkRules([...(rule.cssRules as CSSRuleList)], withSheet, withStyleRule, afterSheet);
+		} else if ('styleSheet' in rule) {
+			walkSheets([rule.styleSheet as CSSStyleSheet], withSheet, withStyleRule, afterSheet);
+		}
+	});
+}
+
+export function astroContextIds(doc = document) {
 	const inStyleSheets = new Set<string>();
 	const inElements = new Set<string>();
 
-	[...document.styleSheets].forEach((sheet) => {
-		[...sheet.cssRules].forEach((rule) => {
-			if (rule instanceof CSSStyleRule) {
-				[...rule.selectorText.matchAll(/data-astro-cid-(\w{8})/g)].forEach((match) =>
-					inStyleSheets.add(match[1]!)
-				);
-				[...rule.selectorText.matchAll(/\.astro-(\w{8})/g)].forEach((match) =>
-					inStyleSheets.add(match[1]!)
-				);
-			}
-		});
+	walkSheets([...doc.styleSheets], undefined, (r) => {
+		[...r.selectorText.matchAll(/data-astro-cid-(\w{8})/g)].forEach((match) =>
+			inStyleSheets.add(match[1]!)
+		);
+		[...r.selectorText.matchAll(/\.astro-(\w{8})/g)].forEach((match) =>
+			inStyleSheets.add(match[1]!)
+		);
 	});
 
 	const ASTRO_CID = 'astroCid';
-	[...document.querySelectorAll('*')].forEach((el) => {
+	[...doc.querySelectorAll('*')].forEach((el) => {
 		Object.keys((el as HTMLElement).dataset).forEach((key) => {
 			if (key.startsWith(ASTRO_CID)) {
 				inElements.add(key.substring(ASTRO_CID.length).toLowerCase().replace(/^-/g, ''));
@@ -39,42 +67,42 @@ export function astroContextIds() {
 }
 
 type SupportedCSSProperties = 'view-transition-name';
-// finds all elements of a _the current document_ with a given _string_ property in a style sheet
-// document.styleSheets does not seem to work for arbitrary documents
+// finds all elements of _an active_ document with a given _string_ property in a style sheet.
+// document.styleSheets does not work for documents that are not associated with a window
 export function elementsWithPropertyInStylesheet(
+	doc: Document,
 	property: SupportedCSSProperties,
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
-	[...document.styleSheets].forEach((sheet) => {
-		const style = sheet.ownerNode as HTMLElement;
-		const definedNames = new Set<string>();
-		const matches = style?.innerHTML
-			.replace(/@supports[^{]*\{/gu, '')
-			.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'gu'));
-		[...matches].forEach((match) => definedNames.add(decode(property, match[1]!)));
-		try {
-			[...sheet.cssRules].forEach((rule) => {
-				if (rule instanceof CSSStyleRule) {
-					const name = rule.style[property as keyof CSSStyleDeclaration] as string;
-					if (name) {
-						definedNames.delete(name);
-						map.set(
-							name,
-							new Set([
-								...(map.get(name) ?? new Set()),
-								...document.querySelectorAll(rule.selectorText),
-							])
-						);
-					}
-				}
-			});
-		} catch (e) {
-			console.log(`%c[vtbot] Can't analyze sheet at ${sheet.href}: ${e}`, 'color: #888');
+	const definitions = new Map<CSSStyleSheet, Set<string>>();
+
+	walkSheets([...doc.styleSheets], (sheet) => {
+		const owner = sheet.ownerNode;
+		if (definitions.has(sheet)) return;
+		const set = new Set<string>();
+		definitions.set(sheet, set);
+		const text = (owner?.textContent ?? '').replace(/@supports[^;{]+/g, '');
+		const matches = text.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'gu'));
+		[...matches].forEach((match) => set.add(decode(property, match[1]!)));
+	});
+
+	walkSheets([...doc.styleSheets], undefined, (rule) => {
+		const name = rule.style[property as keyof CSSStyleDeclaration] as string;
+		if (name) {
+			definitions.get(rule.parentStyleSheet!)?.delete(name);
+			map.set(
+				name,
+				new Set([...(map.get(name) ?? new Set()), ...doc.querySelectorAll(rule.selectorText)])
+			);
 		}
-		if (definedNames.size > 0) {
-			const illegalNames = [...definedNames].join(', ');
-			style.setAttribute(ILLEGAL_TRANSITION_NAMES, illegalNames);
-			map.set('', new Set([...(map.get('') ?? new Set()), style]));
+	});
+
+	definitions.forEach((set, sheet) => {
+		const styleElement = sheet.ownerNode as HTMLElement;
+		if (set.size > 0) {
+			const illegalNames = [...set].join(', ');
+			styleElement.setAttribute(ILLEGAL_TRANSITION_NAMES, illegalNames);
+			map.set('', new Set([...(map.get('') ?? new Set()), styleElement]));
 		}
 	});
 	return map;
@@ -100,15 +128,16 @@ export function elementsWithPropertyInStyleAttribute(
 	return map;
 }
 
-// finds all elements _of the current document_ with a given property
+// finds all elements of _an active_ document with a given property
 // in their style attribute or in a style sheet
 export function elementsWithStyleProperty(
+	doc: Document,
 	property: SupportedCSSProperties,
 	map: Map<string, Set<Element>> = new Map()
 ): Map<string, Set<Element>> {
 	return elementsWithPropertyInStyleAttribute(
-		document,
+		doc,
 		property,
-		elementsWithPropertyInStylesheet(property, map)
+		elementsWithPropertyInStylesheet(doc, property, map)
 	);
 }
