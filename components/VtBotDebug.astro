@@ -99,7 +99,6 @@ const active = import.meta.env.DEV || production;
 	 * log a property of the event
 	 */
 	async function delta(e: Record<string, any>, prop: string, deltaOnly = false) {
-
 		const vtbot_debug = window.__vtbot.debug;
 		let bold = (s: string) => `**${s}**`;
 		let deref = (x: any) => x; // map value from properties
