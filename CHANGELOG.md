@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- f5f1b9c: Adds the long time planned support for CSSGroupingRules.
+- f5f1b9c: Adds the long time planned support for CSSGroupingRules when looking for view-transition-names in stylesheets.
 - d779ab9: Restructures window.\_\_vtbot, where The Bag keeps some global state.
 
 ## 1.7.24 - 2024-06-13
