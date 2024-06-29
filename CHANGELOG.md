@@ -1,6 +1,13 @@
 # The Bag of Tricks for View Transitions
 
-## 1.7.24 - 2024-06-013
+## 1.7.25 - 2024-06-28
+
+### Patch Changes
+
+- f5f1b9c: Adds the long time planned support for CSSGroupingRules when looking for view-transition-names in stylesheets.
+- d779ab9: Restructures window.\_\_vtbot, where The Bag keeps some global state.
+
+## 1.7.24 - 2024-06-13
 
 ### Patch Changes
 
