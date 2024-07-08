@@ -14,7 +14,6 @@ const active = import.meta.env.DEV || production;
 	import {
 		TRANSITION_AFTER_SWAP,
 		TRANSITION_BEFORE_SWAP,
-		isTransitionBeforeSwapEvent,
 		supportsViewTransitions,
 		type TransitionBeforeSwapEvent,
 	} from 'astro:transitions/client';
@@ -250,9 +249,10 @@ const active = import.meta.env.DEV || production;
 
 	let savedEvent: TransitionBeforeSwapEvent;
 
-	const beforeSwap = (event: Event) => {
+	const beforeSwap = (event) => {
+		savedEvent = event;
 		group = expanded() ? console.group : console.groupCollapsed;
-		if (enabled() && isTransitionBeforeSwapEvent(event)) {
+		if (enabled()) {
 			flagNested(event, 'data-astro-transition-persist');
 			flagNested(event, 'data-vtbot-replace');
 			if (supportsViewTransitions) {
@@ -265,7 +265,6 @@ const active = import.meta.env.DEV || production;
 			}
 			flagMissingScopedStyles(event, 'old');
 			flagSuspiciousScriptTypes(event);
-			savedEvent = event;
 		}
 	};
 
