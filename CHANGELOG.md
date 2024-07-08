@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.26
+
+### Patch Changes
+
+- 3c83d7f: Fixes a bug where the Linter accessed an undefined event object.
+
 ## 1.7.25 - 2024-06-28
 
 ### Patch Changes

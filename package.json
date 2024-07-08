@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.7.25",
+  "version": "1.7.26",
   "description": "The 👜 Bag of Tricks ✨ for Astro's View Transitions",
   "homepage": "https://github.com/martrapp/astro-vtbot#readme",
   "bugs": {
