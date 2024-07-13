@@ -2,7 +2,7 @@ let show: () => void;
 let hide: () => void;
 let initializer: (() => void | Promise<void>) | undefined;
 
-export function loading(newShow: () => void, newHide: () => void, newInit: () => void = () => { }) {
+export function loading(newShow: () => void, newHide: () => void, newInit: () => void = () => {}) {
 	show = newShow;
 	hide = newHide;
 	initialize(newInit);
@@ -44,9 +44,8 @@ export async function vtbotLoadingIndicator(options: Options) {
 	const icons = options.src
 		? []
 		: document.querySelectorAll<HTMLLinkElement>(`head link[rel*="icon"]`);
-	const favicon = options.src
-		|| icons.length > 0 && icons[icons.length - 1]?.href
-		|| '/favicon.ico';
+	const favicon =
+		options.src || (icons.length > 0 && icons[icons.length - 1]?.href) || '/favicon.ico';
 
 	let src = '';
 	try {

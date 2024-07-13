@@ -13,9 +13,10 @@ const { top = '', bottom = '', left = '', right = '', src = '' } = Astro.props;
 <script>
 	import { initialize, vtbotLoadingIndicator } from './loading-indicator';
 	const data = document.querySelectorAll("meta[name='vtbot-loading-indicator']");
-	const [top, bottom, left, right, src] = data.length > 0 ? (data[data.length - 1] as HTMLMetaElement).content.split(
-		';'
-	):["","","","",""];
+	const [top, bottom, left, right, src] =
+		data.length > 0
+			? (data[data.length - 1] as HTMLMetaElement).content.split(';')
+			: ['', '', '', '', ''];
 	initialize(() => vtbotLoadingIndicator({ top, bottom, left, right, src }), true);
 </script>
 
