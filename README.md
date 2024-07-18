@@ -11,40 +11,16 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-### More Starlight Improvements: ###
+Deep down at the bottom of the Bag of Tricks, in a hidden inner pocket, there is a secret passage to an ominous machine room. In the machine room stands the [inspection chamber](https://events-3bg.pages.dev/inspection-chamber-demo/first-page/), quietly humming to itself.
 
-#### Mission Accomplished
-> This release completes the series of additions to the view transition support for Starlight!
-The last two of the [originally planned features](https://events-3bg.pages.dev/jotter/starlight/inner-workings/) are:
-- The [`<BorderControl fence={{}} />` component](https://events-3bg.pages.dev/library/BorderControl/) that helps you to maintain Starlight state in a mixed Starlight / non-Starlight project.
-- The [`<SwapSound src="..." />` component](https://events-3bg.pages.dev/library/SwapSound/) that provides transition animation for the ears, an audible loading and transition indicator, or simply lots of noise from click to finish.
+See your view transitions like never before: examine all details, reveal, debug, and optimize!
 
-Of course there will be further additions if required. Please contact me if you are missing something.
-
-#### Friendly Neighbor List
-> The Friendly Neighbor List of the Starlight support keeps growing. Now features:
-- starlight-image-zoom
-- starlight-utils
-- starlight-blog
-- starlight-docsearch
-
-### Automatically Name Selected Elements for Additional Morph Effects
-
-> The Bag features a new component to declaratively assign view transition names to selected elements: `<AutoNameSelected/>`. [This component](https://events-3bg.pages.dev/library/AutoNameSelected/) provides for a lot of fun as can be seen in the [image gallery demo](https://events-3bg.pages.dev/image-gallery/).
+Summon the Inspection Chamber as a component ([&lt;InspectionChamber />](https://events-3bg.pages.dev/library/InspectionChamber/)) or [install The Bag as an integration!](hhttps://events-3bg.pages.dev/library/Installation/#installing-as-an-astro-integration)
 
 
 ## Recently Learned Tricks ##
 
 > Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
-
-
-The selection of optional Starlight components keeps growing:
-
-> Ever wished clicking on Starlight's _previous page_ and _next page_ links would slide content from the left respectively from the right?  Now you can enable `<PageOrder />` on Starlight sites. This automatically alters the _direction_ of the view transition. Visit a page further down the sidebar and get a _forward_ navigation, visit a page further up, and you get a _back_ navigation.
-
-> Eliminate the Pseudo-Scrolling of the Main Section: With [`<PageOffset />`](https://events-3bg.pages.dev/library/PageOffset/), The Bag offers a simple to use component that eliminates pseudo scrolling effects induced by morph transitions on elements that are larger than the viewport. Especially useful to get a smooth and neat transition animation for your main content.
-
-
 
 
 
