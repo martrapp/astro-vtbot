@@ -2,7 +2,7 @@ import type { AstroIntegration } from 'astro';
 import vitePluginVtbotExtend from './vite-plugin-extend';
 //@ts-expect-error
 import icon from '../assets/bag-of-tricks-mono.svg?raw';
-import inspectionChamber from '../node_modules/@vtbag/inspection-chamber?raw';
+import inspectionChamber from '../../@vtbag/inspection-chamber?raw';
 import { fileURLToPath } from 'node:url';
 
 const DTB_TOKEN = 'vtbot-inspection-chamber';
