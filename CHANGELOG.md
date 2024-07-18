@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.8.1 - 2024-07-18
+
+### Patch Changes
+
+- e87b5e2: Fixes dependencies for new minor version.
+
 ## 1.8.0 - 2024-07-18
 
 ### Minor Changes
