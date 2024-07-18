@@ -1,10 +1,10 @@
 # The Bag of Tricks for View Transitions
 
-## 1.8.2
+## 1.8.2 - 2024-07-18
 
 ### Patch Changes
 
-- 4c2cae2: inspection-chamber update to get the glow effects back.
+- 4c2cae2: Inspection-chamber update to get the glow effects back.
 
 ## 1.8.1 - 2024-07-18
 
