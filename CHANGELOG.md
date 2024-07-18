@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.8.0
+
+### Minor Changes
+
+- 316aa13: Introduces the Inspection Chamber, which allows you to put your view transitions through their paces. The Inspection Chamber can be used as a component but also via the brand new DevToolbar integration!
+
 ## 1.7.27 - 2024-07-13
 
 ### Patch Changes
