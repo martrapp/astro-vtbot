@@ -1,6 +1,6 @@
 # The Bag of Tricks for View Transitions
 
-## 1.8.0
+## 1.8.0 - 2024-07-18
 
 ### Minor Changes
 
