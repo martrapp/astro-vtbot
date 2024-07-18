@@ -79,6 +79,7 @@
     "@playwright/test": "^1.45.2",
     "@types/dom-view-transitions": "^1.0.4",
     "@types/node": "^20.14.11",
+    "@vtbag/inspection-chamber": "latest",
     "astro": "^4.11.6",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
