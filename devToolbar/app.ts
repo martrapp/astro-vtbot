@@ -24,13 +24,13 @@ export default defineToolbarApp({
 <div>
 	<astro-dev-toolbar-icon class="logo">${icon}</astro-dev-toolbar-icon>
 	<h1>The Bag of Tricks for Astro's View Transitions</h1>
-	<p>The Bag of Tricks offers components to simplify view transitions for you. Plus: Detailed information about Astro's view transitions and the View Transition API in general.</p>
+	<p>The Bag of Tricks offers components to simplify view transitions for you. Plus: Detailed info about Astro's view transitions and the View Transition API in general.</p>
 	<p>Visit <a href="https://events-3bg.pages.dev">The Bag's Website</a> and <a href="https://github.com/martrapp/astro-vtbot">star the Github project</a> to support this work.</p>
 	<h2>!!! New !!! The Inspection Chamber</h2>
 	<img style="float:right; border-radius: 50%; border: 8px dashed #8888;
 		mask-image: radial-gradient(ellipse at center, white 35%, transparent 71%);"
 	src=${imgSrc.src} alt="reopen the inspection chamber" />
-	<p>Examine every detail of your view transitions! Put them through their paces! Step through the individual frames and discover precisely how the elements morph.</p>
+	<p>Examine every detail of your view transitions! Put them through their paces! Step through  frames and discover how the elements morph.</p><hr>
 	<p><span id="inspection-chamber-status">The Bag is cool</span><astro-dev-toolbar-button id="inspection-chamber-button">I love the Bag of Tricks!</astro-dev-toolbar-button></p>
 	<style>
 		a {
@@ -75,22 +75,22 @@ export default defineToolbarApp({
 				const button = me.querySelector('#inspection-chamber-button')!;
 
 				if (top!.document.querySelector(VTBAG_REOPEN)) {
-					status.textContent = 'The Inspection Chamber is currently in standby mode.';
+					status.textContent = 'The Chamber is currently in standby mode.';
 					button.textContent = 'Reactivate the Inspection Chamber';
 					button.addEventListener('click', () => {
-						top!.sessionStorage.removeItem('vtbag-ui-closed');
+						top!.sessionStorage.removeItem('vtbag-ui-standby');
 						top!.location.reload();
 					});
 				} else if (top!.document.querySelector('body > #vtbag-main-frame')
 					&& top!.sessionStorage.getItem(DTB_TOKEN) !== 'true') {
-					status.innerHTML = 'Chamber was activated by <code><InspectionChamber /></code> component.';
-					button.textContent = 'Switch to standby mode';
+					status.innerHTML = 'This page has an <code>&lt;InspectionChamber /></code> component.';
+					button.textContent = 'Switch Inspection Chamber to standby mode';
 					button.addEventListener('click', () => {
-						top!.sessionStorage.setItem('vtbag-ui-closed', 'true');
+						top!.sessionStorage.setItem('vtbag-ui-standby', 'true');
 						top!.location.reload();
 					});
 				} else if (top!.sessionStorage.getItem(DTB_TOKEN) === 'true') {
-					status.textContent = 'The Inspection was summoned via the Dev Toolbar.';
+					status.textContent = 'Chamber was activated via Dev Toolbar.';
 					button.textContent = 'Remove the Inspection Chamber';
 
 					button.addEventListener('click', () => {
@@ -99,7 +99,7 @@ export default defineToolbarApp({
 					});
 				} else {
 					status.textContent = 'There is an Inspection Chamber here.';
-					button.textContent = 'Use Inspection Chamber';
+					button.textContent = 'Use the Inspection Chamber';
 					button.addEventListener('click', () => {
 						top!.sessionStorage.removeItem('vtbag-ui-closed');
 						top!.sessionStorage.setItem(DTB_TOKEN, 'true');
