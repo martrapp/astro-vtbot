@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.7.27 - 2024-07-13
+
+### Patch Changes
+
+- 2c6cc84: Fixes element queries in SwapSound and LoadingIndicator
+
 ## 1.7.26 - 2024-07-08
 
 ### Patch Changes
