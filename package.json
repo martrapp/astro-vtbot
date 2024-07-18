@@ -73,7 +73,7 @@
     "release": "changeset publish"
   },
   "dependencies": {
-    "@vtbag/inspection-chamber": "latest"
+    "@vtbag/inspection-chamber": "^1.0.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.8.2",
