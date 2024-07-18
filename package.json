@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.8.0",
+  "version": "0.0.0-dependencies-20240718",
   "description": "The 👜 Bag of Tricks ✨ for Astro's View Transitions",
   "homepage": "https://events-3bg.pages.dev/",
   "bugs": {
@@ -72,6 +72,9 @@
     "changeset": "changeset",
     "release": "changeset publish"
   },
+  "dependencies":{
+    "@vtbag/inspection-chamber": "latest"
+  },
   "devDependencies": {
     "@astrojs/check": "^0.8.2",
     "@astrojs/starlight": "^0.25.1",
@@ -80,7 +83,6 @@
     "@playwright/test": "^1.45.2",
     "@types/dom-view-transitions": "^1.0.4",
     "@types/node": "^20.14.11",
-    "@vtbag/inspection-chamber": "latest",
     "astro": "^4.11.6",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
