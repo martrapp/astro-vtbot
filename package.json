@@ -23,7 +23,8 @@
     "components",
     "animations",
     "integration",
-    "assets"
+    "assets",
+    "devToolbar"
   ],
   "exports": {
     ".": "./integration/index.ts",
