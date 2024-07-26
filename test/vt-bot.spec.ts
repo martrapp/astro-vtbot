@@ -258,3 +258,23 @@ test.describe('ReplacementSwap', () => {
 		expect(await page.locator('head meta[name="persist"]').getAttribute('content')).toBe('5');
 	});
 });
+test.describe('Loading Indicator', () => {
+	test('inserts and removes loading class', async ({ page }) => {
+		const msgs: string[] = [];
+		page.on('console', (msg) => msg.text().startsWith('test:') && msgs.push(msg.text()));
+		await page.goto('/loading/one/');
+		await expect(page).toHaveTitle('Load1');
+		await page.locator('#click').click();
+		await expect(page).toHaveTitle('Load2');
+		expect(msgs.slice(0, 2).join('|')).toBe('test:loading|test:');
+	});
+	test('inserts and removes loading class even when errors occur', async ({ page }) => {
+		const msgs: string[] = [];
+		page.on('console', (msg) => msg.text().startsWith('test:') && msgs.push(msg.text()));
+		await page.goto('/loading/one/');
+		await expect(page).toHaveTitle('Load1');
+		await page.locator('#download').click();
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+		expect(msgs.slice(0, 2).join('|')).toBe('test:loading|test:');
+	});
+});
