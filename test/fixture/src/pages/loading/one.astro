@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import LoadingIndicator from 'astro-vtbot/components/LoadingIndicator.astro';
+import BrakePad from 'astro-vtbot/components/BrakePad.astro';
+---
+
+<Layout title="Load1">
+	<LoadingIndicator slot="head" />
+	<BrakePad duration={500} slot="head" />
+	<h1>Loading One</h1>
+	<a href="/loading/two/" id="click">Click</a>
+	<a href="/x.zip" id="download">Download</a>
+</Layout>
+<script>
+	const obs = new MutationObserver((records) => {
+		records.forEach(
+			(record) =>
+				record.attributeName === 'class' &&
+				console.log('test:' + document.documentElement.getAttribute('class'))
+		);
+	});
+	obs.observe(document.documentElement, { attributes: true });
+</script>
