@@ -5,7 +5,8 @@ No, its **_NOT_** a roBOT 🤖, its a 👜 <b>B</b>ag <b>o</b>f <b>T</b>ricks!�
 The bag of tricks provides extensions & support around Astro's view transitions.
 
 ![Build Status](https://github.com/martrapp/astro-vtbot/actions/workflows/run-tests.yml/badge.svg)
-[![npm version](https://img.shields.io/npm/v/astro-vtbot)](https://www.npmjs.com/package/astro-vtbot)
+[![npm version](https://img.shields.io/npm/v/astro-vtbot/latest)](https://www.npmjs.com/package/astro-vtbot)
+[![NPM Downloads](https://img.shields.io/npm/dw/astro-vtbot)](https://www.npmjs.com/package/astro-vtbot)
 
 A current deployment of tech demos and the documentation can be found at https://events-3bg.pages.dev/
 
