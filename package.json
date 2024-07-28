@@ -67,7 +67,7 @@
     "debug"
   ],
   "scripts": {
-    "format": "prettier -w components integration animations test",
+    "format": "prettier -w components integration animations test | grep -v 'unchanged)$'",
     "test": "npm run format; scripts/test.sh",
     "changeset": "changeset",
     "release": "changeset publish"
