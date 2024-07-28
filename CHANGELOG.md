@@ -1,5 +1,13 @@
 # The Bag of Tricks for View Transitions
 
+## 1.8.3
+
+### Patch Changes
+
+- ef4ccab: Fixes an issue with the integration of the inspection-chamber.
+- 9e3b0e1: Fixes an issue where the loading indicator was not removed when the browser decided to download the target of a link.
+- c63b4b8: Update to version 1.0.3 of @vtbag/inspection-chamber
+
 ## 1.8.2 - 2024-07-18
 
 ### Patch Changes
