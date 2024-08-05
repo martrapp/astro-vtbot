@@ -76,7 +76,7 @@
     "@vtbag/inspection-chamber": "^1.0.3"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.8.3",
+    "@astrojs/check": "^0.9.1",
     "@astrojs/starlight": "^0.25.2",
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "^2.27.7",
