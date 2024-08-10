@@ -35,7 +35,9 @@ export default function createIntegration(options?: VtBotOptions): AstroIntegrat
 
 					setupOptions.injectScript(
 						'head-inline',
-						`if (sessionStorage.getItem('${DTB_TOKEN}') === 'true') {${inspectionChamber}}; document.currentScript.remove()`
+						`if (sessionStorage.getItem('${DTB_TOKEN}') === 'true') {${inspectionChamber}};
+						const script = document.currentScript;
+						setTimeout(script.remove(), 1000)`
 					);
 				}
 
