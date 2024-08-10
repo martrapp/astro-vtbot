@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.8.4 - 2024-08-10
+
+### Patch Changes
+
+- 1f15f8c: Updates the Inspection Chamber (@vtbag/inspection-chamber) to the current version
+
 ## 1.8.3 - 2024-07-28
 
 ### Patch Changes
