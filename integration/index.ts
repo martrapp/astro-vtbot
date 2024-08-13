@@ -2,10 +2,7 @@ import type { AstroIntegration } from 'astro';
 import vitePluginVtbotExtend from './vite-plugin-extend';
 //@ts-expect-error
 import icon from '../assets/bag-of-tricks-mono.svg?raw';
-import inspectionChamber from '@vtbag/inspection-chamber?raw';
 import { fileURLToPath } from 'node:url';
-
-const DTB_TOKEN = 'vtbot-inspection-chamber';
 
 type VtBotOptions = {
 	autoLint?: boolean;
@@ -26,18 +23,17 @@ export default function createIntegration(options?: VtBotOptions): AstroIntegrat
 						},
 					});
 				}
+
 				//@ts-expect-error
 				if (import.meta.env.DEV) {
 					setupOptions.injectRoute({
-						pattern: '/_vtbot_inspection_chamber',
-						entrypoint: 'node_modules/astro-vtbot/components/InspectionChamber.astro',
+						pattern: '/_vtbot_inspection_chamber.js',
+						entrypoint: 'node_modules/astro-vtbot/integration/astro-inspection-chamber.js.ts',
 					});
 
 					setupOptions.injectScript(
 						'head-inline',
-						`if (sessionStorage.getItem('${DTB_TOKEN}') === 'true') {${inspectionChamber}};
-						const script = document.currentScript;
-						setTimeout(script.remove(), 1000)`
+						`(function() {var s=document.createElement('script');s.src='/_vtbot_inspection_chamber.js';document.head.appendChild(s);var t=document.currentScript;setTimeout(()=>{t.remove();s.remove()},1000)})();`
 					);
 				}
 
