@@ -26,6 +26,5 @@ export function encode(name) {
 				: s
 		)
 		.join('');
-	console.log(name, result);
 	return result;
 }
