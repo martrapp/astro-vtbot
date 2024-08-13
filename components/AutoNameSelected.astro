@@ -32,7 +32,7 @@ if (selector === '') throw Error(`${error} selector must not be the empty string
 
 <script>
 	import { TRANSITION_BEFORE_PREPARATION } from 'astro:transitions/client';
-
+	import { encode } from './custom-ident';
 	const markHeadings = (doc: Document) => {
 		[...doc.querySelectorAll<HTMLMetaElement>('meta[name="vtbot-auto-name-selected"]')]
 			.map((meta) => meta.content ?? '   ')
@@ -55,7 +55,7 @@ if (selector === '') throw Error(`${error} selector must not be the empty string
 									? 'none'
 									: `${prefix}-` + (shuffle ? random[idx] : idx);
 
-						style.viewTransitionName = name;
+						style.viewTransitionName = encode(name);
 					}
 				});
 			});
