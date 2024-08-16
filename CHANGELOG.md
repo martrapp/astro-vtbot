@@ -1,5 +1,15 @@
 # The Bag of Tricks for View Transitions
 
+## 1.8.5
+
+### Patch Changes
+
+- ecc0966: Put the chamber out of order for browsers without native support for the view transition API
+- b46e61c: Fixes content-type of chamber script
+- 11f53fe: Greatly reduces the footprint of the Chamber in HTML files when used via the integration option.
+- a4b36ad: Correctly encodes view transition names used with the AutoNameSelected component
+- b28f195: Starlight support: Honor the persisted sidebar state introduced with Starlight v0.26.0
+
 ## 1.8.4 - 2024-08-10
 
 ### Patch Changes
