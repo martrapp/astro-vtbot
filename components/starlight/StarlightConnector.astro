@@ -115,7 +115,7 @@
 
 					[...newDoc.scripts]
 						.filter((s) => (s.textContent ?? '').includes('sl-sidebar-state-persist'))
-						.forEach((s) => (s.setAttribute("data-astro-rerun","")));
+						.forEach((s) => s.setAttribute('data-astro-rerun', ''));
 				} else {
 					/* check for known extensions */
 					updateMultiSidebar(document);
