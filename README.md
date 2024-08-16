@@ -15,12 +15,14 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-This release introduces an updated version of the Inspection Chamber, now packed with new, shiny displays and knobs. The Chamber is steadily maturing, evolving from a cool prototype into a cool, reliable tool.
-
-See your view transitions like never before: examine every detail, reveal, debug, and optimize! Now, drill down into the effects of each pseudo-element introduced by the view transition API and even selectively toggle individual animations to better understand what’s happening!
-
+V1.18.5 throws a colorful mix of things into the bag. Most notable is support for Starlight's persisted sidebar state, but also various improvements to the chamber and view transition name encoding. See the changelog for details!
 
 ## Recently Learned Tricks ##
+
+> V1.18.4 introduced an updated version of the Inspection Chamber, now packed with new, shiny displays and knobs. The Chamber is steadily maturing, evolving from a cool prototype into a cool, reliable tool.
+
+> See your view transitions like never before: examine every detail, reveal, debug, and optimize! Now, drill down into the effects of each pseudo-element introduced by the view transition API and even selectively toggle individual animations to better understand what’s happening!
+
 
 > Summon the Inspection Chamber as a component ([&lt;InspectionChamber />](https://events-3bg.pages.dev/library/InspectionChamber/)) or [install The Bag as an integration!](hhttps://events-3bg.pages.dev/library/Installation/#installing-as-an-astro-integration) and access the Chamber from the devToolbar!
 
