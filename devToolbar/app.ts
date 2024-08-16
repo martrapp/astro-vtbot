@@ -29,7 +29,7 @@ export default defineToolbarApp({
 	<h2>!!! New !!! The Inspection Chamber</h2>
 	<img style="float:right; border-radius: 50%; border: 8px dashed #8888;
 		mask-image: radial-gradient(ellipse at center, white 35%, transparent 71%);"
-	src=${imgSrc.src} alt="reopen the inspection chamber" />
+	src=${imgSrc.src} alt="Reopen the Inspection Chamber" />
 	<p>Examine every detail of your view transitions! Put them through their paces! Step through  frames and discover how the elements morph.</p><hr>
 	<p><span id="inspection-chamber-status">The Bag is cool</span><astro-dev-toolbar-button id="inspection-chamber-button">I love the Bag of Tricks!</astro-dev-toolbar-button></p>
 	<style>
@@ -72,9 +72,13 @@ export default defineToolbarApp({
 					.shadowRoot!.querySelector('astro-dev-toolbar-app-canvas[data-app-id="vtbot"]')!
 					.shadowRoot!;
 				const status = me.querySelector<HTMLSpanElement>('#inspection-chamber-status')!;
-				const button = me.querySelector('#inspection-chamber-button')!;
+				const button = me.querySelector<HTMLButtonElement>('#inspection-chamber-button')!;
 
-				if (top!.document.querySelector(VTBAG_REOPEN)) {
+				if (!document.startViewTransition) {
+					status.textContent = 'Your browser does not support view transitions. You notice a little sign near the power button of The Chamber:';
+					button.textContent = 'Out of Order';
+					button.disabled = true;
+				} else if (top!.document.querySelector(VTBAG_REOPEN)) {
 					status.textContent = 'The Chamber is currently in standby mode.';
 					button.textContent = 'Reactivate the Inspection Chamber';
 					button.addEventListener('click', () => {
@@ -91,7 +95,7 @@ export default defineToolbarApp({
 					});
 				} else if (top!.sessionStorage.getItem(DTB_TOKEN) === 'true') {
 					status.textContent = 'Chamber was activated via Dev Toolbar.';
-					button.textContent = 'Remove the Inspection Chamber';
+					button.textContent = 'Turn off the Inspection Chamber';
 
 					button.addEventListener('click', () => {
 						top!.sessionStorage.removeItem(DTB_TOKEN);
@@ -99,7 +103,7 @@ export default defineToolbarApp({
 					});
 				} else {
 					status.textContent = 'There is an Inspection Chamber here.';
-					button.textContent = 'Use the Inspection Chamber';
+					button.textContent = 'Go ahead and power up the Inspection Chamber';
 					button.addEventListener('click', () => {
 						top!.sessionStorage.removeItem('vtbag-ui-closed');
 						top!.sessionStorage.setItem(DTB_TOKEN, 'true');
