@@ -15,9 +15,11 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-V1.18.5 throws a colorful mix of things into the bag. Most notable is support for Starlight's persisted sidebar state, but also various improvements to the chamber and view transition name encoding. See the changelog for details!
+This is a quick release for a new small component that reduces cursor switching on view transitions: [<PointerOnNavigation/>](https://events-3bg.pages.dev/library/PointerOnNavigation/)
 
 ## Recently Learned Tricks ##
+
+V1.18.5 throws a colorful mix of things into the bag. Most notable is support for Starlight's persisted sidebar state, but also various improvements to the chamber and view transition name encoding. See the changelog for details!
 
 > V1.18.4 introduced an updated version of the Inspection Chamber, now packed with new, shiny displays and knobs. The Chamber is steadily maturing, evolving from a cool prototype into a cool, reliable tool.
 
@@ -50,6 +52,7 @@ LoadingIndicator ⏳ | ~0.4k
 Move 🚟 | ~0.2k
 NoScroll 📜 | ~0.1k
 PageOffset 📄⇞ | ~0.1k
+PointerOnNavigation 👆 | ~0.1k
 Portal 🚪 | ~0.2k
 ReplacementSwap ↹ | ~0.5k
 Starlight &hellip; 🌟 | ~3.0k
