@@ -15,7 +15,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-This is a quick release for a new small component that reduces cursor switching on view transitions: [<PointerOnNavigation/>](https://events-3bg.pages.dev/library/PointerOnNavigation/)
+This is a quick release for a new small component that reduces cursor switching on view transitions: [`<PointerOnNavigation/>`](https://events-3bg.pages.dev/library/PointerOnNavigation/)
 
 ## Recently Learned Tricks ##
 
