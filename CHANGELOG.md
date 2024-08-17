@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.8.6
+
+### Patch Changes
+
+- 75932b1: This introduces the `<PointerOnNavigation />` component that reduces cursor switching on navigation.
+
 ## 1.8.5 - 2024-08-16
 
 ### Patch Changes
