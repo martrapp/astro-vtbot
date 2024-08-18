@@ -91,5 +91,5 @@ export async function vtbotLoadingIndicator(options: Options) {
 
 	div.id = 'vtbot-loading-indicator';
 	div.appendChild(img!);
-	document.body.appendChild(div);
+	document.getElementById('vtbot-loading-indicator') || document.body.appendChild(div);
 }
