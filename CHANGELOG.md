@@ -1,5 +1,12 @@
 # The Bag of Tricks for View Transitions
 
+## 1.8.7 - 2024-08-20
+
+### Patch Changes
+
+- 5393174: LoadingIndicator: Increases robustness of indicator creation.
+- dece4d7: Updates @vtbag/inspection-chamber
+
 ## 1.8.6 - 2024-08-17
 
 ### Patch Changes
