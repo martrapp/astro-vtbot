@@ -1,5 +1,12 @@
 # The Bag of Tricks for View Transitions
 
+## 1.8.8
+
+### Patch Changes
+
+- d977d52: Makes inspection chamber integration more robust.
+- 75bb439: Version bumps, especially new version of the inspection chamber with improved css reporting
+
 ## 1.8.7 - 2024-08-20
 
 ### Patch Changes
