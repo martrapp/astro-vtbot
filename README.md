@@ -15,13 +15,15 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-This is a small release with dependency updates and a small fix for the `<LoadingIndicator>`.
+New, improved version of the inspection chamber.
 
 ## Recently Learned Tricks ##
 
-V1.18.5 throws a colorful mix of things into the bag. Most notable is support for Starlight's persisted sidebar state, but also various improvements to the chamber and view transition name encoding. See the changelog for details!
+V1.8.7 brought a small fix for the `<LoadingIndicator>`.
 
-> V1.18.4 introduced an updated version of the Inspection Chamber, now packed with new, shiny displays and knobs. The Chamber is steadily maturing, evolving from a cool prototype into a cool, reliable tool.
+V1.8.5 throws a colorful mix of things into the bag. Most notable is support for Starlight's persisted sidebar state, but also various improvements to the chamber and view transition name encoding. See the changelog for details!
+
+> V1.8.4 introduced an updated version of the Inspection Chamber, now packed with new, shiny displays and knobs. The Chamber is steadily maturing, evolving from a cool prototype into a cool, reliable tool.
 
 > See your view transitions like never before: examine every detail, reveal, debug, and optimize! Now, drill down into the effects of each pseudo-element introduced by the view transition API and even selectively toggle individual animations to better understand what’s happening!
 
