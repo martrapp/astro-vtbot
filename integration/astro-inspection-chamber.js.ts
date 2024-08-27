@@ -4,7 +4,7 @@ const inspectionChamber = readFileSync('node_modules/@vtbag/inspection-chamber/l
 
 export async function GET({ params, request }) {
 	return new Response(
-		`if (!!document.startViewTransition && sessionStorage.getItem('vtbot-inspection-chamber') === 'true') {${inspectionChamber}};`,
+		`if (!!top.document.startViewTransition && top.sessionStorage.getItem('vtbot-inspection-chamber') === 'true') {${inspectionChamber}};`,
 		{
 			status: 200,
 			headers: {

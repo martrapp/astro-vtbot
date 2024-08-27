@@ -33,7 +33,7 @@ export default function createIntegration(options?: VtBotOptions): AstroIntegrat
 
 					setupOptions.injectScript(
 						'head-inline',
-						`(function() {var s=document.createElement('script');s.src='/_vtbot_inspection_chamber.js';document.head.appendChild(s);var t=document.currentScript;setTimeout(()=>{t.remove();s.remove()},1000)})();`
+						`(function() {var s=document.createElement('script');s.blocking="render";s.src='/_vtbot_inspection_chamber.js';document.head.appendChild(s);var t=document.currentScript;setTimeout(()=>{t.remove();s.remove()},1000)})();`
 					);
 				}
 
