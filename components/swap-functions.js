@@ -86,6 +86,13 @@ const shouldCopyProps = (el) => {
   const persistProps = el.dataset.astroTransitionPersistProps;
   return persistProps == null || persistProps === "false";
 };
+const swapFunctions = {
+  deselectScripts,
+  swapRootAttributes,
+  swapHeadElements,
+  swapBodyElement,
+  saveFocus
+};
 const swap = (doc) => {
   deselectScripts(doc);
   swapRootAttributes(doc);
@@ -100,6 +107,7 @@ export {
   saveFocus,
   swap,
   swapBodyElement,
+  swapFunctions,
   swapHeadElements,
   swapRootAttributes
 };
