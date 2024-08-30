@@ -19,9 +19,7 @@ New, improved version of the inspection chamber.
 
 ## Recently Learned Tricks ##
 
-> See your view transitions like never before: examine every detail, reveal, debug, and optimize! Now, drill down into the effects of each pseudo-element introduced by the view transition API and even selectively toggle individual animations to better understand what’s happening!
-
-> Summon the Inspection Chamber as a component ([&lt;InspectionChamber />](https://events-3bg.pages.dev/library/InspectionChamber/)) or [install The Bag as an integration!](hhttps://events-3bg.pages.dev/library/Installation/#installing-as-an-astro-integration) and access the Chamber from the **devToolbar**!
+> Inspection Chamber: See your view transitions like never before: examine every detail, reveal, debug, and optimize! Now, drill down into the effects of each pseudo-element introduced by the view transition API and even selectively toggle individual animations to better understand what’s happening! Summon the Inspection Chamber as a component ([&lt;InspectionChamber />](https://events-3bg.pages.dev/library/InspectionChamber/)) or [install The Bag as an integration!](hhttps://events-3bg.pages.dev/library/Installation/#installing-as-an-astro-integration) and access the Chamber from the **devToolbar**!
 
 
 > Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
