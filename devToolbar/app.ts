@@ -24,14 +24,15 @@ export default defineToolbarApp({
 <div>
 	<astro-dev-toolbar-icon class="logo">${icon}</astro-dev-toolbar-icon>
 	<h1>The Bag of Tricks for Astro's View Transitions</h1>
-	<p>The Bag of Tricks offers components to simplify view transitions for you. Plus: Detailed info about Astro's view transitions and the View Transition API in general.</p>
+	<p>The Bag offers reusable components, tips & tricks plus detailed info about Astro's view transitions and the View Transition API in general.</p>
 	<p>Visit <a href="https://events-3bg.pages.dev">The Bag's Website</a> and <a href="https://github.com/martrapp/astro-vtbot">star the Github project</a> to support this work.</p>
-	<h2>!!! New !!! The Inspection Chamber</h2>
+	<h2>The Inspection Chamber</h2>
 	<img style="float:right; border-radius: 50%; border: 8px dashed #8888;
 		mask-image: radial-gradient(ellipse at center, white 35%, transparent 71%);"
 	src=${imgSrc.src} alt="Reopen the Inspection Chamber" />
-	<p>Examine every detail of your view transitions! Put them through their paces! Step through  frames and discover how the elements morph.</p><hr>
-	<p><span id="inspection-chamber-status">The Bag is cool</span><astro-dev-toolbar-button id="inspection-chamber-button">I love the Bag of Tricks!</astro-dev-toolbar-button></p>
+	<p>Put your view transitions through their paces!</p><hr>
+	<p><span id="inspection-chamber-status">If you see this text, bad things happened. If you got here in a web-container, like e.g. Stackblitz, try to open the preview of your project in a new tab. If this does not help, <a href="https://github.com/martrapp/astro-vtbot/issues/new/choose">please file a bug report</a> with the related errors from the browser's console.</span></p><p>You notice a little sign near the power button of The Chamber:
+	<astro-dev-toolbar-button id="inspection-chamber-button">Out of Order</astro-dev-toolbar-button></p>
 	<style>
 		a {
 			color: white;
@@ -67,13 +68,14 @@ export default defineToolbarApp({
 		}
 		app.onToggled((options) => {
 			if (options.state) {
-
+return;
 				const me = document.querySelector('astro-dev-toolbar')!
 					.shadowRoot!.querySelector('astro-dev-toolbar-app-canvas[data-app-id="vtbot"]')!
 					.shadowRoot!;
 				const status = me.querySelector<HTMLSpanElement>('#inspection-chamber-status')!;
 				const button = me.querySelector<HTMLButtonElement>('#inspection-chamber-button')!;
 
+				return;
 				if (!document.startViewTransition) {
 					status.textContent = 'Your browser does not support view transitions. You notice a little sign near the power button of The Chamber:';
 					button.textContent = 'Out of Order';
