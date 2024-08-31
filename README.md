@@ -15,7 +15,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-New, improved version of the inspection chamber.
+None. This version includes minor enhancements to stabilize existing features. For details, see the [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md)
 
 ## Recently Learned Tricks ##
 
