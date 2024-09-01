@@ -554,12 +554,9 @@ const active = import.meta.env.DEV || production;
 	}
 
 	function animationEnd(e: Event) {
-		if (e instanceof AnimationEvent) {
-			animations[transition(e)] &&
-				animations[transition(e)]![e.pseudoElement] &&
-				animations[transition(e)]![e.pseudoElement]![e.animationName] &&
-				(animations[transition(e)]![e.pseudoElement]![e.animationName]!.end = e);
-		}
+		e instanceof AnimationEvent &&
+			animations[transition(e)]?.[e.pseudoElement]?.[e.animationName] &&
+			(animations[transition(e)]![e.pseudoElement]![e.animationName]!.end = e);
 	}
 
 	/*
