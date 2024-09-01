@@ -75,7 +75,8 @@
     "release": "changeset publish"
   },
   "dependencies": {
-    "@vtbag/inspection-chamber": "^1.0.10"
+    "@vtbag/inspection-chamber": "^1.0.10",
+    "@vtbag/element-crossing": "^1.0.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.3",
