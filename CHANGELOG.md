@@ -1,5 +1,16 @@
 # The Bag of Tricks for View Transitions
 
+## 1.9.0
+
+### Minor Changes
+
+- 58cd5a1: Integrates `@vtbag/element-crossing` to transfer selected HTML state to the next page on CSS-only cross-deocument view transitions
+
+### Patch Changes
+
+- bb74ccd: Provides better guidance if the test chamber cannot be opened via devTools.
+- 7796f7c: Fixed an issue where VtBotDebug throws errors when analzing animations of cross-document transitions
+
 ## 1.8.8 - 2024-08-28
 
 ### Patch Changes
