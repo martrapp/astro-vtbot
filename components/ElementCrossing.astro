@@ -1,6 +1,12 @@
 ---
-export interface Props {}
-import crossing from '@vtbag/element-crossing?url';
+export interface Props {
+	experimentalFeatures?: boolean;
+}
+import crossingURL from '@vtbag/element-crossing?url';
+import experimentalURL from '@vtbag/element-crossing/experimental?url';
+const { experimentalFeatures = false } = Astro.props;
+console.log(`"${experimentalFeatures}":${typeof experimentalFeatures}`)
 ---
 
-<script is:inline data-astro-rerun src={crossing}></script>
+{experimentalFeatures && <script is:inline data-astro-rerun src={experimentalURL}></script>}
+<script is:inline data-astro-rerun src={crossingURL}></script>
