@@ -68,14 +68,12 @@ export default defineToolbarApp({
 		}
 		app.onToggled((options) => {
 			if (options.state) {
-return;
 				const me = document.querySelector('astro-dev-toolbar')!
 					.shadowRoot!.querySelector('astro-dev-toolbar-app-canvas[data-app-id="vtbot"]')!
 					.shadowRoot!;
 				const status = me.querySelector<HTMLSpanElement>('#inspection-chamber-status')!;
 				const button = me.querySelector<HTMLButtonElement>('#inspection-chamber-button')!;
 
-				return;
 				if (!document.startViewTransition) {
 					status.textContent = 'Your browser does not support view transitions. You notice a little sign near the power button of The Chamber:';
 					button.textContent = 'Out of Order';
