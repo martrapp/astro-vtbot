@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.9.1
+
+### Patch Changes
+
+- 62d9cba: Fixes a bug where the Inspection Chamber claims to be out of order.
+
 ## 1.9.0 - 2024-09-05
 
 ### Minor Changes
