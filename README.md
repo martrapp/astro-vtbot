@@ -15,7 +15,9 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-None. This version includes minor enhancements to stabilize existing features. For details, see the [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md)
+This release integrates `@vtbag/element-crossing` as `<ElementCrossing/>` This is a component for those of you who experiment with CSS-only cross-document view transitions and miss a way to preserve state of HTML elements across navigation: Transfer selected element state to the other side!
+
+For details, see the [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md)
 
 ## Recently Learned Tricks ##
 
