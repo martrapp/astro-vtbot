@@ -42,6 +42,8 @@ Animation Style ✨| ~0.1k
 AutoNameSelected 📛 | ~0.3k
 BorderControl 🛂 | ~0.1k
 BrakePad 🦥 | ~0.2k
+ElementCrossing 🚸 | ~1.2K
+InspectionChamber 🔬 | ~27k
 Linter 🧹 | ~1.9k
 LoadingIndicator ⏳ | ~0.4k
 Move 🚟 | ~0.2k
