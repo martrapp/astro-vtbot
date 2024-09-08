@@ -1,5 +1,13 @@
 # The Bag of Tricks for View Transitions
 
+## 1.9.2 - 2024-09-08
+
+### Patch Changes
+
+- 82de459: Removes a forgotten console.log statement from the `<ElementCrossing />` component.
+- 89741bd: Updates @vtbag/element-crossing to 1.0.1
+- 20671d6: Updates the wording of the devToolbar integration.
+
 ## 1.9.1 - 2024-09-05
 
 ### Patch Changes
