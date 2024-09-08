@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 82de459: Removes a forgotten console.log statement
+- 82de459: Removes a forgotten console.log statement from the `<ElementCrossing />` component.
 - 89741bd: Updates @vtbag/element-crossing to 1.0.1
 - 20671d6: Updates the wording of the devToolbar integration.
 
