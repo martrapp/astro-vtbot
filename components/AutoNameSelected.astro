@@ -13,22 +13,16 @@ if (prefix && prefix.includes(' '))
 if (selector === '') throw Error(`${error} selector must not be the empty string`);
 ---
 
-{
-	(selector || prefix || force !== undefined || shuffle !== undefined) && (
-		<meta
-			name="vtbot-auto-name-selected"
-			content={
-				(prefix ?? 'vtbot-hx') +
-				' ' +
-				(force ?? '') +
-				' ' +
-				(shuffle ?? '') +
-				' ' +
-				(selector ?? '')
-			}
-		/>
-	)
-}
+<meta
+	name="vtbot-auto-name-selected"
+	content={(prefix ?? 'vtbot-hx') +
+		' ' +
+		(force ?? '') +
+		' ' +
+		(shuffle ?? '') +
+		' ' +
+		(selector ?? '')}
+/>
 
 <script>
 	import { TRANSITION_BEFORE_PREPARATION } from 'astro:transitions/client';
