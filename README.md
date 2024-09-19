@@ -16,10 +16,10 @@ A current deployment of tech demos and the documentation can be found at https:/
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
 
+Bug fix for the Linter and an update of the InspectionChamber!
 
-Bug fix and version bumps.
+For details, see the [CHANGELOG of the Bag](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md) and of the [CHANGELOG of the InstructionChamber](https://github.com/vtbag/inspection-chamber/blob/main/CHANGELOG.md)
 
-For details, see the [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md)
 
 ## Recently Learned Tricks ##
 
