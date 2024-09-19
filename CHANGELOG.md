@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.9.4 - 2024.09.19
+
+### Patch Changes
+
+- c0f574e: Linter: Handles "!important" correctly when used with view-transition-names.
+
 ## 1.9.3 - 2024-09-19
 
 ### Patch Changes
