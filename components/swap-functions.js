@@ -41,7 +41,7 @@ function swapBodyElement(newElement, oldElement) {
     const newEl = newElement.querySelector(`[${PERSIST_ATTR}="${id}"]`);
     if (newEl) {
       newEl.replaceWith(el);
-      if (newEl.localName === "astro-island" && shouldCopyProps(el)) {
+      if (newEl.localName === "astro-island" && shouldCopyProps(el) && !isSameProps(el, newEl)) {
         el.setAttribute("ssr", "");
         el.setAttribute("props", newEl.getAttribute("props"));
       }
@@ -85,6 +85,9 @@ const persistedHeadElement = (el, newDoc) => {
 const shouldCopyProps = (el) => {
   const persistProps = el.dataset.astroTransitionPersistProps;
   return persistProps == null || persistProps === "false";
+};
+const isSameProps = (oldEl, newEl) => {
+  return oldEl.getAttribute("props") === newEl.getAttribute("props");
 };
 const swapFunctions = {
   deselectScripts,
