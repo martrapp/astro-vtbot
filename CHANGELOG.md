@@ -1,5 +1,11 @@
 # The Bag of Tricks for View Transitions
 
+## 1.9.3 - 2024-09-19
+
+### Patch Changes
+
+- 8404b0f: Fixes an issue where `<AutoNameSelected />` got ignored when no properties were set.
+
 ## 1.9.2 - 2024-09-08
 
 ### Patch Changes
