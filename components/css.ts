@@ -83,7 +83,9 @@ export function elementsWithPropertyInStylesheet(
 		definitions.set(sheet, set);
 		const text = (owner?.textContent ?? '').replace(/@supports[^;{]+/g, '');
 		const matches = text.matchAll(new RegExp(`${property}:\\s*([^;}]*)`, 'gu'));
-		[...matches].forEach((match) => set.add(decode(property, match[1]!)));
+		[...matches].forEach((match) =>
+			set.add(decode(property, match[1]!.replace(/\s*!important\s*$/, '')))
+		);
 	});
 
 	walkSheets([...doc.styleSheets], undefined, (rule) => {
