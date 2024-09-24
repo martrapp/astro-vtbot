@@ -4,20 +4,24 @@ import forcedTraversalURL from '@vtbag/turn-signal/forced-traversal?url';
 export interface Props {
 	selector?: string;
 	forcedTraversal?: boolean;
-	backAndForth?: string;
+	directionTypes?: string;
+	directionAttribute?: string;
 }
 
 const {
 	selector,
 	forcedTraversal,
-	backAndForth = 'data-astro-transition, back, , forward ',
+	directionTypes = '',
+	directionAttribute = 'data-astro-transition, back, , forward',
 } = Astro.props;
 ---
 
 {forcedTraversal && <script is:inline src={forcedTraversalURL} />}{
-	selector ? (
-		<script is:inline data-selector={selector} data-back-and-forth={backAndForth} src={signalURL} />
-	) : (
-		<script is:inline data-back-and-forth={backAndForth} src={signalURL} />
-	)
+		<script
+			is:inline
+			{...(selector ? {'data-selector': selector}:{})}
+			{...(directionTypes ? {'data-direction-types':directionTypes}:{})}
+			{...(directionAttribute ? {'data-direction-attribute': directionAttribute}:{})}
+			src={signalURL}
+		/>
 }
