@@ -15,8 +15,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-
-Bug fix for the Linter and an update of the InspectionChamber!
+New component for cross-document view transitions: The `<TurnSignal>` enables Astro's forward/backward animations to work with `@view-transition{}`. Slide right and left as you traverse the browser's history! Optionally you can configure the component with a total order of your site's pages, allowing it to automatically detect the transition direction.
 
 For details, see the [CHANGELOG of the Bag](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md) and of the [CHANGELOG of the InstructionChamber](https://github.com/vtbag/inspection-chamber/blob/main/CHANGELOG.md)
 

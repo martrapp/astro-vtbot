@@ -278,3 +278,25 @@ test.describe('Loading Indicator', () => {
 		expect(msgs.slice(0, 2).join('|')).toBe('test:loading|test:');
 	});
 });
+test.describe('Turn-Signal', () => {
+	test('inserts forward and backward values', async ({ page }) => {
+		const msgs: string[] = [];
+		page.on('console', (msg) => msg.text().startsWith('test:') && msgs.push(msg.text()));
+		await page.goto('/signal/one/');
+		await expect(page).toHaveTitle('/signal/one/');
+		await page.click('text=Two');
+		await expect(page).toHaveTitle('/signal/two/');
+		await page.goBack();
+		await expect(page).toHaveTitle('/signal/one/');
+		await page.click('text=Three');
+		await expect(page).toHaveTitle('/signal/three/');
+		await page.click('text=Two');
+		await expect(page).toHaveTitle('/signal/two/');
+		await page.click('text=One');
+		await expect(page).toHaveTitle('/signal/one/');
+		await new Promise((resolve) => setTimeout(resolve, 500));
+		expect(msgs.join('|')).toBe(
+			'test: forward|test: undefined|test: back|test: undefined|test: forward|test: undefined|test: back|test: undefined|test: back|test: undefined'
+		);
+	});
+});
