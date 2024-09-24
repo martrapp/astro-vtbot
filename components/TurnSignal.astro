@@ -12,16 +12,18 @@ const {
 	selector,
 	forcedTraversal,
 	directionTypes = '',
-	directionAttribute = 'data-astro-transition, back, , forward',
+	directionAttribute = 'data-astro-transition, back, forward, forward',
 } = Astro.props;
 ---
 
 {forcedTraversal && <script is:inline src={forcedTraversalURL} />}{
+	(
 		<script
 			is:inline
-			{...(selector ? {'data-selector': selector}:{})}
-			{...(directionTypes ? {'data-direction-types':directionTypes}:{})}
-			{...(directionAttribute ? {'data-direction-attribute': directionAttribute}:{})}
+			{...(selector ? { 'data-selector': selector } : {})}
+			{...(directionTypes ? { 'data-direction-types': directionTypes } : {})}
+			{...(directionAttribute ? { 'data-direction-attribute': directionAttribute } : {})}
 			src={signalURL}
 		/>
+	)
 }
