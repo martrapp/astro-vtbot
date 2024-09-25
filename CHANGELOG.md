@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 1.10.1
+
+### Patch Changes
+
+- 005bed4: Incorporates bugfix version of @vtbag/turn-signal
+
 ## 1.10.0 - 2024-09-25
 
 ### Minor Changes
