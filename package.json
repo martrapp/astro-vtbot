@@ -77,7 +77,7 @@
   "dependencies": {
     "@vtbag/element-crossing": "^1.0.1",
     "@vtbag/inspection-chamber": "^1.0.14",
-    "@vtbag/turn-signal": "^1.0.0"
+    "@vtbag/turn-signal": "^1.0.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.3",
