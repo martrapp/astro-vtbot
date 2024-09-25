@@ -1,4 +1,4 @@
-# The Bag of Tricks for View Transitions
+# The Bag of Tricks for Astro's View Transitions
 
 ## 1.9.4 - 2024.09.19
 
