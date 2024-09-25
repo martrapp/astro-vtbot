@@ -15,9 +15,9 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-New component for cross-document view transitions: The `<TurnSignal>` enables Astro's forward/backward animations to work with `@view-transition{}`. Slide right and left as you traverse the browser's history! Optionally you can configure the component with a total order of your site's pages, allowing it to automatically detect the transition direction.
+New component for cross-document view transitions: The `<TurnSignal>` enables Astro's forward/backward animations provided by `transition:animate` to work with native cross-document `@view-transition{}`. Slide right and left as you traverse the browser's history! Optionally you can configure the component with a total order of your site's pages, allowing it to automatically detect the transition direction.
 
-For details, see the [CHANGELOG of the Bag](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md) and of the [CHANGELOG of the InstructionChamber](https://github.com/vtbag/inspection-chamber/blob/main/CHANGELOG.md)
+For details, see the [CHANGELOG of the Bag](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md) and of the [CHANGELOG of the InstructionChamber](https://github.com/vtbag/inspection-chamber/blob/main/CHANGELOG.md) for minor improvements regarding the Chamber.
 
 
 ## Recently Learned Tricks ##
