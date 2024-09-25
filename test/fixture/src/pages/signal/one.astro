@@ -1,0 +1,32 @@
+---
+import TurnSignal from 'astro-vtbot/components/TurnSignal.astro';
+import Nav from './_nav.astro';
+---
+
+<html>
+	<head
+		><TurnSignal selector="nav a" forcedTraversal />
+		<script is:inline>
+			new MutationObserver((mutations) => {
+				mutations.forEach((mutation) => {
+					if (
+						mutation.type === 'attributes' &&
+						mutation.attributeName === 'data-astro-transition'
+					) {
+						console.log('test:', mutation.target.dataset.astroTransition);
+					}
+				});
+			}).observe(document.documentElement, { attributes: true });
+		</script>
+		<style is:inline>
+			@view-transition {
+				navigation: auto;
+			}
+		</style>
+		<title>{Astro.url.pathname}</title>
+	</head>
+	<body>
+		<h1>{Astro.url.pathname}</h1>
+		<Nav />
+	</body>
+</html>
