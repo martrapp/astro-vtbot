@@ -15,12 +15,14 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-New component for cross-document view transitions: The `<TurnSignal>` enables Astro's forward/backward animations provided by `transition:animate` to work with native cross-document `@view-transition{}`. Slide right and left as you traverse the browser's history! Optionally you can configure the component with a total order of your site's pages, allowing it to automatically detect the transition direction.
+New component for browser-native cross-document view transitions: The `<CamShaft>` component prevents the pseudo-smooth-scroll effect caused by view transition groups that exceed the height of the viewport when navigating to a different vertical scroll position.
 
-For details, see the [CHANGELOG of the Bag](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md) and of the [CHANGELOG of the InstructionChamber](https://github.com/vtbag/inspection-chamber/blob/main/CHANGELOG.md) for minor improvements regarding the Chamber.
+<!--For details, see the [CHANGELOG of the Bag](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md) and of the [CHANGELOG of the InstructionChamber](https://github.com/vtbag/inspection-chamber/blob/main/CHANGELOG.md) for minor improvements regarding the Chamber.-->
 
 
 ## Recently Learned Tricks ##
+
+> The `<TurnSignal>` enables Astro's forward/backward animations provided by `transition:animate` to work with native cross-document `@view-transition{}`. Optionally you can configure the component with a total order of your site's pages, allowing it to automatically detect the transition direction.
 
 > The `<ElementCrossing />` is a component for those of you who experiment with CSS-only cross-document view transitions and miss a way to preserve state of HTML elements across navigation: Transfer selected element state to the other side!
 
@@ -45,6 +47,7 @@ Animation Style ✨| ~0.1k
 AutoNameSelected 📛 | ~0.3k
 BorderControl 🛂 | ~0.1k
 BrakePad 🦥 | ~0.2k
+CamShaft 🐫 | ~0.6k
 ElementCrossing 🚸 | ~1.2K
 InspectionChamber 🔬 | ~27k
 Linter 🧹 | ~1.9k
@@ -58,6 +61,7 @@ ReplacementSwap ↹ | ~0.5k
 Starlight &hellip; 🌟 | ~3.0k
 SwapSound 🔊 | -0.3k
 Swing 🎷 | ~0.1k
+TurnSignal 🔙 |~0.5k
 VtBotDebug 🐛 | ~2.8k
 Zoom 🔎 | ~0.1k
 
