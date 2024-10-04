@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 1.10.3
+
+### Patch Changes
+
+- 1257054: Adds the CamShaft component from @vtbag/cam-shaft
+
 ## 1.10.2 - 2024-09-25
 
 ### Patch Changes
