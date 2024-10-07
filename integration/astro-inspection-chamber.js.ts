@@ -1,6 +1,4 @@
-import { readFileSync } from 'node:fs';
-
-const inspectionChamber = readFileSync('node_modules/@vtbag/inspection-chamber/lib/index.js');
+import inspectionChamber from '@vtbag/inspection-chamber/lib/index.js?raw';
 
 export async function GET({ params, request }) {
 	return new Response(
