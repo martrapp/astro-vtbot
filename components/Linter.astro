@@ -135,7 +135,7 @@ const active = import.meta.env.DEV || production;
 					);
 					console.groupEnd();
 				}
-				if (elements.size > 1 && name !== 'none') {
+				if (elements.size > 1 && name !== 'none' && !ignore.has(name)) {
 					warned.add(name);
 					group(`%c[vtbot-linter] view transition name "${name}" is not unique ${here}`, ERROR);
 					[...elements!.values()]?.forEach((element) => {
