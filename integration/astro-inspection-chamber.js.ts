@@ -1,5 +1,5 @@
-import "astro/client";
-import inspectionChamber from "@vtbag/inspection-chamber?raw";
+import 'astro/client';
+import inspectionChamber from '@vtbag/inspection-chamber?raw';
 
 export async function GET({ params, request }) {
 	return new Response(
