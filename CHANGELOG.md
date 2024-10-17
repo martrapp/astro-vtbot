@@ -1,12 +1,13 @@
 # The Bag of Tricks for Astro's View Transitions
 
-## 1.10.4
+## 1.10.4 - 2024-10-17
 
 ### Patch Changes
 
+- 3cca5c8: -- **Thanks you [Lukas](https://github.com/trombach)** -- The Inspection Chamber DevTools now also work for projects using `pnpm`!\
+    Fixes `inspectionChamber` endpoint runtime error when using `pnpm`
 - ed79b25: Makes the Linter respect vtbot-linter-ignore meta elements for non unique view transition names (e.g. if only one has display != none)
 - 44e8134: Updates @vtbag/{inspection-chamber, element-crossing, turn-signal, cam-shaft} to their most recent versions.
-- 3cca5c8: fixes `inspectionChamber` endpoint runtime error when using `pnpm`
 
 ## 1.10.3 - 2024-10-04
 
