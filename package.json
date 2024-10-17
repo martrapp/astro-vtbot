@@ -75,10 +75,10 @@
     "release": "changeset publish"
   },
   "dependencies": {
-    "@vtbag/cam-shaft": "^1.0.0",
-    "@vtbag/element-crossing": "^1.0.1",
-    "@vtbag/inspection-chamber": "^1.0.15",
-    "@vtbag/turn-signal": "^1.0.2"
+    "@vtbag/cam-shaft": "^1.0.1",
+    "@vtbag/element-crossing": "^1.0.2",
+    "@vtbag/inspection-chamber": "^1.0.16",
+    "@vtbag/turn-signal": "^1.0.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",

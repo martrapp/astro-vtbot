@@ -15,12 +15,17 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-New component for browser-native cross-document view transitions: The `<CamShaft>` component prevents the pseudo-smooth-scroll effect caused by view transition groups that exceed the height of the viewport when navigating to a different vertical scroll position.
+The Inspection Chamber DevTools now als work for `pnpm` projects! \
+Big shout out and "Thank You!" to [Lukas](https://github.com/Trombach) for providing this fix!
 
-<!--For details, see the [CHANGELOG of the Bag](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md) and of the [CHANGELOG of the InstructionChamber](https://github.com/vtbag/inspection-chamber/blob/main/CHANGELOG.md) for minor improvements regarding the Chamber.-->
+Brings you current versions of the @vtbag/* packages!
+
+For details, see the [CHANGELOG of the Bag](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md). <!--and of the [CHANGELOG of the InstructionChamber](https://github.com/vtbag/inspection-chamber/blob/main/CHANGELOG.md) for the smaller improvements regarding the Chamber.-->
 
 
 ## Recently Learned Tricks ##
+
+> New component for browser-native cross-document view transitions: The `<CamShaft>` component prevents the pseudo-smooth-scroll effect caused by view transition groups that exceed the height of the viewport when navigating to a different vertical scroll position.
 
 > The `<TurnSignal>` enables Astro's forward/backward animations provided by `transition:animate` to work with native cross-document `@view-transition{}`. Optionally you can configure the component with a total order of your site's pages, allowing it to automatically detect the transition direction.
 
