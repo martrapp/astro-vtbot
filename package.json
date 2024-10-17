@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.10.3",
+  "version": "1.10.4",
   "description": "The 👜 Bag of Tricks ✨ for Astro's View Transitions",
   "homepage": "https://events-3bg.pages.dev/",
   "bugs": {
