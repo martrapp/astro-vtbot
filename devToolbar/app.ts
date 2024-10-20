@@ -31,8 +31,8 @@ export default defineToolbarApp({
 		mask-image: radial-gradient(ellipse at center, white 35%, transparent 71%);"
 	src=${imgSrc.src} alt="Reopen the Inspection Chamber" />
 	<p>Put your view transitions through their paces!</p><hr>
-	<p><span id="inspection-chamber-status">If you see this text, bad things happened. If you got here in a web-container, like e.g. Stackblitz, try to open the preview of your project in a new tab. If this does not help, <a href="https://github.com/martrapp/astro-vtbot/issues/new/choose">please file a bug report</a> with the related errors from the browser's console.</span></p><p>You notice a little sign near the Inspection Chamber's power button:
-	<astro-dev-toolbar-button id="inspection-chamber-button">Out of Order</astro-dev-toolbar-button></p>
+	<p><span id="inspection-chamber-status">If you see this text, bad things happened. If you got here in a web-container, like e.g. Stackblitz, try to open the preview of your project in a new tab. If this does not help, <a href="https://github.com/martrapp/astro-vtbot/issues/new/choose">please file a bug report</a> with the related errors from the browser's console.</span></p><p>You notice a little sign near the Inspection Chamber's power button:</p>
+	<astro-dev-toolbar-button id="inspection-chamber-button">Out of Order</astro-dev-toolbar-button>
 	<style>
 		a {
 			color: white;
@@ -42,24 +42,23 @@ export default defineToolbarApp({
 		}
 		astro-dev-toolbar-icon {
 			width: 1rem;
-				height: 1rem;
-				display: inline-block;
-			}
-			.logo {
-				width: 3.3rem;
-				height: auto;
-				margin-right: 0.25rem;
-				transform: translateY(0.4rem);
-				float: left;
-				display:block;
-				vertical-align: top;
-			}
-			h1 {
-				font-size: 1.3rem;
-			}
-			h2 {
-				font-size: 1.2rem;
-			}
+			height: 1rem;
+			display: inline-block;
+		}
+		.logo {
+			width: 3.3rem;
+			height: auto;
+			margin-right: 0.25rem;
+			transform: translateY(0.4rem);
+			float: left;
+			display:block;
+			vertical-align: top;
+		}
+		h1 {
+			font-size: 1.3rem;
+		}
+		h2 {
+			font-size: 1.2rem;
 		}
 	</style>
 `);
