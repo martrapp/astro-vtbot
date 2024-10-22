@@ -279,24 +279,29 @@ test.describe('Loading Indicator', () => {
 	});
 });
 test.describe('Turn-Signal', () => {
-	test('inserts forward and backward values', async ({ page }) => {
+	test('inserts forward and backward values on old and new page', async ({ page }) => {
 		const msgs: string[] = [];
 		page.on('console', (msg) => msg.text().startsWith('test:') && msgs.push(msg.text()));
 		await page.goto('/signal/one/');
 		await expect(page).toHaveTitle('/signal/one/');
+		await new Promise((resolve) => setTimeout(resolve, 500));
 		await page.click('text=Two');
 		await expect(page).toHaveTitle('/signal/two/');
+		await new Promise((resolve) => setTimeout(resolve, 500));
 		await page.goBack();
 		await expect(page).toHaveTitle('/signal/one/');
+		await new Promise((resolve) => setTimeout(resolve, 500));
 		await page.click('text=Three');
 		await expect(page).toHaveTitle('/signal/three/');
+		await new Promise((resolve) => setTimeout(resolve, 500));
 		await page.click('text=Two');
 		await expect(page).toHaveTitle('/signal/two/');
+		await new Promise((resolve) => setTimeout(resolve, 500));
 		await page.click('text=One');
 		await expect(page).toHaveTitle('/signal/one/');
 		await new Promise((resolve) => setTimeout(resolve, 500));
 		expect(msgs.join('|')).toBe(
-			'test: forward|test: undefined|test: back|test: undefined|test: forward|test: undefined|test: back|test: undefined|test: back|test: undefined'
+			'test: one/ forward|test: two/ forward|test: two/ undefined|test: two/ back|test: one/ back|test: one/ undefined|test: one/ forward|test: three/ forward|test: three/ undefined|test: three/ back|test: two/ back|test: two/ undefined|test: two/ back|test: one/ back|test: one/ undefined'
 		);
 	});
 });

@@ -13,7 +13,11 @@ import Nav from './_nav.astro';
 						mutation.type === 'attributes' &&
 						mutation.attributeName === 'data-astro-transition'
 					) {
-						console.log('test:', mutation.target.dataset.astroTransition);
+						console.log(
+							'test:',
+							new URL(location.href).pathname.substring('/signal/'.length),
+							mutation.target.dataset.astroTransition
+						);
 					}
 				});
 			}).observe(document.documentElement, { attributes: true });

@@ -15,15 +15,15 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-The Inspection Chamber DevTools now als work for `pnpm` projects! \
-Big shout out and "Thank You!" to [Lukas](https://github.com/Trombach) for providing this fix!
+Brings you current versions of the @vtbag/inspection-chamber and @vtbag/turn-signal!
 
-Brings you current versions of the @vtbag/* packages!
-
-For details, see the [CHANGELOG of the Bag](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md). <!--and of the [CHANGELOG of the InstructionChamber](https://github.com/vtbag/inspection-chamber/blob/main/CHANGELOG.md) for the smaller improvements regarding the Chamber.-->
+For details, see the [CHANGELOG of the Bag](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md), the [CHANGELOG of the Instruction-Chamber](https://github.com/vtbag/inspection-chamber/blob/main/CHANGELOG.md) and the [CHANGELOG of the Turn-Signal](https://github.com/vtbag/turn-signal/blob/main/CHANGELOG.md).
 
 
 ## Recently Learned Tricks ##
+
+> The Inspection Chamber DevTools now als work for `pnpm` projects! \
+Big shout out and "Thank You!" to [Lukas](https://github.com/Trombach) for providing this fix!
 
 > New component for browser-native cross-document view transitions: The `<CamShaft>` component prevents the pseudo-smooth-scroll effect caused by view transition groups that exceed the height of the viewport when navigating to a different vertical scroll position.
 
