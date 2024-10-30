@@ -15,9 +15,9 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-Brings you current versions of the @vtbag/inspection-chamber and @vtbag/turn-signal!
+Brings you the latest version of @vtbag/element-crossing, which now supports animated SVGs, thanks to [Lukas](https://github.com/trombach)!
 
-For details, see the [CHANGELOG of the Bag](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md), the [CHANGELOG of the Instruction-Chamber](https://github.com/vtbag/inspection-chamber/blob/main/CHANGELOG.md) and the [CHANGELOG of the Turn-Signal](https://github.com/vtbag/turn-signal/blob/main/CHANGELOG.md).
+For details, see the [CHANGELOG of the ElementCrossing](https://github.com/vtbag/element-crossing/blob/main/CHANGELOG.md).
 
 
 ## Recently Learned Tricks ##
