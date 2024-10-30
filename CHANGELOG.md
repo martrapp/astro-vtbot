@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 1.10.6
+
+### Patch Changes
+
+- 55a7728: Updates the `<ElementCrossing />` component to version 1.0.3 of `@vtbag/element-crossing`.
+
 ## 1.10.5 - 2024-10-22
 
 ### Patch Changes
