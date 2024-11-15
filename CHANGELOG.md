@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 1.10.7 - 2024-11-15
+
+### Patch Changes
+
+- 58d8fab: Dependency refresh highlights: @vtbag/element-crossing now fixes an issue with data-\* attributes.
+
 ## 1.10.6 - 2024-10-30
 
 ### Patch Changes
