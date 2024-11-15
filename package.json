@@ -76,19 +76,19 @@
   },
   "dependencies": {
     "@vtbag/cam-shaft": "^1.0.1",
-    "@vtbag/element-crossing": "^1.0.3",
+    "@vtbag/element-crossing": "^1.0.4",
     "@vtbag/inspection-chamber": "^1.0.17",
     "@vtbag/turn-signal": "^1.1.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/starlight": "^0.28.4",
+    "@astrojs/starlight": "^0.29.0",
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "^2.27.9",
     "@playwright/test": "^1.48.2",
     "@types/dom-view-transitions": "^1.0.5",
-    "@types/node": "^22.8.4",
-    "astro": "^4.16.7",
+    "@types/node": "^22.9.0",
+    "astro": "^4.16.13",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.6.3"

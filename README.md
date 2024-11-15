@@ -15,7 +15,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-Brings you the latest version of @vtbag/element-crossing, which now supports animated SVGs, thanks to [Lukas](https://github.com/trombach)!
+Brings you the latest version of @vtbag/element-crossing, with a bug fix for letting `attr-*` properties cross over to the new page!
 
 For details, see the [CHANGELOG of the ElementCrossing](https://github.com/vtbag/element-crossing/blob/main/CHANGELOG.md).
 
