@@ -29,15 +29,15 @@
   "exports": {
     ".": "./integration/index.ts",
     "./components/*.astro": {
-      "import": "./components/*.astro",
-      "types": "./components/*.d.ts"
+      "types": "./components/*.d.ts",
+      "import": "./components/*.astro"
     },
     "./components/loading-indicator": "./components/loading-indicator.ts",
     "./components/swap-utils": "./components/swap-utils.ts",
     "./components/starlight/utils": "./components/starlight/utils.ts",
     "./animations/*.astro": {
-      "import": "./animations/*.astro",
-      "types": "./animations/*.d.ts"
+      "types": "./animations/*.d.ts",
+      "import": "./animations/*.astro"
     },
     "./assets/*": "./assets/*",
     "./animations/*": "./animations/*.ts",
