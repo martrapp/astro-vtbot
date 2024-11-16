@@ -18,3 +18,4 @@ mkdir -p test/fixture/node_modules
 )
 npx astro check
 npx playwright test
+npx publint

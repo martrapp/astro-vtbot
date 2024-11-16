@@ -91,6 +91,7 @@
     "astro": "^4.16.13",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
+    "publint": "^0.2.12",
     "typescript": "^5.6.3"
   },
   "funding": {
