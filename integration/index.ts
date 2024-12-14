@@ -1,6 +1,6 @@
 import type { AstroIntegration } from 'astro';
 import vitePluginVtbotExtend from './vite-plugin-extend';
-//@ts-expect-error
+
 import icon from '../assets/bag-of-tricks-mono.svg?raw';
 import { fileURLToPath } from 'node:url';
 
@@ -14,8 +14,8 @@ export default function createIntegration(options?: VtBotOptions): AstroIntegrat
 		name: 'astro-vtbot',
 		hooks: {
 			'astro:config:setup': (setupOptions) => {
-				const linter = options?.autoLint ?? true;
-				const loading = options?.loadingIndicator ?? true;
+				const linter = options?.autoLint ?? false;
+				const loading = options?.loadingIndicator ?? false;
 				if (linter || loading) {
 					setupOptions.updateConfig({
 						vite: {
@@ -24,7 +24,6 @@ export default function createIntegration(options?: VtBotOptions): AstroIntegrat
 					});
 				}
 
-				//@ts-expect-error
 				if (import.meta.env.DEV) {
 					setupOptions.injectRoute({
 						pattern: '/_vtbot_inspection_chamber.js',
