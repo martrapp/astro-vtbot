@@ -27,13 +27,11 @@ export function initialize(onPageLoad?: () => void | Promise<void>, lowPrio = fa
 	document.addEventListener('astro:page-load', doInit);
 	document.addEventListener('astro:before-preparation', (e) => {
 		doShow();
-		if ('loader' in e) {
-			const originalLoader = e.loader as () => Promise<void>;
-			e.loader = async () => {
-				await originalLoader();
-				doHide();
-			};
-		}
+		const originalLoader = e.loader;
+		e.loader = async () => {
+			await originalLoader();
+			doHide();
+		};
 	});
 }
 
