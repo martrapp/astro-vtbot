@@ -15,6 +15,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
+
 Version 2.0.0 🎉 of astro-vtbot is here!
 
 This release changes what is automatically installed if you add astro-vtbot as an astro integration via `astro add astro-vtbot`. Now installing as an integration using `astro add astro-vtbot` should be your default choice for installing astro-vtbot. This gives you access to the `inspection-chamber` on every page via Astro's devToolbar!
