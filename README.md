@@ -15,27 +15,26 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-Brings you the latest version of @vtbag/element-crossing, with a bug fix for letting `data-*` properties cross over to the new page!
 
-For details, see the [CHANGELOG of the ElementCrossing](https://github.com/vtbag/element-crossing/blob/main/CHANGELOG.md).
+Version 2.0.0 🎉 of astro-vtbot is here!
 
+This release changes what is automatically installed if you add astro-vtbot as an astro integration via `astro add astro-vtbot`. Now installing as an integration using `astro add astro-vtbot` should be your default choice for installing astro-vtbot. This gives you access to the `inspection-chamber` on every page via Astro's devToolbar!
+
+In contrast, `<LoadingIndicator />` and the `<Linter />` components will no longer be automatically integrated and must be explicitly added if needed, e.g. in a global Layout.astro. During a transition period, the previous behavior can still be restored using toggles in the astro.config file.
+
+For details, see the [CHANGELOG](https://github.com/martrapp/vtbot/blob/main/CHANGELOG.md).
+
+**On the plus side:** There’s an exciting new mode in the `<TurnSignal/>` component! It allows for view transition types on a per-link basis!
+For further information see these demos: [blog demo](http://localhost:4321/signal-demo/link-types/blog/), [@vtbag image viewer demo](https://vtbag.dev/viewer-demo/) and the [@vtbag fishpond demo](https://vtbag.dev/link-demo/).
 
 ## Recently Learned Tricks ##
 
-> The Inspection Chamber DevTools now als work for `pnpm` projects! \
+> Latest version of @vtbag/element-crossing, with a bug fix for letting `attr-*` properties cross over to the new page!
+
+> The Inspection Chamber DevTools now also work for `pnpm` projects! \
 Big shout out and "Thank You!" to [Lukas](https://github.com/Trombach) for providing this fix!
 
 > New component for browser-native cross-document view transitions: The `<CamShaft>` component prevents the pseudo-smooth-scroll effect caused by view transition groups that exceed the height of the viewport when navigating to a different vertical scroll position.
-
-> The `<TurnSignal>` enables Astro's forward/backward animations provided by `transition:animate` to work with native cross-document `@view-transition{}`. Optionally you can configure the component with a total order of your site's pages, allowing it to automatically detect the transition direction.
-
-> The `<ElementCrossing />` is a component for those of you who experiment with CSS-only cross-document view transitions and miss a way to preserve state of HTML elements across navigation: Transfer selected element state to the other side!
-
-> Inspection Chamber: See your view transitions like never before: examine every detail, reveal, debug, and optimize! Now, drill down into the effects of each pseudo-element introduced by the view transition API and even selectively toggle individual animations to better understand what’s happening! Summon the Inspection Chamber as a component ([&lt;InspectionChamber />](https://events-3bg.pages.dev/library/InspectionChamber/)) or [install The Bag as an integration!](hhttps://events-3bg.pages.dev/library/Installation/#installing-as-an-astro-integration) and access the Chamber from the **devToolbar**!
-
-
-> Starlight Support: Ever wanted to see what your Starlight site looks like with view transitions enabled? Follow [these steps](https://events-3bg.pages.dev/jotter/starlight/guide/) to get rid of full page loads and make your Starlight site look like a SPA!
-
 
 
 ## Reusable Components 🧩

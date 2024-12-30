@@ -1,11 +1,13 @@
 ---
 import signalURL from '@vtbag/turn-signal?url';
+import debugURL from '@vtbag/turn-signal/debug?url';
 import forcedTraversalURL from '@vtbag/turn-signal/forced-traversal?url';
 export interface Props {
 	selector?: string;
 	forcedTraversal?: boolean;
 	directionTypes?: string;
 	directionAttribute?: string;
+	debug?: boolean;
 }
 
 const {
@@ -13,6 +15,7 @@ const {
 	forcedTraversal,
 	directionTypes = '',
 	directionAttribute = 'data-astro-transition, back, forward, forward',
+	debug = false,
 } = Astro.props;
 ---
 
@@ -23,7 +26,7 @@ const {
 			{...(selector ? { 'data-selector': selector } : {})}
 			{...(directionTypes ? { 'data-direction-types': directionTypes } : {})}
 			{...(directionAttribute ? { 'data-direction-attribute': directionAttribute } : {})}
-			src={signalURL}
+			src={debug ? debugURL : signalURL}
 		/>
 	)
 }
