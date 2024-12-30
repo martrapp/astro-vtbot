@@ -15,10 +15,16 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-Brings you the latest version of @vtbag/element-crossing, with a bug fix for letting `attr-*` properties cross over to the new page!
+Version 2.0.0 🎉 of astro-vtbot is here!
 
-For details, see the [CHANGELOG of the ElementCrossing](https://github.com/vtbag/element-crossing/blob/main/CHANGELOG.md).
+This release changes what is automatically installed if you add astro-vtbot as an astro integration via `astro add astro-vtbot`. Now installing as an integration using `astro add astro-vtbot` should be your default choice for installing astro-vtbot. This gives you access to the `inspection-chamber` on every page via Astro's devToolbar!
 
+In contrast, `<LoadingIndicator />` and the `<Linter />` components will no longer be automatically integrated and must be explicitly added if needed, e.g. in a global Layout.astro. During a transition period, the previous behavior can still be restored using toggles in the astro.config file.
+
+For details, see the [CHANGELOG](https://github.com/martrapp/vtbot/blob/main/CHANGELOG.md).
+
+**On the plus side:** There’s an exciting new mode in the `<TurnSignal/>` component! It allows for view transition types on a per-link basis!
+For further information see these demos: [blog demo](http://localhost:4321/signal-demo/link-types/blog/), [@vtbag image viewer demo](https://vtbag.dev/viewer-demo/) and the [@vtbag fishpond demo](https://vtbag.dev/link-demo/).
 
 ## Recently Learned Tricks ##
 
