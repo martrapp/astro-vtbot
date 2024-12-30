@@ -32,6 +32,10 @@
 
   Take action now to ensure smooth transitions and avoid future disruptions.
 
+### Minor Changes
+
+- Enjoy the new version of the @vtbag/turn-signal: The `<TurnSignal/>` components now also supports per link view transition types, see the [@vtbag/turn-signal Changelog](https://github.com/vtbag/turn-signal/blob/main/CHANGELOG.md)  
+  
 ## 1.10.7 - 2024-11-15
 
 ### Patch Changes
