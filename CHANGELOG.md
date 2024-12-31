@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.0.1 - 2024-12-31
+
+### Patch Changes
+
+- 8ec2ee2: Fixes links and typos in README
+
 ## 2.0.0 - 2024-12-30
 
 ### Major Changes
@@ -34,8 +40,8 @@
 
 ### Minor Changes
 
-- Enjoy the new version of the @vtbag/turn-signal: The `<TurnSignal/>` components now also supports per link view transition types, see the [@vtbag/turn-signal Changelog](https://github.com/vtbag/turn-signal/blob/main/CHANGELOG.md)  
-  
+- Enjoy the new version of the @vtbag/turn-signal: The `<TurnSignal />` components now also supports per link view transition types, see the [@vtbag/turn-signal Changelog](https://github.com/vtbag/turn-signal/blob/main/CHANGELOG.md)
+
 ## 1.10.7 - 2024-11-15
 
 ### Patch Changes
