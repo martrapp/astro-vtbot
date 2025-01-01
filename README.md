@@ -15,10 +15,12 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
+Safari supports cross-document view transitions and the `<ElementCrossing />` component of astro-vtbot learned how to work with Safari.\
+For details see the [Changelog of @vtbag/element-crossing](https://github.com/vtbag/element-crossing/blob/main/CHANGELOG.md)
 
-Version 2.0.0 🎉 of astro-vtbot is here!
+**Version 2.0.0 🎉 of astro-vtbot is here!**
 
-This release changes what is automatically installed if you install astro-vtbot as an Astro integration. Now installing as an integration using `astro add astro-vtbot` should be your default choice for installing astro-vtbot. This gives you access to the `inspection-chamber` on every page via Astro's devToolbar!
+The major release changes what is automatically installed if you install astro-vtbot as an Astro integration. Now installing as an integration using `astro add astro-vtbot` should be your default choice for installing astro-vtbot. This gives you access to the `inspection-chamber` on every page via Astro's devToolbar!
 
 In contrast, `<LoadingIndicator />` and the `<Linter />` components will no longer be automatically integrated and must be explicitly added if needed, e.g. in a global Layout.astro. During a transition period, the previous behavior can still be restored using toggles in the astro.config file.
 
