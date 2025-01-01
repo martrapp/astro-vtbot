@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.0.2
+
+### Patch Changes
+
+- 70a8fba: Applies bug fixes from dependencies for `<ElementCrossing />` and `<CamShaft />`.
+
 ## 2.0.1 - 2024-12-31
 
 ### Patch Changes
