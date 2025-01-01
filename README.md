@@ -18,6 +18,9 @@ A current deployment of tech demos and the documentation can be found at https:/
 Safari supports cross-document view transitions and the `<ElementCrossing />` component of astro-vtbot learned how to work with Safari.\
 For details see the [Changelog of @vtbag/element-crossing](https://github.com/vtbag/element-crossing/blob/main/CHANGELOG.md)
 
+
+The recent changes to `<CamShaft />` introduced a bug, which has now been fixed.
+
 **Version 2.0.0 🎉 of astro-vtbot is here!**
 
 The major release changes what is automatically installed if you install astro-vtbot as an Astro integration. Now installing as an integration using `astro add astro-vtbot` should be your default choice for installing astro-vtbot. This gives you access to the `inspection-chamber` on every page via Astro's devToolbar!
