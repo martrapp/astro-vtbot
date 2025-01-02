@@ -15,11 +15,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-Safari supports cross-document view transitions and the `<ElementCrossing />` component of astro-vtbot learned how to work with Safari.\
-For details see the [Changelog of @vtbag/element-crossing](https://github.com/vtbag/element-crossing/blob/main/CHANGELOG.md)
-
-
-The recent changes to `<CamShaft />` introduced a bug, which has now been fixed.
+`<InspectionChamber />` and `<CamShaft />`: Added a workaround to handle quoted animation names in Webkit which caused user agent animation names not being recognized in Safari.
 
 **Version 2.0.0 🎉 of astro-vtbot is here!**
 
@@ -34,12 +30,13 @@ For further information see these demos: [blog demo](http://events-3bg.pages.dev
 
 ## Recently Learned Tricks ##
 
-> Latest version of @vtbag/element-crossing, with a bug fix for letting `attr-*` properties cross over to the new page!
+> Safari supports cross-document view transitions and the `<ElementCrossing />` component of astro-vtbot learned how to work with Safari.\
+For details see the [Changelog of @vtbag/element-crossing](https://github.com/vtbag/element-crossing/blob/main/CHANGELOG.md)
+
+> The recent changes to `<CamShaft />` introduced a bug, which has now been fixed.
 
 > The Inspection Chamber DevTools now also work for `pnpm` projects! \
 Big shout out and "Thank You!" to [Lukas](https://github.com/Trombach) for providing this fix!
-
-> New component for browser-native cross-document view transitions: The `<CamShaft>` component prevents the pseudo-smooth-scroll effect caused by view transition groups that exceed the height of the viewport when navigating to a different vertical scroll position.
 
 
 ## Reusable Components 🧩
