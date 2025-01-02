@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.0.3
+
+### Patch Changes
+
+- 428d815: `<InspectionChamber />` and `<CamShaft />`: Added a workaround to handle quoted animation names in Webkit which caused user agent animation names not being recognized in Safari.
+
 ## 2.0.2 - 2025-01-01
 
 ### Patch Changes
