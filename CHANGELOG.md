@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.0.4
+
+### Patch Changes
+
+- a8d29e2: Fixes a problem with icon access in the devToolbar app.
+
 ## 2.0.3 - 2025-01-02
 
 ### Patch Changes
