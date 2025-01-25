@@ -1,7 +1,5 @@
 import { defineToolbarApp } from 'astro/toolbar';
-//@ts-expect-error
-import icon from "../assets/bag-of-tricks.svg?raw";
-//@ts-expect-error
+import { icon  } from "../assets/bag-of-tricks";
 import imgSrc from '../assets/chamber.png';
 
 const DTB_TOKEN = 'vtbot-inspection-chamber';
