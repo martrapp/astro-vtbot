@@ -3,6 +3,7 @@ import vitePluginVtbotExtend from './vite-plugin-extend';
 
 import icon from '../assets/bag-of-tricks-mono.svg?raw';
 import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
 type VtBotOptions = {
 	autoLint?: boolean;
@@ -27,7 +28,10 @@ export default function createIntegration(options?: VtBotOptions): AstroIntegrat
 				if (import.meta.env.DEV) {
 					setupOptions.injectRoute({
 						pattern: '/_vtbot_inspection_chamber.js',
-						entrypoint: 'node_modules/astro-vtbot/integration/astro-inspection-chamber.js.ts',
+						entrypoint: path.resolve(
+							fileURLToPath(import.meta.url),
+							'../astro-inspection-chamber.js.ts'
+						),
 					});
 
 					setupOptions.injectScript(
