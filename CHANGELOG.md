@@ -1,5 +1,12 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.0.5
+
+### Patch Changes
+
+- 253879a: -- **Thank you [Luísa](https://github.com/luisaverza)** -- for fixing the plugin integration for monorepos with `pnpm`!\
+  fix: resolve relative paths for compatibility with pnpm hoisting
+
 ## 2.0.4 - 2025-01-25
 
 ### Patch Changes
