@@ -76,7 +76,7 @@
 
 ### Patch Changes
 
-- c9abaa1: New versions for @vtbag/inspection-chamber and @vtbag/turn-signal: The Inspection Chamber can now handle the extended signature of the document.startViewTransition as defined by level 2 of the view Transision API and the Turn-Signal computes directions also on the old page!
+- c9abaa1: New versions for @vtbag/inspection-chamber and @vtbag/turn-signal: The Inspection Chamber can now handle the extended signature of the document.startViewTransition as defined by level 2 of the view Transition API and the Turn-Signal computes directions also on the old page!
 
 ## 1.10.4 - 2024-10-17
 
