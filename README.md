@@ -15,7 +15,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-The plugin setup can now also find `astro-inspection-chamber.js.ts` in `pnpm` monorepos. \
+The integration setup can now also find the `astro-inspection-chamber.js.ts` file when used in monorepos with `pnpm`. \
 Big shout out and "Thank You!" to [Luísa](https://github.com/luisaverza) for providing this fix!
 
 ## Recently Learned Tricks ##
