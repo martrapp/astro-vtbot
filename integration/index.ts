@@ -3,7 +3,7 @@ import vitePluginVtbotExtend from './vite-plugin-extend';
 
 import icon from '../assets/bag-of-tricks-mono.svg?raw';
 import { fileURLToPath } from 'node:url';
-import path from 'path';
+import path from 'node:path';
 
 type VtBotOptions = {
 	autoLint?: boolean;
