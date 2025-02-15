@@ -15,12 +15,14 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-The integration setup can now also find the `astro-inspection-chamber.js.ts` file when used in monorepos with `pnpm`. \
-Big shout out and "Thank You!" to [Luísa](https://github.com/luisaverza) for providing this fix!
+Starlight support was updated for Starlight versions >= 0.32!
 
 ## Recently Learned Tricks ##
 
-`<InspectionChamber />` and `<CamShaft />`: Added a workaround to handle quoted animation names in Webkit which caused user agent animation names not being recognized in Safari.
+> The integration setup can now also find the `astro-inspection-chamber.js.ts` file when used in monorepos with `pnpm`. \
+Big shout out and "Thank You!" to [Luísa](https://github.com/luisaverza) for providing this fix!
+
+> `<InspectionChamber />` and `<CamShaft />`: Added a workaround to handle quoted animation names in Webkit which caused user agent animation names not being recognized in Safari.
 
 **Version 2.0.0 🎉 of astro-vtbot is here!**
 

@@ -1,11 +1,12 @@
 ---
-import { ClientRouter } from 'astro:transitions';
+import type { Props as StarlightProps } from '@astrojs/starlight/props';
+import { ViewTransitions } from 'astro:transitions';
 
 import ReplacementSwap from '../ReplacementSwap.astro';
 import StarlightConnector from './StarlightConnector.astro';
 
-export interface Props {
-	viewTransitionsFallback?: Parameters<typeof ClientRouter>[0]['fallback'];
+export interface Props extends StarlightProps {
+	viewTransitionsFallback?: Parameters<typeof ViewTransitions>[0]['fallback'];
 	replaceSidebarContent?: Boolean;
 	retainCurrentPageMarker?: Boolean;
 	'data-astro-transition-scope'?: string;
@@ -18,7 +19,7 @@ const {
 } = Astro.props;
 ---
 
-<ClientRouter fallback={viewTransitionsFallback} />
+<ViewTransitions fallback={viewTransitionsFallback} />
 <slot />
 <ReplacementSwap rootAttributesToPreserve="data-theme" />
 {mainTransitionScope && <meta name="vtbot-main-transition-scope" content={mainTransitionScope} />}
