@@ -1,5 +1,12 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.0.6
+
+### Patch Changes
+
+- 2c9afdc: Updates @vtbag/inspection-chamber to 1.0.21
+- 3b04ef5: Makes Starlight Support compatible with Starlight versions >= 0.32
+
 ## 2.0.5
 
 ### Patch Changes
