@@ -24,7 +24,8 @@
     "animations",
     "integration",
     "assets",
-    "devToolbar"
+    "devToolbar",
+    "styles"
   ],
   "exports": {
     ".": "./integration/index.ts",
