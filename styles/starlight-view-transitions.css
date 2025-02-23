@@ -1,0 +1,67 @@
+@media (prefers-reduced-motion: no-preference) {
+	@view-transition {
+		navigation: auto;
+	}
+}
+
+header.header {
+  view-transition-name: header;
+}
+mobile-starlight-toc nav {
+  view-transition-name: mobile-starlight-toc-nav;
+}
+
+
+main {
+  background-color: var(--sl-color-bg);
+	view-transition-name: main;
+}
+h1 {
+	view-transition-name: heading;
+	width: fit-content;
+}
+
+[aria-current="page"] {
+	view-transition-name: current-page;
+}
+
+::view-transition-group(*) {
+	animation-duration: 180ms
+}
+
+::view-transition-group(heading) {
+	overflow: clip;
+}
+::view-transition-old(heading),
+::view-transition-new(heading) {
+	height: 100%;
+	width: auto;
+}
+
+::view-transition-old(main),
+::view-transition-new(main) {
+		animation-name: none;
+}
+:active-view-transition-type(forward)::view-transition-new(main) {
+	animation-name: main-mask-forward;
+}
+:active-view-transition-type(backward)::view-transition-new(main) {
+	animation-name: main-mask-backward;
+}
+
+@keyframes main-mask-forward {
+	0% {
+		clip-path: inset(0 0 0 100%);
+	}
+	100% {
+		clip-path: inset(0);
+	}
+}
+@keyframes main-mask-backward {
+	0% {
+		clip-path: inset(0 100% 0 0);
+	}
+	100% {
+		clip-path: inset(0);
+	}
+}

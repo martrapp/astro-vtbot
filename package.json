@@ -28,6 +28,9 @@
   ],
   "exports": {
     ".": "./integration/index.ts",
+    "./starlight-view-transitions": "./integration/starlight-view-transitions.ts",
+    "./integration/starlight-middleware": "./integration/starlight-middleware.ts",
+    "./styles/starlight-view-transitions.css": "./styles/starlight-view-transitions.css",
     "./components/*.astro": {
       "types": "./components/*.d.ts",
       "import": "./components/*.astro"
@@ -78,20 +81,21 @@
     "@vtbag/cam-shaft": "^1.0.5",
     "@vtbag/element-crossing": "^1.1.0",
     "@vtbag/inspection-chamber": "^1.0.21",
-    "@vtbag/turn-signal": "^1.3.0"
+    "@vtbag/turn-signal": "^1.3.0",
+    "@vtbag/utensil-drawer": "^1.2.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/starlight": "^0.32.0",
-    "@changesets/changelog-github": "0.5.0",
-    "@changesets/cli": "^2.27.11",
+    "@astrojs/starlight": "^0.32.1",
+    "@changesets/changelog-github": "^0.5.1",
+    "@changesets/cli": "^2.28.1",
     "@playwright/test": "^1.50.1",
     "@types/dom-view-transitions": "^1.0.5",
-    "@types/node": "^22.13.4",
+    "@types/node": "^22.13.5",
     "astro": "^5.3.0",
-    "prettier": "^3.5.1",
+    "prettier": "^3.5.2",
     "prettier-plugin-astro": "^0.14.1",
-    "publint": "^0.3.5",
+    "publint": "^0.3.6",
     "typescript": "^5.7.2"
   },
   "funding": {

@@ -15,14 +15,18 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-Starlight support was updated for Starlight versions >= 0.32!
+Hello Astronauts! Now this one is BIG! The `astro-vtbot` has been many things so far. Now it is also a **Starlight plugin**!
+
+Add the Bag to your  [plugin list](https://events-3bg.pages.dev/library/StarlightPlugin/#installation) and instantaneously  turn on browser-native cross-document view transitions for your existing Starlight site![^1] Starlight version >= 0.32 required!
+
+[^1]: On supporting browsers, which is all major browsers but Firefox, and we are looking forward to Firefox joining the team this year as well!
 
 ## Recently Learned Tricks ##
 
+> The existing Starlight support was updated for Starlight versions >= 0.32!
+
 > The integration setup can now also find the `astro-inspection-chamber.js.ts` file when used in monorepos with `pnpm`. \
 Big shout out and "Thank You!" to [Luísa](https://github.com/luisaverza) for providing this fix!
-
-> `<InspectionChamber />` and `<CamShaft />`: Added a workaround to handle quoted animation names in Webkit which caused user agent animation names not being recognized in Safari.
 
 **Version 2.0.0 🎉 of astro-vtbot is here!**
 
@@ -35,11 +39,6 @@ For details, see the [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/ma
 **On the plus side:** There’s an exciting new mode in the `<TurnSignal />` component! It allows for view transition types on a per-link basis!
 For further information see these demos: [blog demo](http://events-3bg.pages.dev/signal-demo/link-types/blog/), [@vtbag image viewer demo](https://vtbag.dev/viewer-demo/) and the [@vtbag fishpond demo](https://vtbag.dev/link-demo/).
 
-
-> Safari supports cross-document view transitions and the `<ElementCrossing />` component of astro-vtbot learned how to work with Safari.\
-For details see the [Changelog of @vtbag/element-crossing](https://github.com/vtbag/element-crossing/blob/main/CHANGELOG.md)
-
-> The recent changes to `<CamShaft />` introduced a bug, which has now been fixed.
 
 > The Inspection Chamber DevTools now also work for `pnpm` projects! \
 Big shout out and "Thank You!" to [Lukas](https://github.com/Trombach) for providing this fix!
