@@ -5,15 +5,14 @@
 }
 
 header.header {
-  view-transition-name: header;
+	view-transition-name: header;
 }
 mobile-starlight-toc nav {
-  view-transition-name: mobile-starlight-toc-nav;
+	view-transition-name: mobile-starlight-toc-nav;
 }
 
-
 main {
-  background-color: var(--sl-color-bg);
+	background-color: var(--sl-color-bg);
 	view-transition-name: main;
 }
 h1 {
@@ -21,12 +20,13 @@ h1 {
 	width: fit-content;
 }
 
-[aria-current="page"] {
+[aria-current='page'] {
 	view-transition-name: current-page;
 }
 
 ::view-transition-group(*) {
-	animation-duration: 180ms
+	animation-duration: 180ms;
+	animation-timing-function: linear;
 }
 
 ::view-transition-group(heading) {
@@ -40,7 +40,7 @@ h1 {
 
 ::view-transition-old(main),
 ::view-transition-new(main) {
-		animation-name: none;
+	animation-name: none;
 }
 :active-view-transition-type(forward)::view-transition-new(main) {
 	animation-name: main-mask-forward;
