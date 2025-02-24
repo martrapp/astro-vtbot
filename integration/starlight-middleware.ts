@@ -17,19 +17,24 @@ export const onRequest = defineRouteMiddleware((context) => {
 		expect(process.env.vtbotEndOfContentId, head);
 	}
 	{
-		const attrs = {src: shaft, async: true, blocking: "render"};
+		const attrs = { src: shaft, async: true, blocking: 'render' };
 		camShaftNames ?? (attrs['data-view-transition-names'] = camShaftNames);
 		head.push({ tag: 'script', attrs });
 	}
 	{
-		const attrs = {src: signal, async: true, blocking: "render"};
+		const attrs = { src: signal, async: true, blocking: 'render' };
 		allPages === undefined || (attrs['data-selector'] = allPages);
 		directionTypes === undefined || (attrs['data-direction-types'] = directionTypes);
 		directionAttribute === undefined || (attrs['data-direction-attribute'] = directionAttribute);
 		head.push({ tag: 'script', attrs });
 	}
 	{
-		const attrs = {src: names, async: true, blocking:"render", "data-vtbag-decl": declarativeNames};
+		const attrs = {
+			src: names,
+			async: true,
+			blocking: 'render',
+			'data-vtbag-decl': declarativeNames,
+		};
 		declarativeNames && head.push({ tag: 'script', attrs });
 	}
 });
