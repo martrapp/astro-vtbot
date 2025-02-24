@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.1.0 2025-02-24
+
+### Minor Changes
+
+- 892554e: The Bag now offers a Starlight Plugin. With a single [config entry](https://events-3bg.pages.dev/library/StarlightPlugin/#installation) you can switch on smooth browser-native cross-document view transitions on your existing Starlight site. And of course also on new ones ;-)
+
 ## 2.0.6 - 2025-02-15
 
 ### Patch Changes
