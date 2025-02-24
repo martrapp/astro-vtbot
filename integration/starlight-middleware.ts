@@ -1,7 +1,7 @@
 /// <reference path="./env.d.ts" />
 import { defineRouteMiddleware } from '@astrojs/starlight/route-data';
 import signal from '@vtbag/turn-signal?url';
-import shaft from '@vtbag/cam-shaft?raw';
+import shaft from '@vtbag/cam-shaft?url';
 import names from '@vtbag/utensil-drawer/declarative-names?url';
 
 export const onRequest = defineRouteMiddleware((context) => {
@@ -17,22 +17,19 @@ export const onRequest = defineRouteMiddleware((context) => {
 		expect(process.env.vtbotEndOfContentId, head);
 	}
 	{
-		const attrs = {};
+		const attrs = {src: shaft, async: true, blocking: "render"};
 		camShaftNames ?? (attrs['data-view-transition-names'] = camShaftNames);
-		head.push({ tag: 'script', attrs, content: shaft });
+		head.push({ tag: 'script', attrs });
 	}
 	{
-		const attrs = {};
-		attrs['src'] = signal;
+		const attrs = {src: signal, async: true, blocking: "render"};
 		allPages === undefined || (attrs['data-selector'] = allPages);
 		directionTypes === undefined || (attrs['data-direction-types'] = directionTypes);
 		directionAttribute === undefined || (attrs['data-direction-attribute'] = directionAttribute);
 		head.push({ tag: 'script', attrs });
 	}
 	{
-		const attrs = {};
-		attrs['src'] = names;
-		attrs['data-vtbag-decl'] = declarativeNames;
+		const attrs = {src: names, async: true, blocking:"render", "data-vtbag-decl": declarativeNames};
 		declarativeNames && head.push({ tag: 'script', attrs });
 	}
 });

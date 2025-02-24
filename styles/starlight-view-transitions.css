@@ -1,43 +1,34 @@
+/* Enable cross document view transitions */
 @media (prefers-reduced-motion: no-preference) {
 	@view-transition {
 		navigation: auto;
 	}
 }
 
-header.header {
-	view-transition-name: header;
-}
-mobile-starlight-toc nav {
-	view-transition-name: mobile-starlight-toc-nav;
-}
-
+/* Define view transition groups */
 main {
-	background-color: var(--sl-color-bg);
 	view-transition-name: main;
+	background-color: var(--sl-color-bg);
 }
 h1 {
-	view-transition-name: heading;
+	view-transition-name: title;
 	width: fit-content;
 }
-
-[aria-current='page'] {
+nav.sidebar [aria-current='page'] {
 	view-transition-name: current-page;
 }
 
-::view-transition-group(*) {
-	animation-duration: 180ms;
-	animation-timing-function: linear;
-}
-
-::view-transition-group(heading) {
-	overflow: clip;
-}
-::view-transition-old(heading),
-::view-transition-new(heading) {
+/* Animate the page Title */
+::view-transition-old(title),
+::view-transition-new(title) {
 	height: 100%;
 	width: auto;
 }
+::view-transition-group(title) {
+	overflow: clip;
+}
 
+/* Animate the main area */
 ::view-transition-old(main),
 ::view-transition-new(main) {
 	animation-name: none;
@@ -47,6 +38,9 @@ h1 {
 }
 :active-view-transition-type(backward)::view-transition-new(main) {
 	animation-name: main-mask-backward;
+}
+::view-transition-group(main) {
+	animation-timing-function: linear;
 }
 
 @keyframes main-mask-forward {
@@ -65,3 +59,12 @@ h1 {
 		clip-path: inset(0);
 	}
 }
+
+/* Fix stacking order */
+header.header {
+	view-transition-name: header;
+}
+mobile-starlight-toc nav {
+	view-transition-name: mobile-starlight-toc-nav;
+}
+
