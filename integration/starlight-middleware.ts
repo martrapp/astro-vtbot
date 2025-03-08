@@ -1,8 +1,8 @@
 /// <reference path="./env.d.ts" />
 import { defineRouteMiddleware } from '@astrojs/starlight/route-data';
-import signal from '@vtbag/turn-signal?url';
-import shaft from '@vtbag/cam-shaft?url';
-import names from '@vtbag/utensil-drawer/declarative-names?url';
+import signal from '@vtbag/turn-signal?url&no-inline';
+import shaft from '@vtbag/cam-shaft?url&no-inline';
+import names from '@vtbag/utensil-drawer/declarative-names?url&no-inline';
 
 export const onRequest = defineRouteMiddleware((context) => {
 	const allPages = process.env.vtbagAllPages;

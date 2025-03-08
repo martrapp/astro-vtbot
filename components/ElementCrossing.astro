@@ -2,8 +2,8 @@
 export interface Props {
 	experimentalFeatures?: boolean;
 }
-import crossingURL from '@vtbag/element-crossing?url';
-import experimentalURL from '@vtbag/element-crossing/experimental?url';
+import crossingURL from '@vtbag/element-crossing?url&no-inline';
+import experimentalURL from '@vtbag/element-crossing/experimental?url&no-inline';
 const { experimentalFeatures = false } = Astro.props;
 ---
 
