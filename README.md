@@ -15,13 +15,15 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-Hello Astronauts! Now this one is BIG! The `astro-vtbot` has been many things so far. Now it is also a **Starlight plugin**!
-
-Add the Bag to your  [plugin list](https://events-3bg.pages.dev/library/StarlightPlugin/#installation) and instantaneously  turn on browser-native cross-document view transitions for your existing Starlight site![^1] Starlight version >= 0.32 required!
-
-[^1]: On supporting browsers, which is all major browsers but Firefox, and we are looking forward to Firefox joining the team this year as well!
+> Stabilization and adaption to new Astro version, see [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md).
 
 ## Recently Learned Tricks ##
+
+> Hello Astronauts! Now this one is BIG! The `astro-vtbot` has been many things so far. Now it is also a **Starlight plugin**!
+
+> Add the Bag to your  [plugin list](https://events-3bg.pages.dev/library/StarlightPlugin/#installation) and instantaneously  turn on browser-native cross-document view transitions for your existing Starlight site![^1] Starlight version >= 0.32 required!
+
+[^1]: On supporting browsers, which is all major browsers but Firefox, and we are looking forward to Firefox joining the team this year as well!
 
 > The existing Starlight support was updated for Starlight versions >= 0.32!
 
