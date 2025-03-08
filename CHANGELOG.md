@@ -1,6 +1,6 @@
 # The Bag of Tricks for Astro's View Transitions
 
-## 2.1.1
+## 2.1.1 - 2025-03-08
 
 ### Patch Changes
 
@@ -8,7 +8,7 @@
 - 352adea: Replaces swap-function support with Astro's official implementation for better compatibility.
 - a983bcd: Adapts devToolbar plugin to changed script handling in Astro's client router
 
-## 2.1.0 2025-02-24
+## 2.1.0 - 2025-02-24
 
 ### Minor Changes
 
