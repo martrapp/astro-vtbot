@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.1.2 - 2025-03-17
+
+### Patch Changes
+
+- f6c2afd: Resolves a race condition where the Inspection-Chamber fails to halt at the start of the view transition.
+
 ## 2.1.1 - 2025-03-08
 
 ### Patch Changes
