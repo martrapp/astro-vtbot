@@ -15,9 +15,11 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> Stabilization and adaption to new Astro version, see [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md).
+> Fixed a race condition where the Inspection-Chamber couldn't properly hook in.
 
 ## Recently Learned Tricks ##
+
+> Stabilization and adaption to new Astro version, see [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md).
 
 > Hello Astronauts! Now this one is BIG! The `astro-vtbot` has been many things so far. Now it is also a **Starlight plugin**!
 

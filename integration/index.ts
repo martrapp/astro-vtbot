@@ -36,7 +36,7 @@ export default function createIntegration(options?: VtBotOptions): AstroIntegrat
 
 					setupOptions.injectScript(
 						'head-inline',
-						`(function(){function S(){const s=document.createElement('script');s.src='/_vtbot_inspection_chamber.js';document.head.appendChild(s)}; S(); document.addEventListener('astro:after-swap', S)})();`
+						`(function(){function S(){const s=document.createElement('script');s.src='/_vtbot_inspection_chamber.js';s.blocking="render";document.head.appendChild(s)}; S(); document.addEventListener('astro:after-swap', S)})();`
 					);
 				}
 
