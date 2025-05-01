@@ -11,7 +11,7 @@ export const onRequest = defineRouteMiddleware((context) => {
 	const directionAttribute = process.env.vtbagDirectionAttribute;
 	const camShaftNames = process.env.vtbagCamShaftNames;
 	const data = context.locals.starlightRoute.entry.data;
-	const head = data.head ?? [];
+	const head = context.locals.starlightRoute.head ?? data.head;
 	if (!expect(data.renderBlocking, head)) {
 		// might be set by remarkEndOfMarkdownId
 		expect(process.env.vtbotEndOfContentId, head);
@@ -19,14 +19,14 @@ export const onRequest = defineRouteMiddleware((context) => {
 	{
 		const attrs = { src: shaft, async: true, blocking: 'render' };
 		camShaftNames ?? (attrs['data-view-transition-names'] = camShaftNames);
-		head.push({ tag: 'script', attrs });
+		head.push({ tag: 'script', attrs, content: '' });
 	}
 	{
 		const attrs = { src: signal, async: true, blocking: 'render' };
 		allPages === undefined || (attrs['data-selector'] = allPages);
 		directionTypes === undefined || (attrs['data-direction-types'] = directionTypes);
 		directionAttribute === undefined || (attrs['data-direction-attribute'] = directionAttribute);
-		head.push({ tag: 'script', attrs });
+		head.push({ tag: 'script', attrs, content: '' });
 	}
 	{
 		const attrs = {
@@ -35,7 +35,7 @@ export const onRequest = defineRouteMiddleware((context) => {
 			blocking: 'render',
 			'data-vtbag-decl': declarativeNames,
 		};
-		declarativeNames && head.push({ tag: 'script', attrs });
+		declarativeNames && head.push({ tag: 'script', attrs, content:'' });
 	}
 });
 

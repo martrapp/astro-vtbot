@@ -45,7 +45,7 @@ nav.sidebar [aria-current='page'] {
 
 @keyframes main-mask-forward {
 	0% {
-		clip-path: inset(0 0 0 100%);
+		clip-path: inset(0 0 0 99.999%);
 	}
 	100% {
 		clip-path: inset(0);
@@ -53,7 +53,7 @@ nav.sidebar [aria-current='page'] {
 }
 @keyframes main-mask-backward {
 	0% {
-		clip-path: inset(0 100% 0 0);
+		clip-path: inset(0 99.999% 0 0);
 	}
 	100% {
 		clip-path: inset(0);
