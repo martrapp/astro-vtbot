@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.1.3 - 2025-05-02
+
+### Patch Changes
+
+- 48088bf: Fixes an issue, where the starlight plugin stopped to work on Starlight 0.33.
+
 ## 2.1.2 - 2025-03-17
 
 ### Patch Changes
