@@ -35,7 +35,7 @@ export const onRequest = defineRouteMiddleware((context) => {
 			blocking: 'render',
 			'data-vtbag-decl': declarativeNames,
 		};
-		declarativeNames && head.push({ tag: 'script', attrs, content:'' });
+		declarativeNames && head.push({ tag: 'script', attrs, content: '' });
 	}
 });
 
