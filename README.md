@@ -15,9 +15,12 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> Fixed a race condition where the Inspection-Chamber couldn't properly hook in.
+> The Starlight plugin that adds view transitions to a Starlight site was broken starting from Starlight version 0.33.0.
+This is fixed now.
 
 ## Recently Learned Tricks ##
+
+> Fixed a race condition where the Inspection-Chamber couldn't properly hook in.
 
 > Stabilization and adaption to new Astro version, see [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md).
 
@@ -29,8 +32,6 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 > The existing Starlight support was updated for Starlight versions >= 0.32!
 
-> The integration setup can now also find the `astro-inspection-chamber.js.ts` file when used in monorepos with `pnpm`. \
-Big shout out and "Thank You!" to [Luísa](https://github.com/luisaverza) for providing this fix!
 
 **Version 2.0.0 🎉 of astro-vtbot is here!**
 
@@ -43,6 +44,9 @@ For details, see the [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/ma
 **On the plus side:** There’s an exciting new mode in the `<TurnSignal />` component! It allows for view transition types on a per-link basis!
 For further information see these demos: [blog demo](http://events-3bg.pages.dev/signal-demo/link-types/blog/), [@vtbag image viewer demo](https://vtbag.dev/viewer-demo/) and the [@vtbag fishpond demo](https://vtbag.dev/link-demo/).
 
+
+> The integration setup can now also find the `astro-inspection-chamber.js.ts` file when used in monorepos with `pnpm`. \
+Big shout out and "Thank You!" to [Luísa](https://github.com/luisaverza) for providing this fix!
 
 > The Inspection Chamber DevTools now also work for `pnpm` projects! \
 Big shout out and "Thank You!" to [Lukas](https://github.com/Trombach) for providing this fix!
