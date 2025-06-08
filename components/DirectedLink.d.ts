@@ -1,1 +1,1 @@
-export default function BackLink(_props: import('./BackLink.astro').Props): any;
+export default function DirectedLink(_props: import('./DirectedLink.astro').Props): any;
