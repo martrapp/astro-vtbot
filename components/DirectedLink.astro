@@ -1,0 +1,17 @@
+---
+export interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
+	direction: string;
+}
+const { direction, ...props} = Astro.props as Props;
+---
+
+<a {...props} data-vtbot-direction={direction}><slot /></a>
+<script>
+	document.addEventListener(
+		'astro:before-preparation',
+		(e) =>
+			e.sourceElement &&
+			e.sourceElement.hasAttribute('data-vtbot-direction') &&
+			(e.direction = e.sourceElement.getAttribute('data-vtbot-direction') || 'forward')
+	);
+</script>

@@ -1,0 +1,15 @@
+---
+export interface Props extends astroHTML.JSX.AnchorHTMLAttributes {}
+const { ...props } = Astro.props as Props;
+---
+
+<a {...props} data-vtbot-back><slot /></a>
+<script>
+	document.addEventListener(
+		'astro:before-preparation',
+		(e) =>
+			e.sourceElement &&
+			e.sourceElement.hasAttribute('data-vtbot-back') &&
+			(e.direction = 'back')
+	);
+</script>
