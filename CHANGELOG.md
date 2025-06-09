@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.1.5 - 2025-06-09
+
+### Patch Changes
+
+- b648802: Adds the BackLink component for links with swapped forward / backward animations: https://events-3bg.pages.dev/library/BackLink/
+
 ## 2.1.4 - 2025-05-31
 
 ### Patch Changes
