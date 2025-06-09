@@ -2,7 +2,7 @@
 export interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
 	direction: string;
 }
-const { direction, ...props} = Astro.props as Props;
+const { direction, ...props } = Astro.props as Props;
 ---
 
 <a {...props} data-vtbot-direction={direction}><slot /></a>
@@ -14,4 +14,5 @@ const { direction, ...props} = Astro.props as Props;
 			e.sourceElement.hasAttribute('data-vtbot-direction') &&
 			(e.direction = e.sourceElement.getAttribute('data-vtbot-direction') || 'forward')
 	);
+	/* extend with back traversal handling, see Backlink.astro */
 </script>
