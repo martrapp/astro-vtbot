@@ -15,22 +15,16 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> The Starlight plugin that adds view transitions to a Starlight site was broken starting from Starlight version 0.33.0.
-This is fixed now.
+> Ever wanted a backward slide on that link to the home page?
+The `BackLink` component flips the direction on selected links, giving you a backward animation on click, and a forward animation when navigating back through the browser's history.
 
 ## Recently Learned Tricks ##
 
-> Fixed a race condition where the Inspection-Chamber couldn't properly hook in.
+> General fixes and improvements, see [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md).
 
-> Stabilization and adaption to new Astro version, see [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md).
-
-> Hello Astronauts! Now this one is BIG! The `astro-vtbot` has been many things so far. Now it is also a **Starlight plugin**!
-
-> Add the Bag to your  [plugin list](https://events-3bg.pages.dev/library/StarlightPlugin/#installation) and instantaneously  turn on browser-native cross-document view transitions for your existing Starlight site![^1] Starlight version >= 0.32 required!
+> Hello Astronauts! Now this one is BIG! The `astro-vtbot` has been many things so far. Now it is also a **Starlight plugin**! Add the Bag to your  [plugin list](https://events-3bg.pages.dev/library/StarlightPlugin/#installation) and instantaneously  turn on browser-native cross-document view transitions for your existing Starlight site![^1] Starlight version >= 0.32 required!
 
 [^1]: On supporting browsers, which is all major browsers but Firefox, and we are looking forward to Firefox joining the team this year as well!
-
-> The existing Starlight support was updated for Starlight versions >= 0.32!
 
 
 **Version 2.0.0 🎉 of astro-vtbot is here!**
@@ -64,6 +58,7 @@ The `astro-vtbot`package isn't a monolithic library. Use the components you need
 |-------|-----------------|
 Animation Style ✨| ~0.1k
 AutoNameSelected 📛 | ~0.3k
+BackLink 🔙 | ~0.1k
 BorderControl 🛂 | ~0.1k
 BrakePad 🦥 | ~0.2k
 CamShaft 🐫 | ~0.6k
@@ -80,7 +75,7 @@ ReplacementSwap ↹ | ~0.5k
 Starlight &hellip; 🌟 | ~3.0k
 SwapSound 🔊 | -0.3k
 Swing 🎷 | ~0.1k
-TurnSignal 🔙 |~0.5k
+TurnSignal 🚘 |~0.5k
 VtBotDebug 🐛 | ~2.8k
 Zoom 🔎 | ~0.1k
 
