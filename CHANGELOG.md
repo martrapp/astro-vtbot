@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.1.6
+
+### Patch Changes
+
+- a0b5c6c: Dependencies: Updated versions of @vtbag/inspection-chamber (1.0.22) and @vtbag/utensil-drawer (1.2.9)
+
 ## 2.1.5 - 2025-06-09
 
 ### Patch Changes
@@ -83,7 +89,6 @@
 - 85e6fb4: When installed as an integration, the <Linter /> and <LoadingIndicator /> components will no longer be auto-installed on all pages. The `autoLint` and `loadingIndicator` options in the `vtbot()` integration in your astro-config file now default to `false` instead of `true`. These options will be completely removed in a future release.
 
   ## What's Changing?
-
   - If you use astro-vtbot as a library and haven't installed it as an Astro integration: Nothing changes for you.
   - If you have installed it as an integration and have explicitly opted out of the linter and loading indicator: remove these settings: `{autoLint: false, loadingIndicator: false}` from your astro-config file.
   - If you have installed it as an integration and called vtbot({...}) with one option or no parameter at all:
