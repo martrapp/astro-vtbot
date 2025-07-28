@@ -1,6 +1,6 @@
 # The Bag of Tricks for Astro's View Transitions
 
-## 2.1.7
+## 2.1.7 - 2025-07-28
 
 ### Patch Changes
 
