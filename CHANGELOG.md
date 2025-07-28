@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.1.7 - 2025-07-28
+
+### Patch Changes
+
+- dab3207: Updated dependencies to the latest versions.
+
 ## 2.1.6 - 2025-07-09
 
 ### Patch Changes
