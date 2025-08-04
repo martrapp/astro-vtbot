@@ -5,17 +5,30 @@
 	}
 }
 
-/* Define view transition groups */
 main {
-	view-transition-name: main;
 	background-color: var(--sl-color-bg);
 }
-h1 {
-	view-transition-name: title;
-	width: fit-content;
-}
-nav.sidebar [aria-current='page'] {
-	view-transition-name: current-page;
+
+:active-view-transition-type(forward, backward) {
+	/* Define view transition groups */
+	main {
+		view-transition-name: main;
+	}
+	h1 {
+		view-transition-name: title;
+		width: fit-content;
+	}
+	nav.sidebar [aria-current='page'] {
+		view-transition-name: current-page;
+	}
+
+	/* Fix stacking order */
+	header.header {
+		view-transition-name: header;
+	}
+	mobile-starlight-toc nav {
+		view-transition-name: mobile-starlight-toc-nav;
+	}
 }
 
 /* Animate the page Title */
@@ -59,12 +72,3 @@ nav.sidebar [aria-current='page'] {
 		clip-path: inset(0);
 	}
 }
-
-/* Fix stacking order */
-header.header {
-	view-transition-name: header;
-}
-mobile-starlight-toc nav {
-	view-transition-name: mobile-starlight-toc-nav;
-}
-
