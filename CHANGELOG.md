@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- b44b1f6: Guard view transition names by forward/backward view transition types in default view transition styling
+- b44b1f6: Starlight plugin: Guard view transition names by forward/backward view transition types in default view transition styling
 
 ## 2.1.7 - 2025-07-28
 
