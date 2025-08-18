@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.1.8
+
+### Patch Changes
+
+- b44b1f6: Guard view transition names by forward/backward view transition types in default view transition styling
+
 ## 2.1.7 - 2025-07-28
 
 ### Patch Changes
