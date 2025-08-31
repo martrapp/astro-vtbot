@@ -29,31 +29,35 @@ main {
 	mobile-starlight-toc nav {
 		view-transition-name: mobile-starlight-toc-nav;
 	}
-}
+	&::view-transition-new(header),
+	&::view-transition-old(header),
+	&::view-transition-new(mobile-starlight-toc-nav),
+	&::view-transition-old(mobile-starlight-toc-nav) {
+		animation-name: none;
+	}
+	/* Animate the page Title */
+	&::view-transition-old(title),
+	&::view-transition-new(title) {
+		height: 100%;
+		width: auto;
+	}
+	&::view-transition-group(title) {
+		overflow: clip;
+	}
 
-/* Animate the page Title */
-::view-transition-old(title),
-::view-transition-new(title) {
-	height: 100%;
-	width: auto;
-}
-::view-transition-group(title) {
-	overflow: clip;
-}
-
-/* Animate the main area */
-::view-transition-old(main),
-::view-transition-new(main) {
-	animation-name: none;
+	&::view-transition-old(main),
+	&::view-transition-new(main) {
+		animation-name: none;
+	}
+	&::view-transition-group(main) {
+		animation-timing-function: linear;
+	}
 }
 :active-view-transition-type(forward)::view-transition-new(main) {
 	animation-name: main-mask-forward;
 }
 :active-view-transition-type(backward)::view-transition-new(main) {
 	animation-name: main-mask-backward;
-}
-::view-transition-group(main) {
-	animation-timing-function: linear;
 }
 
 @keyframes main-mask-forward {
