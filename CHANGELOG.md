@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.1.9 - 2025-10-15
+
+### Patch Changes
+
+- b4d7d95: Updates dependencies to include new features from @vtbag/utensil-drawer. See README.md for details.
+
 ## 2.1.8 - 2025-08-31
 
 ### Patch Changes
