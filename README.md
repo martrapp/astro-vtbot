@@ -15,10 +15,12 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> Ever wanted a backward slide on that link to the home page?
-The `BackLink` component flips the direction on selected links, giving you a backward animation on click, and a forward animation when navigating back through the browser's history.
+> Updated dependencies. Especially bumps @vtbag/utensil-drawer to current 1.2.13, where the `declarative-names` script now supports a special `:in-viewport` pseudo-class and `mayStartViewTransition()` supports scoped view transitions, if the browser does. For details see https://vtbag.dev/tools/utensil-drawer/
 
 ## Recently Learned Tricks ##
+
+> Ever wanted a backward slide on that link to the home page?
+The `BackLink` component flips the direction on selected links, giving you a backward animation on click, and a forward animation when navigating back through the browser's history.
 
 > General fixes and improvements, see [CHANGELOG](https://github.com/martrapp/astro-vtbot/blob/main/CHANGELOG.md).
 
