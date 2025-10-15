@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install -g npm
+      - run: npm install -g npm@latest
       - run: npm --version
       - run: npm ci
       - run: npm publish ${OPTIONS}
