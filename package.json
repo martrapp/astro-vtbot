@@ -86,17 +86,17 @@
     "@vtbag/utensil-drawer": "^1.2.13"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/starlight": "^0.36.0",
+    "@astrojs/check": "^0.9.5",
+    "@astrojs/starlight": "^0.36.2",
     "@changesets/changelog-github": "^0.5.1",
     "@changesets/cli": "^2.29.7",
-    "@playwright/test": "^1.56.0",
+    "@playwright/test": "^1.56.1",
     "@types/dom-view-transitions": "^1.0.6",
-    "@types/node": "^24.7.2",
-    "astro": "^5.14.5",
+    "@types/node": "^24.10.0",
+    "astro": "^5.15.4",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
-    "publint": "^0.3.14",
+    "publint": "^0.3.15",
     "typescript": "^5.9.3"
   },
   "funding": {
