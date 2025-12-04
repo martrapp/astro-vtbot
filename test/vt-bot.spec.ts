@@ -121,7 +121,7 @@ test.describe('Linter component', () => {
 					: text.replace(/background-color:.*$/, '');
 		});
 	};
-	test('finds nested transition:persit and data-vtbot-replace attributes', async ({ page }) => {
+	test('finds nested transition:persist and data-vtbot-replace attributes', async ({ page }) => {
 		captureConsole(page);
 		await page.goto('/linter/one/');
 		await expect(page).toHaveTitle('Linter1');
