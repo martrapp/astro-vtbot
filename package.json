@@ -92,7 +92,7 @@
     "@changesets/cli": "^2.29.8",
     "@playwright/test": "^1.57.0",
     "@types/dom-view-transitions": "^1.0.6",
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.0.2",
     "astro": "^5.16.4",
     "prettier": "^3.7.4",
     "prettier-plugin-astro": "^0.14.1",
