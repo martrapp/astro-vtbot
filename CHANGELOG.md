@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.1.10 - 2026-01-08
+
+### Patch Changes
+
+- 51e0c0f: Includes newest bugfix for inspection chamber (Fixes issue with visibility change for cross-document view transitions)
+
 ## 2.1.9 - 2025-10-15
 
 ### Patch Changes
