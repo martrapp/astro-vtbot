@@ -87,14 +87,14 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
-    "@astrojs/starlight": "^0.37.2",
+    "@astrojs/starlight": "^0.37.3",
     "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.29.8",
     "@playwright/test": "^1.57.0",
     "@types/dom-view-transitions": "^1.0.6",
-    "@types/node": "^25.0.3",
-    "astro": "^5.16.7",
-    "prettier": "^3.7.4",
+    "@types/node": "^25.0.9",
+    "astro": "^5.16.11",
+    "prettier": "^3.8.0",
     "prettier-plugin-astro": "^0.14.1",
     "publint": "^0.3.16",
     "typescript": "^5.9.3"
