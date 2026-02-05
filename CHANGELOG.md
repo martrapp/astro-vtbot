@@ -1,5 +1,11 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.1.11
+
+### Patch Changes
+
+- 92c19d7: Reduced dependencies and induced vulnerabilities.
+
 ## 2.1.10 - 2026-01-08
 
 ### Patch Changes
