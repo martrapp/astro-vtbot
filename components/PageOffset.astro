@@ -6,13 +6,11 @@ const { name } = Astro.props;
 ---
 
 <script>
-	import { isTransitionBeforeSwapEvent, TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';
 
 	let oldScrollPosition: number;
 
-	document.addEventListener(TRANSITION_BEFORE_SWAP, (e) => {
+	document.addEventListener('astro:before-swap', (e) => {
 		oldScrollPosition = scrollY;
-		if (isTransitionBeforeSwapEvent(e)) {
 			e.viewTransition.ready
 				.then(() => {
 					document.documentElement.style.setProperty(
@@ -21,7 +19,6 @@ const { name } = Astro.props;
 					);
 				})
 				.catch(() => {});
-		}
 	});
 </script>
 

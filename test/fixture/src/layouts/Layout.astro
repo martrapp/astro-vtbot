@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 export interface Props {
 	title: string;
 	lang?: string;
@@ -12,7 +12,7 @@ const { title, lang = 'en' } = Astro.props;
 <html lang={lang}>
 	<head>
 		<slot name="head" />
-		<ViewTransitions />
+		<ClientRouter />
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, minimum-scale=1, viewport-fit=cover" />
 		<link rel="icon" href="/favicon.png" />

@@ -14,12 +14,7 @@ const active = import.meta.env.DEV || production;
 <script>
 	// start of "late" part in (defered loaded) module script
 	import {
-		TRANSITION_AFTER_PREPARATION,
-		TRANSITION_AFTER_SWAP,
-		TRANSITION_BEFORE_PREPARATION,
-		TRANSITION_BEFORE_SWAP,
-		TRANSITION_PAGE_LOAD,
-		isTransitionBeforePreparationEvent,
+isTransitionBeforePreparationEvent,
 		isTransitionBeforeSwapEvent,
 		supportsViewTransitions,
 		type TransitionBeforePreparationEvent,
@@ -464,7 +459,7 @@ const active = import.meta.env.DEV || production;
 		}
 	}
 
-	function beforeSwap(swapEvent: Event) {
+	function beforeSwap(swapEvent: TransitionBeforeSwapEvent) {
 		if (enabled_out()) {
 			recordScripts();
 			if (isTransitionBeforeSwapEvent(swapEvent)) {

@@ -13,14 +13,12 @@ if (!!fence.inside === !!fence.outside) {
 
 <meta name="vtbot-border-control-pathname-prefix" content={JSON.stringify(fence)} />
 <script>
-	import { TRANSITION_BEFORE_PREPARATION } from 'astro:transitions/client';
-
 	const fence = JSON.parse(
 		document.querySelector<HTMLMetaElement>('meta[name="vtbot-border-control-pathname-prefix"]')
 			?.content ?? '{}'
 	);
 
-	document.addEventListener(TRANSITION_BEFORE_PREPARATION, (e) => {
+	document.addEventListener('astro:before-preparation', (e) => {
 		if (
 			(fence.inside &&
 				fence.inside.every((prefix: string) => !e.from.pathname.startsWith(prefix)) &&

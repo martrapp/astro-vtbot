@@ -25,7 +25,6 @@ if (selector === '') throw Error(`${error} selector must not be the empty string
 />
 
 <script>
-	import { TRANSITION_BEFORE_PREPARATION } from 'astro:transitions/client';
 	import { encode } from './custom-ident';
 	const markHeadings = (doc: Document) => {
 		[...doc.querySelectorAll<HTMLMetaElement>('meta[name="vtbot-auto-name-selected"]')]
@@ -64,7 +63,7 @@ if (selector === '') throw Error(`${error} selector must not be the empty string
 		return array;
 	}
 
-	document.addEventListener(TRANSITION_BEFORE_PREPARATION, (e) => {
+	document.addEventListener('astro:before-preparation', (e) => {
 		markHeadings(document);
 		const originalLoader = e.loader;
 		e.loader = async () => {

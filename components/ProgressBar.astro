@@ -5,11 +5,10 @@ export interface Props {}
 <script>
 	import 'https://unpkg.com/@swup/progress-plugin@3';
 	import { loading } from './loading-indicator';
-	import { TRANSITION_AFTER_SWAP } from 'astro:transitions/client';
 	//@ts-ignore
 	const plugin = new SwupProgressPlugin();
 
-	document.addEventListener(TRANSITION_AFTER_SWAP, () => plugin.progressBar.installStyleElement());
+	document.addEventListener('astro:after-swap', () => plugin.progressBar.installStyleElement());
 
 	loading(
 		() => plugin.startShowingProgress(),

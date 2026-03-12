@@ -7,7 +7,6 @@ const { rootAttributesToPreserve = '' } = Astro.props;
 
 <meta name="vtbot-replace-swap" content={rootAttributesToPreserve} />
 <script>
-	import { TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';
 	import { swapFunctions } from 'astro:transitions/client';
 
 	const TAG = 'vtbot-replace-swap';
@@ -16,7 +15,7 @@ const { rootAttributesToPreserve = '' } = Astro.props;
 			.split(',')
 			.map((s) => s.trim());
 
-	document.addEventListener(TRANSITION_BEFORE_SWAP, (event) => {
+	document.addEventListener('astro:before-swap', (event) => {
 		const originalSwap = event.swap;
 		event.swap = () => {
 			const replacements = (document: Document) => {

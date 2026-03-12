@@ -7,7 +7,6 @@ const { src } = Astro.props;
 
 <meta name="vtbot-swap-sound" content={src} />
 <script>
-	import { TRANSITION_BEFORE_PREPARATION, TRANSITION_BEFORE_SWAP } from 'astro:transitions/client';
 
 	const meta: HTMLMetaElement | null = document.head.querySelector("meta[name='vtbot-swap-sound']");
 
@@ -31,14 +30,14 @@ const { src } = Astro.props;
 		gainNode.connect(context.destination);
 	}
 
-	document.addEventListener(TRANSITION_BEFORE_PREPARATION, () => {
+	document.addEventListener('astro:before-preparation', () => {
 		const audio = document.querySelector<HTMLAudioElement>('#vtbot-swap-sound');
 		gainNode.gain.setValueAtTime(0.6, context.currentTime);
 		audio?.play().catch(() => {
 			// interrupted, ignore
 		});
 	});
-	document.addEventListener(TRANSITION_BEFORE_SWAP, (e) => {
+	document.addEventListener('astro:before-swap', (e) => {
 		e.viewTransition.ready
 			.then(() => gainNode.gain.setValueAtTime(1, context.currentTime))
 			.catch(() => {});
