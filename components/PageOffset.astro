@@ -6,19 +6,18 @@ const { name } = Astro.props;
 ---
 
 <script>
-
 	let oldScrollPosition: number;
 
 	document.addEventListener('astro:before-swap', (e) => {
 		oldScrollPosition = scrollY;
-			e.viewTransition.ready
-				.then(() => {
-					document.documentElement.style.setProperty(
-						'--vtbot-page-offset',
-						window.scrollY - oldScrollPosition + 'px'
-					);
-				})
-				.catch(() => {});
+		e.viewTransition.ready
+			.then(() => {
+				document.documentElement.style.setProperty(
+					'--vtbot-page-offset',
+					window.scrollY - oldScrollPosition + 'px'
+				);
+			})
+			.catch(() => {});
 	});
 </script>
 

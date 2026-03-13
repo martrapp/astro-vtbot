@@ -7,7 +7,6 @@ const { src } = Astro.props;
 
 <meta name="vtbot-swap-sound" content={src} />
 <script>
-
 	const meta: HTMLMetaElement | null = document.head.querySelector("meta[name='vtbot-swap-sound']");
 
 	const context = new AudioContext();
