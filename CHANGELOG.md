@@ -1,5 +1,15 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 2.1.12
+
+### Patch Changes
+
+- 4561011: Adds compatibility with Astro v6.
+
+  Astro v6 removes the previously deprecated `<ViewTransitions />` component. Switch to `<ClientRouter />` instead.
+
+  Helper functions and constants for view transition event names in Astro are now deprecated and will be removed in Astro v7. This release avoids using them to reduce deprecation warnings in your projects.
+
 ## 2.1.11 - 2026-02-06
 
 ### Patch Changes
