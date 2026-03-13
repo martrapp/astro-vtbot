@@ -15,7 +15,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-This release adds compatibility with Astro v6 while maintaining compatibility with Astro v5.
+> This release adds compatibility with Astro v6 while maintaining compatibility with Astro v5.
 
 ## Recently Learned Tricks ##
 
