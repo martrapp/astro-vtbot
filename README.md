@@ -15,9 +15,11 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> Updated dependencies. Especially bumps @vtbag/utensil-drawer to current 1.2.13, where the `declarative-names` script now supports a special `:in-viewport` pseudo-class and `mayStartViewTransition()` supports scoped view transitions, if the browser does. For details see https://vtbag.dev/tools/utensil-drawer/
+This release adds compatibility with Astro v6 while maintaining compatibility with Astro v5.
 
 ## Recently Learned Tricks ##
+
+> Updated dependencies. Especially bumps @vtbag/utensil-drawer to current 1.2.13, where the `declarative-names` script now supports a special `:in-viewport` pseudo-class and `mayStartViewTransition()` supports scoped view transitions, if the browser does. For details see https://vtbag.dev/tools/utensil-drawer/
 
 > Ever wanted a backward slide on that link to the home page?
 The `BackLink` component flips the direction on selected links, giving you a backward animation on click, and a forward animation when navigating back through the browser's history.
