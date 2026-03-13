@@ -14,8 +14,6 @@ const active = import.meta.env.DEV || production;
 <script>
 	// start of "late" part in (defered loaded) module script
 	import {
-		isTransitionBeforePreparationEvent,
-		isTransitionBeforeSwapEvent,
 		supportsViewTransitions,
 		type TransitionBeforePreparationEvent,
 		type TransitionBeforeSwapEvent,
@@ -163,11 +161,11 @@ const active = import.meta.env.DEV || production;
 		delta(e, 'info', deltaOnly);
 		delta(e, 'newDocument', deltaOnly);
 		delta(e, 'signal', deltaOnly);
-		if (isTransitionBeforePreparationEvent(e)) {
+		if (e.type === 'astro:before-preparation') {
 			delta(e, 'formData', deltaOnly);
 			delta(e, 'loader', deltaOnly);
 		}
-		if (isTransitionBeforeSwapEvent(e)) {
+		if (e.type === 'astro:before-swap') {
 			delta(e, 'swap', deltaOnly);
 		}
 		doCapture(e);
@@ -434,21 +432,17 @@ const active = import.meta.env.DEV || production;
 
 	function beforePreparation(preparationEvent: TransitionBeforePreparationEvent) {
 		if (enabled_out()) {
-			if (isTransitionBeforePreparationEvent(preparationEvent)) {
-				prefix.groupCollapsed(`Properties of the ${preparationEvent.type} event`);
-				logProperties(preparationEvent);
-				console.groupEnd();
-				const originalLoader = preparationEvent.loader;
-				preparationEvent.loader = async () => {
-					prefix.log(`before execution of loader()`);
-					await originalLoader();
-					logProperties(preparationEvent, true);
-					prefix.log(`after execution of loader()`);
-				};
-				doCapture(preparationEvent);
-			} else {
-				prefix.slog('not a TransitionBeforePreparationEvent');
-			}
+			prefix.groupCollapsed(`Properties of the ${preparationEvent.type} event`);
+			logProperties(preparationEvent);
+			console.groupEnd();
+			const originalLoader = preparationEvent.loader;
+			preparationEvent.loader = async () => {
+				prefix.log(`before execution of loader()`);
+				await originalLoader();
+				logProperties(preparationEvent, true);
+				prefix.log(`after execution of loader()`);
+			};
+			doCapture(preparationEvent);
 		}
 	}
 
@@ -462,48 +456,44 @@ const active = import.meta.env.DEV || production;
 	function beforeSwap(swapEvent: TransitionBeforeSwapEvent) {
 		if (enabled_out()) {
 			recordScripts();
-			if (isTransitionBeforeSwapEvent(swapEvent)) {
-				prefix.groupCollapsed(`Properties of the ${swapEvent.type} event`);
-				logProperties(swapEvent);
-				console.groupEnd();
-				if (supportsViewTransitions) {
-					const map = elementsWithStyleProperty(document, 'view-transition-name');
-					[...map.values()].filter((set) => set.has(document.documentElement)).length === 0 &&
-						map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
-					window.__vtbot.debug.originalMap = toCSSSelectorMap(map, 'old');
-				}
-				activateMutationObserver();
-				const originalSwap = swapEvent.swap;
-				swapEvent.swap = async () => {
-					prefix.log(`before execution of swap()`);
-					originalSwap();
-					logProperties(window.__vtbot.debug.capture.event, true);
-					prefix.log(`after execution of swap()`);
-					prefix.log(`%o`, document.documentElement);
-					window.__vtbot.debug.savedSwapEvent = swapEvent;
-				};
-				doCapture(swapEvent);
-				swapEvent.viewTransition.updateCallbackDone
-					.then(() => prefix.log(`resolve viewTransition.updateCallbackDone`))
-					.catch((error: any) => prefix.log(`reject viewTransition.updateCallbackDone with`, error))
-					.finally(deactivateMutationObserver);
-				swapEvent.viewTransition.ready
-					.then(() => prefix.log(`resolve viewTransition.ready`))
-					.catch((error: any) => prefix.log(`reject viewTransition.ready with`, error));
-				swapEvent.viewTransition.finished
-					.then(() => {
-						prefix.log(`resolve viewTransition.finished`);
-					})
-					.catch((error: any) => {
-						prefix.log(`reject viewTransition.finished with`, error);
-					})
-					.finally(() => {
-						logAnimations();
-						window.__vtbot.debug.closing--;
-					});
-			} else {
-				prefix.slog('not a TransitionBeforeSwapEvent');
+			prefix.groupCollapsed(`Properties of the ${swapEvent.type} event`);
+			logProperties(swapEvent);
+			console.groupEnd();
+			if (supportsViewTransitions) {
+				const map = elementsWithStyleProperty(document, 'view-transition-name');
+				[...map.values()].filter((set) => set.has(document.documentElement)).length === 0 &&
+					map.set('root', (map.get('root') ?? new Set()).add(document.documentElement));
+				window.__vtbot.debug.originalMap = toCSSSelectorMap(map, 'old');
 			}
+			activateMutationObserver();
+			const originalSwap = swapEvent.swap;
+			swapEvent.swap = async () => {
+				prefix.log(`before execution of swap()`);
+				originalSwap();
+				logProperties(window.__vtbot.debug.capture.event, true);
+				prefix.log(`after execution of swap()`);
+				prefix.log(`%o`, document.documentElement);
+				window.__vtbot.debug.savedSwapEvent = swapEvent;
+			};
+			doCapture(swapEvent);
+			swapEvent.viewTransition.updateCallbackDone
+				.then(() => prefix.log(`resolve viewTransition.updateCallbackDone`))
+				.catch((error: any) => prefix.log(`reject viewTransition.updateCallbackDone with`, error))
+				.finally(deactivateMutationObserver);
+			swapEvent.viewTransition.ready
+				.then(() => prefix.log(`resolve viewTransition.ready`))
+				.catch((error: any) => prefix.log(`reject viewTransition.ready with`, error));
+			swapEvent.viewTransition.finished
+				.then(() => {
+					prefix.log(`resolve viewTransition.finished`);
+				})
+				.catch((error: any) => {
+					prefix.log(`reject viewTransition.finished with`, error);
+				})
+				.finally(() => {
+					logAnimations();
+					window.__vtbot.debug.closing--;
+				});
 		}
 	}
 
@@ -560,11 +550,11 @@ const active = import.meta.env.DEV || production;
 	// register as late as possible (= in pageshow event) to be the last handler in the chain
 	window.addEventListener('pageshow', () => {
 		prefix.log(`Setup ...`);
-		document.addEventListener(TRANSITION_BEFORE_PREPARATION, beforePreparation);
-		document.addEventListener(TRANSITION_AFTER_PREPARATION, afterPreparation);
-		document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
-		document.addEventListener(TRANSITION_AFTER_SWAP, afterSwap);
-		document.addEventListener(TRANSITION_PAGE_LOAD, pageLoad);
+		document.addEventListener('astro:before-preparation', beforePreparation);
+		document.addEventListener('astro:after-preparation', afterPreparation);
+		document.addEventListener('astro:before-swap', beforeSwap);
+		document.addEventListener('astro:after-swap', afterSwap);
+		document.addEventListener('astro:page-load', pageLoad);
 		document.addEventListener('animationstart', animationStart);
 		document.addEventListener('animationend', animationEnd);
 	});
