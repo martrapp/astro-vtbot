@@ -75,7 +75,7 @@ export default defineToolbarApp({
 					status.textContent = 'Your browser does not support view transitions.';
 					button.textContent = 'Out of Order';
 					button.disabled = true;
-				} else if (top!.document.querySelector(VTBAG_REOPEN)) {
+				} else if (top!.document.querySelector(VTBAG_REOPEN)) { // better: check for sessionStorage
 					status.textContent = 'The Chamber is currently in standby mode.';
 					button.textContent = 'Reactivate';
 					button.addEventListener('click', () => {
@@ -102,7 +102,7 @@ export default defineToolbarApp({
 					status.textContent = 'There is an Inspection Chamber here.';
 					button.textContent = 'Power up';
 					button.addEventListener('click', () => {
-						top!.sessionStorage.removeItem('vtbag-ui-closed');
+						top!.sessionStorage.removeItem('vtbag-ui-closed'); // ??
 						top!.sessionStorage.setItem(DTB_TOKEN, 'true');
 						top!.location.reload();
 					});
