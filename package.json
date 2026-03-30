@@ -96,7 +96,7 @@
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "publint": "^0.3.18",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   },
   "funding": {
     "type": "github",
