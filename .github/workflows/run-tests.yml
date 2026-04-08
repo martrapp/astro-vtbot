@@ -12,6 +12,8 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      npm_config_legacy_peer_deps: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@v6
