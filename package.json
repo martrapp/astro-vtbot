@@ -79,6 +79,7 @@
     "release": "changeset publish"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.8",
     "@vtbag/cam-shaft": "^1.0.6",
     "@vtbag/element-crossing": "^1.1.0",
     "@vtbag/inspection-chamber": "^1.0.24",
@@ -86,17 +87,17 @@
     "@vtbag/utensil-drawer": "^1.2.16"
   },
   "devDependencies": {
-    "@astrojs/starlight": "^0.38.2",
+    "@astrojs/starlight": "^0.38.3",
     "@changesets/changelog-github": "^0.6.0",
     "@changesets/cli": "^2.30.0",
     "@playwright/test": "^1.58.2",
     "@types/dom-view-transitions": "^1.0.6",
     "@types/node": "^25.5.0",
-    "astro": "^6.1.1",
+    "astro": "^6.1.4",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "publint": "^0.3.18",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   },
   "funding": {
     "type": "github",
