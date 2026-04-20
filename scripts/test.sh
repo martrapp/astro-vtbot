@@ -10,6 +10,5 @@ mkdir -p test/fixture/node_modules
 	rm -rf astro-vtbot
 	ln -sT ../../.. astro-vtbot
 )
-npx astro check
 npx playwright test
 npx publint

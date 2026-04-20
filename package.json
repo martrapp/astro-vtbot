@@ -79,7 +79,6 @@
     "release": "changeset publish"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.8",
     "@vtbag/cam-shaft": "^1.0.6",
     "@vtbag/element-crossing": "^1.1.0",
     "@vtbag/inspection-chamber": "^1.0.24",
@@ -96,8 +95,7 @@
     "astro": "^6.1.4",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
-    "publint": "^0.3.18",
-    "typescript": "^6.0.2"
+    "publint": "^0.3.18"
   },
   "funding": {
     "type": "github",
