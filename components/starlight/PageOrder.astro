@@ -8,16 +8,16 @@ export interface Props {}
 		const pages = [...document.querySelectorAll(`${STARLIGHT_SIDEBAR_TOPLEVEL} a`)].map(
 			(a) => new URL((a as HTMLAnchorElement).href).pathname
 		);
-			const fromIdx = pages.indexOf(e.from.pathname);
-			const toIdx = pages.indexOf(e.to.pathname);
+		const fromIdx = pages.indexOf(e.from.pathname);
+		const toIdx = pages.indexOf(e.to.pathname);
 
-			e.direction =
-				fromIdx === -1 || toIdx === -1
-					? e.direction
-					: fromIdx === toIdx
-						? 'stay'
-						: fromIdx < toIdx
-							? 'forward'
-							: 'back';
+		e.direction =
+			fromIdx === -1 || toIdx === -1
+				? e.direction
+				: fromIdx === toIdx
+					? 'stay'
+					: fromIdx < toIdx
+						? 'forward'
+						: 'back';
 	});
 </script>
