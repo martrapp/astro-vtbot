@@ -27,7 +27,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm install -g npm
       - run: npm --version
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
       - run: npm publish ${OPTIONS}
         env:
           OPTIONS: ${{ inputs.options }}
