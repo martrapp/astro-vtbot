@@ -140,7 +140,7 @@ test.describe('Linter component', () => {
 		await page.locator('#tofour').click();
 		await expect(page).toHaveTitle('Linter4');
 		expect(consoleOutput).toBe(
-			`%c[vtbot-linter] duplicate data-astro-transition-persist=a in old DOM (/linter/three/) %o at %chtml > body > main > p%c and earlier %o at %chtml > body > main > h1 JSHandle@node console.groupEnd%c[vtbot-linter] looks like an implicit name: data-astro-transition-persist=astro-pzn23gpo-1 in new DOM (/linter/four/) %o at %chtml > body > main > p JSHandle@node console.groupEnd%c[vtbot-linter] no value given for [data-vtbot-replace] in new DOM (/linter/four/) %o at %chtml > body > main > h1 JSHandle@node console.groupEnd`
+			`%c[vtbot-linter] duplicate data-astro-transition-persist=a in old DOM (/linter/three/) %o at %chtml > body > main > p%c and earlier %o at %chtml > body > main > h1 JSHandle@node console.groupEnd%c[vtbot-linter] looks like an implicit name: data-astro-transition-persist=astro-ef7sl7i7-1 in new DOM (/linter/four/) %o at %chtml > body > main > p JSHandle@node console.groupEnd%c[vtbot-linter] no value given for [data-vtbot-replace] in new DOM (/linter/four/) %o at %chtml > body > main > h1 JSHandle@node console.groupEnd`
 		);
 	});
 	test('finds non unique view-transition-names', async ({ page }) => {
@@ -160,7 +160,7 @@ test.describe('Linter component', () => {
 		await page.locator('#toeight').click();
 		await expect(page).toHaveTitle('Linter8');
 		expect(consoleOutput).toBe(
-			`%c[vtbot-linter] no HTMLElement with view transition name \"olaf\" exists in new DOM (/linter/eight/). This means either that a transition name has been defined but not used, e.g. by setting transition:name on an Astro component instead of an HTML element; or the HTML element that used the transition name has been moved to another DOM in the meantime.console.groupEnd%c[vtbot-linter] scoped style id \"y2uoggpx\" is used but not defined in new DOM (/linter/eight/).  JSHandle@node%c[vtbot-linter] The style sheet might got optimized away or the HTML element might have lost its style sheet, e.g. when being copied from another DOM. console.groupEnd`
+			`%c[vtbot-linter] no HTMLElement with view transition name \"olaf\" exists in new DOM (/linter/eight/). This means either that a transition name has been defined but not used, e.g. by setting transition:name on an Astro component instead of an HTML element; or the HTML element that used the transition name has been moved to another DOM in the meantime.console.groupEnd%c[vtbot-linter] scoped style id \"hp42x2fr\" is used but not defined in new DOM (/linter/eight/).  JSHandle@node%c[vtbot-linter] The style sheet might got optimized away or the HTML element might have lost its style sheet, e.g. when being copied from another DOM. console.groupEnd`
 		);
 	});
 	test('detect illegal view-transition-names', async ({ page }) => {
@@ -170,7 +170,7 @@ test.describe('Linter component', () => {
 		await page.locator('#toten').click();
 		await expect(page).toHaveTitle('Linter10');
 		expect(consoleOutput).toBe(
-			`%c[vtbot-linter] Illegal view-transition-name(s) in old DOM (/linter/nine/) %cMaybe it starts with a number, or is a reserved word, or it contains illegal characters? %cH^rst, 5bs%c in %o at %chtml > head > style:nth-of-type(2) %c-123abc%c in %o at %chtml > body > main > p console.groupEnd`
+			`%c[vtbot-linter] Illegal view-transition-name(s) in old DOM (/linter/nine/) %cMaybe it starts with a number, or is a reserved word, or it contains illegal characters? %cH^rst, 5bs%c in %o at %chtml > head > style:nth-of-type(3) %c-123abc%c in %o at %chtml > body > main > p console.groupEnd`
 		);
 	});
 	test('detect non standard script types', async ({ page }) => {
