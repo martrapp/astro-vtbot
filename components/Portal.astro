@@ -13,8 +13,7 @@ const { page, delay = 0 } = Astro.props;
 <script>
 	const TAG = 'vtbot-portal';
 
-	import { TransitionBeforePreparationEvent } from 'astro/dist/transitions/events';
-	import { type TransitionBeforeSwapEvent, navigate } from 'astro:transitions/client';
+	import { type TransitionBeforePreparationEvent ,type TransitionBeforeSwapEvent, navigate } from 'astro:transitions/client';
 
 	let page: string | null;
 
