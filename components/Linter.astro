@@ -43,7 +43,9 @@ const active = import.meta.env.DEV || production;
 			return;
 		}
 		const selector = `[${property}]`;
-		const elements = (origin === 'old' ? document : event.newDocument).querySelectorAll(selector) as NodeListOf<HTMLElement>;
+		const elements = (origin === 'old' ? document : event.newDocument).querySelectorAll(
+			selector
+		) as NodeListOf<HTMLElement>;
 
 		elements.forEach((element) => {
 			const name = element.getAttribute(property);
