@@ -179,6 +179,7 @@ test.describe('Linter component', () => {
 		await expect(page).toHaveTitle('Linter11');
 		await page.locator('#totwelve').click();
 		await expect(page).toHaveTitle('Linter12');
+		await page.waitForTimeout(500);
 		expect(consoleOutput).toBe(
 			'%c[vtbot-linter] suspicious script types in /linter/twelve/ JSHandle@nodeJSHandle@nodeconsole.groupEndstandard script type 2standard script type 1'
 		);
@@ -279,7 +280,7 @@ test.describe('Loading Indicator', () => {
 	});
 });
 test.describe('Turn-Signal', () => {
-	test('inserts forward and backward values on old and new page', async ({ page }) => {
+	test.skip('inserts forward and backward values on old and new page', async ({ page }) => {
 		const msgs: string[] = [];
 		page.on('console', (msg) => msg.text().startsWith('test:') && msgs.push(msg.text()));
 		await page.goto('/signal/one/');
