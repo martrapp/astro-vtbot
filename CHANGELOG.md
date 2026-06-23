@@ -1,6 +1,6 @@
 # The Bag of Tricks for Astro's View Transitions
 
-## 3.0.0
+## 3.0.0 - 2026-06-23
 
 ### Major Changes
 
@@ -8,7 +8,7 @@
 
   Breaking changes result from removal of already deprecated features in Astro 7.0, including constants for lifecycle event names and helper functions for event type checking. These have been replaced with string event names and direct type imports.
 
-## 2.1.12
+## 2.1.12 - 2026-03-13
 
 ### Patch Changes
 
