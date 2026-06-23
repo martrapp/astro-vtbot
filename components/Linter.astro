@@ -12,8 +12,6 @@ const active = import.meta.env.DEV || production;
 
 <script>
 	import {
-		TRANSITION_AFTER_SWAP,
-		TRANSITION_BEFORE_SWAP,
 		supportsViewTransitions,
 		type TransitionBeforeSwapEvent,
 	} from 'astro:transitions/client';
@@ -45,7 +43,7 @@ const active = import.meta.env.DEV || production;
 			return;
 		}
 		const selector = `[${property}]`;
-		const elements = (origin === 'old' ? document : event.newDocument).querySelectorAll(selector);
+		const elements = (origin === 'old' ? document : event.newDocument).querySelectorAll(selector) as NodeListOf<HTMLElement>;
 
 		elements.forEach((element) => {
 			const name = element.getAttribute(property);
@@ -249,7 +247,7 @@ const active = import.meta.env.DEV || production;
 
 	let savedEvent: TransitionBeforeSwapEvent;
 
-	const beforeSwap = (event) => {
+	const beforeSwap = (event: TransitionBeforeSwapEvent) => {
 		savedEvent = event;
 		group = expanded() ? console.group : console.groupCollapsed;
 		if (enabled()) {
@@ -275,6 +273,6 @@ const active = import.meta.env.DEV || production;
 		}
 	};
 
-	document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
-	document.addEventListener(TRANSITION_AFTER_SWAP, afterSwap);
+	document.addEventListener('astro:before-swap', beforeSwap);
+	document.addEventListener('astro:after-swap', afterSwap);
 </script>

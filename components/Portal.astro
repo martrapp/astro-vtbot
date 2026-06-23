@@ -13,14 +13,8 @@ const { page, delay = 0 } = Astro.props;
 <script>
 	const TAG = 'vtbot-portal';
 
-	import {
-		TRANSITION_AFTER_SWAP,
-		TRANSITION_BEFORE_PREPARATION,
-		TRANSITION_BEFORE_SWAP,
-		type TransitionBeforeSwapEvent,
-		isTransitionBeforePreparationEvent,
-		navigate,
-	} from 'astro:transitions/client';
+	import { TransitionBeforePreparationEvent } from 'astro/dist/transitions/events';
+	import { type TransitionBeforeSwapEvent, navigate } from 'astro:transitions/client';
 
 	let page: string | null;
 
@@ -39,22 +33,20 @@ const { page, delay = 0 } = Astro.props;
 			10
 		);
 
-	const beforePreparation = (event: Event) => {
-		if (isTransitionBeforePreparationEvent(event)) {
-			page = portalPage();
-			redirect = !!page && event.from.pathname !== page;
-			if (redirect) {
-				redirect = true;
-				target = event.to;
-				event.to = new URL(page!, location.href);
-			} else {
-				event.direction = event.info?.direction;
-			}
+	const beforePreparation = (event: TransitionBeforePreparationEvent) => {
+		page = portalPage();
+		redirect = !!page && event.from.pathname !== page;
+		if (redirect) {
+			redirect = true;
+			target = event.to;
+			event.to = new URL(page!, location.href);
+		} else {
+			event.direction = event.info?.direction;
 		}
 	};
 
-	const beforeSwap = (event: Event) => {
-		direction = (event as TransitionBeforeSwapEvent).direction;
+	const beforeSwap = (event: TransitionBeforeSwapEvent) => {
+		direction = event.direction;
 		delay = portalDelay();
 	};
 
@@ -66,7 +58,7 @@ const { page, delay = 0 } = Astro.props;
 		}
 	};
 
-	document.addEventListener(TRANSITION_BEFORE_PREPARATION, beforePreparation);
-	document.addEventListener(TRANSITION_BEFORE_SWAP, beforeSwap);
-	document.addEventListener(TRANSITION_AFTER_SWAP, afterSwap);
+	document.addEventListener('astro:before-preparation', beforePreparation);
+	document.addEventListener('astro:before-swap', beforeSwap);
+	document.addEventListener('astro:after-swap', afterSwap);
 </script>

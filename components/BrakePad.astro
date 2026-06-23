@@ -13,20 +13,17 @@ if (!(import.meta.env.DEV || Astro.props.production)) {
 {duration > 0 && <meta name={TAG} content={'' + duration} />}
 
 <script>
-	const TAG = 'vtbot-brake-pad';
+	import { TransitionBeforePreparationEvent } from 'astro:transitions/client';
 
-	import {
-		TRANSITION_BEFORE_PREPARATION,
-		isTransitionBeforePreparationEvent,
-	} from 'astro:transitions/client';
+	const TAG = 'vtbot-brake-pad';
 
 	const duration = () =>
 		(document.querySelector(`meta[name="${TAG}"]`) as HTMLMetaElement)?.content;
 
-	const beforePreparation = (event: Event) => {
+	const beforePreparation = (event: TransitionBeforePreparationEvent) => {
 		const waitTime = duration();
 
-		if (waitTime && isTransitionBeforePreparationEvent(event)) {
+		if (waitTime) {
 			const originalLoader = event.loader;
 			event.loader = async () => {
 				await originalLoader();
@@ -34,5 +31,5 @@ if (!(import.meta.env.DEV || Astro.props.production)) {
 			};
 		}
 	};
-	document.addEventListener(TRANSITION_BEFORE_PREPARATION, beforePreparation);
+	document.addEventListener('astro:before-preparation', beforePreparation);
 </script>
