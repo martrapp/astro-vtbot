@@ -11,6 +11,7 @@ on:
           - '--dry-run'
           - '--provenance --access public'
           - '--provenance --access public --tag preview'
+          - '--dry-run --provenance --access public --tag preview'
 
 permissions:
   contents: read
