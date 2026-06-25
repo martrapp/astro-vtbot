@@ -4,9 +4,13 @@
 
 ### Major Changes
 
-- 8609017: Technical release to make astro-vtbot compatible with Astro 7.0.
+- 8609017: Technical release to make astro-vtbot compatible with Astro up to version 7.
 
-  Breaking changes result from removal of already deprecated features in Astro 7.0, including constants for lifecycle event names and helper functions for event type checking. These have been replaced with string event names and direct type imports.
+  Upgrading to version 3.0.0 of `astro-vtbot` should be safe for all users unless you use the `CreateAnimationScope.astro` component.
+  
+  Removal of `CreateAnimationScope.astro` is the only breaking change in this release. There is no direct replacement. In the very unlikely case that you used this component, ping me on discord or bluesky and we will find a solution.
+
+  Be aware that Astro 7.0 itself has breaking changes regarding view transitions that result from removal of already deprecated features, including constants for lifecycle event names and helper functions for event type checking. If you use those, replace them with their string event names and use direct type imports.
 
 ## 2.1.12 - 2026-03-13
 

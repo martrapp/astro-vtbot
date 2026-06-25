@@ -15,7 +15,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> This release adds compatibility with Astro v6 while maintaining compatibility with Astro v5.
+> This release adds compatibility with Astro v7 while maintaining compatibility with earlier versions of Astro. The only breaking change is the removal of the `CreateAnimationScope.astro` component, which was never officially documented and was rarely, if ever, used. If you were using it, please get in touch on Discord (@martrapp) or Bluesky (@martr.app) and we will find a solution.
 
 ## Recently Learned Tricks ##
 
