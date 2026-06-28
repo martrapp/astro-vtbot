@@ -1,5 +1,13 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 3.0.0
+
+### Major Changes
+
+- 15401f3: Technical release for Astro 7 compatibility.
+
+  Astro 7 removed a bunch of deprecated constants and functions from the `astro:transitions` and `astro:transitions/client` endpoints. One of those was exposed by `astro-vtbot` as the `CreateAnimationScope.astro` component. This component was removed from `astro-vtbot` in the current release. It was never officially documented and was rarely, if ever, used. If you were using it, please get in touch on Discord (@martrapp) or Bluesky (@martr.app) and we will find a solution.
+
 ## 3.0.0-beta.1 - 2026-06-23
 
 ### Major Changes
@@ -7,7 +15,7 @@
 - 8609017: Technical release to make astro-vtbot compatible with Astro up to version 7.
 
   Upgrading to version 3.0.0 of `astro-vtbot` should be safe for all users unless you use the `CreateAnimationScope.astro` component.
-  
+
   Removal of `CreateAnimationScope.astro` is the only breaking change in this release. There is no direct replacement. In the very unlikely case that you used this component, ping me on discord or bluesky and we will find a solution.
 
   Be aware that Astro 7.0 itself has breaking changes regarding view transitions that result from removal of already deprecated features, including constants for lifecycle event names and helper functions for event type checking. If you use those, replace them with their string event names and use direct type imports.
@@ -192,7 +200,7 @@
 ### Patch Changes
 
 - 3cca5c8: -- **Thank you [Lukas](https://github.com/trombach)** -- The Inspection Chamber DevTools now also work for projects using `pnpm`!\
-   Fixes `inspectionChamber` endpoint runtime error when using `pnpm`
+  Fixes `inspectionChamber` endpoint runtime error when using `pnpm`
 - ed79b25: Makes the Linter respect vtbot-linter-ignore meta elements for non unique view transition names (e.g. if only one has display != none)
 - 44e8134: Updates @vtbag/{inspection-chamber, element-crossing, turn-signal, cam-shaft} to their most recent versions.
 
