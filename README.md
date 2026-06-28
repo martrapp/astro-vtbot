@@ -13,6 +13,8 @@ The bag of tricks provides extensions & support around Astro's view transitions.
 
 A current deployment of tech demos and the documentation can be found at https://events-3bg.pages.dev/
 
+**Do not be put off by the major version bump!** The bump is a SemVer formality, but the chances of encountering the breaking change are very low. See below.
+
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
 > This release adds compatibility with Astro v7 while maintaining compatibility with earlier versions of Astro. The only breaking change is the removal of the `CreateAnimationScope.astro` component, which was never officially documented and was rarely, if ever, used. If you were using it, please get in touch on Discord (@martrapp) or Bluesky (@martr.app) and we will find a solution.
