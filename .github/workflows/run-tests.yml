@@ -26,7 +26,7 @@ jobs:
           cache-dependency-path: ./package-lock.json
 
       - name: Cache .astro
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ./node_modules
           key: astro-cache-${{ github.run_id }}
