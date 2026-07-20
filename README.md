@@ -17,7 +17,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> Updated to include the newest version of @vtbag/utensil-drawer.
+> Updated dependencies to include the newest version of @vtbag/utensil-drawer.
 
 ## Recently Learned Tricks ##
 
