@@ -17,9 +17,12 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> This release adds compatibility with Astro v7 while maintaining compatibility with earlier versions of Astro. The only breaking change is the removal of the `CreateAnimationScope.astro` component, which was never officially documented and was rarely, if ever, used. If you were using it, please get in touch on Discord (@martrapp) or Bluesky (@martr.app) and we will find a solution.
+> Updated to include the newest version of @vtbag/utensil-drawer.
 
 ## Recently Learned Tricks ##
+
+> This release adds compatibility with Astro v7 while maintaining compatibility with earlier versions of Astro. The only breaking change is the removal of the `CreateAnimationScope.astro` component, which was never officially documented and was rarely, if ever, used. If you were using it, please get in touch on Discord (@martrapp) or Bluesky (@martr.app) and we will find a solution.
+
 
 > Updated dependencies. Especially bumps @vtbag/utensil-drawer to current 1.2.13, where the `declarative-names` script now supports a special `:in-viewport` pseudo-class and `mayStartViewTransition()` supports scoped view transitions, if the browser does. For details see https://vtbag.dev/tools/utensil-drawer/
 
