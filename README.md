@@ -17,7 +17,7 @@ A current deployment of tech demos and the documentation can be found at https:/
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> Updated dependencies to include the newest version of @vtbag/utensil-drawer.
+> If you use the Starlight with Sätteri, you can use `remarkEndOfMarkdown` [as an mdastPlugin](https://events-3bg.pages.dev/library/StarlightPlugin/#for-s%C3%A4tteri-starlight-041). If you prefer a more _mdasty_ name for the plugin: it is now also exported as `mdastEndOfMarkdown`.   
 
 ## Recently Learned Tricks ##
 

@@ -45,6 +45,8 @@ export function remarkEndOfMarkdown(id = 'end-of-markdown') {
 	};
 }
 
+export const mdastEndOfMarkdown = remarkEndOfMarkdown;
+
 function set(property: string, value: any) {
 	if (value === undefined) delete process.env[property];
 	else process.env[property] = value;
