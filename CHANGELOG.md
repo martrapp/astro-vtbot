@@ -1,5 +1,14 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 3.0.1 - 2026-07-30
+
+### Patch Changes
+
+- 19a0839: Updates dependencies, especially now comes with @vtbag/utensil-drawer@1.2.17
+- ae7ac18: Additionally exports `remarkEndOfMarkdown` now also as `mdastEndOfMarkdown`. For all who prefer that name when switching Starlight from remark to mdast for Sätteri.
+
+  See [the StarlightPlugin page](https://events-3bg.pages.dev/library/StarlightPlugin/#for-s%C3%A4tteri-starlight-041) for details.
+
 ## 3.0.0 - 2026-06-28
 
 ### Major Changes
