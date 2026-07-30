@@ -280,7 +280,7 @@ test.describe('Loading Indicator', () => {
 	});
 });
 test.describe('Turn-Signal', () => {
-	test.skip('inserts forward and backward values on old and new page', async ({ page }) => {
+	test('inserts forward and backward values on old and new page', async ({ page }) => {
 		const msgs: string[] = [];
 		page.on('console', (msg) => msg.text().startsWith('test:') && msgs.push(msg.text()));
 		await page.goto('/signal/one/');
