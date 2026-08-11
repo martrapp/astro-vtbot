@@ -1,5 +1,13 @@
 # The Bag of Tricks for Astro's View Transitions
 
+## 3.1.0 - 2026-08-11
+
+### Minor Changes
+
+- 7871ff5: Fixes support for insertion of the #end-of-markdown id for Sätteri builds.
+
+  Contrary to my previous assumption, the structure of Sätteri `mdast` plugins differs much from that of `remark` plugins. So I had to replace the `mdast` plugin with a `hast` version. See the [ documentation](https://events-3bg.pages.dev/library/StarlightPlugin/#for-sätteri-starlight-041) on how to use it. If you tried to use `mdastEndOfMarkdown` before: it never worked and is gone now. 
+
 ## 3.0.1 - 2026-07-30
 
 ### Patch Changes
