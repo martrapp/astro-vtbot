@@ -13,15 +13,19 @@ The bag of tricks provides extensions & support around Astro's view transitions.
 
 A current deployment of tech demos and the documentation can be found at https://events-3bg.pages.dev/
 
-**Do not be put off by the major version bump!** The bump is a SemVer formality, but the chances of encountering the breaking change are very low. See below.
 
 ## !!! NEW TRICKS ✨ IN THE BAG 👜 !!!
 
-> If you use the Starlight with Sätteri, you can use `remarkEndOfMarkdown` [as an mdastPlugin](https://events-3bg.pages.dev/library/StarlightPlugin/#for-s%C3%A4tteri-starlight-041). If you prefer a more _mdasty_ name for the plugin: it is now also exported as `mdastEndOfMarkdown`.   
+> I had to rework the insertion of the `#end-of-markdown` marker used by the automatic `<link rel="expect" ...>` insertion for Sätteri. 
+> 
+> I'm sorry that the `mdast` approach did not work. `mdastEndOfMarkdown` isn't supported any more. If you tripped over this, hit me up on Astro's discord.
+>
+> If you run Starlight with Sätteri, you now have to use `hastMarkEndOfMarkdown` [as a hastPlugin](https://events-3bg.pages.dev/library/StarlightPlugin/#for-s%C3%A4tteri-starlight-041). 
+   
 
 ## Recently Learned Tricks ##
 
-> This release adds compatibility with Astro v7 while maintaining compatibility with earlier versions of Astro. The only breaking change is the removal of the `CreateAnimationScope.astro` component, which was never officially documented and was rarely, if ever, used. If you were using it, please get in touch on Discord (@martrapp) or Bluesky (@martr.app) and we will find a solution.
+> The 3.0.0 release adds compatibility with Astro v7 while maintaining compatibility with earlier versions of Astro. The only breaking change is the removal of the `CreateAnimationScope.astro` component, which was never officially documented and was rarely, if ever, used. If you were using it, please get in touch on Discord (@martrapp) or Bluesky (@martr.app) and we will find a solution.
 
 
 > Updated dependencies. Especially bumps @vtbag/utensil-drawer to current 1.2.13, where the `declarative-names` script now supports a special `:in-viewport` pseudo-class and `mayStartViewTransition()` supports scoped view transitions, if the browser does. For details see https://vtbag.dev/tools/utensil-drawer/

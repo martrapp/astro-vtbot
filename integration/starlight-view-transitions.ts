@@ -1,4 +1,5 @@
 import type { HookParameters, StarlightPlugin } from '@astrojs/starlight/types';
+import { defineHastPlugin } from 'satteri';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vtbot from 'astro-vtbot';
@@ -45,7 +46,30 @@ export function remarkEndOfMarkdown(id = 'end-of-markdown') {
 	};
 }
 
-export const mdastEndOfMarkdown = remarkEndOfMarkdown;
+export function hastMarkEndOfMarkdown(id = 'end-of-markdown') {
+	const seen = new WeakSet();
+	return defineHastPlugin({
+		name: 'mark-end-of-markdown',
+		element: {
+			filter: ['p'],
+			visit(node, ctx) {
+				const parent = ctx.parent(node);
+				if (parent?.type === 'root') {
+					if (!seen.has(parent)) {
+						seen.add(parent);
+						process.env.vtbotEndOfContentId = id;
+						ctx.appendChild(parent, {
+							type: 'element',
+							tagName: 'a',
+							properties: { id },
+							children: [],
+						});
+					}
+				}
+			}
+		}
+	});
+}
 
 function set(property: string, value: any) {
 	if (value === undefined) delete process.env[property];
