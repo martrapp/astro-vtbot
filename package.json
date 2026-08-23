@@ -92,10 +92,10 @@
     "@playwright/test": "^1.62.1",
     "@types/dom-view-transitions": "^1.0.6",
     "@types/node": "^26.2.0",
-    "astro": "^7.2.0",
+    "astro": "^7.2.4",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
-    "publint": "^0.3.23"
+    "publint": "^0.3.24"
   },
   "funding": {
     "type": "github",
