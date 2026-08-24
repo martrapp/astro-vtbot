@@ -87,7 +87,7 @@
   },
   "devDependencies": {
     "@astrojs/starlight": "^0.41.7",
-    "@changesets/changelog-github": "^0.7.0",
+    "@changesets/changelog-github": "^1.0.0",
     "@changesets/cli": "^3.0.1",
     "@playwright/test": "^1.62.1",
     "@types/dom-view-transitions": "^1.0.6",
