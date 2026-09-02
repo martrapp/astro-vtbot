@@ -22,6 +22,6 @@ jobs:
           node-version: 24
       - run: npm ci
       - name: Create Release Pull Request
-        uses: changesets/action@v2
+        uses: changesets/action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
